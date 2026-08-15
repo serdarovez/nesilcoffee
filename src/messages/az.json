@@ -1,0 +1,240 @@
+{
+  "meta": {
+    "siteName": "NesilCoffee",
+    "defaultTitle": "NesilCoffee — Qovurma, dad və keyfiyyət nəzarəti",
+    "defaultDescription": "Nesilcoffee — premium sinif qəhvə istehsalı. Hər mərhələdə keyfiyyət nəzarəti ilə qovurma. B2B topdan tədarük."
+  },
+  "nav": {
+    "home": "Ana səhifə",
+    "products": "Məhsullar",
+    "about": "Haqqımızda",
+    "contacts": "Əlaqə"
+  },
+  "cta": {
+    "viewProducts": "Məhsullara bax",
+    "send": "Göndər",
+    "learnMore": "Ətraflı",
+    "backToTop": "Yuxarı"
+  },
+  "home": {
+    "hero": {
+      "title": "Qovurma, dad <a>və</a> keyfiyyət nəzarəti <a>hər mərhələdə</a>",
+      "subtitle": "Təbəssüm, həzz və gümrahlıq — bütün bunları bizim qəhvəmizin bir fincanında tapa bilərsiniz"
+    },
+    "products": {
+      "sectionTitle": "<a>Bizim</a> məhsullarımız",
+      "tagline": "100% arabika",
+      "description": "Yumşaq, ifadəli profili ilə 100% arabikadan tarazlaşdırılmış qəhvə.\n\nOrta qovurma <b>kremli və qoz tonlarını</b> açır, dadı zəngin edir, aşağı turşuluq isə yumşaq son dad təmin edir",
+      "acidity": "Turşuluq",
+      "roast": "Qovurma dərəcəsi"
+    },
+    "office": {
+      "pill": "Bir paketdə 20 saşe",
+      "title": "Ev<a> və </a>ofis<a> üçün ideal </a>format",
+      "body1": "20 porsiyalı paketdə premium sinif 3-in-1 həll olunan qəhvə — müntəzəm istifadə üçün rahat həll",
+      "body2": "Bu format böyük ailələr, iş komandaları və şirkətlər üçün uyğundur, fərdi saşelər isə saxlanılmağı və hazırlanmağı asanlaşdırır",
+      "cta": "Bütün məhsullara bax"
+    },
+    "searched": {
+      "title": "Axtardığınız<a> qəhvə</a>",
+      "body1": "Qəhvə dənələrini təbii xarakterini və dadını qorumaq üçün diqqətlə seçirik.",
+      "body2": "Hər mərhələdə nəzarət və ehtiyatlı qovurma artıq acılıq olmadan yumşaq, tarazlaşdırılmış profili açır. Fincanınızda geri qayıtmaq istəyəcəyiniz məhz o dadı almağınız üçün hər şey."
+    },
+    "production": {
+      "sectionTitle": "NesilCoffee <a>istehsal</a> prosesi",
+      "blocks": {
+        "capacity": {
+          "title": "Müasir istehsal gücləri",
+          "body1": "Zavodumuz müasir qovurma və qablaşdırma xətləri ilə təchiz edilib, ixtisaslaşmış və premium seqmentə xüsusi diqqət yetirərək əhəmiyyətli həcmdə yaşıl qəhvəni emal etməyə hesablanıb.",
+          "body2": "İstehsal güclərimiz müxtəlif qovurma profilləri ilə işləməyə imkan verir — specialty qəhvə üçün yüngül və zərif qovurmadan espresso qarışıqları üçün zəngin və dərin qovurmaya qədər. İstehsalı miqyas dəqiqliyə mane olmayacaq, hər partiya sərt keyfiyyət standartlarına uyğun olacaq şəkildə şüurlu şəkildə qurduq."
+        },
+        "organic": {
+          "title": "100% üzvi məhsul",
+          "body1": "Məhsullarımızın əsasında süni əlavələr və aqressiv emal üsulları istifadə edilmədən yetişdirilmiş üzvi qəhvə xammalı dayanır. Təmiz tərkib və inqrediyentlərin mənşəyinin şəffaflığı prinsiplərinə əməl edirik.",
+          "body2": "Üzvi yanaşma məhsulu müntəzəm istifadə üçün uyğun edir və qəhvənin təbii xüsusiyyətlərini artıq müdaxilə olmadan qorumağa imkan verir."
+        },
+        "italian": {
+          "title": "İtalyan qovurması və dad tarazlığı",
+          "body1": "Qəhvə italyan standartlarına uyğun qovrulur, əsas diqqət dad tarazlığına və dənənin ehtiyatlı açılmasına yönəldilir. Bu yanaşma həddindən artıq acılığın qarşısını almağa, dad profilinin təmizliyini qorumağa və aydın, rahat dad əldə etməyə imkan verir.",
+          "body2": "İtalyan qovurması həm dənəli qəhvə, həm də həll olunan formatlar üçün yaxşı uyğundur, gündəlik istifadə üçün aydın və rahat dad təmin edir."
+        },
+        "certified": {
+          "title": "Sertifikatlaşdırılmış istehsal",
+          "body1": "İstehsal prosesləri beynəlxalq ISO 9001:2015 və ISO 22000:2018 standartlarına uyğundur, bu da bütün mərhələlərdə keyfiyyət idarəçiliyi və qida təhlükəsizliyinə sistemli yanaşmanı təsdiqləyir.",
+          "body2": "Əlavə Halal sertifikatı istehsalın bütün mərhələlərində məsuliyyəti əks etdirir və məhsulu geniş auditoriya üçün əlçatan və uyğun edir."
+        }
+      }
+    },
+    "certificates": {
+      "title": "Sertifikatlar",
+      "items": {
+        "iso": {
+          "name": "ISO 9001:2015 və ISO 22000:2018",
+          "desc": "İstehsal qida məhsullarının keyfiyyət və təhlükəsizlik uyğunluğunu təsdiqləyən beynəlxalq standartlar üzrə sertifikatlaşdırılmışdır"
+        },
+        "halal": {
+          "name": "GSO 2055-1:2021\n(HALAL)",
+          "desc": "Halal sertifikatı məhsulun qida məhsullarının təhlükəsizliyi və istehsalına dair sərt tələblərə uyğun olduğunu təsdiqləyir"
+        }
+      }
+    },
+    "team": {
+      "title": "Komanda",
+      "members": [
+        { "name": "Adelya Sahbieva", "role": "İxrac üzrə aparıcı mütəxəssis", "phone": "+9936483428", "email": "info@nesilcoffee.com" },
+        { "name": "Adelya Sahbieva", "role": "İxrac üzrə aparıcı mütəxəssis", "phone": "+9936483428", "email": "info@nesilcoffee.com" },
+        { "name": "Adelya Sahbieva", "role": "İxrac üzrə aparıcı mütəxəssis", "phone": "+9936483428", "email": "info@nesilcoffee.com" },
+        { "name": "Adelya Sahbieva", "role": "İxrac üzrə aparıcı mütəxəssis", "phone": "+9936483428", "email": "info@nesilcoffee.com" },
+        { "name": "Adelya Sahbieva", "role": "İxrac üzrə aparıcı mütəxəssis", "phone": "+9936483428", "email": "info@nesilcoffee.com" }
+      ]
+    },
+    "cta": {
+      "title": "Suallarınız var?",
+      "body": "Suallarınız var və ya əlavə məlumat lazımdır? Məhsullar, formatlar və əməkdaşlıq şərtləri barədə danışmaqdan məmnun olarıq."
+    }
+  },
+  "form": {
+    "name": "Ad",
+    "email": "E-poçt",
+    "subject": "Mövzu",
+    "message": "Mesaj",
+    "send": "Göndər",
+    "sending": "Göndərilir...",
+    "success": "Təşəkkür edirik! Ən qısa zamanda sizinlə əlaqə saxlayacağıq.",
+    "error": "Nə isə səhv getdi. Yenidən cəhd edin.",
+    "validation": {
+      "required": "Məcburi sahə",
+      "email": "Düzgün e-poçt daxil edin"
+    }
+  },
+  "products": {
+    "hero": {
+      "title": "Özünüzə ən yaxşısını dəmləyin",
+      "subtitle": "NesilCoffee-dən qəhvə və çayın tam çeşidi — təzə qovrulmuş dənələrdən həll olunan formatlara qədər.",
+      "cta": "Sınayın",
+      "slides": {
+        "karak": {
+          "title": "Karak çay — zəngin və ədviyyatlı",
+          "body": "Rahat formatda hazırlanmış südlü və ədviyyatlı ənənəvi çay. Uzun hazırlıq olmadan tam dad və isti içki istədiyiniz zaman ev və ofis üçün uyğundur."
+        },
+        "espresso": {
+          "title": "Espresso — gümrahlaşdırıcı və güclü",
+          "body": "Zəngin dad və zəngin ətrə malik klassik həll olunan espresso. Günün istənilən vaxtı güclü qəhvəni tez hazırlamaq üçün idealdır."
+        },
+        "latte": {
+          "title": "Coffee Latte — yumşaq və zərif",
+          "body": "İçkiyə zərif dad və ətir bəxş edən südlü və kremli həll olunan latte. Daha yumşaq və şirin qəhvəni üstün tutanlar üçün idealdır."
+        }
+      }
+    },
+    "categories": {
+      "bean": "Dənəli qəhvə",
+      "instant": "Həll olunan qəhvə",
+      "freezeDried": "Sublimasiya edilmiş qəhvə",
+      "tea": "Çay"
+    },
+    "order": "Sifariş et",
+    "roast": "Qovurma dərəcəsi",
+    "acidity": "Turşuluq",
+    "cardDescription": "Yumşaq dadlı, kremli teksturalı və yüngül şirinlikli tarazlaşdırılmış qəhvə — gündəlik istifadə üçün uyğundur"
+  },
+  "about": {
+    "hero": {
+      "title": "Haqqımızda",
+      "subtitle": "NesilCoffee-nin tarixi, standartları və komandası."
+    },
+    "welcome": {
+      "title": "<a>NesilCoffee-ə </a>xoş gəlmisiniz",
+      "sideTitle": "Ehtirasla yaradılıb, mükəmməlliyə çatdırılıb",
+      "sideBody": "15-dən çox ölkədən alınan NesilCoffee-nin 100% üzvi dənələri təbiətin təqdim etdiyi ən gözəl şey haqqında hekayə danışır."
+    },
+    "geography": {
+      "title": "Efiopiyanın dumanlı yüksəkliklərindən Kolumbiyanın günəşli yamaclarına qədər",
+      "body1": "Hər bir dənə heyranedici mənzərələr arasında, kimyəvi maddələrdən istifadə edilməyən plantasiyalarda əllə yığılır.",
+      "body2": "İtalyan ustalığı ilə qovrulmuş və üzvi sertifikatlaşdırılmış NesilCoffee, ətraf mühitə qayğı ilə yaradılmış zəngin fincanda Qvatemalanın tüstülü dərinliyini, İndoneziyanın torpaq şokoladını və Ruandanın çiçəkli tonlarını birləşdirir.",
+      "body3": "Möhtəşəm dağların fonunda NesilCoffee hər qurtumunda təbiətə həssas münasibətin hiss edildiyi bütöv bir dad simfoniyası bəxş edir."
+    },
+    "quality": {
+      "title": "<a>Seçim,</a> hazırlıq <a>və</a> keyfiyyət <a>nəzarəti</a>",
+      "stageLabel": "Mərhələ",
+      "step1": {
+        "title": "Xammalın seçilməsi",
+        "body": "NesilCoffee-nin keyfiyyəti hər mərhələdə formalaşır — xammalın seçilməsindən hazır məhsulun göndərilməsinə qədər. Biz yalnız əvvəlcədən seçilmiş xammalla — yaşıl qəhvə dənəsi və NesilCoffee-nin təsdiqlənmiş spesifikasiyaları və reseptləri əsasında seçilmiş 3-in-1 formatındakı içkilər üçün inqrediyentlərlə işləyirik."
+      },
+      "step2": {
+        "title": "Hazırlıq və sınaq",
+        "body": "İstehsala başlamazdan əvvəl xammal xüsusiyyətlərinin uyğunluğunu və istifadəyə hazırlığını təsdiqləyən keyfiyyət və vəziyyət yoxlamasından keçir. Çeşidin yaradılması və inkişafı üzərində öz hazırlıq və keyfiyyət nəzarəti komandamız işləyir: mütəxəssislər reseptlər formalaşdırır, dad və ətir tarazlığını tənzimləyir, məhsulları sınayır və tərkibləri təsdiqləyir, hər mövqenin sabitliyini və tanınan dadını təmin edir."
+      },
+      "step3": {
+        "title": "Keyfiyyət nəzarəti",
+        "body": "İstehsal prosesində və göndərilmədən əvvəl hazır məhsul yekun nəzarətdən keçir — qovurma və qarışdırma keyfiyyəti, qablaşdırmanın bütövlüyü, markalanmanın düzgünlüyü və müəyyən edilmiş standartlara uyğunluğu yoxlanılır. Yalnız keyfiyyət təsdiqləndikdən sonra məhsul anbara və müştərilərimizə daxil olur."
+      }
+    },
+    "experts": {
+      "title": "Ekspertlərimiz iş prinsiplərini və istehsal yanaşmasını bölüşürlər",
+      "one": {
+        "name": "Myradov Eziz",
+        "role": "İstehsalat sexinin rəisi",
+        "quote": "«Hər bir dənə, hər bir qovurma profili, hər bir qablaşdırma — NesilCoffee komandasının diqqətinin, texnologiyalarının və təcrübəsinin nəticəsidir. Beləliklə müştərilərimizə qürurla təklif etdiyimiz qəhvə doğulur.»"
+      },
+      "two": {
+        "name": "Gurbangulyev Bayramguly",
+        "role": "Keyfiyyət nəzarəti və hazırlıq şöbəsinin müdiri",
+        "quote": "«NesilCoffee — hər məhsulun keyfiyyətinə düşünülmüş yanaşmadır. Hər partiyada sabit dadı və yüksək standartı təmin etmək üçün istehsalın hər mərhələsinə diqqətlə nəzarət edirik.»"
+      }
+    },
+    "history": {
+      "title": "<a>Bizim</a> tariximiz",
+      "subtitle": "2024-cü <a>ildən</a> yüksək keyfiyyətli <a>məhsul</a> hazırlayırıq",
+      "cards": {
+        "idea": {
+          "title": "İdeya",
+          "body": "Türkmənistanın qəlbində, Aşqabadın günəşli düzənliklərində, 100% üzvi qəhvə yaratmaq məqsədilə NesilCoffee şirkəti yarandı."
+        },
+        "search": {
+          "title": "Axtarış",
+          "body": "Beynəlxalq keyfiyyət standartlarına uyğun istehsal qurmaq üçün ən yaxşı yaşıl dənə təchizatçılarını və dünya səviyyəli avadanlığı axtardıq."
+        },
+        "roast": {
+          "title": "Qovurma",
+          "body": "Texnoloqlarımız hər mənşənin ən yaxşı tonlarını açan firma qovurma profilləri hazırladılar — yüngül skandinav qovurmadan tünd italyanadək."
+        },
+        "launch": {
+          "title": "İcra",
+          "body": "NesilCoffee-nin ilk partiyaları tərəfdaşlarımıza — böyük pərakəndə şəbəkələrdən HoReCa və korporativ müştərilərə qədər — göndərildi və Mərkəzi Asiya bazarlarını fəth etdi."
+        }
+      }
+    }
+  },
+  "contacts": {
+    "faq": {
+      "title": "<a>Tez-tez verilən</a> suallar",
+      "items": [
+        { "q": "Minimum sifariş həcmi nə qədərdir?", "a": "Minimum topdan sifariş məhsul və logistikadan asılı olaraq fərdi qaydada müzakirə edilir. Dəqiq hesablama üçün bizimlə əlaqə saxlayın." },
+        { "q": "Yalnız topdan sifarişlərlə işləyirsiniz?", "a": "Bəli, NesilCoffee B2B formatında işləyir və topdan tədarükə yönəlib. Distribyutorlar, ticarət şəbəkələri, HoReCa, korporativ müştərilər və ixrac tərəfdaşları ilə əməkdaşlıq edirik." },
+        { "q": "Məhsul çatdırılması necə həyata keçirilir?", "a": "Sınaqdan keçmiş logistika operatorları ilə işləyirik. Çatdırılma şərtləri — razılaşma əsasında, ixrac daxil." },
+        { "q": "Ödəniş möhləti verirsiniz?", "a": "Ödəniş şərtləri hər tərəfdaşla fərdi müzakirə edilir və müqavilədə qeyd olunur." },
+        { "q": "Hansı sənədləri təqdim edirsiniz?", "a": "Məhsul üzrə tam sənəd paketi: keyfiyyət sertifikatları, HALAL, ISO, mal göndəriş qaimələri, hesab-fakturalar, ixrac sənədləri." },
+        { "q": "Qiymət cədvəlini almaq olar?", "a": "Bəli, aktual qiymət cədvəli biznesinizlə qısa tanışlıqdan sonra sorğu əsasında göndərilir. Aşağıdakı formanı doldurun." }
+      ]
+    },
+    "contact": {
+      "title": "Əlaqə",
+      "subtitle": "Qəhvə dialoqla başlayır. Yanaşmamız, dadımız və əməkdaşlıq imkanlarımız haqqında daha çox öyrənmək üçün bizimlə əlaqə saxlayın.",
+      "socialsLabel": "Sosial şəbəkələr",
+      "phoneLabel": "Telefon",
+      "messengerLabel": "Messencer",
+      "addressLabel": "Ünvan",
+      "address": "Türkmənistan, Ahal vilayəti, Ak-buğday rayonu, Magtymguly qəsəbəsi",
+      "writeUs": "Bizə yazın",
+      "writeUsBody": "Formanı doldurun, biz ən qısa zamanda sizinlə əlaqə saxlayacağıq"
+    }
+  },
+  "footer": {
+    "phoneLabel": "Telefon",
+    "addressLabel": "Ünvan",
+    "socialsLabel": "Sosial şəbəkələr",
+    "emailLabel": "E-poçt",
+    "rights": "© {year} NesilCoffee. Bütün hüquqlar qorunur."
+  }
+}

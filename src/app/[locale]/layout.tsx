@@ -3,7 +3,7 @@ import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing, localeDirection, type Locale } from "@/i18n/routing";
-import { interTight, robotoCondensed, ibmPlexArabic } from "@/lib/fonts";
+import { interTight, robotoCondensed } from "@/lib/fonts";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 
@@ -79,7 +79,7 @@ export default async function LocaleLayout({
     <html
       lang={locale}
       dir={dir}
-      className={`${interTight.variable} ${robotoCondensed.variable} ${ibmPlexArabic.variable} h-full antialiased`}
+      className={`${interTight.variable} ${robotoCondensed.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <NextIntlClientProvider>

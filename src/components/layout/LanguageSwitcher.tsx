@@ -14,14 +14,16 @@ const localeShort: Record<Locale, string> = {
   ru: "RU",
   en: "EN",
   tk: "TK",
-  ar: "AR",
+  uz: "UZ",
+  az: "AZ",
 };
 
 const localeFlag: Record<Locale, string> = {
   ru: "🇷🇺",
   en: "🇬🇧",
   tk: "🇹🇲",
-  ar: "🇸🇦",
+  uz: "🇺🇿",
+  az: "🇦🇿",
 };
 
 export function LanguageSwitcher() {

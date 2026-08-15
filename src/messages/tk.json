@@ -1,240 +1,240 @@
 {
   "meta": {
     "siteName": "NesilCoffee",
-    "defaultTitle": "NesilCoffee — Обжарка, вкус и контроль качества",
-    "defaultDescription": "Nesilcoffee — производство кофе премиум класса. Обжарка на каждом этапе с контролем качества. Оптовые поставки B2B."
+    "defaultTitle": "NesilCoffee — Gowurma, tagam we hil gözegçiligi",
+    "defaultDescription": "Nesilcoffee — premium synply kofe önümçiligi. Her tapgyrda hil gözegçiligi bilen gowurma. B2B lomaý üpjünçilik."
   },
   "nav": {
-    "home": "Главная",
-    "products": "Продукция",
-    "about": "О нас",
-    "contacts": "Контакты"
+    "home": "Baş sahypa",
+    "products": "Önümler",
+    "about": "Biz barada",
+    "contacts": "Habarlaşmak"
   },
   "cta": {
-    "viewProducts": "Смотреть продукцию",
-    "send": "Отправить",
-    "learnMore": "Подробнее",
-    "backToTop": "Наверх"
+    "viewProducts": "Önümleri görmek",
+    "send": "Ibermek",
+    "learnMore": "Giňişleýin",
+    "backToTop": "Ýokaryk"
   },
   "home": {
     "hero": {
-      "title": "Обжарка, вкус <a>и</a> контроль качества <a>на каждом этапе</a>",
-      "subtitle": "Улыбка, наслаждение и бодрость - всё это вы сможете найти в одной чашки нашего кофе"
+      "title": "Gowurma, tagam <a>we</a> hil gözegçiligi <a>her tapgyrda</a>",
+      "subtitle": "Ýylgyryş, lezzet we gujur — bularyň hemmesini biziň kofemiziň bir käsesinde taparsyňyz"
     },
     "products": {
-      "sectionTitle": "<a>Наша</a> Продукция",
-      "tagline": "100% арабика",
-      "description": "Сбалансированный кофе из 100% арабики с мягким, выразительным профилем.\n\nСредняя степень обжарки раскрывает <b>сливочные и ореховые ноты</b>, делая вкус насыщенным, а низкая кислотность обеспечивает мягкое послевкусие",
-      "acidity": "Кислотность",
-      "roast": "Степень обжарки"
+      "sectionTitle": "<a>Biziň</a> önümlerimiz",
+      "tagline": "100% arabika",
+      "description": "Ýumşak, aňlatýan häsiýetli 100% arabikadan taýýarlanan sazlaşykly kofe.\n\nOrta derejeli gowurma <b>gaýmakly we hozly tonlaryny</b> açyp, tagamyny baýlaşdyrýar, pes turşulyk bolsa ýumşak soň-dat berýär",
+      "acidity": "Turşulyk",
+      "roast": "Gowurma derejesi"
     },
     "office": {
-      "pill": "20 саше в 1 упаковке",
-      "title": "Идеальный<a> формат для </a>дома<a> и </a>офиса",
-      "body1": "Растворимый кофе 3 в 1 премиум-класса в упаковке из 20 порций — удобное решение для регулярного использования",
-      "body2": "Такой формат подходит для больших семей, рабочих команд и компаний, а индивидуальные саше упрощают хранение и приготовление",
-      "cta": "Просмотреть всю продукцию"
+      "pill": "Bir gaplamada 20 saşe",
+      "title": "Öýe<a> we </a>ofise<a> ajaýyp </a>görnüş",
+      "body1": "Premium synply 3-in-1 eredilýän kofe 20 saşeli gaplamada — her günlik ulanmak üçin amatly çözgüt",
+      "body2": "Bu görnüş uly maşgalalar, iş toparlary we kompaniýalar üçin amatly, aýry-aýry saşeler bolsa saklamagy we taýýarlamagy aňsatlaşdyrýar",
+      "cta": "Ähli önümleri görmek"
     },
     "searched": {
-      "title": "Кофе<a> который </a>вы искали",
-      "body1": "Мы тщательно отбираем кофейные зёрна, чтобы сохранить их природный характер и вкус.",
-      "body2": "Контроль на каждом этапе и бережная обжарка позволяют раскрыть мягкий, сбалансированный профиль без лишней горечи. Всё, чтобы в чашке вы получили именно тот вкус, к которому хочется возвращаться."
+      "title": "Siziň<a> gözleýän </a>kofäňiz",
+      "body1": "Kofe däneleriniň tebigy häsiýetini we tagamyny saklamak üçin olary üns bilen saýlaýarys.",
+      "body2": "Her tapgyrdaky gözegçilik we ýumşak gowurma artykmaç ajylyksyz ýumşak, sazlaşykly häsiýeti açýar. Käsäňizde gaýtalanyp ýatlanýan tagamy almagyňyz üçin edilýän ähli iş."
     },
     "production": {
-      "sectionTitle": "<a>Производственный</a> процесс NesilCoffee",
+      "sectionTitle": "NesilCoffee-niň <a>önümçilik</a> prosesi",
       "blocks": {
         "capacity": {
-          "title": "Современные производственные мощности",
-          "body1": "Наш завод оснащён современными обжарочными и упаковочными линиями, рассчитанными на переработку значительных объёмов зелёного кофе с особым вниманием к специализированному и премиальному сегменту.",
-          "body2": "Производственные мощности позволяют работать с разными профилями обжарки — от лёгкой и деликатной для specialty-кофе до насыщенной и глубокой для эспрессо-смесей. Мы сознательно выстроили производство так, чтобы масштаб не мешал точности, а каждая партия соответствовала строгим стандартам качества."
+          "title": "Häzirki zaman önümçilik kuwwaty",
+          "body1": "Zawodymyz häzirki zaman gowurma we gaplama liniýalary bilen enjamlaşdyrylan bolup, ýörite we premium segmentine aýratyn üns berip, ep-esli mukdardaky ýaşyl kofäni gaýtadan işlemäge niýetlenendir.",
+          "body2": "Önümçilik kuwwatlarymyz dürli gowurma häsiýetleri bilen işlemäge mümkinçilik berýär — specialty kofe üçin ýeňil we näzik gowurma, espresso garyndylary üçin baý we çuň gowurma. Önümçiligi göwrümi takyklyga päsgel bermez ýaly, her bir tapawut berk hil ölçeglerine laýyk gelsin diýip aňly-düşünjeli gurduk."
         },
         "organic": {
-          "title": "100% органический продукт",
-          "body1": "В основе нашей продукции - органическое кофейное сырьё, выращенное без использования искусственных добавок и агрессивных методов обработки. Мы придерживаемся принципов чистого состава и прозрачного происхождения ингредиентов.",
-          "body2": "Органический подход делает продукт подходящим для регулярного употребления и позволяет сохранить естественные свойства кофе без лишнего вмешательства."
+          "title": "100% organiki önüm",
+          "body1": "Önümlerimiziň esasynda emeli goşundylarsyz we agressiw işleýiş usullarysyz ösdürilen organiki kofe çig maly bar. Biz düzümiň arassalygy we ingredientleriň gelip çykyşynyň açyklygy ýörelgelerine berk eýerýäris.",
+          "body2": "Organiki çemeleşme önümi yzygiderli ulanmaga laýyk edýär we artykmaç goşulmazdan kofäniň tebigy häsiýetlerini saklamaga mümkinçilik berýär."
         },
         "italian": {
-          "title": "Итальянская обжарка и вкусовой баланс",
-          "body1": "Кофе обжаривается по итальянским стандартам, где ключевое внимание уделяется балансу вкуса и аккуратному раскрытию зерна. Такой подход позволяет избежать излишней горечи, сохранить чистоту вкусового профиля и добиться понятного, комфортного вкуса.",
-          "body2": "Итальянская обжарка хорошо подходит как для зернового кофе, так и для растворимых форматов, обеспечивая понятный и комфортный вкус для повседневного использования."
+          "title": "Italýan gowurmasy we tagam sazlaşygy",
+          "body1": "Kofe italýan ölçeglerine görä gowrulýar, esasy üns tagam sazlaşygyna we däniň seresap açylmagyna berilýär. Bu çemeleşme artykmaç ajylykdan gaça durýar, tagam häsiýetiniň arassalygyny saklaýar we düşnükli, amatly tagam almaga mümkinçilik berýär.",
+          "body2": "Italýan gowurmasy däneli kofä-de, eredilýän görnüşlere-de gowy laýyk gelýär, her günki ulanyş üçin düşnükli we amatly tagam üpjün edýär."
         },
         "certified": {
-          "title": "Сертифицированное производство",
-          "body1": "Производственные процессы соответствуют международным стандартам ISO 9001:2015 и ISO 22000:2018, что подтверждает системный и выстроенный подход к управлению качеством и безопасности пищевой продукции на всех этапах.",
-          "body2": "Дополнительная Halal-сертификация отражает ответственность на всех этапах производства и делает продукт доступным и подходящим для широкой аудитории."
+          "title": "Sertifikatlanan önümçilik",
+          "body1": "Önümçilik prosesleri halkara ISO 9001:2015 we ISO 22000:2018 ölçeglerine laýyk gelýär, bu bolsa hili dolandyrmaga we azyk howpsuzlygyna her tapgyrda ulgamlaýyn çemeleşilýändigini tassyklaýar.",
+          "body2": "Goşmaça Halal sertifikaty önümçiligiň ähli tapgyrlarynda jogapkärçiligi görkezýär we önümi giň auditoriýa üçin elýeterli we amatly edýär."
         }
       }
     },
     "certificates": {
-      "title": "Сертификаты",
+      "title": "Sertifikatlar",
       "items": {
         "iso": {
-          "name": "ISO 9001:2015 и ISO 22000:2018",
-          "desc": "Производство сертифицировано по международным стандартам подтверждающим cоответствие качества и безопасности пищевой продукции"
+          "name": "ISO 9001:2015 we ISO 22000:2018",
+          "desc": "Önümçilik hiliň we azyk howpsuzlygynyň laýyk gelýändigini tassyklaýan halkara ölçeglere görä sertifikatlanandyr"
         },
         "halal": {
           "name": "GSO 2055-1:2021\n(HALAL)",
-          "desc": "Сертификация Halal подтверждает, что продукт соответствует строгим требованиям к безопасности и производству продуктов питания"
+          "desc": "Halal sertifikaty önümiň azyk howpsuzlygy we önümçiligi babatyndaky berk talaplara laýyk gelýändigini tassyklaýar"
         }
       }
     },
     "team": {
-      "title": "Команда",
+      "title": "Topar",
       "members": [
-        { "name": "Аделя Сахбиева", "role": "Ведущий специалист по экспорту", "phone": "+9936483428", "email": "info@nesilcoffee.com" },
-        { "name": "Аделя Сахбиева", "role": "Ведущий специалист по экспорту", "phone": "+9936483428", "email": "info@nesilcoffee.com" },
-        { "name": "Аделя Сахбиева", "role": "Ведущий специалист по экспорту", "phone": "+9936483428", "email": "info@nesilcoffee.com" },
-        { "name": "Аделя Сахбиева", "role": "Ведущий специалист по экспорту", "phone": "+9936483428", "email": "info@nesilcoffee.com" },
-        { "name": "Аделя Сахбиева", "role": "Ведущий специалист по экспорту", "phone": "+9936483428", "email": "info@nesilcoffee.com" }
+        { "name": "Adelýa Sahbiýewa", "role": "Eksport boýunça öňdebaryjy hünärmen", "phone": "+9936483428", "email": "info@nesilcoffee.com" },
+        { "name": "Adelýa Sahbiýewa", "role": "Eksport boýunça öňdebaryjy hünärmen", "phone": "+9936483428", "email": "info@nesilcoffee.com" },
+        { "name": "Adelýa Sahbiýewa", "role": "Eksport boýunça öňdebaryjy hünärmen", "phone": "+9936483428", "email": "info@nesilcoffee.com" },
+        { "name": "Adelýa Sahbiýewa", "role": "Eksport boýunça öňdebaryjy hünärmen", "phone": "+9936483428", "email": "info@nesilcoffee.com" },
+        { "name": "Adelýa Sahbiýewa", "role": "Eksport boýunça öňdebaryjy hünärmen", "phone": "+9936483428", "email": "info@nesilcoffee.com" }
       ]
     },
     "cta": {
-      "title": "У вас есть вопросы?",
-      "body": "Есть вопросы или нужна дополнительная информация? Мы с удовольствием расскажем о продукции, форматах и условиях сотрудничества."
+      "title": "Soraglaryňyz barmy?",
+      "body": "Soraglaryňyz ýa-da goşmaça maglumat gerekmi? Önümlerimiz, görnüşlerimiz we hyzmatdaşlyk şertlerimiz barada gürrüň bermäge şat bolarys."
     }
   },
   "form": {
-    "name": "Имя",
-    "email": "E-mail",
-    "subject": "Тема",
-    "message": "Текст",
-    "send": "Отправить",
-    "sending": "Отправляем...",
-    "success": "Спасибо! Мы свяжемся с вами в ближайшее время.",
-    "error": "Что-то пошло не так. Попробуйте ещё раз.",
+    "name": "Ady",
+    "email": "E-poçta",
+    "subject": "Tema",
+    "message": "Habar",
+    "send": "Ibermek",
+    "sending": "Iberilýär...",
+    "success": "Sag boluň! Biz siziň bilen ýakyn wagtda habarlaşarys.",
+    "error": "Bir zat nädogry gitdi. Ýene bir gezek synanyşyň.",
     "validation": {
-      "required": "Обязательное поле",
-      "email": "Введите корректный e-mail"
+      "required": "Hökmany meýdan",
+      "email": "Dogry e-poçta giriziň"
     }
   },
   "products": {
     "hero": {
-      "title": "Сварите себе лучшее",
-      "subtitle": "Полный ассортимент кофе и чая от NesilCoffee — от свежеобжаренных зерен до растворимых форматов.",
-      "cta": "Попробовать",
+      "title": "Özüňize iň gowusyny taýýarlaň",
+      "subtitle": "NesilCoffee-den doly kofe we çaý toplumy — täze gowrulan dänelerden başlap eredilýän görnüşlere çenli.",
+      "cta": "Synanyşyň",
       "slides": {
         "karak": {
-          "title": "Карак чай — насыщенный и пряный",
-          "body": "Традиционный чай с молоком и специями, приготовленный в удобном формате. Подходит для дома и офиса, когда хочется плотный вкус и тёплый напиток без долгого приготовления."
+          "title": "Karak çaý — baý we ysly",
+          "body": "Amatly görnüşde taýýarlanan süýtli we tagamly ingredientli däp bolan çaý. Uzak taýýarlyksyz doly tagam we ýyly içgi isleseňiz, öýe we ofise laýyk gelýär."
         },
         "espresso": {
-          "title": "Espresso — бодрящий и крепкий",
-          "body": "Классический растворимый эспрессо с насыщенным вкусом и богатым ароматом. Идеально подходит для быстрого приготовления крепкого кофе в любое время дня."
+          "title": "Espresso — güýçli we mäkäm",
+          "body": "Baý tagamly we doly ysly klassiki eredilýän espresso. Günüň islendik wagty çalt güýçli kofe taýýarlamak üçin iň amatly."
         },
         "latte": {
-          "title": "Coffee Latte — мягкий и нежный",
-          "body": "Растворимый латте с молоком и кремом, который придаёт напитку нежный вкус и аромат. Идеально подходит для тех, кто предпочитает более мягкий и сладкий кофе."
+          "title": "Coffee Latte — ýumşak we näzik",
+          "body": "Içgä näzik tagam we ys berýän süýtli we gaýmakly eredilýän latte. Has ýumşak we süýji kofe halaýanlar üçin iň gowusy."
         }
       }
     },
     "categories": {
-      "bean": "Зерновой кофе",
-      "instant": "Растворимый кофе",
-      "freezeDried": "Сублимированный кофе",
-      "tea": "Чай"
+      "bean": "Däneli kofe",
+      "instant": "Eredilýän kofe",
+      "freezeDried": "Sublimirlenen kofe",
+      "tea": "Çaý"
     },
-    "order": "Заказать",
-    "roast": "Степень обжарки",
-    "acidity": "Кислотность",
-    "cardDescription": "Сбалансированный кофе с мягким вкусом, сливочной текстурой и лёгкой сладостью — подходит для повседневного использования"
+    "order": "Sargyt etmek",
+    "roast": "Gowurma derejesi",
+    "acidity": "Turşulyk",
+    "cardDescription": "Ýumşak tagamly, gaýmak dokumaly we ýeňil süýjülikli sazlaşykly kofe — her günki ulanyş üçin laýyk"
   },
   "about": {
     "hero": {
-      "title": "О нас",
-      "subtitle": "История, стандарты и команда NesilCoffee."
+      "title": "Biz barada",
+      "subtitle": "NesilCoffee-niň taryhy, standartlary we topary."
     },
     "welcome": {
-      "title": "<a>Добро пожаловать к </a>NesilCoffee",
-      "sideTitle": "Создано со страстью, доведено до совершенства",
-      "sideBody": "100% органические зерна NesilCoffee, закупаемые более чем из 15 стран, рассказывают историю о самом прекрасном, что есть в природе."
+      "title": "<a>NesilCoffee-e </a>hoş geldiňiz",
+      "sideTitle": "Höwes bilen döredilen, kämillige ýetirilen",
+      "sideBody": "15-den gowrak ýurtdan satyn alnan NesilCoffee-niň 100% organiki däneleri, tebigatyň iň gözel görkezýän zatlary hakynda gürrüň berýär."
     },
     "geography": {
-      "title": "От туманных высокогорий Эфиопии до залитых солнцем склонов Колумбии",
-      "body1": "Каждое зерно собирается вручную на плантациях, не использующих химикаты, среди захватывающих дух пейзажей.",
-      "body2": "Обжаренный с итальянским мастерством и сертифицированный органическим способом NesilCoffee сплетает воедино ароматы – дымную глубину Гватемалы, землистый шоколад Индонезии и цветочные ноты Руанды – в насыщенную чашку, созданную с заботой об окружающей среде.",
-      "body3": "На фоне величественных гор NesilCoffee дарит целую симфонию вкуса, в каждом глотке которой чувствуется бережное отношение к природе."
+      "title": "Efiopiýanyň dumanly beýikliklerinden başlap Kolumbiýanyň gün nurly ýapgytlaryna çenli",
+      "body1": "Her däne haýran galdyryjy peýzažlaryň arasynda, himikatlar ulanylmaýan plantasiýalarda el bilen ýygnalýar.",
+      "body2": "Italýan ussatlygy bilen gowrulan we organiki hökmünde sertifikatlanan NesilCoffee, Gwatemalanyň tüsseli çuňlugyny, Indoneziýanyň topraga meňzeş şokoladyny we Ruandanyň gül ýapraklaryny — daşky gurşawa aladalanyp döredilen baý käsä birleşdirýär.",
+      "body3": "Beýik daglaryň öňünde NesilCoffee her ýuwdumynda tebigata bolan hormat duýulýan bütin tagam simfoniýasyny hödürleýär."
     },
     "quality": {
-      "title": "<a>Отбор,</a> разработка <a>и</a> контроль <a>качества</a>",
-      "stageLabel": "Этап",
+      "title": "<a>Saýlaw,</a> işläp taýýarlamak <a>we</a> hil <a>gözegçiligi</a>",
+      "stageLabel": "Tapgyr",
       "step1": {
-        "title": "Отбор сырья",
-        "body": "Качество NesilCoffee формируется на каждом этапе — от отбора сырья до отправки готовой продукции. Мы работаем только с предварительно отобранным сырьём — зелёным кофейным зерном и ингредиентами для напитков формата 3-в-1, которые изначально подбираются по утверждённым спецификациям и рецептурам NesilCoffee."
+        "title": "Çig maly saýlamak",
+        "body": "NesilCoffee-niň hili her tapgyrda emele gelýär — çig maly saýlamakdan başlap taýyn önümi ibermäge çenli. Biz diňe öňünden saýlanan çig mal — ýaşyl kofe däneleri we NesilCoffee-niň tassyklanan spesifikasiýalary hem-de reseptleri boýunça saýlanan 3-in-1 içgileri üçin ingredientler bilen işleýäris."
       },
       "step2": {
-        "title": "Разработка и тестирование",
-        "body": "Перед началом производства сырьё проходит проверку качества и состояния, подтверждающую соответствие характеристик и готовность к использованию. Над созданием и развитием ассортимента работает собственная команда разработки и контроля качества: специалисты формируют рецептуры, выверяют баланс вкуса и аромата, тестируют продукты и утверждают составы, обеспечивая стабильность и узнаваемый вкус каждой позиции."
+        "title": "Işläp taýýarlamak we synag",
+        "body": "Önümçilige başlamazdan öň çig mal häsiýetleriniň laýyklygyny we ulanmaga taýýardygyny tassyklaýan hil we ýagdaý barlagyndan geçýär. Assortimenti döretmek we ösdürmek boýunça öz işläp taýýarlaýyş we hil gözegçilik toparymyz işleýär: hünärmenler reseptleri düzýär, tagam we ys sazlaşygyny sazlaýar, önümleri synagdan geçirýär we düzümi tassyklaýar, her önümiň durnuklylygyny we tanalýan tagamyny üpjün edýär."
       },
       "step3": {
-        "title": "Контроль качества",
-        "body": "В процессе производства и перед отгрузкой готовая продукция проходит финальный контроль — проверяется качество обжарки и смешивания, целостность упаковки, корректность маркировки и соответствие установленным стандартам. Только после подтверждения качества продукция поступает на склад и к нашим клиентам."
+        "title": "Hil gözegçiligi",
+        "body": "Önümçilik prosesinde we ibermezden öň taýyn önüm ahyrky gözegçilikden geçýär — gowurma we garyşdyrma hili, gaplamanyň bitewiligi, belliginiň dogrudygy we bellenen standartlara laýyklygy barlanylýar. Diňe hil tassyklanandan soň önüm ammara we müşderilerimize geçýär."
       }
     },
     "experts": {
-      "title": "Наши эксперты делятся принципами работы и подходом к производству",
+      "title": "Ekspertlerimiz iş prinsiplerini we önümçilige çemeleşişlerini paýlaşýarlar",
       "one": {
-        "name": "Мырадов Эзиз",
-        "role": "Начальник производственного цеха",
-        "quote": "«Каждое зерно, каждый профиль обжарки, каждая упаковка — результат внимания, технологий и опыта команды NesilCoffee. Так рождается кофе, который мы с гордостью предлагаем нашим клиентам.»"
+        "name": "Myradow Eziz",
+        "role": "Önümçilik ussahanasynyň müdiri",
+        "quote": "«Her däne, her gowurma häsiýeti, her gaplama — NesilCoffee toparynyň ünsüniň, tehnologiýalarynyň we tejribesiniň netijesi. Ine, şeýlelikde müşderilerimize buýsanç bilen hödürleýän kofämiz dogýar.»"
       },
       "two": {
-        "name": "Гурбангулыев Байрамгулы",
-        "role": "Заведующий отдела контроля качества и разработок",
-        "quote": "«NesilCoffee — продуманный подход к качеству каждого продукта. Мы тщательно контролируем каждый этап производства, чтобы гарантировать стабильный вкус и высокий стандарт в каждой партии.»"
+        "name": "Gurbangulyýew Baýramguly",
+        "role": "Hil gözegçilik we işläp taýýarlaýyş bölüminiň müdiri",
+        "quote": "«NesilCoffee — her önümiň hiline oýlanşykly çemeleşmedir. Her partiýada durnukly tagamy we ýokary standarty kepillendirmek üçin önümçiligiň her tapgyryna berk gözegçilik edýäris.»"
       }
     },
     "history": {
-      "title": "<a>Наша</a> история",
-      "subtitle": "<a>Готовим</a> высококачественную <a>продукцию с</a> 2024 <a>года</a>",
+      "title": "<a>Biziň</a> taryhymyz",
+      "subtitle": "2024-nji <a>ýyldan bäri</a> ýokary hilli <a>önüm</a> öndürýäris",
       "cards": {
         "idea": {
-          "title": "Идея",
-          "body": "В самом сердце Туркменистана, на залитых солнцем равнинах Ашхабада, родилась компания NesilCoffee с целью создания 100% органического кофе."
+          "title": "Pikir",
+          "body": "Türkmenistanyň merkezinde, Aşgabadyň gün nurly düzlüklerinde, 100% organiki kofe döretmek maksady bilen NesilCoffee kompaniýasy dogdy."
         },
         "search": {
-          "title": "Поиск",
-          "body": "Мы искали лучших поставщиков зелёного зерна и оборудование мирового класса, чтобы выстроить производство, соответствующее международным стандартам качества."
+          "title": "Gözleg",
+          "body": "Halkara hil standartlaryna laýyk gelýän önümçiligi gurmak üçin ýaşyl däne üpjün edijileriniň iň gowusyny we dünýä derejesindäki enjamlary agtardyk."
         },
         "roast": {
-          "title": "Обжарка",
-          "body": "Наши технологи разработали фирменные профили обжарки, раскрывающие лучшие ноты каждого происхождения — от лёгкой скандинавской до тёмной итальянской."
+          "title": "Gowurma",
+          "body": "Tehnologlarymyz her gelip çykyşynyň iň gowy tonlaryny açýan firma gowurma häsiýetlerini işläp taýýarladylar — ýeňil skandinaw görnüşinden gara italýan görnüşine çenli."
         },
         "launch": {
-          "title": "Реализация",
-          "body": "Первые партии NesilCoffee отправились нашим партнёрам — от крупных розничных сетей до HoReCa и корпоративных клиентов, покорив рынки Центральной Азии."
+          "title": "Amala aşyrmak",
+          "body": "NesilCoffee-niň ilkinji partiýalary hyzmatdaşlarymyza — uly bölek satyş toplumlaryndan başlap, HoReCa we korporatiw müşderilere çenli — ugradyldy we Merkezi Aziýanyň bazarlaryny basyp aldy."
         }
       }
     }
   },
   "contacts": {
     "faq": {
-      "title": "<a>Часто задаваемые</a> вопросы",
+      "title": "<a>Ýygy-ýygydan berilýän</a> soraglar",
       "items": [
-        { "q": "Какой минимальный объём заказа?", "a": "Минимальный оптовый заказ обсуждается индивидуально в зависимости от продукта и логистики. Свяжитесь с нами для точного расчёта." },
-        { "q": "Работаете ли вы только с оптовыми заказами?", "a": "Да, NesilCoffee работает в формате B2B и ориентирована на оптовые поставки. Мы сотрудничаем с дистрибьюторами, торговыми сетями, HoReCa, корпоративными клиентами и экспортными партнёрами." },
-        { "q": "Как осуществляется доставка продукции?", "a": "Мы работаем с проверенными логистическими операторами. Условия доставки — по договорённости, включая экспорт." },
-        { "q": "Предоставляете ли вы отсрочку платежа?", "a": "Условия оплаты обсуждаются индивидуально с каждым партнёром и фиксируются в договоре." },
-        { "q": "Какие документы вы предоставляете?", "a": "Полный пакет документов на продукцию: сертификаты качества, HALAL, ISO, товарные накладные, счета-фактуры, экспортные документы." },
-        { "q": "Можно ли получить прайс-лист?", "a": "Да, актуальный прайс-лист высылается по запросу после короткого знакомства с вашим бизнесом. Заполните форму ниже." }
+        { "q": "Iň az sargydyň möçberi näçe?", "a": "Iň az lomaý sargyt önüme we logistikä görä aýratyn ara alnyp maslahatlaşylýar. Takyk hasap üçin biziň bilen habarlaşyň." },
+        { "q": "Diňe lomaý sargytlar bilen işleýärsiňizmi?", "a": "Hawa, NesilCoffee B2B formatynda işleýär we lomaý üpjünçilige ugrukdyrylandyr. Biz distribýutorlar, söwda toplumlary, HoReCa, korporatiw müşderiler we eksport hyzmatdaşlary bilen hyzmatdaşlyk edýäris." },
+        { "q": "Önümiň eltilişi nähili amala aşyrylýar?", "a": "Biz barlagdan geçen logistika operatorlary bilen işleýäris. Eltiş şertleri, şol sanda eksport — ylalaşyk boýunça." },
+        { "q": "Töleg möhletini berýärsiňizmi?", "a": "Töleg şertleri her hyzmatdaş bilen aýratyn ara alnyp maslahatlaşylýar we şertnamada berkidilýär." },
+        { "q": "Haýsy resminamalary hödürleýärsiňiz?", "a": "Önüm üçin doly resminama toplumy: hil sertifikatlary, HALAL, ISO, harydy tabşyryş kagyzlary, hasap-fakturalar, eksport resminamalary." },
+        { "q": "Nyrhnamany alyp bolýarmy?", "a": "Hawa, aktual nyrhnama, biznesiňiz bilen gysga tanyşlykdan soň, sorag boýunça iberilýär. Aşakdaky formy dolduryň." }
       ]
     },
     "contact": {
-      "title": "Контакты",
-      "subtitle": "Кофе начинается с диалога. Свяжитесь с нами, чтобы узнать больше о нашем подходе, вкусе и возможностях сотрудничества.",
-      "socialsLabel": "Социальные сети",
-      "phoneLabel": "Телефон",
-      "messengerLabel": "Мессенджер",
-      "addressLabel": "Адрес",
-      "address": "Туркменистан, Ахалский велаят, Ак бугдайский этрап, посёлок Махтумкулин",
-      "writeUs": "Напишите нам",
-      "writeUsBody": "Заполните форму, и мы свяжемся с вами в ближайшее время"
+      "title": "Habarlaşmak",
+      "subtitle": "Kofe gepleşikden başlaýar. Çemeleşişimiz, tagamymyz we hyzmatdaşlyk mümkinçiliklerimiz barada has köp bilmek üçin biziň bilen habarlaşyň.",
+      "socialsLabel": "Sosial ulgamlar",
+      "phoneLabel": "Telefon",
+      "messengerLabel": "Messenjer",
+      "addressLabel": "Salgy",
+      "address": "Türkmenistan, Ahal welaýaty, Ak bugdaý etraby, Magtymguly şäherçesi",
+      "writeUs": "Bize ýazyň",
+      "writeUsBody": "Formy dolduryň, biz ýakyn wagtda siziň bilen habarlaşarys"
     }
   },
   "footer": {
-    "phoneLabel": "Телефон",
-    "addressLabel": "Адрес",
-    "socialsLabel": "Социальные сети",
-    "emailLabel": "Почта",
-    "rights": "© {year} NesilCoffee. Все права защищены."
+    "phoneLabel": "Telefon",
+    "addressLabel": "Salgy",
+    "socialsLabel": "Sosial ulgamlar",
+    "emailLabel": "E-poçta",
+    "rights": "© {year} NesilCoffee. Ähli hukuklar goralandyr."
   }
 }

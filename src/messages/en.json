@@ -1,240 +1,240 @@
 {
   "meta": {
     "siteName": "NesilCoffee",
-    "defaultTitle": "NesilCoffee — Обжарка, вкус и контроль качества",
-    "defaultDescription": "Nesilcoffee — производство кофе премиум класса. Обжарка на каждом этапе с контролем качества. Оптовые поставки B2B."
+    "defaultTitle": "NesilCoffee — Roasting, flavor and quality control",
+    "defaultDescription": "Nesilcoffee — premium-class coffee production. Roasting with quality control at every stage. B2B wholesale supplies."
   },
   "nav": {
-    "home": "Главная",
-    "products": "Продукция",
-    "about": "О нас",
-    "contacts": "Контакты"
+    "home": "Home",
+    "products": "Products",
+    "about": "About",
+    "contacts": "Contacts"
   },
   "cta": {
-    "viewProducts": "Смотреть продукцию",
-    "send": "Отправить",
-    "learnMore": "Подробнее",
-    "backToTop": "Наверх"
+    "viewProducts": "View products",
+    "send": "Send",
+    "learnMore": "Learn more",
+    "backToTop": "Back to top"
   },
   "home": {
     "hero": {
-      "title": "Обжарка, вкус <a>и</a> контроль качества <a>на каждом этапе</a>",
-      "subtitle": "Улыбка, наслаждение и бодрость - всё это вы сможете найти в одной чашки нашего кофе"
+      "title": "Roasting, flavor <a>and</a> quality control <a>at every stage</a>",
+      "subtitle": "A smile, enjoyment and energy — you'll find all of it in a single cup of our coffee"
     },
     "products": {
-      "sectionTitle": "<a>Наша</a> Продукция",
-      "tagline": "100% арабика",
-      "description": "Сбалансированный кофе из 100% арабики с мягким, выразительным профилем.\n\nСредняя степень обжарки раскрывает <b>сливочные и ореховые ноты</b>, делая вкус насыщенным, а низкая кислотность обеспечивает мягкое послевкусие",
-      "acidity": "Кислотность",
-      "roast": "Степень обжарки"
+      "sectionTitle": "<a>Our</a> Products",
+      "tagline": "100% arabica",
+      "description": "A balanced 100% arabica coffee with a soft, expressive profile.\n\nMedium roast reveals <b>creamy and nutty notes</b>, making the taste rich, while low acidity delivers a smooth aftertaste",
+      "acidity": "Acidity",
+      "roast": "Roast level"
     },
     "office": {
-      "pill": "20 саше в 1 упаковке",
-      "title": "Идеальный<a> формат для </a>дома<a> и </a>офиса",
-      "body1": "Растворимый кофе 3 в 1 премиум-класса в упаковке из 20 порций — удобное решение для регулярного использования",
-      "body2": "Такой формат подходит для больших семей, рабочих команд и компаний, а индивидуальные саше упрощают хранение и приготовление",
-      "cta": "Просмотреть всю продукцию"
+      "pill": "20 sachets per pack",
+      "title": "The perfect<a> format for </a>home<a> and </a>office",
+      "body1": "Premium 3-in-1 instant coffee in a 20-sachet pack — a convenient solution for everyday use",
+      "body2": "This format suits large families, work teams and companies, while individual sachets simplify storage and preparation",
+      "cta": "Browse all products"
     },
     "searched": {
-      "title": "Кофе<a> который </a>вы искали",
-      "body1": "Мы тщательно отбираем кофейные зёрна, чтобы сохранить их природный характер и вкус.",
-      "body2": "Контроль на каждом этапе и бережная обжарка позволяют раскрыть мягкий, сбалансированный профиль без лишней горечи. Всё, чтобы в чашке вы получили именно тот вкус, к которому хочется возвращаться."
+      "title": "The coffee<a> you were </a>looking for",
+      "body1": "We carefully select coffee beans to preserve their natural character and flavor.",
+      "body2": "Control at every stage and gentle roasting reveal a soft, balanced profile without excess bitterness. Everything so your cup delivers exactly the taste you'll want to return to."
     },
     "production": {
-      "sectionTitle": "<a>Производственный</a> процесс NesilCoffee",
+      "sectionTitle": "<a>Production</a> process at NesilCoffee",
       "blocks": {
         "capacity": {
-          "title": "Современные производственные мощности",
-          "body1": "Наш завод оснащён современными обжарочными и упаковочными линиями, рассчитанными на переработку значительных объёмов зелёного кофе с особым вниманием к специализированному и премиальному сегменту.",
-          "body2": "Производственные мощности позволяют работать с разными профилями обжарки — от лёгкой и деликатной для specialty-кофе до насыщенной и глубокой для эспрессо-смесей. Мы сознательно выстроили производство так, чтобы масштаб не мешал точности, а каждая партия соответствовала строгим стандартам качества."
+          "title": "Modern production capacity",
+          "body1": "Our facility is equipped with modern roasting and packaging lines built to process significant volumes of green coffee, with particular focus on the specialty and premium segments.",
+          "body2": "Our production capacity lets us work with different roast profiles — from light and delicate for specialty coffee to rich and deep for espresso blends. We built our production so scale never gets in the way of precision, and every batch meets strict quality standards."
         },
         "organic": {
-          "title": "100% органический продукт",
-          "body1": "В основе нашей продукции - органическое кофейное сырьё, выращенное без использования искусственных добавок и агрессивных методов обработки. Мы придерживаемся принципов чистого состава и прозрачного происхождения ингредиентов.",
-          "body2": "Органический подход делает продукт подходящим для регулярного употребления и позволяет сохранить естественные свойства кофе без лишнего вмешательства."
+          "title": "100% organic product",
+          "body1": "Our products are based on organic coffee raw material, grown without artificial additives or aggressive processing methods. We adhere to the principles of clean composition and transparent ingredient origins.",
+          "body2": "The organic approach makes the product suitable for regular consumption and preserves the natural properties of coffee without excessive interference."
         },
         "italian": {
-          "title": "Итальянская обжарка и вкусовой баланс",
-          "body1": "Кофе обжаривается по итальянским стандартам, где ключевое внимание уделяется балансу вкуса и аккуратному раскрытию зерна. Такой подход позволяет избежать излишней горечи, сохранить чистоту вкусового профиля и добиться понятного, комфортного вкуса.",
-          "body2": "Итальянская обжарка хорошо подходит как для зернового кофе, так и для растворимых форматов, обеспечивая понятный и комфортный вкус для повседневного использования."
+          "title": "Italian roast and flavor balance",
+          "body1": "Coffee is roasted to Italian standards, with the emphasis on flavor balance and careful development of the bean. This approach avoids excessive bitterness, preserves the purity of the flavor profile and delivers a clear, comfortable taste.",
+          "body2": "Italian roasting works well for both whole-bean coffee and instant formats, delivering a clear and comfortable flavor for everyday use."
         },
         "certified": {
-          "title": "Сертифицированное производство",
-          "body1": "Производственные процессы соответствуют международным стандартам ISO 9001:2015 и ISO 22000:2018, что подтверждает системный и выстроенный подход к управлению качеством и безопасности пищевой продукции на всех этапах.",
-          "body2": "Дополнительная Halal-сертификация отражает ответственность на всех этапах производства и делает продукт доступным и подходящим для широкой аудитории."
+          "title": "Certified production",
+          "body1": "Our production processes comply with international ISO 9001:2015 and ISO 22000:2018 standards, confirming a systematic approach to quality management and food safety at every stage.",
+          "body2": "Additional Halal certification reflects responsibility across all production stages and makes the product accessible and suitable for a wide audience."
         }
       }
     },
     "certificates": {
-      "title": "Сертификаты",
+      "title": "Certificates",
       "items": {
         "iso": {
-          "name": "ISO 9001:2015 и ISO 22000:2018",
-          "desc": "Производство сертифицировано по международным стандартам подтверждающим cоответствие качества и безопасности пищевой продукции"
+          "name": "ISO 9001:2015 and ISO 22000:2018",
+          "desc": "Our production is certified to international standards confirming compliance with quality and food-safety requirements"
         },
         "halal": {
           "name": "GSO 2055-1:2021\n(HALAL)",
-          "desc": "Сертификация Halal подтверждает, что продукт соответствует строгим требованиям к безопасности и производству продуктов питания"
+          "desc": "Halal certification confirms that the product meets strict food-safety and production requirements"
         }
       }
     },
     "team": {
-      "title": "Команда",
+      "title": "Team",
       "members": [
-        { "name": "Аделя Сахбиева", "role": "Ведущий специалист по экспорту", "phone": "+9936483428", "email": "info@nesilcoffee.com" },
-        { "name": "Аделя Сахбиева", "role": "Ведущий специалист по экспорту", "phone": "+9936483428", "email": "info@nesilcoffee.com" },
-        { "name": "Аделя Сахбиева", "role": "Ведущий специалист по экспорту", "phone": "+9936483428", "email": "info@nesilcoffee.com" },
-        { "name": "Аделя Сахбиева", "role": "Ведущий специалист по экспорту", "phone": "+9936483428", "email": "info@nesilcoffee.com" },
-        { "name": "Аделя Сахбиева", "role": "Ведущий специалист по экспорту", "phone": "+9936483428", "email": "info@nesilcoffee.com" }
+        { "name": "Adelya Sakhbieva", "role": "Lead export specialist", "phone": "+9936483428", "email": "info@nesilcoffee.com" },
+        { "name": "Adelya Sakhbieva", "role": "Lead export specialist", "phone": "+9936483428", "email": "info@nesilcoffee.com" },
+        { "name": "Adelya Sakhbieva", "role": "Lead export specialist", "phone": "+9936483428", "email": "info@nesilcoffee.com" },
+        { "name": "Adelya Sakhbieva", "role": "Lead export specialist", "phone": "+9936483428", "email": "info@nesilcoffee.com" },
+        { "name": "Adelya Sakhbieva", "role": "Lead export specialist", "phone": "+9936483428", "email": "info@nesilcoffee.com" }
       ]
     },
     "cta": {
-      "title": "У вас есть вопросы?",
-      "body": "Есть вопросы или нужна дополнительная информация? Мы с удовольствием расскажем о продукции, форматах и условиях сотрудничества."
+      "title": "Have questions?",
+      "body": "Have questions or need more information? We'd love to tell you about our products, formats and cooperation terms."
     }
   },
   "form": {
-    "name": "Имя",
+    "name": "Name",
     "email": "E-mail",
-    "subject": "Тема",
-    "message": "Текст",
-    "send": "Отправить",
-    "sending": "Отправляем...",
-    "success": "Спасибо! Мы свяжемся с вами в ближайшее время.",
-    "error": "Что-то пошло не так. Попробуйте ещё раз.",
+    "subject": "Subject",
+    "message": "Message",
+    "send": "Send",
+    "sending": "Sending...",
+    "success": "Thank you! We'll be in touch shortly.",
+    "error": "Something went wrong. Please try again.",
     "validation": {
-      "required": "Обязательное поле",
-      "email": "Введите корректный e-mail"
+      "required": "Required field",
+      "email": "Enter a valid e-mail"
     }
   },
   "products": {
     "hero": {
-      "title": "Сварите себе лучшее",
-      "subtitle": "Полный ассортимент кофе и чая от NesilCoffee — от свежеобжаренных зерен до растворимых форматов.",
-      "cta": "Попробовать",
+      "title": "Brew yourself the best",
+      "subtitle": "The full range of coffee and tea from NesilCoffee — from freshly roasted beans to instant formats.",
+      "cta": "Try it",
       "slides": {
         "karak": {
-          "title": "Карак чай — насыщенный и пряный",
-          "body": "Традиционный чай с молоком и специями, приготовленный в удобном формате. Подходит для дома и офиса, когда хочется плотный вкус и тёплый напиток без долгого приготовления."
+          "title": "Karak tea — rich and spiced",
+          "body": "Traditional tea with milk and spices, prepared in a convenient format. Suits home and office when you want a full-bodied flavor and a warm drink without a long prep."
         },
         "espresso": {
-          "title": "Espresso — бодрящий и крепкий",
-          "body": "Классический растворимый эспрессо с насыщенным вкусом и богатым ароматом. Идеально подходит для быстрого приготовления крепкого кофе в любое время дня."
+          "title": "Espresso — bold and strong",
+          "body": "A classic instant espresso with rich flavor and full aroma. Perfect for making strong coffee quickly, any time of day."
         },
         "latte": {
-          "title": "Coffee Latte — мягкий и нежный",
-          "body": "Растворимый латте с молоком и кремом, который придаёт напитку нежный вкус и аромат. Идеально подходит для тех, кто предпочитает более мягкий и сладкий кофе."
+          "title": "Coffee Latte — soft and delicate",
+          "body": "Instant latte with milk and creamer, giving the drink a gentle flavor and aroma. Perfect for those who prefer a softer, sweeter coffee."
         }
       }
     },
     "categories": {
-      "bean": "Зерновой кофе",
-      "instant": "Растворимый кофе",
-      "freezeDried": "Сублимированный кофе",
-      "tea": "Чай"
+      "bean": "Whole bean coffee",
+      "instant": "Instant coffee",
+      "freezeDried": "Freeze-dried coffee",
+      "tea": "Tea"
     },
-    "order": "Заказать",
-    "roast": "Степень обжарки",
-    "acidity": "Кислотность",
-    "cardDescription": "Сбалансированный кофе с мягким вкусом, сливочной текстурой и лёгкой сладостью — подходит для повседневного использования"
+    "order": "Order",
+    "roast": "Roast level",
+    "acidity": "Acidity",
+    "cardDescription": "A balanced coffee with soft flavor, creamy texture and a light sweetness — perfect for everyday use"
   },
   "about": {
     "hero": {
-      "title": "О нас",
-      "subtitle": "История, стандарты и команда NesilCoffee."
+      "title": "About us",
+      "subtitle": "The story, standards and team behind NesilCoffee."
     },
     "welcome": {
-      "title": "<a>Добро пожаловать к </a>NesilCoffee",
-      "sideTitle": "Создано со страстью, доведено до совершенства",
-      "sideBody": "100% органические зерна NesilCoffee, закупаемые более чем из 15 стран, рассказывают историю о самом прекрасном, что есть в природе."
+      "title": "<a>Welcome to </a>NesilCoffee",
+      "sideTitle": "Created with passion, perfected with care",
+      "sideBody": "NesilCoffee's 100% organic beans, sourced from more than 15 countries, tell a story of the very best that nature has to offer."
     },
     "geography": {
-      "title": "От туманных высокогорий Эфиопии до залитых солнцем склонов Колумбии",
-      "body1": "Каждое зерно собирается вручную на плантациях, не использующих химикаты, среди захватывающих дух пейзажей.",
-      "body2": "Обжаренный с итальянским мастерством и сертифицированный органическим способом NesilCoffee сплетает воедино ароматы – дымную глубину Гватемалы, землистый шоколад Индонезии и цветочные ноты Руанды – в насыщенную чашку, созданную с заботой об окружающей среде.",
-      "body3": "На фоне величественных гор NesilCoffee дарит целую симфонию вкуса, в каждом глотке которой чувствуется бережное отношение к природе."
+      "title": "From the misty highlands of Ethiopia to the sun-drenched slopes of Colombia",
+      "body1": "Every bean is hand-picked on chemical-free plantations set against breathtaking landscapes.",
+      "body2": "Roasted with Italian craftsmanship and certified organic, NesilCoffee weaves together aromas — Guatemala's smoky depth, Indonesia's earthy chocolate and Rwanda's floral notes — into a rich cup made with care for the environment.",
+      "body3": "Set against majestic mountains, NesilCoffee delivers a whole symphony of flavor with every sip tasting of respect for nature."
     },
     "quality": {
-      "title": "<a>Отбор,</a> разработка <a>и</a> контроль <a>качества</a>",
-      "stageLabel": "Этап",
+      "title": "<a>Sourcing,</a> development <a>and</a> quality <a>control</a>",
+      "stageLabel": "Stage",
       "step1": {
-        "title": "Отбор сырья",
-        "body": "Качество NesilCoffee формируется на каждом этапе — от отбора сырья до отправки готовой продукции. Мы работаем только с предварительно отобранным сырьём — зелёным кофейным зерном и ингредиентами для напитков формата 3-в-1, которые изначально подбираются по утверждённым спецификациям и рецептурам NesilCoffee."
+        "title": "Sourcing",
+        "body": "NesilCoffee's quality is built at every stage — from sourcing to shipping the finished product. We work only with pre-selected raw material — green coffee beans and 3-in-1 drink ingredients — chosen from the outset against NesilCoffee's approved specifications and recipes."
       },
       "step2": {
-        "title": "Разработка и тестирование",
-        "body": "Перед началом производства сырьё проходит проверку качества и состояния, подтверждающую соответствие характеристик и готовность к использованию. Над созданием и развитием ассортимента работает собственная команда разработки и контроля качества: специалисты формируют рецептуры, выверяют баланс вкуса и аромата, тестируют продукты и утверждают составы, обеспечивая стабильность и узнаваемый вкус каждой позиции."
+        "title": "Development and testing",
+        "body": "Before production starts, raw material undergoes a quality and condition check confirming its characteristics and readiness for use. Our in-house R&D and QC team creates and evolves the range: specialists build recipes, fine-tune the balance of flavor and aroma, test products and approve compositions, ensuring stability and a recognizable flavor for every SKU."
       },
       "step3": {
-        "title": "Контроль качества",
-        "body": "В процессе производства и перед отгрузкой готовая продукция проходит финальный контроль — проверяется качество обжарки и смешивания, целостность упаковки, корректность маркировки и соответствие установленным стандартам. Только после подтверждения качества продукция поступает на склад и к нашим клиентам."
+        "title": "Quality control",
+        "body": "During production and before shipment, the finished product passes a final check — roast and blend quality, packaging integrity, labeling accuracy and compliance with established standards. Only after quality is confirmed does the product move to the warehouse and on to our clients."
       }
     },
     "experts": {
-      "title": "Наши эксперты делятся принципами работы и подходом к производству",
+      "title": "Our experts share the principles and approach behind our production",
       "one": {
-        "name": "Мырадов Эзиз",
-        "role": "Начальник производственного цеха",
-        "quote": "«Каждое зерно, каждый профиль обжарки, каждая упаковка — результат внимания, технологий и опыта команды NesilCoffee. Так рождается кофе, который мы с гордостью предлагаем нашим клиентам.»"
+        "name": "Eziz Myradov",
+        "role": "Head of the production floor",
+        "quote": "«Every bean, every roast profile, every pack is the result of the attention, technology and experience of the NesilCoffee team. That's how we get coffee we're proud to offer our customers.»"
       },
       "two": {
-        "name": "Гурбангулыев Байрамгулы",
-        "role": "Заведующий отдела контроля качества и разработок",
-        "quote": "«NesilCoffee — продуманный подход к качеству каждого продукта. Мы тщательно контролируем каждый этап производства, чтобы гарантировать стабильный вкус и высокий стандарт в каждой партии.»"
+        "name": "Bayramguly Gurbangulyev",
+        "role": "Head of quality control and R&D",
+        "quote": "«NesilCoffee is a considered approach to the quality of every product. We tightly control every stage of production to guarantee stable flavor and a high standard in every batch.»"
       }
     },
     "history": {
-      "title": "<a>Наша</a> история",
-      "subtitle": "<a>Готовим</a> высококачественную <a>продукцию с</a> 2024 <a>года</a>",
+      "title": "<a>Our</a> story",
+      "subtitle": "<a>Producing</a> high-quality <a>coffee since</a> 2024",
       "cards": {
         "idea": {
-          "title": "Идея",
-          "body": "В самом сердце Туркменистана, на залитых солнцем равнинах Ашхабада, родилась компания NesilCoffee с целью создания 100% органического кофе."
+          "title": "The idea",
+          "body": "At the heart of Turkmenistan, on the sun-drenched plains of Ashgabat, NesilCoffee was born with the goal of creating 100% organic coffee."
         },
         "search": {
-          "title": "Поиск",
-          "body": "Мы искали лучших поставщиков зелёного зерна и оборудование мирового класса, чтобы выстроить производство, соответствующее международным стандартам качества."
+          "title": "The search",
+          "body": "We sought out the best green-bean suppliers and world-class equipment to build a production facility that meets international quality standards."
         },
         "roast": {
-          "title": "Обжарка",
-          "body": "Наши технологи разработали фирменные профили обжарки, раскрывающие лучшие ноты каждого происхождения — от лёгкой скандинавской до тёмной итальянской."
+          "title": "The roast",
+          "body": "Our technologists developed signature roast profiles that bring out the best notes of every origin — from a light Scandinavian to a dark Italian."
         },
         "launch": {
-          "title": "Реализация",
-          "body": "Первые партии NesilCoffee отправились нашим партнёрам — от крупных розничных сетей до HoReCa и корпоративных клиентов, покорив рынки Центральной Азии."
+          "title": "The launch",
+          "body": "The first batches of NesilCoffee went out to our partners — from major retail chains to HoReCa and corporate clients — winning over Central Asian markets."
         }
       }
     }
   },
   "contacts": {
     "faq": {
-      "title": "<a>Часто задаваемые</a> вопросы",
+      "title": "<a>Frequently asked</a> questions",
       "items": [
-        { "q": "Какой минимальный объём заказа?", "a": "Минимальный оптовый заказ обсуждается индивидуально в зависимости от продукта и логистики. Свяжитесь с нами для точного расчёта." },
-        { "q": "Работаете ли вы только с оптовыми заказами?", "a": "Да, NesilCoffee работает в формате B2B и ориентирована на оптовые поставки. Мы сотрудничаем с дистрибьюторами, торговыми сетями, HoReCa, корпоративными клиентами и экспортными партнёрами." },
-        { "q": "Как осуществляется доставка продукции?", "a": "Мы работаем с проверенными логистическими операторами. Условия доставки — по договорённости, включая экспорт." },
-        { "q": "Предоставляете ли вы отсрочку платежа?", "a": "Условия оплаты обсуждаются индивидуально с каждым партнёром и фиксируются в договоре." },
-        { "q": "Какие документы вы предоставляете?", "a": "Полный пакет документов на продукцию: сертификаты качества, HALAL, ISO, товарные накладные, счета-фактуры, экспортные документы." },
-        { "q": "Можно ли получить прайс-лист?", "a": "Да, актуальный прайс-лист высылается по запросу после короткого знакомства с вашим бизнесом. Заполните форму ниже." }
+        { "q": "What's the minimum order volume?", "a": "The minimum wholesale order is discussed individually depending on the product and logistics. Contact us for an exact quote." },
+        { "q": "Do you only work with wholesale orders?", "a": "Yes, NesilCoffee operates B2B and focuses on wholesale supply. We work with distributors, retail chains, HoReCa, corporate clients and export partners." },
+        { "q": "How is delivery handled?", "a": "We work with trusted logistics operators. Delivery terms are agreed individually, including exports." },
+        { "q": "Do you offer deferred payment?", "a": "Payment terms are discussed individually with each partner and set out in the contract." },
+        { "q": "What documents do you provide?", "a": "A full document package for the product: quality certificates, HALAL, ISO, delivery notes, invoices, export documents." },
+        { "q": "Can I get a price list?", "a": "Yes — the current price list is sent on request after a short intro to your business. Fill out the form below." }
       ]
     },
     "contact": {
-      "title": "Контакты",
-      "subtitle": "Кофе начинается с диалога. Свяжитесь с нами, чтобы узнать больше о нашем подходе, вкусе и возможностях сотрудничества.",
-      "socialsLabel": "Социальные сети",
-      "phoneLabel": "Телефон",
-      "messengerLabel": "Мессенджер",
-      "addressLabel": "Адрес",
-      "address": "Туркменистан, Ахалский велаят, Ак бугдайский этрап, посёлок Махтумкулин",
-      "writeUs": "Напишите нам",
-      "writeUsBody": "Заполните форму, и мы свяжемся с вами в ближайшее время"
+      "title": "Contacts",
+      "subtitle": "Coffee begins with a conversation. Get in touch to learn more about our approach, flavor and cooperation opportunities.",
+      "socialsLabel": "Social media",
+      "phoneLabel": "Phone",
+      "messengerLabel": "Messenger",
+      "addressLabel": "Address",
+      "address": "Turkmenistan, Ahal Region, Ak Bugday District, Magtymguly village",
+      "writeUs": "Write to us",
+      "writeUsBody": "Fill out the form and we'll be in touch shortly"
     }
   },
   "footer": {
-    "phoneLabel": "Телефон",
-    "addressLabel": "Адрес",
-    "socialsLabel": "Социальные сети",
-    "emailLabel": "Почта",
-    "rights": "© {year} NesilCoffee. Все права защищены."
+    "phoneLabel": "Phone",
+    "addressLabel": "Address",
+    "socialsLabel": "Social media",
+    "emailLabel": "Email",
+    "rights": "© {year} NesilCoffee. All rights reserved."
   }
 }

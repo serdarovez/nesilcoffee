@@ -1,8 +1,4 @@
-import {
-  Inter_Tight,
-  IBM_Plex_Sans_Arabic,
-  Roboto_Condensed,
-} from "next/font/google";
+import { Inter_Tight, Roboto_Condensed } from "next/font/google";
 
 export const interTight = Inter_Tight({
   subsets: ["latin", "latin-ext", "cyrillic", "cyrillic-ext"],
@@ -15,12 +11,5 @@ export const robotoCondensed = Roboto_Condensed({
   subsets: ["latin", "latin-ext", "cyrillic", "cyrillic-ext"],
   weight: ["400", "500", "700"],
   variable: "--font-display",
-  display: "swap",
-});
-
-export const ibmPlexArabic = IBM_Plex_Sans_Arabic({
-  subsets: ["arabic"],
-  weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-arabic",
   display: "swap",
 });

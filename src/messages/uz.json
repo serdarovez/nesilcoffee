@@ -1,0 +1,240 @@
+{
+  "meta": {
+    "siteName": "NesilCoffee",
+    "defaultTitle": "NesilCoffee — Qovurish, ta'm va sifat nazorati",
+    "defaultDescription": "Nesilcoffee — premium sinf qahva ishlab chiqarish. Har bosqichda sifat nazorati bilan qovurish. B2B ulgurji yetkazib berish."
+  },
+  "nav": {
+    "home": "Bosh sahifa",
+    "products": "Mahsulotlar",
+    "about": "Biz haqimizda",
+    "contacts": "Aloqa"
+  },
+  "cta": {
+    "viewProducts": "Mahsulotlarni ko'rish",
+    "send": "Yuborish",
+    "learnMore": "Batafsil",
+    "backToTop": "Yuqoriga"
+  },
+  "home": {
+    "hero": {
+      "title": "Qovurish, ta'm <a>va</a> sifat nazorati <a>har bosqichda</a>",
+      "subtitle": "Tabassum, zavq va tetiklik — bularning barchasini bizning qahvamizning bir chashkasida topasiz"
+    },
+    "products": {
+      "sectionTitle": "<a>Bizning</a> mahsulotlarimiz",
+      "tagline": "100% arabika",
+      "description": "Yumshoq, ifodali profil bilan 100% arabikadan tayyorlangan muvozanatli qahva.\n\nO'rta darajadagi qovurish <b>qaymoqli va yong'oqli notalarni</b> ochib, ta'mni to'yingan qiladi, past kislotalilik esa yumshoq mazani ta'minlaydi",
+      "acidity": "Kislotalilik",
+      "roast": "Qovurish darajasi"
+    },
+    "office": {
+      "pill": "Bir qadoqda 20 sashe",
+      "title": "Uy<a> va </a>ofis<a> uchun ideal </a>format",
+      "body1": "20 porsiyali qadoqdagi premium sinfli 3-in-1 erituvchi qahva — muntazam foydalanish uchun qulay yechim",
+      "body2": "Ushbu format katta oilalar, ish jamoalari va kompaniyalar uchun mos keladi, alohida sashelar esa saqlash va tayyorlashni osonlashtiradi",
+      "cta": "Barcha mahsulotlarni ko'rish"
+    },
+    "searched": {
+      "title": "Siz<a> qidirgan </a>qahva",
+      "body1": "Biz qahva donalarini ularning tabiiy xarakterini va ta'mini saqlash uchun sinchkovlik bilan tanlaymiz.",
+      "body2": "Har bosqichdagi nazorat va ehtiyotkorona qovurish ortiqcha achchiqliksiz yumshoq, muvozanatli profilni ochishga imkon beradi. Chashkangizda qaytib kelgingiz keladigan ta'mni olishingiz uchun barcha ish qilinadi."
+    },
+    "production": {
+      "sectionTitle": "NesilCoffee <a>ishlab chiqarish</a> jarayoni",
+      "blocks": {
+        "capacity": {
+          "title": "Zamonaviy ishlab chiqarish quvvatlari",
+          "body1": "Bizning zavodimiz zamonaviy qovurish va qadoqlash liniyalari bilan jihozlangan bo'lib, ixtisoslashgan va premium segmentga alohida e'tibor berib, katta hajmdagi yashil qahvani qayta ishlashga mo'ljallangan.",
+          "body2": "Ishlab chiqarish quvvatlarimiz turli qovurish profillari bilan ishlashga imkon beradi — specialty qahva uchun yengil va nafis qovurishdan boshlab espresso aralashmalari uchun to'yingan va chuqur qovurishgacha. Ishlab chiqarishni ko'lam aniqlikka to'sqinlik qilmaydigan, har bir partiya qat'iy sifat standartlariga javob beradigan qilib ongli ravishda qurdik."
+        },
+        "organic": {
+          "title": "100% organik mahsulot",
+          "body1": "Mahsulotlarimiz asosida sun'iy qo'shimchalar va agressiv qayta ishlash usullarisiz o'stirilgan organik qahva xomashyosi yotadi. Biz toza tarkib va ingredientlar kelib chiqishining shaffofligi tamoyillariga rioya qilamiz.",
+          "body2": "Organik yondashuv mahsulotni muntazam iste'mol qilish uchun mos qiladi va qahvaning tabiiy xususiyatlarini ortiqcha aralashuvsiz saqlashga imkon beradi."
+        },
+        "italian": {
+          "title": "Italyan qovurishi va ta'm muvozanati",
+          "body1": "Qahva italyan standartlariga muvofiq qovuriladi, bunda asosiy e'tibor ta'm muvozanatiga va donni ehtiyotkorona ochishga qaratiladi. Bu yondashuv ortiqcha achchiqlikning oldini olishga, ta'm profilining tozaligini saqlashga va tushunarli, qulay ta'mga erishishga imkon beradi.",
+          "body2": "Italyan qovurishi ham donli qahva, ham erituvchi formatlar uchun yaxshi mos keladi, kundalik foydalanish uchun tushunarli va qulay ta'mni ta'minlaydi."
+        },
+        "certified": {
+          "title": "Sertifikatlangan ishlab chiqarish",
+          "body1": "Ishlab chiqarish jarayonlari xalqaro ISO 9001:2015 va ISO 22000:2018 standartlariga mos keladi, bu esa barcha bosqichlarda sifat boshqaruvi va oziq-ovqat xavfsizligiga tizimli va tuzilgan yondashuvni tasdiqlaydi.",
+          "body2": "Qo'shimcha Halal sertifikati ishlab chiqarishning barcha bosqichlarida mas'uliyatni aks ettiradi va mahsulotni keng auditoriya uchun ochiq va mos qiladi."
+        }
+      }
+    },
+    "certificates": {
+      "title": "Sertifikatlar",
+      "items": {
+        "iso": {
+          "name": "ISO 9001:2015 va ISO 22000:2018",
+          "desc": "Ishlab chiqarish sifat va oziq-ovqat xavfsizligiga muvofiqligini tasdiqlaydigan xalqaro standartlar bo'yicha sertifikatlangan"
+        },
+        "halal": {
+          "name": "GSO 2055-1:2021\n(HALAL)",
+          "desc": "Halal sertifikati mahsulotning oziq-ovqat mahsulotlarini ishlab chiqarish va xavfsizligiga qo'yiladigan qat'iy talablarga javob berishini tasdiqlaydi"
+        }
+      }
+    },
+    "team": {
+      "title": "Jamoa",
+      "members": [
+        { "name": "Adelya Sahbieva", "role": "Eksport bo'yicha yetakchi mutaxassis", "phone": "+9936483428", "email": "info@nesilcoffee.com" },
+        { "name": "Adelya Sahbieva", "role": "Eksport bo'yicha yetakchi mutaxassis", "phone": "+9936483428", "email": "info@nesilcoffee.com" },
+        { "name": "Adelya Sahbieva", "role": "Eksport bo'yicha yetakchi mutaxassis", "phone": "+9936483428", "email": "info@nesilcoffee.com" },
+        { "name": "Adelya Sahbieva", "role": "Eksport bo'yicha yetakchi mutaxassis", "phone": "+9936483428", "email": "info@nesilcoffee.com" },
+        { "name": "Adelya Sahbieva", "role": "Eksport bo'yicha yetakchi mutaxassis", "phone": "+9936483428", "email": "info@nesilcoffee.com" }
+      ]
+    },
+    "cta": {
+      "title": "Savollaringiz bormi?",
+      "body": "Savollaringiz bormi yoki qo'shimcha ma'lumot kerakmi? Mahsulotlar, formatlar va hamkorlik shartlari haqida gapirib berishdan mamnun bo'lamiz."
+    }
+  },
+  "form": {
+    "name": "Ism",
+    "email": "E-mail",
+    "subject": "Mavzu",
+    "message": "Xabar",
+    "send": "Yuborish",
+    "sending": "Yuborilmoqda...",
+    "success": "Rahmat! Yaqin orada siz bilan bog'lanamiz.",
+    "error": "Nimadir noto'g'ri ketdi. Qayta urinib ko'ring.",
+    "validation": {
+      "required": "Majburiy maydon",
+      "email": "To'g'ri e-mail kiriting"
+    }
+  },
+  "products": {
+    "hero": {
+      "title": "O'zingizga eng yaxshisini damlab bering",
+      "subtitle": "NesilCoffee kompaniyasidan qahva va choyning to'liq assortimenti — yangi qovurilgan donalardan erituvchi formatlargacha.",
+      "cta": "Sinab ko'ring",
+      "slides": {
+        "karak": {
+          "title": "Karak choy — to'yingan va ziravorli",
+          "body": "Qulay formatda tayyorlangan sut va ziravorli an'anaviy choy. Uzoq tayyorgarliksiz to'la ta'm va issiq ichimlik istaganingizda uy va ofis uchun mos keladi."
+        },
+        "espresso": {
+          "title": "Espresso — tetiklashtiruvchi va kuchli",
+          "body": "To'yingan ta'm va boy hidga ega klassik erituvchi espresso. Kunning istalgan vaqtida kuchli qahvani tez tayyorlash uchun ideal."
+        },
+        "latte": {
+          "title": "Coffee Latte — yumshoq va nozik",
+          "body": "Ichimlikka nozik ta'm va hid beruvchi sut va qaymoqli erituvchi latte. Yumshoqroq va shirinroq qahvani afzal ko'radiganlar uchun ideal."
+        }
+      }
+    },
+    "categories": {
+      "bean": "Donli qahva",
+      "instant": "Erituvchi qahva",
+      "freezeDried": "Sublimatsiyalangan qahva",
+      "tea": "Choy"
+    },
+    "order": "Buyurtma berish",
+    "roast": "Qovurish darajasi",
+    "acidity": "Kislotalilik",
+    "cardDescription": "Yumshoq ta'mli, qaymoqli teksturali va yengil shirinlikka ega muvozanatli qahva — kundalik foydalanish uchun mos"
+  },
+  "about": {
+    "hero": {
+      "title": "Biz haqimizda",
+      "subtitle": "NesilCoffee tarixi, standartlari va jamoasi."
+    },
+    "welcome": {
+      "title": "<a>NesilCoffee-ga </a>xush kelibsiz",
+      "sideTitle": "Ishtiyoq bilan yaratilgan, mukammallikka yetkazilgan",
+      "sideBody": "15 dan ortiq mamlakatdan xarid qilinadigan NesilCoffee'ning 100% organik donalari tabiat taqdim etadigan eng go'zal narsa haqidagi hikoyani aytib beradi."
+    },
+    "geography": {
+      "title": "Efiopiyaning tumanli tog'liklaridan Kolumbiyaning quyoshli yon bag'irlarigacha",
+      "body1": "Har bir don hayratlanarli manzaralar orasida, kimyoviy moddalar ishlatilmaydigan plantatsiyalarda qo'lda teriladi.",
+      "body2": "Italyan mahorati bilan qovurilgan va organik sifatida sertifikatlangan NesilCoffee, atrof-muhitga g'amxo'rlik bilan yaratilgan boy chashkada Gvatemalaning tutunli chuqurligini, Indoneziyaning yer rangli shokoladini va Ruandaning gulli notalarini birlashtiradi.",
+      "body3": "Ulug'vor tog'lar fonida NesilCoffee har qultumida tabiatga ehtiyotkorona munosabat his qilinadigan butun ta'm simfoniyasini taqdim etadi."
+    },
+    "quality": {
+      "title": "<a>Tanlash,</a> ishlab chiqish <a>va</a> sifat <a>nazorati</a>",
+      "stageLabel": "Bosqich",
+      "step1": {
+        "title": "Xomashyoni tanlash",
+        "body": "NesilCoffee sifati har bosqichda shakllanadi — xomashyoni tanlashdan tayyor mahsulotni jo'natishgacha. Biz faqat oldindan tanlangan xomashyo — yashil qahva doni va NesilCoffee'ning tasdiqlangan spetsifikatsiyalari va retseptlari bo'yicha tanlangan 3-in-1 formatidagi ichimliklar uchun ingredientlar bilan ishlaymiz."
+      },
+      "step2": {
+        "title": "Ishlab chiqish va sinash",
+        "body": "Ishlab chiqarish boshlanishidan oldin xomashyo xususiyatlariga muvofiqligi va foydalanishga tayyorligini tasdiqlaydigan sifat va holat tekshiruvidan o'tadi. Assortimentni yaratish va rivojlantirish ustida bizning ishlab chiqish va sifat nazorati jamoamiz ishlaydi: mutaxassislar retseptlarni yaratadi, ta'm va hidning muvozanatini sozlaydi, mahsulotlarni sinaydi va tarkiblarni tasdiqlaydi, har bir pozitsiyaning barqarorligi va tanilgan ta'mini ta'minlaydi."
+      },
+      "step3": {
+        "title": "Sifat nazorati",
+        "body": "Ishlab chiqarish jarayonida va jo'natishdan oldin tayyor mahsulot yakuniy nazoratdan o'tadi — qovurish va aralashtirish sifati, qadoqning butunligi, markalashning to'g'riligi va belgilangan standartlarga muvofiqligi tekshiriladi. Faqat sifat tasdiqlangandan keyin mahsulot omborga va bizning mijozlarimizga tushadi."
+      }
+    },
+    "experts": {
+      "title": "Bizning ekspertlarimiz ish tamoyillari va ishlab chiqarish yondashuvini bo'lishadi",
+      "one": {
+        "name": "Myradov Eziz",
+        "role": "Ishlab chiqarish sexi boshlig'i",
+        "quote": "«Har bir don, har bir qovurish profili, har bir qadoq — NesilCoffee jamoasining e'tibori, texnologiyasi va tajribasi natijasidir. Shu tariqa biz mijozlarimizga faxr bilan taqdim etadigan qahva tug'iladi.»"
+      },
+      "two": {
+        "name": "Gurbangulyev Bayramguly",
+        "role": "Sifat nazorati va ishlab chiqish bo'limi boshlig'i",
+        "quote": "«NesilCoffee — har bir mahsulot sifatiga o'ylab qilingan yondashuvdir. Har bir partiyada barqaror ta'm va yuqori standartni kafolatlash uchun ishlab chiqarishning har bosqichini sinchkovlik bilan nazorat qilamiz.»"
+      }
+    },
+    "history": {
+      "title": "<a>Bizning</a> tariximiz",
+      "subtitle": "2024-<a>yildan beri</a> yuqori sifatli <a>mahsulot</a> tayyorlaymiz",
+      "cards": {
+        "idea": {
+          "title": "G'oya",
+          "body": "Turkmanistonning yuragida, Ashxobodning quyoshli tekisliklarida, 100% organik qahva yaratish maqsadida NesilCoffee kompaniyasi tug'ildi."
+        },
+        "search": {
+          "title": "Qidiruv",
+          "body": "Xalqaro sifat standartlariga mos keladigan ishlab chiqarishni qurish uchun eng yaxshi yashil don yetkazib beruvchilar va jahon miqyosidagi asbob-uskunalarni qidirdik."
+        },
+        "roast": {
+          "title": "Qovurish",
+          "body": "Bizning texnologlarimiz har bir kelib chiqishning eng yaxshi notalarini ochib beradigan brend qovurish profillarini ishlab chiqdilar — yengil skandinav qovurishidan tortib qora italyangacha."
+        },
+        "launch": {
+          "title": "Amalga oshirish",
+          "body": "NesilCoffee ning birinchi partiyalari hamkorlarimizga — yirik chakana savdo tarmoqlaridan HoReCa va korporativ mijozlargacha — jo'natildi va Markaziy Osiyo bozorlarini zabt etdi."
+        }
+      }
+    }
+  },
+  "contacts": {
+    "faq": {
+      "title": "<a>Tez-tez beriladigan</a> savollar",
+      "items": [
+        { "q": "Buyurtmaning eng kam hajmi qancha?", "a": "Eng kam ulgurji buyurtma mahsulot va logistikaga qarab alohida muhokama qilinadi. Aniq hisob-kitob uchun biz bilan bog'laning." },
+        { "q": "Siz faqat ulgurji buyurtmalar bilan ishlaysizmi?", "a": "Ha, NesilCoffee B2B formatida ishlaydi va ulgurji yetkazib berishga yo'naltirilgan. Biz distribyutorlar, savdo tarmoqlari, HoReCa, korporativ mijozlar va eksport hamkorlari bilan hamkorlik qilamiz." },
+        { "q": "Mahsulot yetkazib berish qanday amalga oshiriladi?", "a": "Biz sinovdan o'tgan logistika operatorlari bilan ishlaymiz. Yetkazib berish shartlari — kelishuv bo'yicha, jumladan eksport ham." },
+        { "q": "To'lov muddatini uzaytirasizmi?", "a": "To'lov shartlari har bir hamkor bilan alohida muhokama qilinadi va shartnomada qayd etiladi." },
+        { "q": "Qanday hujjatlarni taqdim etasiz?", "a": "Mahsulot bo'yicha to'liq hujjatlar to'plami: sifat sertifikatlari, HALAL, ISO, tovar yuk xatlari, hisob-fakturalar, eksport hujjatlari." },
+        { "q": "Narxlar ro'yxatini olsa bo'ladimi?", "a": "Ha, dolzarb narxlar ro'yxati sizning biznesingiz bilan qisqa tanishuvdan keyin so'rov bo'yicha yuboriladi. Quyidagi formani to'ldiring." }
+      ]
+    },
+    "contact": {
+      "title": "Aloqa",
+      "subtitle": "Qahva suhbatdan boshlanadi. Bizning yondashuv, ta'm va hamkorlik imkoniyatlarimiz haqida ko'proq bilish uchun biz bilan bog'laning.",
+      "socialsLabel": "Ijtimoiy tarmoqlar",
+      "phoneLabel": "Telefon",
+      "messengerLabel": "Messenjer",
+      "addressLabel": "Manzil",
+      "address": "Turkmaniston, Ahal viloyati, Ak-bugday tumani, Magtymguly qishlog'i",
+      "writeUs": "Bizga yozing",
+      "writeUsBody": "Formani to'ldiring, biz yaqin orada siz bilan bog'lanamiz"
+    }
+  },
+  "footer": {
+    "phoneLabel": "Telefon",
+    "addressLabel": "Manzil",
+    "socialsLabel": "Ijtimoiy tarmoqlar",
+    "emailLabel": "Pochta",
+    "rights": "© {year} NesilCoffee. Barcha huquqlar himoyalangan."
+  }
+}
