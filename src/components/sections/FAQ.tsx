@@ -23,17 +23,9 @@ export function FAQ() {
         <div className="w-207.5">
           <Accordion type="single" collapsible className="flex flex-col gap-3">
             {Array.from({ length: ITEM_COUNT }).map((_, i) => (
-              <AccordionItem
-                key={i}
-                value={`item-${i}`}
-                className="rounded-xl bg-[#fbfbfb] px-4 py-1"
-              >
-                <AccordionTrigger className="py-6 text-xl font-medium text-[#1a1a1a]">
-                  {t(`items.${i}.q`)}
-                </AccordionTrigger>
-                <AccordionContent className="pb-6 text-lg leading-[140%] text-[#444444]">
-                  {t(`items.${i}.a`)}
-                </AccordionContent>
+              <AccordionItem key={i} value={`item-${i}`}>
+                <AccordionTrigger>{t(`items.${i}.q`)}</AccordionTrigger>
+                <AccordionContent>{t(`items.${i}.a`)}</AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>

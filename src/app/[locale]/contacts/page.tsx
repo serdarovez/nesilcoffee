@@ -4,7 +4,6 @@ import { useTranslations } from "next-intl";
 import type { Metadata } from "next";
 import { FAQ } from "@/components/sections/FAQ";
 import { ContactForm } from "@/components/sections/ContactForm";
-import { Phone, Mail, MessageCircle, MapPin } from "lucide-react";
 import { InstagramIcon, TikTokIcon } from "@/components/icons/Socials";
 
 export async function generateMetadata({
@@ -17,7 +16,8 @@ export async function generateMetadata({
   return { title: t("title") };
 }
 
-function ContactRow({
+/** Info block — small caps label + stack of values below. Two per row on desktop. */
+function InfoBlock({
   label,
   children,
 }: {
@@ -36,14 +36,18 @@ function ContactRow({
   );
 }
 
+/** Contacts middle section — Figma "contact" (2048:13034).
+ *  Top: divider. Left col: title + subtitle + 2x2 info grid (socials/phone/messenger/address).
+ *  Right col: "НАПИШИТЕ НАМ" form card (rounded-3xl, bg #fbfbfb, padding). */
 function ContactsBlock() {
   const t = useTranslations("contacts.contact");
   return (
     <section id="contacts" className="mx-auto w-full max-w-378 px-9 pt-20">
-      <div className="w-full border-t border-[#dfdfdf] pt-10">
+      <div className="border-t border-[#dfdfdf] pt-10">
         <div className="flex items-start justify-between gap-35.25">
-          <div className="flex flex-col gap-10">
-            <div className="flex flex-col gap-6">
+          {/* Left column */}
+          <div className="flex flex-1 flex-col gap-10">
+            <div className="flex flex-col gap-4">
               <h2 className="font-display font-bold uppercase text-[#1a1a1a] text-[96px] leading-[97%] tracking-[-0.035em]">
                 {t("title")}
               </h2>
@@ -52,74 +56,67 @@ function ContactsBlock() {
               </p>
             </div>
 
-            <div className="grid grid-cols-2 gap-x-16 gap-y-10">
-              <ContactRow label={t("socialsLabel")}>
+            <div className="grid max-w-146.5 grid-cols-2 gap-x-16 gap-y-10">
+              <InfoBlock label={t("socialsLabel")}>
                 <a
                   href="https://instagram.com/nesilcoffee"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 hover:opacity-75 transition-opacity"
+                  className="hover:opacity-75 transition-opacity"
                 >
-                  <InstagramIcon className="h-5 w-5" />
-                  @nesilcoffee
+                  Instagram
                 </a>
                 <a
                   href="https://tiktok.com/@nesilcoffee"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 hover:opacity-75 transition-opacity"
+                  className="hover:opacity-75 transition-opacity"
                 >
-                  <TikTokIcon className="h-5 w-5" />
-                  @nesilcoffee
+                  TikTok
                 </a>
-              </ContactRow>
+              </InfoBlock>
 
-              <ContactRow label={t("phoneLabel")}>
+              <InfoBlock label={t("phoneLabel")}>
                 <a
                   href="tel:+99313732969"
-                  className="inline-flex items-center gap-2 hover:opacity-75 transition-opacity"
+                  className="hover:opacity-75 transition-opacity"
                 >
-                  <Phone className="h-5 w-5" />
                   +993 137 32969
                 </a>
                 <a
                   href="tel:+99313732973"
-                  className="inline-flex items-center gap-2 hover:opacity-75 transition-opacity"
+                  className="hover:opacity-75 transition-opacity"
                 >
-                  <Phone className="h-5 w-5" />
                   +993 137 32973
                 </a>
-              </ContactRow>
+              </InfoBlock>
 
-              <ContactRow label={t("messengerLabel")}>
+              <InfoBlock label={t("messengerLabel")}>
                 <a
                   href="https://wa.me/99313732969"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 hover:opacity-75 transition-opacity"
                 >
-                  <MessageCircle className="h-5 w-5" />
-                  WhatsApp
+                  <InstagramIcon className="h-5 w-5" />
+                  +993 137 32969
                 </a>
                 <a
                   href="mailto:info@nesilcoffee.com"
-                  className="inline-flex items-center gap-2 hover:opacity-75 transition-opacity"
+                  className="hover:opacity-75 transition-opacity"
                 >
-                  <Mail className="h-5 w-5" />
                   info@nesilcoffee.com
                 </a>
-              </ContactRow>
+              </InfoBlock>
 
-              <ContactRow label={t("addressLabel")}>
-                <p className="inline-flex items-start gap-2 leading-[130%]">
-                  <MapPin className="h-5 w-5 mt-1 shrink-0" />
-                  <span>{t("address")}</span>
-                </p>
-              </ContactRow>
+              <InfoBlock label={t("addressLabel")}>
+                <p className="leading-[130%]">{t("address")}</p>
+              </InfoBlock>
             </div>
           </div>
 
-          <div className="flex w-146.5 flex-col gap-6 rounded-3xl bg-[#fbfbfb] p-8">
+          {/* Right column — "НАПИШИТЕ НАМ" form card */}
+          <div className="flex w-146.5 shrink-0 flex-col gap-6 rounded-3xl bg-[#fbfbfb] p-8">
             <div className="flex flex-col gap-2">
               <h3 className="font-display text-4xl font-bold uppercase text-[#1a1a1a] leading-[100%]">
                 {t("writeUs")}
@@ -134,6 +131,7 @@ function ContactsBlock() {
   );
 }
 
+/** Map banner — full-width image with rounded-3xl (24px per Figma Rectangle 518). */
 function MapBanner() {
   return (
     <section className="mx-auto w-full max-w-378 px-9 pt-10 pb-20">

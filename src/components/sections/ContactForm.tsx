@@ -4,9 +4,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useTranslations } from "next-intl";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Check, AlertCircle } from "lucide-react";
 
@@ -19,20 +16,21 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>;
 
-export function ContactForm({ variant = "light" }: { variant?: "light" | "dark" }) {
+const fieldClass =
+  "w-full rounded-lg bg-white px-4 py-3.5 text-base text-[#1a1a1a] placeholder:text-[#999ead] outline-none transition-colors focus:ring-2 focus:ring-[#191919]/30";
+
+export function ContactForm() {
   const t = useTranslations("form");
-  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">(
-    "idle",
-  );
+  const [status, setStatus] = useState<
+    "idle" | "sending" | "success" | "error"
+  >("idle");
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<FormValues>({
-    resolver: zodResolver(schema),
-  });
+  } = useForm<FormValues>({ resolver: zodResolver(schema) });
 
   const onSubmit = async (values: FormValues) => {
     setStatus("sending");
@@ -50,78 +48,51 @@ export function ContactForm({ variant = "light" }: { variant?: "light" | "dark" 
     }
   };
 
-  const labelColor =
-    variant === "dark" ? "text-white/60" : "text-muted-foreground";
-
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col gap-4 w-full"
+      className="flex w-full flex-col gap-2"
       noValidate
     >
-      <div>
-        <Input
-          {...register("name")}
-          placeholder={t("name")}
-          aria-invalid={!!errors.name}
-          className={cn(errors.name && "border-destructive")}
-        />
-        {errors.name && (
-          <p className={cn("mt-1.5 text-xs", labelColor)}>
-            {t("validation.required")}
-          </p>
+      <input
+        {...register("name")}
+        placeholder={t("name")}
+        aria-invalid={!!errors.name}
+        className={cn(fieldClass, errors.name && "ring-2 ring-red-400/50")}
+      />
+      <input
+        type="email"
+        {...register("email")}
+        placeholder={t("email")}
+        aria-invalid={!!errors.email}
+        className={cn(fieldClass, errors.email && "ring-2 ring-red-400/50")}
+      />
+      <input
+        {...register("subject")}
+        placeholder={t("subject")}
+        aria-invalid={!!errors.subject}
+        className={cn(fieldClass, errors.subject && "ring-2 ring-red-400/50")}
+      />
+      <textarea
+        {...register("message")}
+        placeholder={t("message")}
+        rows={4}
+        aria-invalid={!!errors.message}
+        className={cn(
+          fieldClass,
+          "resize-none",
+          errors.message && "ring-2 ring-red-400/50",
         )}
-      </div>
-      <div>
-        <Input
-          type="email"
-          {...register("email")}
-          placeholder={t("email")}
-          aria-invalid={!!errors.email}
-          className={cn(errors.email && "border-destructive")}
-        />
-        {errors.email && (
-          <p className={cn("mt-1.5 text-xs", labelColor)}>
-            {t("validation.email")}
-          </p>
-        )}
-      </div>
-      <div>
-        <Input
-          {...register("subject")}
-          placeholder={t("subject")}
-          aria-invalid={!!errors.subject}
-          className={cn(errors.subject && "border-destructive")}
-        />
-        {errors.subject && (
-          <p className={cn("mt-1.5 text-xs", labelColor)}>
-            {t("validation.required")}
-          </p>
-        )}
-      </div>
-      <div>
-        <Textarea
-          {...register("message")}
-          placeholder={t("message")}
-          aria-invalid={!!errors.message}
-          className={cn(errors.message && "border-destructive")}
-        />
-        {errors.message && (
-          <p className={cn("mt-1.5 text-xs", labelColor)}>
-            {t("validation.required")}
-          </p>
-        )}
-      </div>
+      />
 
-      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mt-2">
-        <Button
+      <div className="mt-2 flex items-center gap-3">
+        <button
           type="submit"
-          variant="dark"
           disabled={status === "sending"}
-          className="w-full sm:w-auto"
+          className="inline-flex h-13 items-center justify-center rounded-lg bg-[#1a1a1a] px-8 text-lg font-medium text-white transition-colors hover:bg-black disabled:opacity-60 cursor-pointer"
         >
           {status === "sending" ? t("sending") : t("send")}
-        </Button>
+        </button>
         {status === "success" && (
           <span className="inline-flex items-center gap-2 text-sm text-emerald-600">
             <Check className="h-4 w-4" />
@@ -129,7 +100,7 @@ export function ContactForm({ variant = "light" }: { variant?: "light" | "dark" 
           </span>
         )}
         {status === "error" && (
-          <span className="inline-flex items-center gap-2 text-sm text-destructive">
+          <span className="inline-flex items-center gap-2 text-sm text-red-600">
             <AlertCircle className="h-4 w-4" />
             {t("error")}
           </span>
