@@ -6,6 +6,7 @@ import { routing, localeDirection, type Locale } from "@/i18n/routing";
 import { interTight, robotoCondensed } from "@/lib/fonts";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { SmoothScroll } from "@/components/layout/SmoothScroll";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -83,6 +84,7 @@ export default async function LocaleLayout({
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <NextIntlClientProvider>
+          <SmoothScroll />
           <Header />
           <main className="flex-1">{children}</main>
           <Footer />
