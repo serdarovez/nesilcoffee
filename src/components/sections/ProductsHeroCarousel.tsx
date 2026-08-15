@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import useEmblaCarousel from "embla-carousel-react";
 import { useCallback, useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import { BlurImage } from "@/components/ui/BlurImage";
 
 type HeroSlide = {
   id: "karak" | "espresso" | "latte";
@@ -71,11 +72,11 @@ export function ProductsHeroCarousel() {
                 className="relative h-full w-full flex-[0_0_100%] min-w-0"
               >
                 {/* Background image — full slide width, edge to edge */}
-                <Image
+                <BlurImage
                   src={s.bg}
                   alt=""
                   fill
-                  priority={s.id === "karak"}
+                  preload={s.id === "karak"}
                   sizes="100vw"
                   className="object-cover"
                 />

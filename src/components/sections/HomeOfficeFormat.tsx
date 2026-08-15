@@ -1,6 +1,6 @@
-import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { BlurImage } from "@/components/ui/BlurImage";
 
 export function HomeOfficeFormat() {
   const t = useTranslations("home.office");
@@ -8,7 +8,7 @@ export function HomeOfficeFormat() {
     <section className="mx-auto w-full max-w-378 px-9 pt-32">
       <div className="flex gap-6">
         <div className="relative h-[549px] w-[708px] shrink-0 overflow-hidden rounded-3xl">
-          <Image
+          <BlurImage
             src="/sections/home/home-office-banner.jpg"
             alt=""
             fill

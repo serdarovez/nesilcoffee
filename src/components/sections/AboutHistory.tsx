@@ -1,9 +1,9 @@
 "use client";
-import Image from "next/image";
 import { useTranslations } from "next-intl";
 import useEmblaCarousel from "embla-carousel-react";
 import { useCallback } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { BlurImage } from "@/components/ui/BlurImage";
 
 type HistoryCard = { key: "idea" | "search" | "roast" | "launch"; image: string };
 const HISTORY_CARDS: HistoryCard[] = [
@@ -74,7 +74,7 @@ export function AboutHistory() {
               </h3>
               <div className="flex h-128.5 gap-6">
                 <div className="relative h-full w-178.5 shrink-0 overflow-hidden rounded-3xl bg-[#dedede]">
-                  <Image
+                  <BlurImage
                     src={card.image}
                     alt=""
                     fill

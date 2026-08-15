@@ -8,6 +8,7 @@ import { Team } from "@/components/sections/Team";
 import { CTAContact } from "@/components/sections/CTAContact";
 import { AboutHistory } from "@/components/sections/AboutHistory";
 import { cn } from "@/lib/utils";
+import { BlurImage } from "@/components/ui/BlurImage";
 
 export async function generateMetadata({
   params,
@@ -78,7 +79,7 @@ function Geography() {
       </h2>
       <div className="mt-8 flex items-start gap-12">
         <div className="relative h-199.5 w-228.5 shrink-0 overflow-hidden rounded-[34px] bg-[#dedede]">
-          <Image
+          <BlurImage
             src="/sections/about/hero-grid.jpg"
             alt=""
             fill

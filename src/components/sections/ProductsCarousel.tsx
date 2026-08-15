@@ -6,6 +6,7 @@ import { useCallback, useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { RoastIcon, AcidityIcon } from "@/components/icons/ProductSpecs";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { BlurImage } from "@/components/ui/BlurImage";
 
 type Slide = {
   id: string;
@@ -41,12 +42,12 @@ export function ProductsCarousel() {
 
   return (
     <section className="relative w-full overflow-hidden">
-      <Image
+      <BlurImage
         src="/sections/home/hero-coffee-beans.png"
         alt=""
         width={1512}
         height={933}
-        priority
+        preload
         className="pointer-events-none absolute inset-x-0 top-0 h-[933px] w-full object-cover blur-md"
         aria-hidden
       />
@@ -126,7 +127,6 @@ function SlideCard({ slide }: { slide: Slide }) {
           fill
           sizes="658px"
           className="object-contain"
-          priority
         />
       </div>
 

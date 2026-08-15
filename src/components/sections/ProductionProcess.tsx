@@ -1,10 +1,10 @@
 "use client";
-import Image from "next/image";
 import { useTranslations } from "next-intl";
 import useEmblaCarousel from "embla-carousel-react";
 import { useCallback, useEffect, useState } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { BlurImage } from "@/components/ui/BlurImage";
 
 const BLOCKS = [
   { key: "capacity", image: "/sections/production/stage-1.jpg" },
@@ -58,7 +58,7 @@ export function ProductionProcess() {
                   </div>
 
                   <div className="relative h-171.25 w-209.5 shrink-0 overflow-hidden rounded-3xl bg-[#f2f0eb]">
-                    <Image
+                    <BlurImage
                       src={b.image}
                       alt=""
                       fill

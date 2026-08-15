@@ -1,10 +1,10 @@
-import Image from "next/image";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { useTranslations } from "next-intl";
 import type { Metadata } from "next";
 import { FAQ } from "@/components/sections/FAQ";
 import { ContactForm } from "@/components/sections/ContactForm";
 import { InstagramIcon, TikTokIcon } from "@/components/icons/Socials";
+import { BlurImage } from "@/components/ui/BlurImage";
 
 export async function generateMetadata({
   params,
@@ -136,7 +136,7 @@ function MapBanner() {
   return (
     <section className="mx-auto w-full max-w-378 px-9 pt-10 pb-20">
       <div className="relative h-126.25 w-full overflow-hidden rounded-3xl">
-        <Image
+        <BlurImage
           src="/sections/contacts/map-banner.png"
           alt=""
           fill

@@ -13,7 +13,7 @@ export function Logo({ className }: { className?: string }) {
         alt="NesilCoffee"
         width={44}
         height={42}
-        priority
+        preload
         className="h-20.5 w-21 object-contain"
       />
     </Link>
