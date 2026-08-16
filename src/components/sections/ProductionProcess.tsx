@@ -1,10 +1,8 @@
 "use client";
 import { useTranslations } from "next-intl";
-import useEmblaCarousel from "embla-carousel-react";
-import { useCallback, useEffect, useState } from "react";
-import { ArrowLeft, ArrowRight } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
 import { BlurImage } from "@/components/ui/BlurImage";
+import { cn } from "@/lib/utils";
 
 const BLOCKS = [
   { key: "capacity", image: "/sections/production/stage-1.jpg" },
@@ -15,19 +13,31 @@ const BLOCKS = [
 
 export function ProductionProcess() {
   const t = useTranslations("home.production");
-
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "center" });
-  const [selected, setSelected] = useState(0);
-
-  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
-  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
+  const [active, setActive] = useState(0);
 
   useEffect(() => {
-    if (!emblaApi) return;
-    const onSelect = () => setSelected(emblaApi.selectedScrollSnap());
-    emblaApi.on("select", onSelect);
-    onSelect();
-  }, [emblaApi]);
+    const blocks = document.querySelectorAll<HTMLElement>(
+      "[data-production-stage]",
+    );
+    if (blocks.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const idx = Number(entry.target.getAttribute("data-production-stage"));
+            setActive(idx);
+          }
+        });
+      },
+      // 0-height trigger line at viewport middle. A block "intersects" when
+      // that line sits inside it.
+      { rootMargin: "-50% 0px -50% 0px", threshold: 0 },
+    );
+
+    blocks.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <section id="production" className="mx-auto w-full max-w-378 px-9 pt-32">
@@ -37,72 +47,64 @@ export function ProductionProcess() {
         })}
       </h2>
 
-      <div className="relative mt-10">
-        <div className="overflow-hidden" ref={emblaRef}>
-          <div className="flex">
-            {BLOCKS.map((b) => (
-              <div key={b.key} className="flex-[0_0_100%] min-w-0">
-                <div className="flex items-center gap-32">
-                  <div className="flex w-125 flex-col gap-6">
-                    <h3 className="text-5xl font-medium leading-[100%] text-[#1a1a1a]">
-                      {t(`blocks.${b.key}.title`)}
-                    </h3>
-                    <div className="flex flex-col gap-6">
-                      <p className="text-2xl leading-[130%] text-[#444444]">
-                        {t(`blocks.${b.key}.body1`)}
-                      </p>
-                      <p className="text-2xl leading-[130%] text-[#444444]">
-                        {t(`blocks.${b.key}.body2`)}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="relative h-171.25 w-209.5 shrink-0 overflow-hidden rounded-3xl bg-[#f2f0eb]">
-                    <BlurImage
-                      src={b.image}
-                      alt=""
-                      fill
-                      sizes="838px"
-                      className="object-cover"
-                    />
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+      <div className="mt-8 flex items-start justify-between gap-32">
+        {/* Text column — each stage is min-h-screen so it takes a full viewport
+            of scroll. Trailing buffer keeps the sticky image pinned while the
+            last stage's midpoint crosses viewport center. */}
+        <div className="w-125">
+          {BLOCKS.map((b, i) => (
+            <div
+              key={b.key}
+              data-production-stage={i}
+              className="flex min-h-screen flex-col justify-center gap-6"
+            >
+              <h3 className="text-5xl font-medium leading-[100%] text-[#1a1a1a]">
+                {t(`blocks.${b.key}.title`)}
+              </h3>
+              <p className="text-2xl leading-[130%] text-[#444444]">
+                {t(`blocks.${b.key}.body1`)}
+              </p>
+              <p className="text-2xl leading-[130%] text-[#444444]">
+                {t(`blocks.${b.key}.body2`)}
+              </p>
+            </div>
+          ))}
+          <div aria-hidden className="h-[50vh]" />
         </div>
 
-        <div className="mt-12 flex items-center justify-between">
-          <div className="flex gap-2">
-            {BLOCKS.map((_, i) => (
-              <button
-                key={i}
-                aria-label={`Slide ${i + 1}`}
-                onClick={() => emblaApi?.scrollTo(i)}
+        {/* Image column — sticky. Offset by header height (~96px) so the image
+            sits below the nav bar instead of behind it. */}
+        <div className="sticky top-24 flex h-[calc(100vh-6rem)] w-209.5 shrink-0 items-center">
+          <div className="relative h-[80vh] w-full overflow-hidden rounded-3xl bg-[#f2f0eb]">
+            {BLOCKS.map((b, i) => (
+              <div
+                key={b.key}
                 className={cn(
-                  "h-1.5 rounded-full transition-all cursor-pointer",
-                  i === selected ? "w-8 bg-[#191919]" : "w-1.5 bg-[#191919]/20",
+                  "absolute inset-0 transition-opacity duration-700 ease-out",
+                  i === active ? "opacity-100" : "opacity-0",
                 )}
-              />
+              >
+                <BlurImage
+                  src={b.image}
+                  alt=""
+                  fill
+                  sizes="838px"
+                  className="object-cover"
+                />
+              </div>
             ))}
-          </div>
-          <div className="flex gap-3">
-            <button
-              type="button"
-              onClick={scrollPrev}
-              aria-label="Previous"
-              className="grid h-17.5 w-17.5 place-items-center rounded-full border border-[#191919]/15 bg-white text-[#191919] transition-colors hover:bg-[#f2f0eb] cursor-pointer"
-            >
-              <ArrowLeft className="h-6 w-6" />
-            </button>
-            <button
-              type="button"
-              onClick={scrollNext}
-              aria-label="Next"
-              className="grid h-17.5 w-17.5 place-items-center rounded-full bg-[#191919] text-white transition-colors hover:bg-[#2a1810] cursor-pointer"
-            >
-              <ArrowRight className="h-6 w-6" />
-            </button>
+
+            <div className="absolute bottom-6 left-1/2 z-10 flex -translate-x-1/2 gap-2">
+              {BLOCKS.map((_, i) => (
+                <div
+                  key={i}
+                  className={cn(
+                    "h-1.5 rounded-full bg-white transition-all duration-500 ease-out",
+                    i === active ? "w-8 opacity-100" : "w-1.5 opacity-60",
+                  )}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>

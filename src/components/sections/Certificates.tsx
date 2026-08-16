@@ -1,5 +1,7 @@
+"use client";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import { motion, useReducedMotion } from "motion/react";
 
 const CERTS = [
   { key: "iso", image: "/certificates/iso-9001.png" },
@@ -8,8 +10,15 @@ const CERTS = [
 
 export function Certificates() {
   const t = useTranslations("home.certificates");
+  const reduce = useReducedMotion();
   return (
-    <section className="mx-auto w-full max-w-378 px-9 pt-32">
+    <motion.section
+      initial={reduce ? undefined : { opacity: 0, y: 140 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.25 }}
+      transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+      className="mx-auto w-full max-w-378 px-9 pt-32"
+    >
       <h2 className="font-display font-bold uppercase text-[#1a1a1a] text-[96px] leading-[97%] tracking-[-0.035em]">
         {t("title")}
       </h2>
@@ -40,6 +49,6 @@ export function Certificates() {
           </article>
         ))}
       </div>
-    </section>
+    </motion.section>
   );
 }
