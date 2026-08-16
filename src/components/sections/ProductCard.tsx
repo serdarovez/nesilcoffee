@@ -36,48 +36,50 @@ export function ProductCard({
 
   return (
     <>
-      <article className="flex w-full flex-col gap-3 rounded-2xl bg-[#fbfbfb] p-4 md:w-115 md:rounded-3xl md:p-6">
+      <article className="flex h-full w-full flex-col gap-3 rounded-2xl bg-[#fbfbfb] p-4 md:rounded-3xl md:p-5">
         <div className="flex flex-col gap-0">
-          <div className="flex items-start justify-between gap-4 pb-3 md:gap-12">
-            <h3 className="font-display text-2xl font-bold uppercase text-[#1a1a1a] leading-[100%] md:text-4xl">
+          <div className="flex items-start justify-between gap-3 pb-3">
+            <h3 className="font-display text-xl font-bold uppercase text-[#1a1a1a] leading-[100%] md:text-2xl">
               {p.name}
             </h3>
-            <span className="inline-flex items-center rounded-md bg-white px-2 py-0.5 font-display text-sm font-bold text-[#444444] md:rounded-lg md:py-1 md:text-xl">
+            <span className="inline-flex shrink-0 items-center rounded-md bg-white px-2 py-0.5 font-display text-xs font-bold text-[#444444] md:rounded-lg md:py-1 md:text-sm">
               {p.weight}
             </span>
           </div>
-          <div className="relative h-56 w-full overflow-hidden rounded-lg md:h-83.75 md:rounded-xl">
+          <div className="relative aspect-4/3 w-full overflow-hidden rounded-lg md:rounded-xl">
             <Image
               src={p.image}
               alt={p.name}
               fill
-              sizes="(max-width: 768px) 100vw, 413px"
+              sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, (max-width: 1280px) 30vw, 23vw"
               className="object-contain"
             />
           </div>
         </div>
 
         {(p.arabica !== "—" || p.robusta !== "—") && (
-          <div className="flex flex-wrap gap-2 md:gap-4">
+          <div className="flex flex-wrap gap-2">
             {p.arabica !== "—" && (
-              <span className="inline-flex items-center rounded-md bg-white px-2 py-1.5 text-xs font-bold text-[#444444] md:rounded-lg md:py-2 md:text-base">
+              <span className="inline-flex items-center rounded-md bg-white px-2 py-1 text-xs font-bold text-[#444444] md:rounded-lg">
                 {p.arabica} — арабика
               </span>
             )}
             {p.robusta !== "—" && (
-              <span className="inline-flex items-center rounded-md bg-white px-2 py-1.5 text-xs font-bold text-[#444444] md:rounded-lg md:py-2 md:text-base">
+              <span className="inline-flex items-center rounded-md bg-white px-2 py-1 text-xs font-bold text-[#444444] md:rounded-lg">
                 {p.robusta} — робуста
               </span>
             )}
           </div>
         )}
 
-        <div className="mt-1 flex flex-col gap-4 md:mt-2 md:gap-6">
-          <div className="flex flex-col gap-3 md:gap-4">
-            <p className="text-sm leading-[140%] text-[#444444] md:text-xl md:leading-[130%]">
+        {/* mt-auto pins the button row to the card bottom so cards in a row
+         * stay aligned even when descriptions wrap to different heights. */}
+        <div className="mt-auto flex flex-col gap-4 pt-1">
+          <div className="flex flex-col gap-3">
+            <p className="text-sm leading-[140%] text-[#444444]">
               {t("cardDescription")}
             </p>
-            <div className="flex items-start gap-6 md:gap-12">
+            <div className="flex items-start gap-6">
               <SpecCol label={t("roast")} value={p.roast} icon={RoastIcon} tight />
               <SpecCol label={t("acidity")} value={p.acidity} icon={AcidityIcon} />
             </div>
@@ -86,7 +88,7 @@ export function ProductCard({
           <button
             type="button"
             onClick={() => setOpen(true)}
-            className="w-full rounded-lg bg-white py-3.5 text-base font-medium text-[#444444] transition-colors hover:bg-[#191919] hover:text-white md:py-4 md:text-lg"
+            className="w-full rounded-lg bg-white py-3 text-sm font-medium text-[#444444] transition-colors hover:bg-[#191919] hover:text-white md:text-base"
           >
             {t("order")}
           </button>

@@ -67,7 +67,9 @@
 
   /* ---- Layout constants ----------------------------------- */
   --site-max:               1512px;    /* Figma design frame width */
-  --site-header-h:          82px;      /* sticky header design height */
+  /* Sticky header height. Mobile is content-driven (82px logo +
+   * 2 × 12px padding); md+ overrides to the 82px design height. */
+  --site-header-h:          106px;
 
   /* ---- Fluid rhythm --------------------------------------- */
   /* Section vertical padding: mobile 4rem → desktop clamp. */
@@ -83,8 +85,18 @@
   --gap-xl:                 clamp(2rem, 4vw, 3.75rem);
   --gap-2xl:                clamp(2.5rem, 5vw, 5rem);
 
-  /* ---- Fluid width scale (used by .fluid-desktop zoom) ---- */
+  /* ---- Fluid width scale (used by the .fluid-* zoom) ------ */
   --fluid-scale:            1;
+
+  /* ---- Viewport-anchored heights -------------------------- */
+  /* `--screen-h` is exactly one visual viewport tall; `--hero-h`
+   * is the space left under the sticky header. Both divide by
+   * --fluid-scale so elements *inside* the zoomed `main` still
+   * measure a real viewport rather than a scaled one.
+   *   visual = layout * scale
+   *   => layout = 100dvh / scale                                */
+  --screen-h:               calc(100dvh / var(--fluid-scale));
+  --hero-h:                 calc(var(--screen-h) - var(--site-header-h));
 }
 
 /* Fluid scale kicks in at md+: shrinks the 1512-design layout so
@@ -92,6 +104,7 @@
 @media (min-width: 768px) {
   :root {
     --fluid-scale: min(1, calc((100vw - 48px) / 1512px));
+    --site-header-h: 82px;
   }
 }
 
@@ -258,6 +271,23 @@
     }
   }
 
+  /* display-4 — 36pt sub-heading. Welcome side title, Geography
+   * heading, History subtitle. Sits between display-3 and heading-1. */
+  .display-4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 20px;
+    line-height: 120%;
+    letter-spacing: -0.02em;
+  }
+  @media (min-width: 768px) {
+    .display-4 {
+      font-size: clamp(24px, 2.4vw, 36px);
+      line-height: 110%;
+    }
+  }
+
   /* heading-1 — larger card title (Certificates). */
   .heading-1 {
     font-family: var(--font-display);
@@ -289,6 +319,23 @@
   }
 
   /* -- Body ------------------------------------------------- */
+
+  /* body-xl — 24pt editorial body. About page prose (Welcome side copy,
+   * Geography, Quality steps, Expert quotes). Sized off viewport WIDTH,
+   * not dvh: these paragraphs sit in ratio-width columns, so they have to
+   * track the column, not the window height. */
+  .body-xl {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 140%;
+  }
+  @media (min-width: 768px) {
+    .body-xl {
+      font-size: clamp(17px, 1.6vw, 24px);
+      line-height: 120%;
+    }
+  }
 
   /* body-lg — lead paragraphs. Hero subtitle, product description. */
   .body-lg {
@@ -420,11 +467,12 @@
     .container-page { padding-inline: 4rem; }
   }
 
-  /* -- Fluid desktop zoom (unchanged) ----------------------- */
-  /* Explained in earlier commits: proportionally shrinks the
-   * 1512-baked layout to fit windowed viewports. --fluid-scale
-   * is exposed on :root above so dvh-anchored elements can
-   * compensate (see Hero, ProductionProcess). */
+  /* -- Fluid desktop zoom ----------------------------------- */
+  /* Proportionally shrinks the 1512-baked layout to fit windowed
+   * viewports, and caps + centers it. Used by the chrome that is
+   * always contained: Header bar and Footer. --fluid-scale is
+   * exposed on :root above so dvh-anchored elements can
+   * compensate (see --screen-h / --hero-h). */
   .fluid-desktop {
     max-width: var(--site-max);
     margin-inline: auto;
@@ -433,5 +481,31 @@
     .fluid-desktop {
       zoom: var(--fluid-scale);
     }
+  }
+
+  /* -- Fluid viewport (page shell) -------------------------- */
+  /* Same proportional zoom as .fluid-desktop but deliberately NOT
+   * width-capped, so full-bleed children (heroes, banners, the
+   * carousel backdrop) can span the entire viewport. Contained
+   * sections cap themselves with `max-w-(--site-max)` /
+   * `.container-x`, so uncapping the shell costs them nothing.
+   * Applied to <main>. */
+  .fluid-viewport {
+    width: 100%;
+  }
+  @media (min-width: 768px) {
+    .fluid-viewport {
+      zoom: var(--fluid-scale);
+    }
+  }
+
+  /* -- Full-bleed section ----------------------------------- */
+  /* Edge-to-edge inside .fluid-viewport: children of <main> only
+   * need `w-full`, but a section nested inside a capped wrapper
+   * can escape with this. */
+  .full-bleed {
+    width: calc(100vw / var(--fluid-scale));
+    margin-inline: calc(50% - 50vw / var(--fluid-scale));
+    max-width: none;
   }
 }

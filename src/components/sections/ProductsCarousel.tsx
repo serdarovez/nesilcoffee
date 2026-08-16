@@ -43,7 +43,7 @@ export function ProductsCarousel() {
   }, [emblaApi]);
 
   return (
-    <section className="relative w-full overflow-hidden pt-16 md:pt-0 md:h-[calc(100dvh/var(--fluid-scale,1)-82px)]">
+    <section className="relative w-full overflow-hidden pt-16 md:h-(--hero-h) md:pt-0">
       {/* Blurred coffee-beans backdrop — desktop-only. Fills the section so
        * it scales with the section height rather than staying at design px. */}
       <div className="hidden md:block">

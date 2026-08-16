@@ -57,10 +57,13 @@ function CategoryGrid({
   const categoryLabel = t(titleKey);
   return (
     <section className="mx-auto w-full max-w-378 px-5 pt-12 md:px-9 md:pt-20">
-      <h2 className="font-display font-bold uppercase text-[#1a1a1a] text-[32px] leading-[100%] tracking-[-0.03em] md:text-[96px] md:leading-[97%] md:tracking-[-0.035em]">
+      <h2 className="font-display font-bold uppercase text-[#1a1a1a] text-[32px] leading-[100%] tracking-[-0.03em] md:text-[clamp(48px,7vw,96px)] md:leading-[97%] md:tracking-[-0.035em]">
         {categoryLabel}
       </h2>
-      <div className="mt-6 flex flex-col gap-4 md:mt-12 md:flex-row md:flex-wrap md:gap-7.5">
+      {/* Explicit column counts — the old `flex-wrap` + `w-full` combination
+       * gave each card the full container as its flex basis, so they came
+       * out far wider (and taller) than the catalog needs. */}
+      <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 md:mt-10 md:gap-6 lg:grid-cols-3 xl:grid-cols-4">
         {products.map((p) => (
           <ProductCard key={p.name} p={p} categoryLabel={categoryLabel} />
         ))}

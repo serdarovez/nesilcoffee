@@ -39,8 +39,10 @@ export function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-40 w-full border-b border-line bg-white/50 backdrop-blur-[20px]">
-        <div className="fluid-desktop flex w-full items-center justify-between px-5 py-3 md:h-20.5 md:pl-8 md:pr-9">
+      {/* The hairline is a shadow, not a border, so the header occupies
+       * exactly `--site-header-h` and `--hero-h` lands on the fold. */}
+      <header className="sticky top-0 z-40 w-full bg-white/50 shadow-[0_1px_0_var(--color-line)] backdrop-blur-[20px]">
+        <div className="fluid-desktop flex h-(--site-header-h) w-full items-center justify-between px-5 md:pl-8 md:pr-9">
           <div className="flex items-center gap-6 md:gap-109">
             <Logo />
             <nav className="hidden items-center gap-2.75 md:flex">

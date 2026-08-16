@@ -74,9 +74,9 @@ export function ProductionProcess() {
         ))}
 
         {/* Sticky viewport — pinned to viewport top for the runway
-         * duration. Height compensates for the outer .fluid-desktop zoom
-         * so the visual height matches the real viewport on md+. */}
-        <div className="sticky top-0 h-dvh w-full overflow-hidden md:h-[calc(100dvh/var(--fluid-scale,1))]">
+         * duration. `--screen-h` compensates for the outer .fluid-viewport
+         * zoom so the visual height matches the real viewport on md+. */}
+        <div className="sticky top-0 h-(--screen-h) w-full overflow-hidden">
           <div className="mx-auto flex h-full w-full max-w-378 flex-col px-5 pt-[80px] pb-8 md:px-9 md:pt-[clamp(100px,14dvh,160px)] md:pb-[clamp(16px,3dvh,32px)]">
             {/* Header — title + dot progress indicator */}
             <div className="flex items-start justify-between gap-4">
