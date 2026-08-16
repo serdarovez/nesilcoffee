@@ -69,7 +69,7 @@ function MobilePin({ t }: { t: ReturnType<typeof useTranslations> }) {
   return (
     <div className="mt-6 md:hidden">
       {/* Sticky image — pins below the header while the text below scrolls */}
-      <div className="sticky top-[72px] z-10 h-[42vh] w-full overflow-hidden rounded-2xl bg-[#f2f0eb]">
+      <div className="sticky top-[72px] z-10 h-[42dvh] w-full overflow-hidden rounded-2xl bg-[#f2f0eb]">
         {BLOCKS.map((b, i) => (
           <div
             key={b.key}
@@ -107,7 +107,7 @@ function MobilePin({ t }: { t: ReturnType<typeof useTranslations> }) {
           <div
             key={b.key}
             data-mobile-production-stage={i}
-            className="flex min-h-[55vh] flex-col justify-center gap-3 py-6"
+            className="flex min-h-[55dvh] flex-col justify-center gap-3 py-6"
           >
             <h3 className="text-2xl font-medium leading-[110%] text-[#1a1a1a]">
               {t(`blocks.${b.key}.title`)}
@@ -126,7 +126,7 @@ function MobilePin({ t }: { t: ReturnType<typeof useTranslations> }) {
 }
 
 /** Desktop pinned-scroll experience — hidden below md.
- *  Text column scrolls (each stage `min-h-screen`), image column stays sticky
+ *  Text column scrolls (each stage `min-h-dvh`), image column stays sticky
  *  and cross-fades between stage images via IntersectionObserver. */
 function DesktopPin({ t }: { t: ReturnType<typeof useTranslations> }) {
   const [active, setActive] = useState(0);
@@ -160,7 +160,7 @@ function DesktopPin({ t }: { t: ReturnType<typeof useTranslations> }) {
           <div
             key={b.key}
             data-production-stage={i}
-            className="flex min-h-screen flex-col justify-center gap-6"
+            className="flex min-h-dvh flex-col justify-center gap-6"
           >
             <h3 className="text-5xl font-medium leading-[100%] text-[#1a1a1a]">
               {t(`blocks.${b.key}.title`)}
@@ -173,11 +173,11 @@ function DesktopPin({ t }: { t: ReturnType<typeof useTranslations> }) {
             </p>
           </div>
         ))}
-        <div aria-hidden className="h-[50vh]" />
+        <div aria-hidden className="h-[50dvh]" />
       </div>
 
-      <div className="sticky top-24 flex h-[calc(100vh-6rem)] w-209.5 shrink-0 items-center">
-        <div className="relative h-[80vh] w-full overflow-hidden rounded-3xl bg-[#f2f0eb]">
+      <div className="sticky top-24 flex h-[calc(100dvh-6rem)] w-209.5 shrink-0 items-center">
+        <div className="relative h-[80dvh] w-full overflow-hidden rounded-3xl bg-[#f2f0eb]">
           {BLOCKS.map((b, i) => (
             <div
               key={b.key}

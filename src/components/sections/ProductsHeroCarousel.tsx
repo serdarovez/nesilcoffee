@@ -61,8 +61,8 @@ export function ProductsHeroCarousel() {
 
   return (
     <section className="relative w-full">
-      <div className="relative h-[70vh] min-h-[500px] w-full overflow-hidden md:h-235.25 md:min-h-0">
-        <div className="h-[calc(70vh-2.5rem)] overflow-hidden md:h-224.5" ref={emblaRef}>
+      <div className="relative h-[70dvh] min-h-[500px] w-full overflow-hidden md:h-235.25 md:min-h-0">
+        <div className="h-[calc(70dvh-2.5rem)] overflow-hidden md:h-224.5" ref={emblaRef}>
           <div className="flex h-full">
             {HERO_SLIDES.map((s) => (
               <div

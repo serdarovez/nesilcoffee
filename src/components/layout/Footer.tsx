@@ -15,7 +15,7 @@ export function Footer() {
 
   return (
     <footer className="w-full bg-[#191919] text-white">
-      <div className="mx-auto flex w-full max-w-378 flex-col gap-6 px-5 py-8 md:gap-5 md:pl-9 md:pr-7.5 md:py-10">
+      <div className="fluid-desktop flex w-full flex-col gap-6 px-5 py-8 md:gap-5 md:pl-9 md:pr-7.5 md:py-10">
         <Image
           src="/sections/footer-icon.png"
           alt=""

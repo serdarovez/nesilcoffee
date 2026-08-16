@@ -133,4 +133,44 @@
       padding-right: 4rem;
     }
   }
+
+  /*
+   * Fluid desktop scale.
+   *
+   * The desktop (md:) layout is pixel-baked for a 1512px design frame.
+   * On any narrower desktop viewport (windowed Chrome, 13" laptops, split
+   * screen, etc.) those fixed sizes overflow. Rather than reflowing every
+   * section, we let CSS `zoom` proportionally shrink the whole content
+   * block so the pixel-perfect Figma layout stays intact at any width.
+   *
+   * Mobile (< 768px) is already fluid and untouched.
+   * On viewports wider than the design, we clamp at 1 so we never upscale.
+   * A small gutter keeps the design off the viewport edges.
+   *
+   * `--fluid-scale` is exposed so viewport-height-anchored elements (the
+   * hero, mainly) can divide by it — `100dvh` inside a zoomed subtree still
+   * resolves to real viewport pixels, so a raw `100dvh` layout height would
+   * shrink below the viewport after the zoom is applied.
+   */
+  :root {
+    --fluid-scale: 1;
+  }
+
+  @media (min-width: 768px) {
+    :root {
+      /* length / length in calc() reduces to a unitless number */
+      --fluid-scale: min(1, calc((100vw - 48px) / 1512px));
+    }
+  }
+
+  .fluid-desktop {
+    max-width: 1512px;
+    margin-inline: auto;
+  }
+
+  @media (min-width: 768px) {
+    .fluid-desktop {
+      zoom: var(--fluid-scale);
+    }
+  }
 }

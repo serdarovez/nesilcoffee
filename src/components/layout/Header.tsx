@@ -40,7 +40,7 @@ export function Header() {
   return (
     <>
       <header className="sticky top-0 z-40 w-full border-b border-[#E9E9E9] bg-white/50 backdrop-blur-[20px]">
-        <div className="mx-auto flex w-full max-w-378 items-center justify-between px-5 py-3 md:h-20.5 md:pl-8 md:pr-9">
+        <div className="fluid-desktop flex w-full items-center justify-between px-5 py-3 md:h-20.5 md:pl-8 md:pr-9">
           <div className="flex items-center gap-6 md:gap-109">
             <Logo />
             <nav className="hidden items-center gap-2.75 md:flex">
