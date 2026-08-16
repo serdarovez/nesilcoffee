@@ -19,10 +19,10 @@ export function HomeOfficeFormat() {
 
         <div className="flex flex-col gap-3 md:w-[618px] md:gap-3.5">
           <div className="flex flex-col gap-2 md:gap-1">
-            <span className="inline-flex w-fit items-center rounded-md bg-[#fbfbfb] px-2 py-1 text-xs font-bold text-black leading-[110%] md:rounded-lg md:p-2 md:text-lg">
+            <span className="eyebrow inline-flex w-fit items-center rounded-md bg-[#fbfbfb] px-2 py-1 text-black md:rounded-lg md:p-2">
               {t("pill")}
             </span>
-            <h2 className="font-display font-bold uppercase text-[#1a1a1a] text-[32px] leading-[100%] tracking-[-0.03em] md:text-[96px] md:leading-[97%] md:tracking-[-0.035em]">
+            <h2 className="display-2 text-[#1a1a1a]">
               {t.rich("title", {
                 a: (chunks) => <span className="text-[#d8d8d8]">{chunks}</span>,
               })}
@@ -30,15 +30,15 @@ export function HomeOfficeFormat() {
           </div>
 
           <div className="flex flex-col gap-3 md:w-127.25 md:gap-4">
-            <p className="text-sm font-light leading-[130%] text-[#1a1a1a] md:text-xl">
+            <p className="body-md text-[#1a1a1a]">
               {t("body1")}
             </p>
-            <p className="text-sm font-light leading-[130%] text-[#1a1a1a] md:text-xl">
+            <p className="body-md text-[#1a1a1a]">
               {t("body2")}
             </p>
             <Link
               href="/products"
-              className="mt-2 inline-flex w-full items-center justify-center rounded-lg bg-[#1a1a1a] px-8 py-3.5 text-base font-medium text-white leading-[110%] transition-colors hover:bg-[#2a1810] md:mt-0 md:py-4 md:text-lg"
+              className="body-md mt-2 inline-flex w-full items-center justify-center rounded-lg bg-[#1a1a1a] px-8 py-3.5 font-medium text-white transition-colors hover:bg-[#2a1810] md:mt-0 md:py-4"
             >
               {t("cta")}
             </Link>

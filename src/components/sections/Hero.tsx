@@ -37,12 +37,12 @@ export function Hero() {
 
         <div className="flex w-full flex-col gap-5 md:h-full md:min-w-0 md:flex-1 md:justify-center md:gap-[clamp(16px,3dvh,28px)]">
           <div className="flex flex-col gap-2.5 md:gap-[clamp(6px,1.4dvh,14px)]">
-            <h1 className="font-display font-bold uppercase text-[#1a1a1a] text-[36px] leading-[100%] tracking-[-0.03em] md:text-[clamp(48px,10.5dvh,116px)] md:leading-[97%] md:tracking-[-0.035em]">
+            <h1 className="display-1 text-[#1a1a1a]">
               {t.rich("title", {
                 a: (chunks) => <span className="text-[#d8d8d8]">{chunks}</span>,
               })}
             </h1>
-            <p className="text-base leading-[130%] text-[#848484] font-normal md:max-w-121.25 md:text-[clamp(14px,2.2dvh,22px)] md:leading-[110%]">
+            <p className="body-lg text-[#848484] md:max-w-121.25">
               {t("subtitle")}
             </p>
           </div>

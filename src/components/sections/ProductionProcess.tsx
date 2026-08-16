@@ -11,137 +11,39 @@ const BLOCKS = [
   { key: "certified", image: "/sections/production/stage-4.jpg" },
 ] as const;
 
+/**
+ * Scroll-driven pinned experience. The layout of a single stage is the
+ * same as the previous carousel (image on top, magazine-style title / body
+ * row below), but stage changes are driven by scroll position rather than
+ * arrow clicks.
+ *
+ * Mechanism:
+ *   - Outer runway is `BLOCKS.length * 100dvh` tall (four viewport
+ *     heights of scroll for four stages).
+ *   - Invisible markers sit at 0, 100, 200, 300 dvh inside the runway.
+ *     An IntersectionObserver with a "middle stripe" rootMargin fires as
+ *     each marker crosses viewport center, updating `active`.
+ *   - A `sticky top-0` viewport-sized container pins for the runway
+ *     duration and cross-fades between the four absolutely-layered stage
+ *     cards on active change.
+ */
 export function ProductionProcess() {
   const t = useTranslations("home.production");
-
-  return (
-    <section
-      id="production"
-      className="mx-auto w-full max-w-378 px-5 pt-16 md:px-9 md:pt-32"
-    >
-      <h2 className="font-display font-bold uppercase text-[#1a1a1a] text-[32px] leading-[100%] tracking-[-0.03em] md:max-w-219.75 md:text-[96px] md:leading-[97%] md:tracking-[-0.035em]">
-        {t.rich("sectionTitle", {
-          a: (chunks) => <span className="text-[#d8d8d8]">{chunks}</span>,
-        })}
-      </h2>
-
-      {/* ================= MOBILE ================= */}
-      <MobilePin t={t} />
-
-
-      {/* ================= DESKTOP (pinned scroll) ================= */}
-      <DesktopPin t={t} />
-    </section>
-  );
-}
-
-/** Mobile pinned-image experience — image stays fixed near the top while
- *  text stages scroll past below it, cross-fading the image on stage change. */
-function MobilePin({ t }: { t: ReturnType<typeof useTranslations> }) {
   const [active, setActive] = useState(0);
 
   useEffect(() => {
-    const blocks = document.querySelectorAll<HTMLElement>(
-      "[data-mobile-production-stage]",
+    const markers = document.querySelectorAll<HTMLElement>(
+      "[data-production-marker]",
     );
-    if (blocks.length === 0) return;
+    if (markers.length === 0) return;
 
-    // Trigger line sits at ~65% of viewport height — below the sticky image
-    // (which occupies the top ~42vh), inside the text reading area.
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             const idx = Number(
-              entry.target.getAttribute("data-mobile-production-stage"),
+              entry.target.getAttribute("data-production-marker"),
             );
-            setActive(idx);
-          }
-        });
-      },
-      { rootMargin: "-65% 0px -30% 0px", threshold: 0 },
-    );
-
-    blocks.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <div className="mt-6 md:hidden">
-      {/* Sticky image — pins below the header while the text below scrolls */}
-      <div className="sticky top-[72px] z-10 h-[42dvh] w-full overflow-hidden rounded-2xl bg-[#f2f0eb]">
-        {BLOCKS.map((b, i) => (
-          <div
-            key={b.key}
-            className={cn(
-              "absolute inset-0 transition-opacity duration-700 ease-out",
-              i === active ? "opacity-100" : "opacity-0",
-            )}
-          >
-            <BlurImage
-              src={b.image}
-              alt=""
-              fill
-              sizes="100vw"
-              className="object-cover"
-            />
-          </div>
-        ))}
-
-        <div className="absolute bottom-3 left-1/2 z-10 flex -translate-x-1/2 gap-1.5">
-          {BLOCKS.map((_, i) => (
-            <div
-              key={i}
-              className={cn(
-                "h-1 rounded-full bg-white transition-all duration-500 ease-out",
-                i === active ? "w-6 opacity-100" : "w-1 opacity-60",
-              )}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Text stages scroll beneath the pinned image */}
-      <div className="flex flex-col">
-        {BLOCKS.map((b, i) => (
-          <div
-            key={b.key}
-            data-mobile-production-stage={i}
-            className="flex min-h-[55dvh] flex-col justify-center gap-3 py-6"
-          >
-            <h3 className="text-2xl font-medium leading-[110%] text-[#1a1a1a]">
-              {t(`blocks.${b.key}.title`)}
-            </h3>
-            <p className="text-sm leading-[140%] text-[#444444]">
-              {t(`blocks.${b.key}.body1`)}
-            </p>
-            <p className="text-sm leading-[140%] text-[#444444]">
-              {t(`blocks.${b.key}.body2`)}
-            </p>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-/** Desktop pinned-scroll experience — hidden below md.
- *  Text column scrolls (each stage `min-h-dvh`), image column stays sticky
- *  and cross-fades between stage images via IntersectionObserver. */
-function DesktopPin({ t }: { t: ReturnType<typeof useTranslations> }) {
-  const [active, setActive] = useState(0);
-
-  useEffect(() => {
-    const blocks = document.querySelectorAll<HTMLElement>(
-      "[data-production-stage]",
-    );
-    if (blocks.length === 0) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const idx = Number(entry.target.getAttribute("data-production-stage"));
             setActive(idx);
           }
         });
@@ -149,65 +51,117 @@ function DesktopPin({ t }: { t: ReturnType<typeof useTranslations> }) {
       { rootMargin: "-50% 0px -50% 0px", threshold: 0 },
     );
 
-    blocks.forEach((el) => observer.observe(el));
+    markers.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
   }, []);
 
   return (
-    <div className="mt-8 hidden md:flex items-start justify-between gap-32">
-      <div className="w-125">
-        {BLOCKS.map((b, i) => (
+    <section id="production" className="relative w-full">
+      {/* Scroll runway — one viewport of scroll per stage. */}
+      <div
+        className="relative"
+        style={{ height: `${BLOCKS.length * 100}dvh` }}
+      >
+        {/* Invisible scroll markers, one per stage. */}
+        {BLOCKS.map((_, i) => (
           <div
-            key={b.key}
-            data-production-stage={i}
-            className="flex min-h-dvh flex-col justify-center gap-6"
-          >
-            <h3 className="text-5xl font-medium leading-[100%] text-[#1a1a1a]">
-              {t(`blocks.${b.key}.title`)}
-            </h3>
-            <p className="text-2xl leading-[130%] text-[#444444]">
-              {t(`blocks.${b.key}.body1`)}
-            </p>
-            <p className="text-2xl leading-[130%] text-[#444444]">
-              {t(`blocks.${b.key}.body2`)}
-            </p>
-          </div>
+            key={i}
+            data-production-marker={i}
+            className="pointer-events-none absolute inset-x-0 h-dvh"
+            style={{ top: `${i * 100}dvh` }}
+            aria-hidden
+          />
         ))}
-        <div aria-hidden className="h-[50dvh]" />
-      </div>
 
-      <div className="sticky top-24 flex h-[calc(100dvh-6rem)] w-209.5 shrink-0 items-center">
-        <div className="relative h-[80dvh] w-full overflow-hidden rounded-3xl bg-[#f2f0eb]">
-          {BLOCKS.map((b, i) => (
-            <div
-              key={b.key}
-              className={cn(
-                "absolute inset-0 transition-opacity duration-700 ease-out",
-                i === active ? "opacity-100" : "opacity-0",
-              )}
-            >
-              <BlurImage
-                src={b.image}
-                alt=""
-                fill
-                sizes="838px"
-                className="object-cover"
-              />
+        {/* Sticky viewport — pinned to viewport top for the runway
+         * duration. Height compensates for the outer .fluid-desktop zoom
+         * so the visual height matches the real viewport on md+. */}
+        <div className="sticky top-0 h-dvh w-full overflow-hidden md:h-[calc(100dvh/var(--fluid-scale,1))]">
+          <div className="mx-auto flex h-full w-full max-w-378 flex-col px-5 pt-[80px] pb-8 md:px-9 md:pt-[clamp(100px,14dvh,160px)] md:pb-[clamp(16px,3dvh,32px)]">
+            {/* Header — title + dot progress indicator */}
+            <div className="flex items-start justify-between gap-4">
+              <h2 className="display-2 text-[#1a1a1a] md:max-w-[62vw]">
+                {t.rich("sectionTitle", {
+                  a: (chunks) => (
+                    <span className="text-[#d8d8d8]">{chunks}</span>
+                  ),
+                })}
+              </h2>
+              <div className="flex shrink-0 items-center gap-2 pt-2 md:pt-[clamp(20px,3dvh,32px)]">
+                {BLOCKS.map((_, i) => (
+                  <div
+                    key={i}
+                    className={cn(
+                      "h-1.5 rounded-full transition-all duration-500 ease-out",
+                      i === active
+                        ? "w-8 bg-[#191919]"
+                        : "w-1.5 bg-[#191919]/20",
+                    )}
+                  />
+                ))}
+              </div>
             </div>
-          ))}
 
-          <div className="absolute bottom-6 left-1/2 z-10 flex -translate-x-1/2 gap-2">
-            {BLOCKS.map((_, i) => (
-              <div
-                key={i}
-                className={cn(
-                  "h-1.5 rounded-full bg-white transition-all duration-500 ease-out",
-                  i === active ? "w-8 opacity-100" : "w-1.5 opacity-60",
-                )}
-              />
-            ))}
+            {/* Stage stack — all layered, cross-fade on scroll-driven
+             * active change. */}
+            <div className="relative mt-6 flex-1 min-h-0 md:mt-[clamp(24px,4dvh,40px)]">
+              {BLOCKS.map((b, i) => (
+                <div
+                  key={b.key}
+                  className={cn(
+                    "absolute inset-0 transition-opacity duration-700 ease-out",
+                    i === active
+                      ? "opacity-100"
+                      : "pointer-events-none opacity-0",
+                  )}
+                  aria-hidden={i !== active}
+                >
+                  <StageCard
+                    title={t(`blocks.${b.key}.title`)}
+                    body1={t(`blocks.${b.key}.body1`)}
+                    body2={t(`blocks.${b.key}.body2`)}
+                    image={b.image}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
+      </div>
+    </section>
+  );
+}
+
+function StageCard({
+  title,
+  body1,
+  body2,
+  image,
+}: {
+  title: string;
+  body1: string;
+  body2: string;
+  image: string;
+}) {
+  return (
+    <div className="flex h-full flex-col gap-4 md:flex-row md:items-stretch md:gap-[clamp(24px,3vw,60px)]">
+      {/* Text column — vertically centered next to the image. */}
+      <div className="flex flex-col gap-3 md:w-[38%] md:shrink-0 md:justify-center md:gap-[clamp(14px,2dvh,20px)]">
+        <h3 className="display-3 text-[#1a1a1a]">{title}</h3>
+        <p className="body-md text-[#444444]">{body1}</p>
+        <p className="body-md text-[#444444]">{body2}</p>
+      </div>
+
+      {/* Image column — dominant right side, fills the sticky viewport
+       * height so the composition feels editorial rather than card-y. */}
+      <div className="relative aspect-[4/3] w-full min-h-0 overflow-hidden rounded-2xl bg-[#f2f0eb] md:aspect-auto md:h-full md:flex-1 md:rounded-3xl">
+        <BlurImage
+          src={image}
+          alt=""
+          fill
+          sizes="(max-width: 768px) 100vw, 62vw"
+          className="object-cover"
+        />
       </div>
     </div>
   );

@@ -60,7 +60,7 @@ export function ProductsCarousel() {
 
       {/* ================= MOBILE ================= */}
       <div className="md:hidden">
-        <h2 className="px-5 font-display font-bold uppercase text-[#1a1a1a] text-[32px] leading-[100%] tracking-[-0.03em]">
+        <h2 className="display-2 px-5 text-[#1a1a1a]">
           {t.rich("sectionTitle", {
             a: (chunks) => <span className="text-[#d8d8d8]">{chunks}</span>,
           })}
@@ -109,7 +109,7 @@ export function ProductsCarousel() {
        * image, text column and arrows all scale via dvh/vw clamps so the
        * whole composition fits any viewport height without needing zoom. */}
       <div className="relative mx-auto hidden h-full w-full max-w-[1512px] flex-col px-9 pt-[clamp(48px,9dvh,120px)] pb-[clamp(20px,3dvh,40px)] md:flex">
-        <h2 className="font-display font-bold uppercase text-black text-[clamp(56px,10dvh,96px)] leading-[97%] tracking-[-0.035em]">
+        <h2 className="display-2 text-black">
           {t.rich("sectionTitle", {
             a: (chunks) => <span className="text-[#d8d8d8]">{chunks}</span>,
           })}
@@ -178,14 +178,14 @@ function MobileSlide({
       </div>
       <div className="flex w-full flex-col gap-3">
         <div className="flex flex-col gap-1.5">
-          <span className="inline-flex w-fit items-center rounded-md bg-white px-1.5 py-0.5 text-[11px] font-bold text-[#444444]">
+          <span className="eyebrow inline-flex w-fit items-center rounded-md bg-white px-1.5 py-0.5 text-[#444444]">
             {t("tagline")}
           </span>
-          <h3 className="font-display text-4xl font-bold uppercase text-black leading-[96%] tracking-[-0.03em]">
+          <h3 className="display-1 text-black">
             {slide.name}
           </h3>
         </div>
-        <p className="whitespace-pre-line text-sm font-light leading-[130%] text-[#444444]">
+        <p className="body-md whitespace-pre-line text-[#444444]">
           {t.rich("description", {
             b: (chunks) => <span className="font-semibold">{chunks}</span>,
           })}
@@ -218,13 +218,13 @@ function SlideCard({ slide }: { slide: Slide }) {
       <div className="relative grid h-full grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] items-center gap-[clamp(24px,4vw,80px)] px-[clamp(40px,7vw,160px)]">
         {/* Text col */}
         <div className="flex min-w-0 flex-col gap-[clamp(10px,1.8dvh,18px)] pt-[clamp(24px,4dvh,60px)]">
-          <span className="inline-flex w-fit items-center rounded-lg bg-[#fbfbfb] px-1 py-[3px] text-[clamp(10px,1.2dvh,14px)] font-bold text-[#444444]">
+          <span className="eyebrow inline-flex w-fit items-center rounded-lg bg-[#fbfbfb] px-1 py-[3px] text-[#444444]">
             {t("tagline")}
           </span>
-          <h3 className="font-display font-bold uppercase text-black text-[clamp(64px,13.5dvh,128px)] leading-[96%] tracking-[-0.04em]">
+          <h3 className="display-1 text-black">
             {slide.name}
           </h3>
-          <p className="whitespace-pre-line text-[clamp(14px,2dvh,24px)] font-light leading-[110%] text-[#444444]">
+          <p className="body-lg whitespace-pre-line text-[#444444]">
             {t.rich("description", {
               b: (chunks) => <span className="font-semibold">{chunks}</span>,
             })}

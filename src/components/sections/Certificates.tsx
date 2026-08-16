@@ -17,19 +17,19 @@ export function Certificates() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.25 }}
       transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-      className="mx-auto w-full max-w-378 px-5 pt-16 md:px-9 md:pt-32"
+      className="mx-auto w-full max-w-378 px-5 pt-16 md:px-9 md:pt-[clamp(64px,10dvh,128px)]"
     >
-      <h2 className="font-display font-bold uppercase text-[#1a1a1a] text-[32px] leading-[100%] tracking-[-0.03em] md:text-[96px] md:leading-[97%] md:tracking-[-0.035em]">
+      <h2 className="display-2 text-[#1a1a1a]">
         {t("title")}
       </h2>
 
-      <div className="mt-6 flex flex-col gap-4 md:mt-15 md:flex-row md:gap-7.5">
+      <div className="mt-6 flex flex-col gap-4 md:mt-[clamp(32px,6dvh,60px)] md:flex-row md:gap-[clamp(16px,2vw,30px)]">
         {CERTS.map((c) => (
           <article
             key={c.key}
-            className="flex gap-3 rounded-2xl bg-[#fbfbfb] p-4 md:w-175.5 md:gap-3.75 md:rounded-3xl md:p-6"
+            className="flex gap-3 rounded-2xl bg-[#fbfbfb] p-4 md:min-w-0 md:flex-1 md:gap-[clamp(12px,1.4vw,20px)] md:rounded-3xl md:p-[clamp(16px,1.8vw,28px)]"
           >
-            <div className="relative h-32 w-24 shrink-0 overflow-hidden rounded-md md:h-83 md:w-58.75 md:rounded-lg">
+            <div className="relative h-32 w-24 shrink-0 overflow-hidden rounded-md md:aspect-[235/332] md:h-[clamp(220px,42dvh,332px)] md:w-auto md:rounded-lg">
               <Image
                 src={c.image}
                 alt={t(`items.${c.key}.name`)}
@@ -38,11 +38,11 @@ export function Certificates() {
                 className="object-cover"
               />
             </div>
-            <div className="flex flex-col justify-between gap-2 py-1 md:w-101 md:py-2">
-              <h3 className="whitespace-pre-line text-sm font-semibold leading-[120%] text-[#1a1a1a] md:text-3xl">
+            <div className="flex min-w-0 flex-col justify-between gap-2 py-1 md:flex-1 md:py-2">
+              <h3 className="heading-1 whitespace-pre-line text-[#1a1a1a]">
                 {t(`items.${c.key}.name`)}
               </h3>
-              <p className="text-xs font-normal leading-[130%] text-[#1a1a1a] md:text-xl md:leading-[110%]">
+              <p className="body-sm text-[#1a1a1a]">
                 {t(`items.${c.key}.desc`)}
               </p>
             </div>
