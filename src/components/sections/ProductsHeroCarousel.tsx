@@ -61,17 +61,14 @@ export function ProductsHeroCarousel() {
 
   return (
     <section className="relative w-full">
-      {/* Outer wrapper is full-viewport-width so backgrounds bleed edge-to-edge on
-          screens wider than the 1512 design. Only content is centered to 1512. */}
-      <div className="relative h-235.25 w-full overflow-hidden">
-        <div className="h-224.5 overflow-hidden" ref={emblaRef}>
+      <div className="relative h-[70vh] min-h-[500px] w-full overflow-hidden md:h-235.25 md:min-h-0">
+        <div className="h-[calc(70vh-2.5rem)] overflow-hidden md:h-224.5" ref={emblaRef}>
           <div className="flex h-full">
             {HERO_SLIDES.map((s) => (
               <div
                 key={s.id}
                 className="relative h-full w-full flex-[0_0_100%] min-w-0"
               >
-                {/* Background image — full slide width, edge to edge */}
                 <BlurImage
                   src={s.bg}
                   alt=""
@@ -80,27 +77,26 @@ export function ProductsHeroCarousel() {
                   sizes="100vw"
                   className="object-cover"
                 />
-                {/* Tint overlay per Figma */}
                 <div className={cn("absolute inset-0", s.overlay)} />
 
-                {/* Content — text left, product image right — capped to 1512 centered */}
-                <div className="relative z-10 mx-auto flex h-full w-full max-w-378 items-center justify-between px-9">
-                  <div className="flex w-171.5 max-w-[55%] flex-col gap-6">
-                    <h1 className="font-display font-bold uppercase text-white text-[64px] leading-[97%] tracking-[-0.035em]">
+                {/* Mobile: text stacked, no product image showing */}
+                <div className="relative z-10 mx-auto flex h-full w-full max-w-378 flex-col justify-end px-5 pb-16 md:flex-row md:items-center md:justify-between md:px-9 md:pb-0">
+                  <div className="flex flex-col gap-3 md:w-171.5 md:max-w-[55%] md:gap-6">
+                    <h1 className="font-display font-bold uppercase text-white text-[32px] leading-[100%] tracking-[-0.03em] md:text-[64px] md:leading-[97%] md:tracking-[-0.035em]">
                       {t(`slides.${s.id}.title`)}
                     </h1>
-                    <p className="text-2xl leading-[120%] text-white">
+                    <p className="text-sm leading-[130%] text-white md:text-2xl md:leading-[120%]">
                       {t(`slides.${s.id}.body`)}
                     </p>
                     <button
                       type="button"
-                      className="inline-flex w-fit items-center justify-center rounded-lg border border-white/40 bg-white/10 px-8 py-4 text-lg font-medium text-white backdrop-blur-md transition-colors hover:bg-white hover:text-[#1a1a1a]"
+                      className="mt-2 inline-flex w-full items-center justify-center rounded-lg border border-white/40 bg-white/10 px-8 py-3 text-base font-medium text-white backdrop-blur-md transition-colors hover:bg-white hover:text-[#1a1a1a] md:mt-0 md:w-fit md:py-4 md:text-lg"
                     >
                       {t("cta")}
                     </button>
                   </div>
                   <div
-                    className="pointer-events-none relative shrink-0"
+                    className="pointer-events-none relative hidden shrink-0 md:block"
                     style={{
                       width: `${s.productWidth}px`,
                       height: `${s.productHeight}px`,
@@ -121,8 +117,7 @@ export function ProductsHeroCarousel() {
           </div>
         </div>
 
-        {/* Dot indicators, centered below the slides */}
-        <div className="absolute bottom-6 left-1/2 flex -translate-x-1/2 gap-4">
+        <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-3 md:bottom-6 md:gap-4">
           {HERO_SLIDES.map((s, i) => (
             <button
               key={s.id}
@@ -130,7 +125,7 @@ export function ProductsHeroCarousel() {
               aria-label={`Slide ${i + 1}`}
               onClick={() => scrollTo(i)}
               className={cn(
-                "h-4 w-4 rounded-full transition-colors cursor-pointer",
+                "h-3 w-3 rounded-full transition-colors cursor-pointer md:h-4 md:w-4",
                 i === selected ? "bg-[#1d120d]" : "bg-[#dedede]",
               )}
             />

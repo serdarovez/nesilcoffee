@@ -66,55 +66,48 @@ const TEA: Product[] = [
 function ProductCard({ p }: { p: Product }) {
   const t = useTranslations("products");
   return (
-    <article className="flex w-115 flex-col gap-3 rounded-3xl bg-[#fbfbfb] p-6">
-      {/* Frame 211: header + image, gap 0 */}
+    <article className="flex w-full flex-col gap-3 rounded-2xl bg-[#fbfbfb] p-4 md:w-115 md:rounded-3xl md:p-6">
       <div className="flex flex-col gap-0">
-        {/* Frame 206: name + weight pill, gap 48 */}
-        <div className="flex items-start justify-between gap-12 pb-3">
-          <h3 className="font-display text-4xl font-bold uppercase text-[#1a1a1a] leading-[100%]">
+        <div className="flex items-start justify-between gap-4 pb-3 md:gap-12">
+          <h3 className="font-display text-2xl font-bold uppercase text-[#1a1a1a] leading-[100%] md:text-4xl">
             {p.name}
           </h3>
-          <span className="inline-flex items-center rounded-lg bg-white px-2 py-1 font-display text-xl font-bold text-[#444444]">
+          <span className="inline-flex items-center rounded-md bg-white px-2 py-0.5 font-display text-sm font-bold text-[#444444] md:rounded-lg md:py-1 md:text-xl">
             {p.weight}
           </span>
         </div>
-        {/* Product image: 413 × 335, radius 12 */}
-        <div className="relative h-83.75 w-full overflow-hidden rounded-xl">
+        <div className="relative h-56 w-full overflow-hidden rounded-lg md:h-83.75 md:rounded-xl">
           <Image
             src={p.image}
             alt={p.name}
             fill
-            sizes="413px"
+            sizes="(max-width: 768px) 100vw, 413px"
             className="object-contain"
           />
         </div>
       </div>
 
-      {/* Frame 225: composition pills, HORIZONTAL gap 16 */}
       {(p.arabica !== "—" || p.robusta !== "—") && (
-        <div className="flex flex-wrap gap-4">
+        <div className="flex flex-wrap gap-2 md:gap-4">
           {p.arabica !== "—" && (
-            <span className="inline-flex items-center rounded-lg bg-white px-2 py-2 text-base font-bold text-[#444444]">
+            <span className="inline-flex items-center rounded-md bg-white px-2 py-1.5 text-xs font-bold text-[#444444] md:rounded-lg md:py-2 md:text-base">
               {p.arabica} — арабика
             </span>
           )}
           {p.robusta !== "—" && (
-            <span className="inline-flex items-center rounded-lg bg-white px-2 py-2 text-base font-bold text-[#444444]">
+            <span className="inline-flex items-center rounded-md bg-white px-2 py-1.5 text-xs font-bold text-[#444444] md:rounded-lg md:py-2 md:text-base">
               {p.robusta} — робуста
             </span>
           )}
         </div>
       )}
 
-      {/* Frame 210: description + specs + button, gap 24 */}
-      <div className="mt-2 flex flex-col gap-6">
-        {/* Frame 209: description + specs, gap 16 */}
-        <div className="flex flex-col gap-4">
-          <p className="text-xl leading-[130%] text-[#444444]">
+      <div className="mt-1 flex flex-col gap-4 md:mt-2 md:gap-6">
+        <div className="flex flex-col gap-3 md:gap-4">
+          <p className="text-sm leading-[140%] text-[#444444] md:text-xl md:leading-[130%]">
             {t("cardDescription")}
           </p>
-          {/* Frame 207: specs row, gap 49 */}
-          <div className="flex items-start gap-12">
+          <div className="flex items-start gap-6 md:gap-12">
             <SpecCol label={t("roast")} value={p.roast} icon={RoastIcon} tight />
             <SpecCol label={t("acidity")} value={p.acidity} icon={AcidityIcon} />
           </div>
@@ -122,7 +115,7 @@ function ProductCard({ p }: { p: Product }) {
 
         <button
           type="button"
-          className="w-full rounded-lg bg-white py-4 text-lg font-medium text-[#444444] transition-colors hover:bg-[#191919] hover:text-white"
+          className="w-full rounded-lg bg-white py-3.5 text-base font-medium text-[#444444] transition-colors hover:bg-[#191919] hover:text-white md:py-4 md:text-lg"
         >
           {t("order")}
         </button>
@@ -144,7 +137,7 @@ function SpecCol({
 }) {
   return (
     <div className="flex flex-col gap-1">
-      <div className="text-lg font-normal text-[#464646] leading-[110%]">{label}</div>
+      <div className="text-sm font-normal text-[#464646] leading-[110%] md:text-lg">{label}</div>
       <div className={cn("flex items-center", tight ? "gap-0" : "gap-0.5")}>
         {[1, 2, 3, 4, 5].map((n) => (
           <Icon
@@ -166,11 +159,11 @@ function CategoryGrid({
 }) {
   const t = useTranslations("products.categories");
   return (
-    <section className="mx-auto w-full max-w-378 px-9 pt-20">
-      <h2 className="font-display font-bold uppercase text-[#1a1a1a] text-[96px] leading-[97%] tracking-[-0.035em]">
+    <section className="mx-auto w-full max-w-378 px-5 pt-12 md:px-9 md:pt-20">
+      <h2 className="font-display font-bold uppercase text-[#1a1a1a] text-[32px] leading-[100%] tracking-[-0.03em] md:text-[96px] md:leading-[97%] md:tracking-[-0.035em]">
         {t(titleKey)}
       </h2>
-      <div className="mt-12 flex flex-wrap gap-7.5">
+      <div className="mt-6 flex flex-col gap-4 md:mt-12 md:flex-row md:flex-wrap md:gap-7.5">
         {products.map((p) => (
           <ProductCard key={p.name} p={p} />
         ))}

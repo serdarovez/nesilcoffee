@@ -25,11 +25,11 @@ function InfoBlock({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col gap-3">
-      <div className="text-sm font-bold uppercase tracking-wide text-[#a6a4a4]">
+    <div className="flex flex-col gap-2 md:gap-3">
+      <div className="text-xs font-bold uppercase tracking-wide text-[#a6a4a4] md:text-sm">
         {label}
       </div>
-      <div className="flex flex-col gap-2 text-lg text-[#1a1a1a]">
+      <div className="flex flex-col gap-1.5 text-sm text-[#1a1a1a] md:gap-2 md:text-lg">
         {children}
       </div>
     </div>
@@ -42,21 +42,35 @@ function InfoBlock({
 function ContactsBlock() {
   const t = useTranslations("contacts.contact");
   return (
-    <section id="contacts" className="mx-auto w-full max-w-378 px-9 pt-20">
-      <div className="border-t border-[#dfdfdf] pt-10">
-        <div className="flex items-start justify-between gap-35.25">
-          {/* Left column */}
-          <div className="flex flex-1 flex-col gap-10">
-            <div className="flex flex-col gap-4">
-              <h2 className="font-display font-bold uppercase text-[#1a1a1a] text-[96px] leading-[97%] tracking-[-0.035em]">
+    <section id="contacts" className="mx-auto w-full max-w-378 px-5 pt-12 md:px-9 md:pt-20">
+      <div className="border-t border-[#dfdfdf] pt-6 md:pt-10">
+        <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between md:gap-35.25">
+          <div className="flex flex-col gap-6 md:flex-1 md:gap-10">
+            <div className="flex flex-col gap-3 md:gap-4">
+              <h2 className="font-display font-bold uppercase text-[#1a1a1a] text-[32px] leading-[100%] tracking-[-0.03em] md:text-[96px] md:leading-[97%] md:tracking-[-0.035em]">
                 {t("title")}
               </h2>
-              <p className="max-w-146.5 text-xl leading-[130%] text-[#1a1a1a]">
+              <p className="text-sm leading-[140%] text-[#1a1a1a] md:max-w-146.5 md:text-xl md:leading-[130%]">
                 {t("subtitle")}
               </p>
             </div>
 
-            <div className="grid max-w-146.5 grid-cols-2 gap-x-16 gap-y-10">
+            <div className="grid grid-cols-2 gap-x-6 gap-y-6 md:max-w-146.5 md:gap-x-16 md:gap-y-10">
+              <InfoBlock label={t("phoneLabel")}>
+                <a
+                  href="tel:+99313732969"
+                  className="hover:opacity-75 transition-opacity"
+                >
+                  +993 137 32969
+                </a>
+                <a
+                  href="tel:+99313732973"
+                  className="hover:opacity-75 transition-opacity"
+                >
+                  +993 137 32973
+                </a>
+              </InfoBlock>
+
               <InfoBlock label={t("socialsLabel")}>
                 <a
                   href="https://instagram.com/nesilcoffee"
@@ -76,19 +90,8 @@ function ContactsBlock() {
                 </a>
               </InfoBlock>
 
-              <InfoBlock label={t("phoneLabel")}>
-                <a
-                  href="tel:+99313732969"
-                  className="hover:opacity-75 transition-opacity"
-                >
-                  +993 137 32969
-                </a>
-                <a
-                  href="tel:+99313732973"
-                  className="hover:opacity-75 transition-opacity"
-                >
-                  +993 137 32973
-                </a>
+              <InfoBlock label={t("addressLabel")}>
+                <p className="leading-[130%]">{t("address")}</p>
               </InfoBlock>
 
               <InfoBlock label={t("messengerLabel")}>
@@ -98,7 +101,7 @@ function ContactsBlock() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 hover:opacity-75 transition-opacity"
                 >
-                  <InstagramIcon className="h-5 w-5" />
+                  <InstagramIcon className="h-4 w-4 md:h-5 md:w-5" />
                   +993 137 32969
                 </a>
                 <a
@@ -108,20 +111,15 @@ function ContactsBlock() {
                   info@nesilcoffee.com
                 </a>
               </InfoBlock>
-
-              <InfoBlock label={t("addressLabel")}>
-                <p className="leading-[130%]">{t("address")}</p>
-              </InfoBlock>
             </div>
           </div>
 
-          {/* Right column — "НАПИШИТЕ НАМ" form card */}
-          <div className="flex w-146.5 shrink-0 flex-col gap-6 rounded-3xl bg-[#fbfbfb] p-8">
+          <div className="flex w-full shrink-0 flex-col gap-4 rounded-2xl bg-[#fbfbfb] p-5 md:w-146.5 md:gap-6 md:rounded-3xl md:p-8">
             <div className="flex flex-col gap-2">
-              <h3 className="font-display text-4xl font-bold uppercase text-[#1a1a1a] leading-[100%]">
+              <h3 className="font-display text-2xl font-bold uppercase text-[#1a1a1a] leading-[100%] md:text-4xl">
                 {t("writeUs")}
               </h3>
-              <p className="text-base text-[#444444]">{t("writeUsBody")}</p>
+              <p className="text-sm text-[#444444] md:text-base">{t("writeUsBody")}</p>
             </div>
             <ContactForm />
           </div>
@@ -134,13 +132,13 @@ function ContactsBlock() {
 /** Map banner — full-width image with rounded-3xl (24px per Figma Rectangle 518). */
 function MapBanner() {
   return (
-    <section className="mx-auto w-full max-w-378 px-9 pt-10 pb-20">
-      <div className="relative h-126.25 w-full overflow-hidden rounded-3xl">
+    <section className="mx-auto w-full max-w-378 px-5 pt-8 pb-12 md:px-9 md:pt-10 md:pb-20">
+      <div className="relative h-[220px] w-full overflow-hidden rounded-2xl md:h-126.25 md:rounded-3xl">
         <BlurImage
           src="/sections/contacts/map-banner.png"
           alt=""
           fill
-          sizes="1440px"
+          sizes="(max-width: 768px) 100vw, 1440px"
           className="object-cover"
         />
       </div>

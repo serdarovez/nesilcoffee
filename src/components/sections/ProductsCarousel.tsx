@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { RoastIcon, AcidityIcon } from "@/components/icons/ProductSpecs";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { BlurImage } from "@/components/ui/BlurImage";
+import { Link } from "@/i18n/navigation";
 
 type Slide = {
   id: string;
@@ -26,6 +27,7 @@ const SLIDES: Slide[] = [
 
 export function ProductsCarousel() {
   const t = useTranslations("home.products");
+  const cta = useTranslations("cta");
 
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "center" });
   const [selected, setSelected] = useState(0);
@@ -41,27 +43,71 @@ export function ProductsCarousel() {
   }, [emblaApi]);
 
   return (
-    <section className="relative w-full overflow-hidden">
-      <BlurImage
-        src="/sections/home/hero-coffee-beans.png"
-        alt=""
-        width={1512}
-        height={933}
-        preload
-        className="pointer-events-none absolute inset-x-0 top-0 h-[933px] w-full object-cover blur-md"
-        aria-hidden
-      />
+    <section className="relative w-full overflow-hidden pt-16 md:pt-0">
+      {/* Blurred coffee-beans backdrop — desktop-only */}
+      <div className="hidden md:block">
+        <BlurImage
+          src="/sections/home/hero-coffee-beans.png"
+          alt=""
+          width={1512}
+          height={933}
+          preload
+          className="pointer-events-none absolute inset-x-0 top-0 h-[933px] w-full object-cover blur-md"
+          aria-hidden
+        />
+      </div>
 
-      {/* Section is 1512 x 951 in Figma (2048:6184) */}
-      <div className="relative mx-auto h-[951px] w-full max-w-[1512px]">
-        {/* Section title at absolute (36, 186) — 2-color per Figma */}
+      {/* ================= MOBILE ================= */}
+      <div className="md:hidden">
+        <h2 className="px-5 font-display font-bold uppercase text-[#1a1a1a] text-[32px] leading-[100%] tracking-[-0.03em]">
+          {t.rich("sectionTitle", {
+            a: (chunks) => <span className="text-[#d8d8d8]">{chunks}</span>,
+          })}
+        </h2>
+
+        <div className="mt-6 overflow-hidden" ref={emblaRef}>
+          <div className="flex">
+            {SLIDES.map((s) => (
+              <div key={s.id} className="flex-[0_0_100%] min-w-0 px-5">
+                <MobileSlide slide={s} t={t} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-6 flex items-center justify-center gap-2">
+          {SLIDES.map((_, i) => (
+            <button
+              key={i}
+              type="button"
+              aria-label={`Slide ${i + 1}`}
+              onClick={() => emblaApi?.scrollTo(i)}
+              className={cn(
+                "h-1.5 rounded-full transition-all cursor-pointer",
+                i === selected ? "w-6 bg-[#191919]" : "w-1.5 bg-[#191919]/20",
+              )}
+            />
+          ))}
+        </div>
+
+        <div className="mt-6 px-5">
+          <Link
+            href="/products"
+            className="inline-flex w-full items-center justify-center rounded-lg bg-[#191919] px-8 py-3.5 text-base font-medium text-white leading-[110%] transition-colors hover:bg-[#2a1810]"
+          >
+            {cta("viewProducts")}
+          </Link>
+        </div>
+      </div>
+
+      {/* ================= DESKTOP ================= */}
+      <div className="relative mx-auto hidden h-[951px] w-full max-w-[1512px] md:block">
         <h2 className="absolute left-9 top-[186px] font-display font-bold uppercase text-black text-[96px] leading-[97%] tracking-[-0.035em]">
           {t.rich("sectionTitle", {
             a: (chunks) => <span className="text-[#d8d8d8]">{chunks}</span>,
           })}
         </h2>
 
-        {/* Carousel at absolute top=148, full width, height 803 */}
         <div className="absolute inset-x-0 top-[148px] h-[803px]">
           <div className="overflow-hidden" ref={emblaRef}>
             <div className="flex">
@@ -73,8 +119,6 @@ export function ProductsCarousel() {
             </div>
           </div>
 
-          {/* Arrows — fixed, positioned per Figma Frame 175 (72,402) inside 722-tall slide.
-              Slide starts at y=33 within the 803 carousel, so arrows are at y=33+402=435 */}
           <button
             type="button"
             onClick={scrollPrev}
@@ -107,19 +151,57 @@ export function ProductsCarousel() {
   );
 }
 
+function MobileSlide({
+  slide,
+  t,
+}: {
+  slide: Slide;
+  t: ReturnType<typeof useTranslations>;
+}) {
+  return (
+    <div className="flex flex-col items-center gap-4 rounded-3xl bg-white/60 p-5 backdrop-blur">
+      <div className="relative h-64 w-full">
+        <Image
+          src={slide.image}
+          alt={slide.name}
+          fill
+          sizes="350px"
+          className="object-contain"
+        />
+      </div>
+      <div className="flex w-full flex-col gap-3">
+        <div className="flex flex-col gap-1.5">
+          <span className="inline-flex w-fit items-center rounded-md bg-white px-1.5 py-0.5 text-[11px] font-bold text-[#444444]">
+            {t("tagline")}
+          </span>
+          <h3 className="font-display text-4xl font-bold uppercase text-black leading-[96%] tracking-[-0.03em]">
+            {slide.name}
+          </h3>
+        </div>
+        <p className="whitespace-pre-line text-sm font-light leading-[130%] text-[#444444]">
+          {t.rich("description", {
+            b: (chunks) => <span className="font-semibold">{chunks}</span>,
+          })}
+        </p>
+        <div className="flex flex-col gap-2">
+          <SpecRow label={t("roast")} value={slide.roast} icon={RoastIcon} />
+          <SpecRow label={t("acidity")} value={slide.acidity} icon={AcidityIcon} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function SlideCard({ slide }: { slide: Slide }) {
   const t = useTranslations("home.products");
   return (
     <div className="relative h-[803px] w-full">
-      {/* Panel: 1440 × 559 at (36, 191). Beans behind are pre-blurred, so panel is
-          just a translucent white overlay for the frosted look. */}
       <div
         aria-hidden
         className="absolute left-9 top-[191px] h-[559px] w-[1440px] rounded-3xl bg-white/60"
         style={{ boxShadow: "0 20px 60px -15px rgba(0,0,0,0.15)" }}
       />
 
-      {/* Product image: 658 × 712 at (750, 38) — 750 x + 33 slide-y offset + 5 */}
       <div className="pointer-events-none absolute left-[750px] top-[38px] h-[712px] w-[658px]">
         <Image
           src={slide.image}
@@ -130,11 +212,8 @@ function SlideCard({ slide }: { slide: Slide }) {
         />
       </div>
 
-      {/* Text column: 513 wide at (218, 282) — 218 x + 33+249 y */}
       <div className="absolute left-[218px] top-[282px] flex w-[513px] flex-col gap-4">
-        {/* Frame 101 = tag + name + description, gap 8 */}
         <div className="flex flex-col gap-2">
-          {/* Frame 100 = tag + INtenso, gap 8, 443 wide */}
           <div className="flex flex-col gap-2">
             <span className="inline-flex w-fit items-center rounded-lg bg-[#fbfbfb] px-1 py-[3px] text-xs font-bold text-[#444444]">
               {t("tagline")}
@@ -143,29 +222,16 @@ function SlideCard({ slide }: { slide: Slide }) {
               {slide.name}
             </h3>
           </div>
-          {/* Description: mixed weight — Light + SemiBold run.
-              Using whitespace-pre-line to honor the \n\n paragraph break from Figma. */}
           <p className="whitespace-pre-line text-2xl font-light leading-[110%] text-[#444444]">
             {t.rich("description", {
-              b: (chunks) => (
-                <span className="font-semibold">{chunks}</span>
-              ),
+              b: (chunks) => <span className="font-semibold">{chunks}</span>,
             })}
           </p>
         </div>
 
-        {/* Frame 99 specs row: 503 wide, HORIZONTAL gap 14 */}
         <div className="flex items-center gap-3.5">
-          <SpecRow
-            label={t("roast")}
-            value={slide.roast}
-            icon={RoastIcon}
-          />
-          <SpecRow
-            label={t("acidity")}
-            value={slide.acidity}
-            icon={AcidityIcon}
-          />
+          <SpecRow label={t("roast")} value={slide.roast} icon={RoastIcon} />
+          <SpecRow label={t("acidity")} value={slide.acidity} icon={AcidityIcon} />
         </div>
       </div>
     </div>
@@ -183,7 +249,7 @@ function SpecRow({
 }) {
   return (
     <div className="flex items-center gap-2.5">
-      <span className="text-base font-semibold text-[#444444]">{label}</span>
+      <span className="text-sm font-semibold text-[#444444] md:text-base">{label}</span>
       <div className="flex items-center gap-0.5">
         {[1, 2, 3, 4, 5].map((n) => (
           <span

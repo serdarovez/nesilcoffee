@@ -30,9 +30,9 @@ export async function generateMetadata({
 function Welcome() {
   const t = useTranslations("about.welcome");
   return (
-    <section className="mx-auto w-full max-w-378 px-9 pt-8">
-      <div className="flex flex-col gap-10">
-        <div className="relative h-138.5 w-full overflow-hidden rounded-4xl bg-[#0f0f0f]">
+    <section className="mx-auto w-full max-w-378 px-5 pt-4 md:px-9 md:pt-8">
+      <div className="flex flex-col gap-6 md:gap-10">
+        <div className="relative h-[220px] w-full overflow-hidden rounded-2xl bg-[#0f0f0f] md:h-138.5 md:rounded-4xl">
           <video
             src="/sections/about/welcome-video.mp4"
             poster="/sections/about/welcome-hero.jpg"
@@ -44,17 +44,17 @@ function Welcome() {
             className="absolute inset-0 h-full w-full object-cover"
           />
         </div>
-        <div className="flex items-start justify-between gap-30.75">
-          <h1 className="w-213.25 font-display font-extrabold uppercase text-[#1a1a1a] text-[96px] leading-[97%] tracking-[-0.035em]">
+        <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between md:gap-30.75">
+          <h1 className="font-display font-extrabold uppercase text-[#1a1a1a] text-[32px] leading-[100%] tracking-[-0.03em] md:w-213.25 md:text-[96px] md:leading-[97%] md:tracking-[-0.035em]">
             {t.rich("title", {
               a: (chunks) => <span className="text-[#d8d8d8]">{chunks}</span>,
             })}
           </h1>
-          <div className="flex w-116 flex-col gap-6">
-            <h2 className="font-display font-bold uppercase text-[#1a1a1a] text-4xl leading-[100%]">
+          <div className="flex flex-col gap-4 md:w-116 md:gap-6">
+            <h2 className="font-display font-bold uppercase text-[#1a1a1a] text-xl leading-[110%] md:text-4xl md:leading-[100%]">
               {t("sideTitle")}
             </h2>
-            <p className="text-2xl leading-[120%] text-[#444444]">
+            <p className="text-sm leading-[140%] text-[#444444] md:text-2xl md:leading-[120%]">
               {t("sideBody")}
             </p>
           </div>
@@ -73,24 +73,24 @@ function Welcome() {
 function Geography() {
   const t = useTranslations("about.geography");
   return (
-    <section className="mx-auto w-full max-w-378 px-9 pt-32">
-      <h2 className="max-w-178.5 font-display font-bold uppercase text-[#1a1a1a] text-4xl leading-[110%] tracking-[-0.02em]">
+    <section className="mx-auto w-full max-w-378 px-5 pt-16 md:px-9 md:pt-32">
+      <h2 className="font-display font-bold uppercase text-[#1a1a1a] text-xl leading-[120%] tracking-[-0.02em] md:max-w-178.5 md:text-4xl md:leading-[110%]">
         {t("title")}
       </h2>
-      <div className="mt-8 flex items-start gap-12">
-        <div className="relative h-199.5 w-228.5 shrink-0 overflow-hidden rounded-[34px] bg-[#dedede]">
+      <div className="mt-6 flex flex-col gap-6 md:mt-8 md:flex-row md:items-start md:gap-12">
+        <div className="relative h-[240px] w-full shrink-0 overflow-hidden rounded-2xl bg-[#dedede] md:h-199.5 md:w-228.5 md:rounded-[34px]">
           <BlurImage
             src="/sections/about/hero-grid.jpg"
             alt=""
             fill
-            sizes="914px"
+            sizes="(max-width: 768px) 100vw, 914px"
             className="object-cover"
           />
         </div>
-        <div className="flex w-119.5 flex-col gap-6 pt-4">
-          <p className="text-2xl leading-[120%] text-[#444444]">{t("body1")}</p>
-          <p className="text-2xl leading-[120%] text-[#444444]">{t("body2")}</p>
-          <p className="text-2xl leading-[120%] text-[#444444]">{t("body3")}</p>
+        <div className="flex flex-col gap-4 md:w-119.5 md:gap-6 md:pt-4">
+          <p className="text-sm leading-[140%] text-[#444444] md:text-2xl md:leading-[120%]">{t("body1")}</p>
+          <p className="text-sm leading-[140%] text-[#444444] md:text-2xl md:leading-[120%]">{t("body2")}</p>
+          <p className="text-sm leading-[140%] text-[#444444] md:text-2xl md:leading-[120%]">{t("body3")}</p>
         </div>
       </div>
     </section>
@@ -116,23 +116,46 @@ const QUALITY_STEPS: QualityStep[] = [
 function QualityControl() {
   const t = useTranslations("about.quality");
   return (
-    <section className="mx-auto w-full max-w-378 px-9 pt-32">
-      <h2 className="max-w-238.25 font-display font-bold uppercase text-[#1a1a1a] text-[96px] leading-[97%] tracking-[-0.035em]">
+    <section className="mx-auto w-full max-w-378 px-5 pt-16 md:px-9 md:pt-32">
+      <h2 className="font-display font-bold uppercase text-[#1a1a1a] text-[32px] leading-[100%] tracking-[-0.03em] md:max-w-238.25 md:text-[96px] md:leading-[97%] md:tracking-[-0.035em]">
         {t.rich("title", {
           a: (chunks) => <span className="text-[#d8d8d8]">{chunks}</span>,
         })}
       </h2>
 
-      <div className="mt-12 flex gap-6">
-        {/* Timeline column (LEFT) */}
+      {/* Mobile: linear stack of steps */}
+      <div className="mt-6 flex flex-col gap-8 md:hidden">
+        {QUALITY_STEPS.map((s, i) => (
+          <article key={s.key} className="flex flex-col gap-4">
+            <div className="inline-flex w-fit items-center rounded-full bg-[#1a1a1a] px-3 py-1.5 font-display text-xs font-bold uppercase text-white leading-[100%]">
+              {t("stageLabel")} 0{i + 1}
+            </div>
+            <div className="relative h-[220px] w-full overflow-hidden rounded-xl bg-[#d9d9d9]">
+              <Image
+                src={s.image}
+                alt=""
+                fill
+                sizes="100vw"
+                className="object-cover"
+              />
+            </div>
+            <h3 className="font-display text-xl font-bold uppercase text-black leading-[110%]">
+              {t(`${s.key}.title`)}
+            </h3>
+            <p className="text-sm leading-[140%] text-[#444444]">
+              {t(`${s.key}.body`)}
+            </p>
+          </article>
+        ))}
+      </div>
+
+      {/* Desktop: timeline + content rows */}
+      <div className="mt-12 hidden gap-6 md:flex">
         <div className="relative w-25.5 shrink-0">
-          {/* 2px vertical line spanning the column height (excluding pill areas) */}
           <div className="absolute left-2 top-16 bottom-16 w-0.5 bg-[#d9d9d9]" />
-          {/* 3 stacked pills, one aligned to top of each content row */}
           <div className="flex h-full flex-col justify-between py-13">
             {QUALITY_STEPS.map((_, i) => (
               <div key={i} className="relative pl-8">
-                {/* Black dot on the line */}
                 <span className="absolute left-1 top-3.5 h-3 w-3 rounded-full bg-[#1a1a1a]" />
                 <div className="inline-flex h-10 items-center rounded-full bg-[#1a1a1a] px-4 font-display text-sm font-bold uppercase text-white leading-[100%]">
                   {t("stageLabel")} 0{i + 1}
@@ -142,7 +165,6 @@ function QualityControl() {
           </div>
         </div>
 
-        {/* Content rows column (RIGHT) */}
         <div className="flex flex-1 flex-col">
           {QUALITY_STEPS.map((s, i) => (
             <div
@@ -187,34 +209,34 @@ function QualityControl() {
 function Experts() {
   const t = useTranslations("about.experts");
   return (
-    <section className="mx-auto w-full max-w-378 px-9 pt-32">
-      <h2 className="max-w-177 font-display text-5xl font-medium leading-[100%] text-[#1a1a1a]">
+    <section className="mx-auto w-full max-w-378 px-5 pt-16 md:px-9 md:pt-32">
+      <h2 className="font-display text-xl font-medium leading-[120%] text-[#1a1a1a] md:max-w-177 md:text-5xl md:leading-[100%]">
         {t("title")}
       </h2>
-      <div className="mt-10 flex gap-6">
+      <div className="mt-6 flex flex-col gap-4 md:mt-10 md:flex-row md:gap-6">
         {(["one", "two"] as const).map((k) => (
           <article
             key={k}
-            className="flex w-177 flex-col gap-6 rounded-2xl bg-[#fbfbfb] p-7.5"
+            className="flex flex-col gap-4 rounded-2xl bg-[#fbfbfb] p-5 md:w-177 md:gap-6 md:p-7.5"
           >
-            <div className="flex items-center gap-7.5">
-              <div className="relative h-45 w-45 shrink-0 overflow-hidden rounded-lg bg-[#dedede]">
+            <div className="flex items-center gap-4 md:gap-7.5">
+              <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-lg bg-[#dedede] md:h-45 md:w-45">
                 <Image
                   src="/sections/about/expert-1.png"
                   alt={t(`${k}.name`)}
                   fill
-                  sizes="180px"
+                  sizes="(max-width: 768px) 96px, 180px"
                   className="object-cover"
                 />
               </div>
-              <div className="flex flex-col gap-2">
-                <div className="font-display text-3xl font-bold text-[#282828] leading-[100%]">
+              <div className="flex flex-col gap-1 md:gap-2">
+                <div className="font-display text-xl font-bold text-[#282828] leading-[110%] md:text-3xl md:leading-[100%]">
                   {t(`${k}.name`)}
                 </div>
-                <div className="text-lg text-[#909090]">{t(`${k}.role`)}</div>
+                <div className="text-sm text-[#909090] md:text-lg">{t(`${k}.role`)}</div>
               </div>
             </div>
-            <p className="text-2xl leading-[120%] text-[#282828]">
+            <p className="text-sm leading-[140%] text-[#282828] md:text-2xl md:leading-[120%]">
               {t(`${k}.quote`)}
             </p>
           </article>
