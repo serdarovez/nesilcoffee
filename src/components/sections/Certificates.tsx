@@ -17,9 +17,9 @@ export function Certificates() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.25 }}
       transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-      className="mx-auto w-full max-w-378 px-5 pt-16 md:px-9 md:pt-[clamp(64px,10dvh,128px)]"
+      className="container-x section-pt"
     >
-      <h2 className="display-2 text-[#1a1a1a]">
+      <h2 className="display-2 text-ink">
         {t("title")}
       </h2>
 
@@ -27,9 +27,9 @@ export function Certificates() {
         {CERTS.map((c) => (
           <article
             key={c.key}
-            className="flex gap-3 rounded-2xl bg-[#fbfbfb] p-4 md:min-w-0 md:flex-1 md:gap-[clamp(12px,1.4vw,20px)] md:rounded-3xl md:p-[clamp(16px,1.8vw,28px)]"
+            className="surface-card flex gap-3 p-4 md:min-w-0 md:flex-1 md:gap-[clamp(12px,1.4vw,20px)] md:p-[clamp(16px,1.8vw,28px)]"
           >
-            <div className="relative h-32 w-24 shrink-0 overflow-hidden rounded-md md:aspect-[235/332] md:h-[clamp(220px,42dvh,332px)] md:w-auto md:rounded-lg">
+            <div className="relative h-32 w-24 shrink-0 overflow-hidden rounded-md bg-paper-mute md:aspect-[235/332] md:h-[clamp(220px,42dvh,332px)] md:w-auto md:rounded-lg">
               <Image
                 src={c.image}
                 alt={t(`items.${c.key}.name`)}
@@ -39,10 +39,10 @@ export function Certificates() {
               />
             </div>
             <div className="flex min-w-0 flex-col justify-between gap-2 py-1 md:flex-1 md:py-2">
-              <h3 className="heading-1 whitespace-pre-line text-[#1a1a1a]">
+              <h3 className="heading-1 whitespace-pre-line text-ink">
                 {t(`items.${c.key}.name`)}
               </h3>
-              <p className="body-sm text-[#1a1a1a]">
+              <p className="body-sm text-ink">
                 {t(`items.${c.key}.desc`)}
               </p>
             </div>

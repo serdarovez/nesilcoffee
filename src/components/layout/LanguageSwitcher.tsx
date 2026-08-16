@@ -37,10 +37,10 @@ export function LanguageSwitcher() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="inline-flex items-center gap-1 rounded-full text-[#191919] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40">
+      <DropdownMenuTrigger className="inline-flex items-center gap-1 rounded-full text-paper-dark cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40">
         <span
           aria-hidden
-          className="inline-flex items-center justify-center h-4.5 w-4.5 rounded-full border border-[#d9d9d9] text-[11px] leading-none overflow-hidden"
+          className="inline-flex items-center justify-center h-4.5 w-4.5 rounded-full border border-line-strong text-[11px] leading-none overflow-hidden"
         >
           {localeFlag[locale]}
         </span>

@@ -60,9 +60,9 @@ export function ProductsCarousel() {
 
       {/* ================= MOBILE ================= */}
       <div className="md:hidden">
-        <h2 className="display-2 px-5 text-[#1a1a1a]">
+        <h2 className="display-2 px-5 text-ink">
           {t.rich("sectionTitle", {
-            a: (chunks) => <span className="text-[#d8d8d8]">{chunks}</span>,
+            a: (chunks) => <span className="text-quiet">{chunks}</span>,
           })}
         </h2>
 
@@ -85,7 +85,7 @@ export function ProductsCarousel() {
               onClick={() => emblaApi?.scrollTo(i)}
               className={cn(
                 "h-1.5 rounded-full transition-all cursor-pointer",
-                i === selected ? "w-6 bg-[#191919]" : "w-1.5 bg-[#191919]/20",
+                i === selected ? "w-6 bg-paper-dark" : "w-1.5 bg-paper-dark/20",
               )}
             />
           ))}
@@ -94,7 +94,7 @@ export function ProductsCarousel() {
         <div className="mt-6 px-5">
           <Link
             href="/products"
-            className="inline-flex w-full items-center justify-center rounded-lg bg-[#191919] px-8 py-3.5 text-base font-medium text-white leading-[110%] transition-colors hover:bg-[#2a1810]"
+            className="body-md inline-flex w-full items-center justify-center rounded-lg bg-paper-dark px-8 py-3.5 font-medium text-ink-inverse transition-colors hover:bg-brand-coffee"
           >
             {cta("viewProducts")}
           </Link>
@@ -108,10 +108,10 @@ export function ProductsCarousel() {
        * top and the carousel row filling the rest. The card bg, product
        * image, text column and arrows all scale via dvh/vw clamps so the
        * whole composition fits any viewport height without needing zoom. */}
-      <div className="relative mx-auto hidden h-full w-full max-w-[1512px] flex-col px-9 pt-[clamp(48px,9dvh,120px)] pb-[clamp(20px,3dvh,40px)] md:flex">
-        <h2 className="display-2 text-black">
+      <div className="relative mx-auto hidden h-full w-full max-w-(--site-max) flex-col px-9 pt-[clamp(48px,9dvh,120px)] pb-[clamp(20px,3dvh,40px)] md:flex">
+        <h2 className="display-2 text-ink">
           {t.rich("sectionTitle", {
-            a: (chunks) => <span className="text-[#d8d8d8]">{chunks}</span>,
+            a: (chunks) => <span className="text-quiet">{chunks}</span>,
           })}
         </h2>
 
@@ -133,8 +133,8 @@ export function ProductsCarousel() {
             className={cn(
               "absolute left-[clamp(20px,3vw,70px)] top-1/2 z-10 grid size-[clamp(48px,6dvh,70px)] -translate-y-1/2 place-items-center rounded-full transition-colors cursor-pointer",
               selected === 0
-                ? "bg-[#d8d8d8] text-[#1a1a1a] hover:bg-[#c0c0c0]"
-                : "bg-[#141414] text-white hover:bg-black",
+                ? "bg-quiet text-ink hover:bg-quiet-hover"
+                : "bg-paper-darker text-ink-inverse hover:bg-black",
             )}
           >
             <ArrowLeft className="size-[clamp(18px,2.4dvh,26px)]" />
@@ -146,8 +146,8 @@ export function ProductsCarousel() {
             className={cn(
               "absolute right-[clamp(20px,3vw,70px)] top-1/2 z-10 grid size-[clamp(48px,6dvh,70px)] -translate-y-1/2 place-items-center rounded-full transition-colors cursor-pointer",
               selected === SLIDES.length - 1
-                ? "bg-[#d8d8d8] text-[#1a1a1a] hover:bg-[#c0c0c0]"
-                : "bg-[#141414] text-white hover:bg-black",
+                ? "bg-quiet text-ink hover:bg-quiet-hover"
+                : "bg-paper-darker text-ink-inverse hover:bg-black",
             )}
           >
             <ArrowRight className="size-[clamp(18px,2.4dvh,26px)]" />
@@ -166,7 +166,7 @@ function MobileSlide({
   t: ReturnType<typeof useTranslations>;
 }) {
   return (
-    <div className="flex flex-col items-center gap-4 rounded-3xl bg-white/60 p-5 backdrop-blur">
+    <div className="flex flex-col items-center gap-4 rounded-3xl bg-paper/60 p-5 backdrop-blur">
       <div className="relative h-64 w-full">
         <Image
           src={slide.image}
@@ -178,14 +178,14 @@ function MobileSlide({
       </div>
       <div className="flex w-full flex-col gap-3">
         <div className="flex flex-col gap-1.5">
-          <span className="eyebrow inline-flex w-fit items-center rounded-md bg-white px-1.5 py-0.5 text-[#444444]">
+          <span className="eyebrow inline-flex w-fit items-center rounded-md bg-paper px-1.5 py-0.5 text-ink-2">
             {t("tagline")}
           </span>
-          <h3 className="display-1 text-black">
+          <h3 className="display-1 text-ink">
             {slide.name}
           </h3>
         </div>
-        <p className="body-md whitespace-pre-line text-[#444444]">
+        <p className="body-md whitespace-pre-line text-ink-2">
           {t.rich("description", {
             b: (chunks) => <span className="font-semibold">{chunks}</span>,
           })}
@@ -207,8 +207,8 @@ function SlideCard({ slide }: { slide: Slide }) {
        * can protrude above it, mirroring the Figma composition. */}
       <div
         aria-hidden
-        className="absolute inset-x-[clamp(0px,2vw,36px)] top-[20%] bottom-0 rounded-3xl bg-white/60"
-        style={{ boxShadow: "0 20px 60px -15px rgba(0,0,0,0.15)" }}
+        className="absolute inset-x-[clamp(0px,2vw,36px)] top-[20%] bottom-0 rounded-3xl bg-paper/60"
+        style={{ boxShadow: "var(--shadow-card)" }}
       />
 
       {/* Content grid: text on the left, image on the right. Text is
@@ -218,13 +218,13 @@ function SlideCard({ slide }: { slide: Slide }) {
       <div className="relative grid h-full grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] items-center gap-[clamp(24px,4vw,80px)] px-[clamp(40px,7vw,160px)]">
         {/* Text col */}
         <div className="flex min-w-0 flex-col gap-[clamp(10px,1.8dvh,18px)] pt-[clamp(24px,4dvh,60px)]">
-          <span className="eyebrow inline-flex w-fit items-center rounded-lg bg-[#fbfbfb] px-1 py-[3px] text-[#444444]">
+          <span className="eyebrow inline-flex w-fit items-center rounded-lg bg-paper-alt px-1 py-[3px] text-ink-2">
             {t("tagline")}
           </span>
-          <h3 className="display-1 text-black">
+          <h3 className="display-1 text-ink">
             {slide.name}
           </h3>
-          <p className="body-lg whitespace-pre-line text-[#444444]">
+          <p className="body-lg whitespace-pre-line text-ink-2">
             {t.rich("description", {
               b: (chunks) => <span className="font-semibold">{chunks}</span>,
             })}
@@ -263,14 +263,14 @@ function SpecRow({
 }) {
   return (
     <div className="flex items-center gap-2.5">
-      <span className="text-sm font-semibold text-[#444444] md:text-base">{label}</span>
+      <span className="body-sm font-semibold text-ink-2">{label}</span>
       <div className="flex items-center gap-0.5">
         {[1, 2, 3, 4, 5].map((n) => (
           <span
             key={n}
             className={cn(
               "inline-flex h-4 w-4 items-center justify-center",
-              n <= value ? "text-[#444444]" : "text-[#c9c9c9]",
+              n <= value ? "text-ink-2" : "text-ink-5",
             )}
           >
             <Icon className="h-4 w-4" />

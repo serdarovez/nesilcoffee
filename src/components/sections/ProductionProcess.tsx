@@ -80,10 +80,10 @@ export function ProductionProcess() {
           <div className="mx-auto flex h-full w-full max-w-378 flex-col px-5 pt-[80px] pb-8 md:px-9 md:pt-[clamp(100px,14dvh,160px)] md:pb-[clamp(16px,3dvh,32px)]">
             {/* Header — title + dot progress indicator */}
             <div className="flex items-start justify-between gap-4">
-              <h2 className="display-2 text-[#1a1a1a] md:max-w-[62vw]">
+              <h2 className="display-2 text-ink md:max-w-[62vw]">
                 {t.rich("sectionTitle", {
                   a: (chunks) => (
-                    <span className="text-[#d8d8d8]">{chunks}</span>
+                    <span className="text-quiet">{chunks}</span>
                   ),
                 })}
               </h2>
@@ -94,8 +94,8 @@ export function ProductionProcess() {
                     className={cn(
                       "h-1.5 rounded-full transition-all duration-500 ease-out",
                       i === active
-                        ? "w-8 bg-[#191919]"
-                        : "w-1.5 bg-[#191919]/20",
+                        ? "w-8 bg-paper-dark"
+                        : "w-1.5 bg-paper-dark/20",
                     )}
                   />
                 ))}
@@ -147,14 +147,14 @@ function StageCard({
     <div className="flex h-full flex-col gap-4 md:flex-row md:items-stretch md:gap-[clamp(24px,3vw,60px)]">
       {/* Text column — vertically centered next to the image. */}
       <div className="flex flex-col gap-3 md:w-[38%] md:shrink-0 md:justify-center md:gap-[clamp(14px,2dvh,20px)]">
-        <h3 className="display-3 text-[#1a1a1a]">{title}</h3>
-        <p className="body-md text-[#444444]">{body1}</p>
-        <p className="body-md text-[#444444]">{body2}</p>
+        <h3 className="display-3 text-ink">{title}</h3>
+        <p className="body-md text-ink-2">{body1}</p>
+        <p className="body-md text-ink-2">{body2}</p>
       </div>
 
       {/* Image column — dominant right side, fills the sticky viewport
        * height so the composition feels editorial rather than card-y. */}
-      <div className="relative aspect-[4/3] w-full min-h-0 overflow-hidden rounded-2xl bg-[#f2f0eb] md:aspect-auto md:h-full md:flex-1 md:rounded-3xl">
+      <div className="relative aspect-[4/3] w-full min-h-0 overflow-hidden rounded-2xl bg-paper-warm md:aspect-auto md:h-full md:flex-1 md:rounded-3xl">
         <BlurImage
           src={image}
           alt=""

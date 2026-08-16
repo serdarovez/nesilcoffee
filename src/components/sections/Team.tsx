@@ -2,8 +2,9 @@
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import useEmblaCarousel from "embla-carousel-react";
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ArrowLeft, ArrowRight, Phone, Mail } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const AVATAR = "/sections/team/adel-sakhieva.png";
 
@@ -17,79 +18,122 @@ export function Team() {
     email: string;
   }[];
 
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "start" });
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    loop: true,
+    align: "start",
+    // Slide widths are already viewport-fluid via CSS, so let Embla
+    // treat each card as its own snap point.
+    containScroll: "trimSnaps",
+  });
+  const [selected, setSelected] = useState(0);
+
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
 
+  useEffect(() => {
+    if (!emblaApi) return;
+    const onSelect = () => setSelected(emblaApi.selectedScrollSnap());
+    emblaApi.on("select", onSelect);
+    onSelect();
+  }, [emblaApi]);
+
   return (
-    <section id="team" className="mx-auto w-full max-w-378 px-5 pt-16 md:px-9 md:pt-[clamp(64px,10dvh,128px)]">
+    <section id="team" className="container-x section-pt">
+      {/* Header row — title + arrow navigation. */}
       <div className="flex items-center justify-between gap-4">
-        <h2 className="display-2 text-[#1a1a1a]">
-          {t("title")}
-        </h2>
-        <div className="flex gap-2 md:gap-[clamp(10px,1vw,16px)]">
+        <h2 className="display-2 text-ink">{t("title")}</h2>
+        <div className="flex shrink-0 gap-2 md:gap-[clamp(10px,1vw,16px)]">
           <button
             type="button"
             onClick={scrollPrev}
-            aria-label="Previous"
-            className="grid h-10 w-10 place-items-center rounded-full bg-[#d8d8d8] text-[#1a1a1a] transition-colors hover:bg-[#c0c0c0] cursor-pointer md:size-[clamp(40px,3.2vw,48px)]"
+            aria-label="Previous member"
+            className="grid h-10 w-10 place-items-center rounded-full bg-quiet text-ink transition-colors hover:bg-quiet-hover cursor-pointer md:size-[clamp(40px,3.2vw,48px)]"
           >
             <ArrowLeft className="h-4 w-4 md:size-[clamp(16px,1.4vw,20px)]" />
           </button>
           <button
             type="button"
             onClick={scrollNext}
-            aria-label="Next"
-            className="grid h-10 w-10 place-items-center rounded-full bg-[#141414] text-white transition-colors hover:bg-black cursor-pointer md:size-[clamp(40px,3.2vw,48px)]"
+            aria-label="Next member"
+            className="grid h-10 w-10 place-items-center rounded-full bg-paper-darker text-ink-inverse transition-colors hover:bg-black cursor-pointer md:size-[clamp(40px,3.2vw,48px)]"
           >
             <ArrowRight className="h-4 w-4 md:size-[clamp(16px,1.4vw,20px)]" />
           </button>
         </div>
       </div>
 
-      <div className="mt-6 overflow-hidden md:mt-[clamp(24px,4dvh,40px)]" ref={emblaRef}>
-        <div className="flex gap-4 md:gap-[clamp(16px,2vw,32px)]">
+      {/* Carousel — compact cards. Fluid widths still, just calibrated
+       * for a denser 4–5 cards per view (was 3–4) so avatars don't
+       * dominate the viewport height:
+       *   mobile: ~1.15 cards visible (peek hints swipe)
+       *   desktop: cards scale via `clamp(220px, 20vw, 300px)`, giving
+       *     ~4 cards at 1200px, ~5 at 1920px. */}
+      <div
+        className="mt-6 overflow-hidden md:mt-[clamp(24px,4dvh,40px)]"
+        ref={emblaRef}
+      >
+        <div className="flex gap-3 md:gap-[clamp(12px,1.2vw,20px)]">
           {members.map((m, i) => (
             <article
               key={i}
-              className="flex flex-[0_0_100%] min-w-0 flex-col rounded-3xl bg-[#fbfbfb] p-4 md:flex-[0_0_clamp(320px,30vw,438px)] md:rounded-4xl md:p-[clamp(16px,1.8vw,24px)]"
+              className="surface-card flex min-w-0 flex-[0_0_82%] flex-col p-3 md:flex-[0_0_clamp(220px,20vw,300px)] md:p-[clamp(12px,1.1vw,16px)]"
             >
-              <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-[#dedede] md:rounded-3xl">
+              {/* Avatar — square, fills card width. */}
+              <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-paper-mute md:rounded-2xl">
                 <Image
                   src={AVATAR}
                   alt={m.name}
                   fill
-                  sizes="(max-width: 768px) 100vw, 30vw"
+                  sizes="(max-width: 768px) 82vw, 20vw"
                   className="object-cover"
                 />
               </div>
-              <div className="mt-3 flex flex-col gap-1.5 md:mt-[clamp(10px,1.5dvh,14px)] md:gap-2">
-                <div className="eyebrow text-[#a6a4a4]">
-                  {m.role}
-                </div>
-                <div className="heading-1 text-[#1a1a1a]">
-                  {m.name}
-                </div>
+
+              {/* Identity block — name on top, role below (matches the
+               * spec: heading first, then supporting label). */}
+              <div className="mt-3 flex flex-col gap-1 md:mt-[clamp(10px,1.2dvh,14px)]">
+                <div className="heading-2 text-ink">{m.name}</div>
+                <div className="eyebrow text-ink-4">{m.role}</div>
               </div>
-              <div className="body-sm mt-4 flex flex-col gap-2 border-t border-[#d9d9d9] pt-3 uppercase text-[#a6a4a4] md:mt-[clamp(16px,2.5dvh,24px)] md:pt-4">
+
+              {/* Contact rows — hairline separator, secondary color,
+               * tighter than before to match the smaller card. */}
+              <div className="body-sm mt-3 flex flex-col gap-1.5 border-t border-line-strong pt-3 uppercase text-ink-4 md:mt-[clamp(12px,1.8dvh,18px)] md:pt-3">
                 <a
                   href={`tel:${m.phone}`}
-                  className="inline-flex items-center gap-1.5 hover:text-[#1a1a1a] transition-colors"
+                  className="inline-flex items-center gap-1.5 hover:text-ink transition-colors"
                 >
-                  <Phone className="h-4 w-4" />
+                  <Phone className="h-3.5 w-3.5 shrink-0" />
                   {m.phone}
                 </a>
                 <a
                   href={`mailto:${m.email}`}
-                  className="inline-flex items-center gap-1.5 normal-case hover:text-[#1a1a1a] transition-colors"
+                  className="inline-flex items-center gap-1.5 normal-case hover:text-ink transition-colors"
                 >
-                  <Mail className="h-4 w-4" />
+                  <Mail className="h-3.5 w-3.5 shrink-0" />
                   {m.email}
                 </a>
               </div>
             </article>
           ))}
         </div>
+      </div>
+
+      {/* Dot progress indicator — mirrors ProductionProcess so all
+       * carousels on the page share the same feedback pattern. */}
+      <div className="mt-6 flex items-center justify-center gap-2 md:mt-[clamp(20px,3dvh,32px)]">
+        {members.map((_, i) => (
+          <button
+            key={i}
+            type="button"
+            aria-label={`Go to member ${i + 1}`}
+            onClick={() => emblaApi?.scrollTo(i)}
+            className={cn(
+              "h-1.5 rounded-full transition-all cursor-pointer",
+              i === selected ? "w-6 bg-paper-dark" : "w-1.5 bg-paper-dark/20",
+            )}
+          />
+        ))}
       </div>
     </section>
   );

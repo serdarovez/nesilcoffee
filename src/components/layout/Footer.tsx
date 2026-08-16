@@ -14,7 +14,7 @@ export function Footer() {
   const t = useTranslations();
 
   return (
-    <footer className="w-full bg-[#191919] text-white">
+    <footer className="w-full bg-paper-dark text-ink-inverse">
       <div className="fluid-desktop flex w-full flex-col gap-6 px-5 py-8 md:gap-5 md:pl-9 md:pr-7.5 md:py-10">
         <Image
           src="/sections/footer-icon.png"
@@ -33,7 +33,7 @@ export function Footer() {
                   <Link
                     key={item.key}
                     href={item.href}
-                    className={`text-sm leading-[110%] uppercase text-white transition-opacity hover:opacity-80 md:text-lg ${
+                    className={`text-sm leading-[110%] uppercase text-ink-inverse transition-opacity hover:opacity-80 md:text-lg ${
                       item.bold ? "font-extrabold" : "font-normal"
                     }`}
                   >
@@ -44,10 +44,10 @@ export function Footer() {
 
               <div className="flex flex-col gap-5 md:gap-7">
                 <div className="flex flex-col gap-2">
-                  <div className="text-sm font-bold text-white md:text-lg">
+                  <div className="text-sm font-bold text-ink-inverse md:text-lg">
                     {t("footer.phoneLabel").toUpperCase()}
                   </div>
-                  <div className="flex flex-col text-sm font-normal text-white md:text-lg">
+                  <div className="flex flex-col text-sm font-normal text-ink-inverse md:text-lg">
                     <a
                       href="tel:+99313732969"
                       className="hover:opacity-80 transition-opacity"
@@ -64,12 +64,12 @@ export function Footer() {
                 </div>
 
                 <div className="flex flex-col gap-2">
-                  <div className="text-sm font-bold text-white md:text-lg">
+                  <div className="text-sm font-bold text-ink-inverse md:text-lg">
                     {t("footer.emailLabel").toUpperCase()}
                   </div>
                   <a
                     href="mailto:info@nesilcoffee.com"
-                    className="text-sm font-normal text-white hover:opacity-80 transition-opacity md:text-lg"
+                    className="text-sm font-normal text-ink-inverse hover:opacity-80 transition-opacity md:text-lg"
                   >
                     info@nesilcoffee.com
                   </a>
@@ -78,17 +78,17 @@ export function Footer() {
             </div>
 
             <div className="flex flex-col gap-3 md:w-59.75 md:gap-5.25">
-              <div className="text-sm font-bold text-white md:text-lg">
+              <div className="text-sm font-bold text-ink-inverse md:text-lg">
                 {t("footer.addressLabel").toUpperCase()}
               </div>
-              <p className="text-sm font-normal leading-[130%] text-white md:text-lg">
+              <p className="text-sm font-normal leading-[130%] text-ink-inverse md:text-lg">
                 {t("contacts.contact.address")}
               </p>
             </div>
           </div>
 
           <div className="flex flex-col gap-3 md:w-45 md:gap-5.25">
-            <div className="text-sm font-bold text-white md:text-lg">
+            <div className="text-sm font-bold text-ink-inverse md:text-lg">
               {t("footer.socialsLabel").toUpperCase()}
             </div>
             <div className="flex flex-col gap-2.5 md:gap-3.25">
@@ -96,7 +96,7 @@ export function Footer() {
                 href="https://tiktok.com/@nesilcoffee"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-sm font-normal text-white hover:opacity-80 transition-opacity md:text-lg"
+                className="inline-flex items-center gap-1.5 text-sm font-normal text-ink-inverse hover:opacity-80 transition-opacity md:text-lg"
               >
                 <TikTokIcon className="h-4 w-4 shrink-0 md:h-4.5 md:w-4.5" />
                 @nesilcoffee
@@ -105,7 +105,7 @@ export function Footer() {
                 href="https://instagram.com/nesilcoffee"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-sm font-normal text-white hover:opacity-80 transition-opacity md:text-lg"
+                className="inline-flex items-center gap-1.5 text-sm font-normal text-ink-inverse hover:opacity-80 transition-opacity md:text-lg"
               >
                 <InstagramIcon className="h-4 w-4 shrink-0 md:h-5 md:w-5" />
                 @nesilcoffee

@@ -39,7 +39,7 @@ export function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-40 w-full border-b border-[#E9E9E9] bg-white/50 backdrop-blur-[20px]">
+      <header className="sticky top-0 z-40 w-full border-b border-line bg-white/50 backdrop-blur-[20px]">
         <div className="fluid-desktop flex w-full items-center justify-between px-5 py-3 md:h-20.5 md:pl-8 md:pr-9">
           <div className="flex items-center gap-6 md:gap-109">
             <Logo />
@@ -56,8 +56,8 @@ export function Header() {
                     className={cn(
                       "px-0.5 py-0.5 text-[20px] leading-[110%] uppercase transition-colors",
                       active
-                        ? "text-[#191919] font-extrabold border-b border-[#191919]"
-                        : "text-[#848484] font-normal hover:text-[#191919]",
+                        ? "text-paper-dark font-extrabold border-b border-paper-dark"
+                        : "text-ink-3 font-normal hover:text-paper-dark",
                     )}
                   >
                     {t(item.key)}
@@ -74,7 +74,7 @@ export function Header() {
             type="button"
             onClick={() => setOpen(true)}
             aria-label="Open menu"
-            className="grid h-11 w-11 place-items-center text-[#1a1a1a] md:hidden"
+            className="grid h-11 w-11 place-items-center text-ink md:hidden"
           >
             <Menu className="h-7 w-7" strokeWidth={1.75} />
           </button>
@@ -84,7 +84,7 @@ export function Header() {
       {/* Mobile drawer */}
       <div
         className={cn(
-          "fixed inset-0 z-50 flex flex-col bg-[#191919] text-white transition-opacity duration-300 md:hidden",
+          "fixed inset-0 z-50 flex flex-col bg-paper-dark text-ink-inverse transition-opacity duration-300 md:hidden",
           open
             ? "pointer-events-auto opacity-100"
             : "pointer-events-none opacity-0",
@@ -92,14 +92,14 @@ export function Header() {
         aria-hidden={!open}
       >
         <div className="flex items-center justify-between px-5 py-3">
-          <div className="text-white">
+          <div className="text-ink-inverse">
             <Logo />
           </div>
           <button
             type="button"
             onClick={() => setOpen(false)}
             aria-label="Close menu"
-            className="grid h-11 w-11 place-items-center text-white"
+            className="grid h-11 w-11 place-items-center text-ink-inverse"
           >
             <X className="h-7 w-7" strokeWidth={1.75} />
           </button>
@@ -127,7 +127,7 @@ export function Header() {
             })}
           </nav>
 
-          <div className="h-px w-full bg-white/15" />
+          <div className="h-px w-full bg-ink-inverse/15" />
 
           <div className="flex flex-col gap-6">
             <InfoBlock label={tFooter("phoneLabel")}>
@@ -184,8 +184,8 @@ function InfoBlock({
 }) {
   return (
     <div className="flex flex-col gap-2">
-      <div className="text-sm font-bold uppercase text-white">{label}</div>
-      <div className="flex flex-col gap-1 text-base font-normal text-white">
+      <div className="text-sm font-bold uppercase text-ink-inverse">{label}</div>
+      <div className="flex flex-col gap-1 text-base font-normal text-ink-inverse">
         {children}
       </div>
     </div>

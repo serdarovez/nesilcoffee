@@ -2,105 +2,185 @@
 @import "tw-animate-css";
 @import "lenis/dist/lenis.css";
 
-/*
- * Nesilcoffee design tokens
- * Placeholder palette — refine when Figma tokens land.
- */
+/* ============================================================
+ * DESIGN TOKENS — single source of truth
+ *
+ * Every color, radius, spacing, and shadow the site uses lives
+ * here. Components consume them via the Tailwind classes that
+ * the @theme block below registers (text-ink, bg-paper-alt, …)
+ * — no raw hex codes or magic pixel values in JSX.
+ * ============================================================ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* ---- Text colors ---------------------------------------- */
+  --color-ink:              #1a1a1a;   /* headings, primary text */
+  --color-ink-2:            #444444;   /* paragraphs, secondary */
+  --color-ink-3:            #848484;   /* subtitles, muted */
+  --color-ink-4:            #a6a4a4;   /* labels, quiet chrome */
+  --color-ink-5:            #cdcdcd;   /* disabled, near-invisible */
+  --color-ink-placeholder:  #999ead;   /* form placeholders */
+  --color-ink-inverse:      #ffffff;   /* on dark surfaces */
+  --color-ink-inverse-2:    #cdcdcd;   /* muted on dark */
 
-  --surface: #fafafa;
-  --surface-dark: #0f0f0f;
-  --surface-dark-foreground: #f5efe6;
+  /* ---- Surface colors ------------------------------------- */
+  --color-paper:            #ffffff;   /* page bg */
+  --color-paper-alt:        #fbfbfb;   /* card bg */
+  --color-paper-warm:       #f2f0eb;   /* cream / production tile */
+  --color-paper-mute:       #dedede;   /* image placeholder */
+  --color-paper-dark:       #191919;   /* dark bar (header dark, buttons) */
+  --color-paper-darker:     #141414;   /* darker button */
+  --color-paper-charcoal:   #282828;   /* charcoal card */
 
-  --muted: #f4f4f5;
-  --muted-foreground: #71717a;
+  /* ---- Chrome (borders, indicator colors) ----------------- */
+  --color-line:             #e9e9e9;   /* subtle divider */
+  --color-line-strong:      #d9d9d9;   /* card border, hairline */
 
-  --border: #e4e4e7;
-  --input: #e4e4e7;
-  --ring: #171717;
+  --color-quiet:            #d8d8d8;   /* light gray span in headings */
+  --color-quiet-hover:      #c0c0c0;   /* hover for quiet */
 
-  --brand-cream: #f5efe6;
-  --brand-coffee: #2a1810;
-  --brand-espresso: #0f0f0f;
-  --brand-gold: #c7a76a;
-  --brand-forest: #14392e;
+  /* ---- Brand palette (from Figma) ------------------------- */
+  --color-brand-cream:      #f5efe6;
+  --color-brand-coffee:     #2a1810;   /* button hover, brand ink */
+  --color-brand-espresso:   #0f0f0f;
+  --color-brand-gold:       #c7a76a;
+  --color-brand-forest:     #14392e;
 
-  --primary: #171717;
-  --primary-foreground: #fafafa;
+  /* ---- Status --------------------------------------------- */
+  --color-success:          #1fa044;
+  --color-success-tint:     #dcf5e0;
+  --color-danger:           #ef4444;
 
-  --secondary: #f4f4f5;
-  --secondary-foreground: #171717;
+  /* ---- Radii ---------------------------------------------- */
+  --radius-xs:              4px;
+  --radius-sm:              6px;
+  --radius-md:              8px;
+  --radius-lg:              12px;
+  --radius-xl:              16px;
+  --radius-2xl:             20px;
+  --radius-3xl:             24px;
+  --radius-4xl:             32px;
+  --radius-full:            9999px;
 
-  --accent: var(--brand-gold);
-  --accent-foreground: #171717;
+  /* ---- Shadows -------------------------------------------- */
+  --shadow-card:            0 20px 60px -15px rgba(0, 0, 0, 0.15);
+  --shadow-card-sm:         0 8px 24px -8px rgba(0, 0, 0, 0.08);
 
-  --destructive: #ef4444;
-  --destructive-foreground: #fafafa;
+  /* ---- Layout constants ----------------------------------- */
+  --site-max:               1512px;    /* Figma design frame width */
+  --site-header-h:          82px;      /* sticky header design height */
 
-  --card: #ffffff;
-  --card-foreground: #171717;
+  /* ---- Fluid rhythm --------------------------------------- */
+  /* Section vertical padding: mobile 4rem → desktop clamp. */
+  --space-section-y:        clamp(4rem, 10dvh, 8rem);
+  /* Horizontal page gutter. */
+  --space-container-x:      1.25rem;   /* mobile */
+  --space-container-x-md:   clamp(1.25rem, 3vw, 2.25rem);
+  /* Reusable fluid gaps. */
+  --gap-xs:                 clamp(0.5rem, 1vw, 0.75rem);
+  --gap-sm:                 clamp(0.75rem, 1.4vw, 1.25rem);
+  --gap-md:                 clamp(1rem, 2vw, 1.5rem);
+  --gap-lg:                 clamp(1.5rem, 3vw, 2.5rem);
+  --gap-xl:                 clamp(2rem, 4vw, 3.75rem);
+  --gap-2xl:                clamp(2.5rem, 5vw, 5rem);
 
-  --radius: 0.5rem;
+  /* ---- Fluid width scale (used by .fluid-desktop zoom) ---- */
+  --fluid-scale:            1;
 }
 
+/* Fluid scale kicks in at md+: shrinks the 1512-design layout so
+ * a windowed Chrome at 1200px still fits without overflow. */
+@media (min-width: 768px) {
+  :root {
+    --fluid-scale: min(1, calc((100vw - 48px) / 1512px));
+  }
+}
+
+/* ============================================================
+ * TAILWIND THEME
+ * Wire tokens up so Tailwind emits utility classes for them:
+ *   text-ink, bg-paper-alt, border-line, rounded-3xl, …
+ * ============================================================ */
+
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-
-  --color-surface: var(--surface);
-  --color-surface-dark: var(--surface-dark);
-  --color-surface-dark-foreground: var(--surface-dark-foreground);
-
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-
-  --color-brand-cream: var(--brand-cream);
-  --color-brand-coffee: var(--brand-coffee);
-  --color-brand-espresso: var(--brand-espresso);
-  --color-brand-gold: var(--brand-gold);
-  --color-brand-forest: var(--brand-forest);
-
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-
+  /* Fonts (set on <html> by next/font in layout.tsx) */
   --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-display), var(--font-sans), ui-sans-serif, system-ui, sans-serif;
 
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
+  /* Text colors → text-ink, text-ink-2, … */
+  --color-ink:              var(--color-ink);
+  --color-ink-2:            var(--color-ink-2);
+  --color-ink-3:            var(--color-ink-3);
+  --color-ink-4:            var(--color-ink-4);
+  --color-ink-5:            var(--color-ink-5);
+  --color-ink-placeholder:  var(--color-ink-placeholder);
+  --color-ink-inverse:      var(--color-ink-inverse);
+  --color-ink-inverse-2:    var(--color-ink-inverse-2);
 
-  --container-8xl: 96rem;
+  /* Surface colors → bg-paper, bg-paper-alt, … */
+  --color-paper:            var(--color-paper);
+  --color-paper-alt:        var(--color-paper-alt);
+  --color-paper-warm:       var(--color-paper-warm);
+  --color-paper-mute:       var(--color-paper-mute);
+  --color-paper-dark:       var(--color-paper-dark);
+  --color-paper-darker:     var(--color-paper-darker);
+  --color-paper-charcoal:   var(--color-paper-charcoal);
+
+  /* Chrome colors */
+  --color-line:             var(--color-line);
+  --color-line-strong:      var(--color-line-strong);
+  --color-quiet:            var(--color-quiet);
+  --color-quiet-hover:      var(--color-quiet-hover);
+
+  /* Brand */
+  --color-brand-cream:      var(--color-brand-cream);
+  --color-brand-coffee:     var(--color-brand-coffee);
+  --color-brand-espresso:   var(--color-brand-espresso);
+  --color-brand-gold:       var(--color-brand-gold);
+  --color-brand-forest:     var(--color-brand-forest);
+
+  /* Status */
+  --color-success:          var(--color-success);
+  --color-success-tint:     var(--color-success-tint);
+  --color-danger:           var(--color-danger);
+
+  /* Radii → rounded-md, rounded-2xl, … */
+  --radius-xs:              var(--radius-xs);
+  --radius-sm:              var(--radius-sm);
+  --radius-md:              var(--radius-md);
+  --radius-lg:              var(--radius-lg);
+  --radius-xl:              var(--radius-xl);
+  --radius-2xl:             var(--radius-2xl);
+  --radius-3xl:             var(--radius-3xl);
+  --radius-4xl:             var(--radius-4xl);
+
+  /* Named spacings → p-section-y, mt-container-x, gap-md, … */
+  --spacing-section-y:      var(--space-section-y);
+  --spacing-container-x:    var(--space-container-x);
+  --spacing-container-x-md: var(--space-container-x-md);
+  --spacing-gap-xs:         var(--gap-xs);
+  --spacing-gap-sm:         var(--gap-sm);
+  --spacing-gap-md:         var(--gap-md);
+  --spacing-gap-lg:         var(--gap-lg);
+  --spacing-gap-xl:         var(--gap-xl);
+  --spacing-gap-2xl:        var(--gap-2xl);
+  --spacing-header:         var(--site-header-h);
+
+  /* Container width */
+  --container-site:         var(--site-max);
 }
+
+/* ============================================================
+ * BASE
+ * ============================================================ */
 
 @layer base {
   * {
-    border-color: var(--border);
+    border-color: var(--color-line);
   }
 
   body {
-    background-color: var(--background);
-    color: var(--foreground);
+    background-color: var(--color-paper);
+    color: var(--color-ink);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -112,29 +192,24 @@
   }
 
   ::selection {
-    background: var(--brand-gold);
-    color: var(--brand-coffee);
+    background: var(--color-brand-gold);
+    color: var(--color-brand-coffee);
   }
 }
 
 /* ============================================================
- * Typography design system
+ * TYPOGRAPHY UTILITY CLASSES
  *
- * Every heading and body class encapsulates the full treatment:
+ * Every heading / body class encapsulates full treatment:
  * font-family, weight, casing, tracking, line-height, and fluid
  * size. Sections consume these instead of stacking arbitrary
- * `text-[Xpx] leading-[Y%] tracking-[-Zem]` classes so hierarchy
- * stays consistent across pages.
- *
- * Sizes are fluid via clamp() on md+ so they scale with viewport
- * height without breaking below the Figma design values.
+ * `text-[Xpx] leading-[Y%] tracking-[-Zem]` clusters.
  * ============================================================ */
 
 @layer utilities {
-  /* --- Display / headings ------------------------------------ */
+  /* -- Display / headings ----------------------------------- */
 
-  /* display-1 — largest heading. Hero H1, CTA H2, carousel product
-   * name. One per section maximum. */
+  /* display-1 — largest heading. Hero H1, CTA H2, product name. */
   .display-1 {
     font-family: var(--font-display);
     font-weight: 700;
@@ -168,9 +243,7 @@
     }
   }
 
-  /* display-3 — sub-section headings. Production stage titles etc.
-   * Uses the sans face (not display) and medium weight; not
-   * uppercase — this is content, not chrome. */
+  /* display-3 — sub-section headings. Production stage titles. */
   .display-3 {
     font-family: var(--font-sans);
     font-weight: 500;
@@ -185,8 +258,7 @@
     }
   }
 
-  /* heading-1 — small display heading for card titles (Team member
-   * names, Cert item names). Uppercase, display face, bold. */
+  /* heading-1 — larger card title (Certificates). */
   .heading-1 {
     font-family: var(--font-display);
     font-weight: 700;
@@ -201,7 +273,22 @@
     }
   }
 
-  /* --- Body -------------------------------------------------- */
+  /* heading-2 — compact card title (Team member names). */
+  .heading-2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 16px;
+    line-height: 110%;
+    letter-spacing: -0.02em;
+  }
+  @media (min-width: 768px) {
+    .heading-2 {
+      font-size: clamp(16px, 1.3vw, 20px);
+    }
+  }
+
+  /* -- Body ------------------------------------------------- */
 
   /* body-lg — lead paragraphs. Hero subtitle, product description. */
   .body-lg {
@@ -217,7 +304,7 @@
     }
   }
 
-  /* body-md — default body copy for feature sections. */
+  /* body-md — default body copy. */
   .body-md {
     font-family: var(--font-sans);
     font-weight: 300;
@@ -231,7 +318,7 @@
     }
   }
 
-  /* body-sm — secondary info, contact rows, form fields. */
+  /* body-sm — secondary info, contact rows. */
   .body-sm {
     font-family: var(--font-sans);
     font-weight: 400;
@@ -244,9 +331,7 @@
     }
   }
 
-  /* --- Accents ----------------------------------------------- */
-
-  /* eyebrow — pill tags, category labels above a heading. */
+  /* eyebrow — pill tags, category labels. */
   .eyebrow {
     font-family: var(--font-sans);
     font-weight: 700;
@@ -261,57 +346,89 @@
   }
 }
 
+/* ============================================================
+ * LAYOUT UTILITY CLASSES
+ *
+ * Common repeating patterns extracted so sections don't need to
+ * re-spell them. Anything spatial the design keeps consistent
+ * (page gutter, section rhythm, card shell) lives here.
+ * ============================================================ */
+
 @layer utilities {
+  /* .container-x — standard page horizontal container. Caps at
+   * the site max width and centers, with a fluid gutter. */
+  .container-x {
+    width: 100%;
+    max-width: var(--site-max);
+    margin-inline: auto;
+    padding-inline: var(--space-container-x);
+  }
+  @media (min-width: 768px) {
+    .container-x {
+      padding-inline: var(--space-container-x-md);
+    }
+  }
+
+  /* .section-pt / .section-pb / .section-y — vertical rhythm. */
+  .section-pt { padding-top: 4rem; }
+  .section-pb { padding-bottom: 4rem; }
+  .section-y  { padding-block: 4rem; }
+  @media (min-width: 768px) {
+    .section-pt { padding-top: var(--space-section-y); }
+    .section-pb { padding-bottom: var(--space-section-y); }
+    .section-y  { padding-block: var(--space-section-y); }
+  }
+
+  /* .surface-card — subtle card shell (bg + radius) used by every
+   * light card in the site (Team, Cert, CTA, Products carousel). */
+  .surface-card {
+    background-color: var(--color-paper-alt);
+    border-radius: var(--radius-2xl);
+  }
+  @media (min-width: 768px) {
+    .surface-card {
+      border-radius: var(--radius-3xl);
+    }
+  }
+
+  /* .btn — base button treatment (bg-dark / text-inverse) with
+   * fluid padding matching the design's CTA rhythm. */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.875rem 2rem;
+    border-radius: var(--radius-lg);
+    background-color: var(--color-paper-dark);
+    color: var(--color-ink-inverse);
+    font-weight: 500;
+    transition: background-color 200ms ease;
+  }
+  .btn:hover { background-color: var(--color-brand-coffee); }
+  @media (min-width: 768px) {
+    .btn { padding-block: 1rem; }
+  }
+
+  /* -- Legacy container from earlier pages (kept for now) --- */
   .container-page {
     width: 100%;
     max-width: 1440px;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
   }
-
   @media (min-width: 1024px) {
-    .container-page {
-      padding-left: 4rem;
-      padding-right: 4rem;
-    }
+    .container-page { padding-inline: 4rem; }
   }
 
-  /*
-   * Fluid desktop scale.
-   *
-   * The desktop (md:) layout is pixel-baked for a 1512px design frame.
-   * On any narrower desktop viewport (windowed Chrome, 13" laptops, split
-   * screen, etc.) those fixed sizes overflow. Rather than reflowing every
-   * section, we let CSS `zoom` proportionally shrink the whole content
-   * block so the pixel-perfect Figma layout stays intact at any width.
-   *
-   * Mobile (< 768px) is already fluid and untouched.
-   * On viewports wider than the design, we clamp at 1 so we never upscale.
-   * A small gutter keeps the design off the viewport edges.
-   *
-   * `--fluid-scale` is exposed so viewport-height-anchored elements (the
-   * hero, mainly) can divide by it — `100dvh` inside a zoomed subtree still
-   * resolves to real viewport pixels, so a raw `100dvh` layout height would
-   * shrink below the viewport after the zoom is applied.
-   */
-  :root {
-    --fluid-scale: 1;
-  }
-
-  @media (min-width: 768px) {
-    :root {
-      /* length / length in calc() reduces to a unitless number */
-      --fluid-scale: min(1, calc((100vw - 48px) / 1512px));
-    }
-  }
-
+  /* -- Fluid desktop zoom (unchanged) ----------------------- */
+  /* Explained in earlier commits: proportionally shrinks the
+   * 1512-baked layout to fit windowed viewports. --fluid-scale
+   * is exposed on :root above so dvh-anchored elements can
+   * compensate (see Hero, ProductionProcess). */
   .fluid-desktop {
-    max-width: 1512px;
+    max-width: var(--site-max);
     margin-inline: auto;
   }
-
   @media (min-width: 768px) {
     .fluid-desktop {
       zoom: var(--fluid-scale);

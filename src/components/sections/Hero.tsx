@@ -22,7 +22,7 @@ export function Hero() {
     >
       <div className="mx-auto flex w-full max-w-360 flex-col gap-6 px-5 pt-4 md:h-full md:flex-row md:items-center md:justify-between md:gap-[clamp(24px,4vw,76px)] md:px-9 md:pt-0">
         {/* Mobile: video appears first (top of stack) */}
-        <div className="relative order-first h-[55dvh] w-full shrink-0 overflow-hidden rounded-3xl bg-black md:order-last md:h-full md:w-1/2 md:shrink md:rounded-4xl">
+        <div className="relative order-first h-[55dvh] w-full shrink-0 overflow-hidden rounded-3xl bg-paper-dark md:order-last md:h-full md:w-1/2 md:shrink md:rounded-4xl">
           <video
             src="/sections/home/hero-video.mp4"
             poster="/sections/home/hero-video-poster.png"
@@ -37,18 +37,18 @@ export function Hero() {
 
         <div className="flex w-full flex-col gap-5 md:h-full md:min-w-0 md:flex-1 md:justify-center md:gap-[clamp(16px,3dvh,28px)]">
           <div className="flex flex-col gap-2.5 md:gap-[clamp(6px,1.4dvh,14px)]">
-            <h1 className="display-1 text-[#1a1a1a]">
+            <h1 className="display-1 text-ink">
               {t.rich("title", {
-                a: (chunks) => <span className="text-[#d8d8d8]">{chunks}</span>,
+                a: (chunks) => <span className="text-quiet">{chunks}</span>,
               })}
             </h1>
-            <p className="body-lg text-[#848484] md:max-w-121.25">
+            <p className="body-lg text-ink-3 md:max-w-121.25">
               {t("subtitle")}
             </p>
           </div>
           <Link
             href="/products"
-            className="inline-flex w-full items-center justify-center rounded-lg bg-[#191919] px-8 py-3.5 text-base font-medium text-white leading-[110%] transition-colors hover:bg-[#2a1810] md:w-fit md:py-4 md:text-lg"
+            className="body-md inline-flex w-full items-center justify-center rounded-lg bg-paper-dark px-8 py-3.5 font-medium text-ink-inverse transition-colors hover:bg-brand-coffee md:w-fit md:py-4"
           >
             {cta("viewProducts")}
           </Link>
