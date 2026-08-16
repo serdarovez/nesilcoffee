@@ -26,36 +26,102 @@ export function ProductionProcess() {
       </h2>
 
       {/* ================= MOBILE ================= */}
-      <div className="mt-8 flex flex-col gap-10 md:hidden">
-        {BLOCKS.map((b) => (
-          <article key={b.key} className="flex flex-col gap-4">
-            <div className="relative h-[220px] w-full overflow-hidden rounded-2xl bg-[#f2f0eb]">
-              <BlurImage
-                src={b.image}
-                alt=""
-                fill
-                sizes="100vw"
-                className="object-cover"
-              />
-            </div>
-            <h3 className="text-2xl font-medium leading-[110%] text-[#1a1a1a]">
-              {t(`blocks.${b.key}.title`)}
-            </h3>
-            <div className="flex flex-col gap-4">
-              <p className="text-sm leading-[140%] text-[#444444]">
-                {t(`blocks.${b.key}.body1`)}
-              </p>
-              <p className="text-sm leading-[140%] text-[#444444]">
-                {t(`blocks.${b.key}.body2`)}
-              </p>
-            </div>
-          </article>
-        ))}
-      </div>
+      <MobilePin t={t} />
+
 
       {/* ================= DESKTOP (pinned scroll) ================= */}
       <DesktopPin t={t} />
     </section>
+  );
+}
+
+/** Mobile pinned-image experience — image stays fixed near the top while
+ *  text stages scroll past below it, cross-fading the image on stage change. */
+function MobilePin({ t }: { t: ReturnType<typeof useTranslations> }) {
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    const blocks = document.querySelectorAll<HTMLElement>(
+      "[data-mobile-production-stage]",
+    );
+    if (blocks.length === 0) return;
+
+    // Trigger line sits at ~65% of viewport height — below the sticky image
+    // (which occupies the top ~42vh), inside the text reading area.
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const idx = Number(
+              entry.target.getAttribute("data-mobile-production-stage"),
+            );
+            setActive(idx);
+          }
+        });
+      },
+      { rootMargin: "-65% 0px -30% 0px", threshold: 0 },
+    );
+
+    blocks.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div className="mt-6 md:hidden">
+      {/* Sticky image — pins below the header while the text below scrolls */}
+      <div className="sticky top-[72px] z-10 h-[42vh] w-full overflow-hidden rounded-2xl bg-[#f2f0eb]">
+        {BLOCKS.map((b, i) => (
+          <div
+            key={b.key}
+            className={cn(
+              "absolute inset-0 transition-opacity duration-700 ease-out",
+              i === active ? "opacity-100" : "opacity-0",
+            )}
+          >
+            <BlurImage
+              src={b.image}
+              alt=""
+              fill
+              sizes="100vw"
+              className="object-cover"
+            />
+          </div>
+        ))}
+
+        <div className="absolute bottom-3 left-1/2 z-10 flex -translate-x-1/2 gap-1.5">
+          {BLOCKS.map((_, i) => (
+            <div
+              key={i}
+              className={cn(
+                "h-1 rounded-full bg-white transition-all duration-500 ease-out",
+                i === active ? "w-6 opacity-100" : "w-1 opacity-60",
+              )}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Text stages scroll beneath the pinned image */}
+      <div className="flex flex-col">
+        {BLOCKS.map((b, i) => (
+          <div
+            key={b.key}
+            data-mobile-production-stage={i}
+            className="flex min-h-[55vh] flex-col justify-center gap-3 py-6"
+          >
+            <h3 className="text-2xl font-medium leading-[110%] text-[#1a1a1a]">
+              {t(`blocks.${b.key}.title`)}
+            </h3>
+            <p className="text-sm leading-[140%] text-[#444444]">
+              {t(`blocks.${b.key}.body1`)}
+            </p>
+            <p className="text-sm leading-[140%] text-[#444444]">
+              {t(`blocks.${b.key}.body2`)}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 

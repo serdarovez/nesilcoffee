@@ -2,6 +2,10 @@
 import { useEffect } from "react";
 import Lenis from "lenis";
 
+/** Shared handle so modals/drawers can stop Lenis while they're open, then
+ *  resume the smooth-scroll animation when they close. */
+export const lenisRef: { current: Lenis | null } = { current: null };
+
 export function SmoothScroll() {
   useEffect(() => {
     const lenis = new Lenis({
@@ -9,6 +13,7 @@ export function SmoothScroll() {
       duration: 1.15,
       smoothWheel: true,
     });
+    lenisRef.current = lenis;
 
     let raf: number;
     const tick = (time: number) => {
@@ -20,6 +25,7 @@ export function SmoothScroll() {
     return () => {
       cancelAnimationFrame(raf);
       lenis.destroy();
+      lenisRef.current = null;
     };
   }, []);
 

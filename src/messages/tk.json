@@ -136,7 +136,24 @@
     "order": "Sargyt etmek",
     "roast": "Gowurma derejesi",
     "acidity": "Turşulyk",
-    "cardDescription": "Ýumşak tagamly, gaýmak dokumaly we ýeňil süýjülikli sazlaşykly kofe — her günki ulanyş üçin laýyk"
+    "cardDescription": "Ýumşak tagamly, gaýmak dokumaly we ýeňil süýjülikli sazlaşykly kofe — her günki ulanyş üçin laýyk",
+    "orderModal": {
+      "title": "Sargyt taýýarlamak",
+      "quantity": "Mukdary",
+      "name": "Ady",
+      "namePlaceholder": "Adyňyz",
+      "phone": "Telefon",
+      "phonePlaceholder": "+993 __ __ __",
+      "email": "Email",
+      "emailPlaceholder": "your@email.com",
+      "comment": "Teswir",
+      "commentPlaceholder": "Goşmaça maglumat",
+      "submit": "Arza ibermek",
+      "sending": "Iberilýär...",
+      "successTitle": "Arza iberildi",
+      "successBody": "Sargydyňyz üçin sag boluň! Ýakyn wagtda siziň bilen habarlaşarys.",
+      "close": "Ýapmak"
+    }
   },
   "about": {
     "hero": {

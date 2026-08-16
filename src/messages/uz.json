@@ -136,7 +136,24 @@
     "order": "Buyurtma berish",
     "roast": "Qovurish darajasi",
     "acidity": "Kislotalilik",
-    "cardDescription": "Yumshoq ta'mli, qaymoqli teksturali va yengil shirinlikka ega muvozanatli qahva — kundalik foydalanish uchun mos"
+    "cardDescription": "Yumshoq ta'mli, qaymoqli teksturali va yengil shirinlikka ega muvozanatli qahva — kundalik foydalanish uchun mos",
+    "orderModal": {
+      "title": "Buyurtma berish",
+      "quantity": "Miqdori",
+      "name": "Ism",
+      "namePlaceholder": "Ismingiz",
+      "phone": "Telefon",
+      "phonePlaceholder": "+993 __ __ __",
+      "email": "Email",
+      "emailPlaceholder": "your@email.com",
+      "comment": "Izoh",
+      "commentPlaceholder": "Qo'shimcha ma'lumot",
+      "submit": "So'rov yuborish",
+      "sending": "Yuborilmoqda...",
+      "successTitle": "So'rov yuborildi",
+      "successBody": "Buyurtmangiz uchun rahmat! Yaqin orada siz bilan bog'lanamiz.",
+      "close": "Yopish"
+    }
   },
   "about": {
     "hero": {

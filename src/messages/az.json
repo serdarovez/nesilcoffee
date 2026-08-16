@@ -136,7 +136,24 @@
     "order": "Sifariş et",
     "roast": "Qovurma dərəcəsi",
     "acidity": "Turşuluq",
-    "cardDescription": "Yumşaq dadlı, kremli teksturalı və yüngül şirinlikli tarazlaşdırılmış qəhvə — gündəlik istifadə üçün uyğundur"
+    "cardDescription": "Yumşaq dadlı, kremli teksturalı və yüngül şirinlikli tarazlaşdırılmış qəhvə — gündəlik istifadə üçün uyğundur",
+    "orderModal": {
+      "title": "Sifariş rəsmiləşdir",
+      "quantity": "Miqdar",
+      "name": "Ad",
+      "namePlaceholder": "Adınız",
+      "phone": "Telefon",
+      "phonePlaceholder": "+993 __ __ __",
+      "email": "Email",
+      "emailPlaceholder": "your@email.com",
+      "comment": "Şərh",
+      "commentPlaceholder": "Əlavə məlumat",
+      "submit": "Müraciət göndər",
+      "sending": "Göndərilir...",
+      "successTitle": "Müraciət göndərildi",
+      "successBody": "Sifarişiniz üçün təşəkkür edirik! Ən qısa zamanda sizinlə əlaqə saxlayacağıq.",
+      "close": "Bağla"
+    }
   },
   "about": {
     "hero": {

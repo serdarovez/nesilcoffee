@@ -136,7 +136,24 @@
     "order": "Order",
     "roast": "Roast level",
     "acidity": "Acidity",
-    "cardDescription": "A balanced coffee with soft flavor, creamy texture and a light sweetness — perfect for everyday use"
+    "cardDescription": "A balanced coffee with soft flavor, creamy texture and a light sweetness — perfect for everyday use",
+    "orderModal": {
+      "title": "Place order",
+      "quantity": "Quantity",
+      "name": "Name",
+      "namePlaceholder": "Your name",
+      "phone": "Phone",
+      "phonePlaceholder": "+993 __ __ __",
+      "email": "Email",
+      "emailPlaceholder": "your@email.com",
+      "comment": "Comment",
+      "commentPlaceholder": "Additional information",
+      "submit": "Send request",
+      "sending": "Sending...",
+      "successTitle": "Request sent",
+      "successBody": "Thank you for your order! We'll be in touch shortly.",
+      "close": "Close"
+    }
   },
   "about": {
     "hero": {
