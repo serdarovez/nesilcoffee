@@ -91,6 +91,9 @@ export default async function ProductsPage({
     <>
       <ProductsHeroCarousel slides={heroSlides} />
 
+      {/* Scroll target for the hero's call-to-action. */}
+      <div id="catalog" />
+
       {categories
         .filter((c) => c.products.length > 0)
         .map((category) => (

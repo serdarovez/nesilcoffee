@@ -109,13 +109,16 @@ export function ProductsHeroCarousel({ slides }: { slides: HeroSlide[] }) {
                   <p className="text-sm leading-[130%] text-white md:text-[clamp(16px,2.4dvh,24px)] md:leading-[120%]">
                     {s.body}
                   </p>
+                  {/* Anchors to the catalog below rather than being an inert
+                   * button. A plain <a href="#…"> also works without JS and is
+                   * picked up by the page's smooth-scroll handler. */}
                   {s.cta && (
-                    <button
-                      type="button"
+                    <a
+                      href="#catalog"
                       className="mt-2 inline-flex w-full items-center justify-center rounded-lg border border-white/40 bg-white/10 px-8 py-3 text-base font-medium text-white backdrop-blur-md transition-colors hover:bg-white hover:text-ink md:mt-0 md:w-fit md:py-4 md:text-lg"
                     >
                       {s.cta}
-                    </button>
+                    </a>
                   )}
                 </div>
               </div>

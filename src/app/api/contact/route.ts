@@ -10,9 +10,12 @@ import { createSubmission } from "@/server/submissions";
  * the enquiry.
  */
 const schema = z.object({
-  name: z.string().trim().min(1).max(200),
+  // Optional because the short "Have questions?" block only asks for an email
+  // and a message. The full contacts-page form still requires both client-side,
+  // so relaxing them here does not weaken that one.
+  name: z.string().trim().max(200).optional(),
   email: z.string().trim().email().max(200),
-  subject: z.string().trim().min(1).max(200),
+  subject: z.string().trim().max(200).optional(),
   message: z.string().trim().min(1).max(5000),
   locale: z.string().trim().max(5).optional(),
   /** Which button the visitor pressed; defaults to the plain form submit. */
@@ -34,9 +37,11 @@ export async function POST(request: Request) {
 
   const result = await createSubmission({
     type: "CONTACT",
-    name: data.name,
+    // The short form supplies neither, so derive something the inbox can show
+    // rather than storing a blank row.
+    name: data.name || data.email.split("@")[0],
     email: data.email,
-    subject: data.subject,
+    subject: data.subject || "Вопрос с сайта",
     message: data.message,
     locale: data.locale ?? "ru",
     channel: data.channel ?? "FORM",

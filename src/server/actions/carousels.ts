@@ -11,7 +11,6 @@ import {
   type FormState,
   fieldErrors,
   formError,
-  localizedRequired,
   localizedOptional,
   readLocalized,
   readString,
