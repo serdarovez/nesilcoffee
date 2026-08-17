@@ -7,6 +7,7 @@ import { ProductionProcess } from "@/components/sections/ProductionProcess";
 import { Certificates } from "@/components/sections/Certificates";
 import { Team } from "@/components/sections/Team";
 import { CTAContact } from "@/components/sections/CTAContact";
+import { homeSlidesView, teamView, certificatesView } from "@/server/views";
 
 export default async function HomePage({
   params,
@@ -16,15 +17,21 @@ export default async function HomePage({
   const { locale } = await params;
   setRequestLocale(locale);
 
+  const [slides, team, certificates] = await Promise.all([
+    homeSlidesView(locale),
+    teamView(locale),
+    certificatesView(locale),
+  ]);
+
   return (
     <>
       <Hero />
-      <ProductsCarousel />
+      <ProductsCarousel slides={slides} />
       <HomeOfficeFormat />
       <SearchedForCoffee />
       <ProductionProcess />
-      <Certificates />
-      <Team />
+      <Certificates items={certificates} />
+      <Team members={team} />
       <CTAContact />
     </>
   );

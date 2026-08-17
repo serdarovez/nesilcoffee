@@ -14,24 +14,34 @@ export type Product = {
   robusta: string;
   roast: number;
   acidity: number;
+  /** Per-product copy; null means use the shared message. */
+  description?: string | null;
 };
 
 export function ProductCard({
   p,
   categoryLabel,
+  fallbackDescription,
+  productId,
 }: {
   p: Product;
   categoryLabel: string;
+  /** Shared `products.cardDescription` message, resolved on the server. */
+  fallbackDescription: string;
+  productId?: string;
 }) {
   const t = useTranslations("products");
   const [open, setOpen] = useState(false);
 
+  const description = p.description ?? fallbackDescription;
+
   const orderProduct: OrderProduct = {
+    id: productId,
     name: p.name,
     image: p.image,
     category: categoryLabel,
     weight: p.weight,
-    description: t("cardDescription"),
+    description,
   };
 
   return (
@@ -77,7 +87,7 @@ export function ProductCard({
         <div className="mt-auto flex flex-col gap-4 pt-1">
           <div className="flex flex-col gap-3">
             <p className="text-sm leading-[140%] text-[#444444]">
-              {t("cardDescription")}
+              {description}
             </p>
             <div className="flex items-start gap-6">
               <SpecCol label={t("roast")} value={p.roast} icon={RoastIcon} tight />

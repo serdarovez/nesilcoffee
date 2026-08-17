@@ -1,9 +1,9 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { cn } from "@/lib/utils";
 import { Check, AlertCircle } from "lucide-react";
 
@@ -12,6 +12,10 @@ const schema = z.object({
   email: z.string().email(),
   subject: z.string().min(1),
   message: z.string().min(1),
+  /** Hidden honeypot — only bots fill it in. */
+  website: z.string().optional(),
+  /** Stamped on mount; the server rejects impossibly fast fills. */
+  renderedAt: z.number().optional(),
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -21,28 +25,51 @@ const fieldClass =
 
 export function ContactForm() {
   const t = useTranslations("form");
+  const locale = useLocale();
   const [status, setStatus] = useState<
     "idle" | "sending" | "success" | "error"
   >("idle");
-
+  const [errorText, setErrorText] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<FormValues>({ resolver: zodResolver(schema) });
 
+  /**
+   * When the form became interactive — the server rejects fills faster than a
+   * human could manage.
+   *
+   * Held in the form itself rather than React state: `Date.now()` is impure so
+   * it cannot run during render, and React state would mean a setState inside
+   * an effect. `setValue` writes to react-hook-form's own store, so neither
+   * applies.
+   */
+  useEffect(() => {
+    setValue("renderedAt", Date.now());
+  }, [setValue]);
+
   const onSubmit = async (values: FormValues) => {
     setStatus("sending");
+    setErrorText(null);
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        body: JSON.stringify({ ...values, locale }),
       });
-      if (!res.ok) throw new Error("Request failed");
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        setErrorText(data?.error ?? null);
+        throw new Error("Request failed");
+      }
       setStatus("success");
       reset();
+      // No need to re-stamp for a second message: the form has necessarily
+      // been open longer than the minimum fill time by now, and the per-IP
+      // rate limit is what actually guards against repeat submissions.
     } catch {
       setStatus("error");
     }
@@ -85,6 +112,16 @@ export function ContactForm() {
         )}
       />
 
+      {/* Honeypot — off-screen rather than display:none, because some bots
+       * skip hidden fields but fill positioned ones. aria-hidden and out of
+       * the tab order, so no real user encounters it. */}
+      <div aria-hidden className="absolute left-[-9999px] top-0 h-0 w-0 overflow-hidden">
+        <label>
+          Website
+          <input type="text" tabIndex={-1} autoComplete="off" {...register("website")} />
+        </label>
+      </div>
+
       <div className="mt-2 flex items-center gap-3">
         <button
           type="submit"
@@ -102,7 +139,7 @@ export function ContactForm() {
         {status === "error" && (
           <span className="inline-flex items-center gap-2 text-sm text-red-600">
             <AlertCircle className="h-4 w-4" />
-            {t("error")}
+            {errorText ?? t("error")}
           </span>
         )}
       </div>

@@ -9,25 +9,22 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { BlurImage } from "@/components/ui/BlurImage";
 import { Link } from "@/i18n/navigation";
 
-type Slide = {
+export type Slide = {
   id: string;
   name: string;
   image: string;
   roast: number;
   acidity: number;
+  /** Per-product copy; null falls back to the shared message. */
+  description: string | null;
+  tagline: string | null;
+  blurDataUrl?: string | null;
 };
 
-const SLIDES: Slide[] = [
-  { id: "intenso", name: "INtenso", image: "/products/speciale-main.png", roast: 5, acidity: 4 },
-  { id: "classico", name: "Classico", image: "/products/speciale-var-a.png", roast: 3, acidity: 3 },
-  { id: "speciale", name: "Speciale", image: "/products/latte-carousel.png", roast: 4, acidity: 2 },
-  { id: "la-crema", name: "La Crema", image: "/products/product-carousel-var-c.png", roast: 2, acidity: 3 },
-  { id: "espresso", name: "Espresso", image: "/products/product-carousel-var-d.png", roast: 5, acidity: 5 },
-];
-
-export function ProductsCarousel() {
+export function ProductsCarousel({ slides }: { slides: Slide[] }) {
   const t = useTranslations("home.products");
   const cta = useTranslations("cta");
+  const SLIDES = slides;
 
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "center" });
   const [selected, setSelected] = useState(0);
@@ -179,16 +176,17 @@ function MobileSlide({
       <div className="flex w-full flex-col gap-3">
         <div className="flex flex-col gap-1.5">
           <span className="eyebrow inline-flex w-fit items-center rounded-md bg-paper px-1.5 py-0.5 text-ink-2">
-            {t("tagline")}
+            {slide.tagline ?? t("tagline")}
           </span>
           <h3 className="display-1 text-ink">
             {slide.name}
           </h3>
         </div>
         <p className="body-md whitespace-pre-line text-ink-2">
-          {t.rich("description", {
-            b: (chunks) => <span className="font-semibold">{chunks}</span>,
-          })}
+          {slide.description ??
+            t.rich("description", {
+              b: (chunks) => <span className="font-semibold">{chunks}</span>,
+            })}
         </p>
         <div className="flex flex-col gap-2">
           <SpecRow label={t("roast")} value={slide.roast} icon={RoastIcon} />
@@ -219,15 +217,16 @@ function SlideCard({ slide }: { slide: Slide }) {
         {/* Text col */}
         <div className="flex min-w-0 flex-col gap-[clamp(10px,1.8dvh,18px)] pt-[clamp(24px,4dvh,60px)]">
           <span className="eyebrow inline-flex w-fit items-center rounded-lg bg-paper-alt px-1 py-[3px] text-ink-2">
-            {t("tagline")}
+            {slide.tagline ?? t("tagline")}
           </span>
           <h3 className="display-1 text-ink">
             {slide.name}
           </h3>
           <p className="body-lg whitespace-pre-line text-ink-2">
-            {t.rich("description", {
-              b: (chunks) => <span className="font-semibold">{chunks}</span>,
-            })}
+            {slide.description ??
+              t.rich("description", {
+                b: (chunks) => <span className="font-semibold">{chunks}</span>,
+              })}
           </p>
           <div className="mt-[clamp(4px,0.8dvh,8px)] flex items-center gap-3.5">
             <SpecRow label={t("roast")} value={slide.roast} icon={RoastIcon} />

@@ -1,0 +1,891 @@
+<title>NesilCoffee Backend Blueprint</title>
+<style>
+  /* ============================================================
+   * Tokens — derived from the project's own globals.css:
+   * brand-forest #14392e, brand-gold #c7a76a, brand-espresso
+   * #0f0f0f, brand-cream #f5efe6, and the ink/paper scales.
+   * ============================================================ */
+  :root {
+    --bg:            #ffffff;
+    --surface:       #fbfbfb;
+    --surface-2:     #f5efe6;
+    --border:        #e9e9e9;
+    --border-strong: #d9d9d9;
+    --text:          #1a1a1a;
+    --text-2:        #444444;
+    --text-3:        #7c7a75;
+    --accent:        #14392e;
+    --accent-ink:    #ffffff;
+    --accent-soft:   #e7efea;
+    --gold:          #8a6d2f;
+    --gold-soft:     #f6efe0;
+    --warn:          #8a4b2a;
+    --warn-soft:     #fbefe7;
+    --shadow:        0 1px 2px rgba(20,57,46,.06), 0 8px 24px -16px rgba(20,57,46,.18);
+
+    --font-display: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --font-body:    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --font-mono:    ui-monospace, "Cascadia Code", "SF Mono", "Consolas", "Liberation Mono", monospace;
+
+    --measure: 68ch;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:            #0f0f0f;
+      --surface:       #181818;
+      --surface-2:     #1f1815;
+      --border:        #2a2a2a;
+      --border-strong: #3a3a3a;
+      --text:          #f2f0eb;
+      --text-2:        #b9b6af;
+      --text-3:        #8a8781;
+      --accent:        #63b092;
+      --accent-ink:    #0f0f0f;
+      --accent-soft:   #16302a;
+      --gold:          #c7a76a;
+      --gold-soft:     #2a2318;
+      --warn:          #d99a6c;
+      --warn-soft:     #2c1e15;
+      --shadow:        0 1px 2px rgba(0,0,0,.5), 0 8px 24px -16px rgba(0,0,0,.8);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg:            #0f0f0f;
+    --surface:       #181818;
+    --surface-2:     #1f1815;
+    --border:        #2a2a2a;
+    --border-strong: #3a3a3a;
+    --text:          #f2f0eb;
+    --text-2:        #b9b6af;
+    --text-3:        #8a8781;
+    --accent:        #63b092;
+    --accent-ink:    #0f0f0f;
+    --accent-soft:   #16302a;
+    --gold:          #c7a76a;
+    --gold-soft:     #2a2318;
+    --warn:          #d99a6c;
+    --warn-soft:     #2c1e15;
+    --shadow:        0 1px 2px rgba(0,0,0,.5), 0 8px 24px -16px rgba(0,0,0,.8);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16.5px;
+    line-height: 1.65;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 0 clamp(20px, 5vw, 48px) 96px;
+  }
+
+  /* ---------- Masthead ---------- */
+  .masthead {
+    padding: clamp(48px, 9vw, 88px) 0 clamp(28px, 5vw, 44px);
+    border-bottom: 2px solid var(--text);
+  }
+  .kicker {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 18px;
+  }
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(38px, 7.5vw, 76px);
+    line-height: .96;
+    letter-spacing: -.035em;
+    text-transform: uppercase;
+    text-wrap: balance;
+    margin: 0 0 20px;
+  }
+  .standfirst {
+    font-size: clamp(17px, 2.1vw, 20px);
+    line-height: 1.5;
+    color: var(--text-2);
+    max-width: var(--measure);
+    margin: 0;
+  }
+
+  .stackstrip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 28px;
+  }
+  .chip {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: .02em;
+    padding: 5px 10px;
+    border: 1px solid var(--border-strong);
+    border-radius: 4px;
+    color: var(--text-2);
+    background: var(--surface);
+    white-space: nowrap;
+  }
+
+  /* ---------- Sections ---------- */
+  section { padding-top: clamp(44px, 7vw, 72px); }
+
+  h2 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(24px, 3.4vw, 34px);
+    line-height: 1.05;
+    letter-spacing: -.025em;
+    text-transform: uppercase;
+    margin: 0 0 6px;
+    text-wrap: balance;
+  }
+  .sectionlede {
+    color: var(--text-3);
+    font-size: 15px;
+    max-width: var(--measure);
+    margin: 0 0 26px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 17px;
+    letter-spacing: -.01em;
+    margin: 0 0 8px;
+  }
+
+  p { max-width: var(--measure); margin: 0 0 14px; }
+  p:last-child { margin-bottom: 0; }
+
+  a { color: var(--accent); text-underline-offset: 3px; }
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  code {
+    font-family: var(--font-mono);
+    font-size: .88em;
+    background: var(--surface-2);
+    padding: 1px 5px;
+    border-radius: 3px;
+    color: var(--text);
+  }
+
+  /* ---------- Scope grid ---------- */
+  .scope {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+  }
+  .scopecard {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface);
+    padding: 20px 22px;
+  }
+  .scopecard.in  { border-top: 3px solid var(--accent); }
+  .scopecard.out { border-top: 3px solid var(--border-strong); }
+  .scopecard h3 { margin-bottom: 12px; }
+  .scopelist { list-style: none; margin: 0; padding: 0; font-size: 14.5px; }
+  .scopelist li {
+    padding: 5px 0 5px 22px;
+    position: relative;
+    color: var(--text-2);
+    border-bottom: 1px solid var(--border);
+  }
+  .scopelist li:last-child { border-bottom: none; }
+  .scopelist li::before {
+    position: absolute;
+    left: 0;
+    font-family: var(--font-mono);
+    font-size: 13px;
+  }
+  .scopecard.in  .scopelist li::before { content: "+"; color: var(--accent); }
+  .scopecard.out .scopelist li::before { content: "\2013"; color: var(--text-3); }
+
+  /* ---------- Decision record ---------- */
+  .decisions {
+    display: grid;
+    gap: 0;
+    border-top: 1px solid var(--border);
+  }
+  .decision {
+    display: grid;
+    grid-template-columns: minmax(140px, 200px) 1fr;
+    gap: 4px clamp(16px, 3vw, 36px);
+    padding: 18px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: baseline;
+  }
+  @media (max-width: 640px) {
+    .decision { grid-template-columns: 1fr; gap: 6px; padding: 16px 0; }
+  }
+  .dkey {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--text-3);
+  }
+  .dval { min-width: 0; }
+  .dcall {
+    font-weight: 650;
+    color: var(--text);
+    margin: 0 0 4px;
+    max-width: none;
+  }
+  .dwhy {
+    font-size: 14.5px;
+    color: var(--text-2);
+    margin: 0;
+    max-width: none;
+  }
+
+  /* ---------- Code blocks ---------- */
+  .codewrap {
+    overflow-x: auto;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin: 0 0 18px;
+  }
+  pre {
+    font-family: var(--font-mono);
+    font-size: 12.8px;
+    line-height: 1.62;
+    margin: 0;
+    padding: 18px 20px;
+    color: var(--text-2);
+    white-space: pre;
+  }
+  pre b   { color: var(--text);   font-weight: 650; }
+  pre i   { color: var(--text-3); font-style: normal; }
+  pre em  { color: var(--accent); font-style: normal; font-weight: 600; }
+  pre u   { color: var(--gold);   text-decoration: none; }
+
+  /* ---------- Phases ---------- */
+  .phases { display: grid; gap: 2px; }
+  .phase {
+    display: grid;
+    grid-template-columns: 54px 1fr;
+    gap: clamp(14px, 2.5vw, 26px);
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .phase:first-child { border-top: 1px solid var(--border); }
+  .pnum {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent-ink);
+    background: var(--accent);
+    border-radius: 5px;
+    height: 26px;
+    display: grid;
+    place-items: center;
+    width: 34px;
+  }
+  .pbody { min-width: 0; }
+  .pbody h3 { margin-bottom: 6px; }
+  .pbody p { font-size: 14.5px; color: var(--text-2); margin: 0 0 10px; }
+  .files {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .file {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--text-3);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 3px 7px;
+  }
+
+  /* ---------- Table ---------- */
+  .tablewrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 14px;
+    min-width: 520px;
+  }
+  th, td {
+    text-align: left;
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  th {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    background: var(--surface);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  td.mono { font-family: var(--font-mono); font-size: 12.5px; white-space: nowrap; color: var(--text); }
+  td.note { color: var(--text-2); }
+
+  /* ---------- Callouts ---------- */
+  .callout {
+    border: 1px solid var(--border-strong);
+    border-left: 3px solid var(--gold);
+    background: var(--gold-soft);
+    border-radius: 0 8px 8px 0;
+    padding: 16px 20px;
+    margin: 0 0 16px;
+  }
+  .callout.blocker { border-left-color: var(--warn); background: var(--warn-soft); }
+  .callout h3 { margin-bottom: 6px; }
+  .callout p { font-size: 14.5px; color: var(--text-2); }
+  .callout .tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 7px;
+  }
+  .callout.blocker .tag { color: var(--warn); }
+
+  .foot {
+    margin-top: 72px;
+    padding-top: 22px;
+    border-top: 2px solid var(--text);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-3);
+    letter-spacing: .03em;
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="kicker">Design record &middot; resolved 17 Aug 2026</p>
+    <h1>NesilCoffee Backend Blueprint</h1>
+    <p class="standfirst">
+      Turning a fully static five-language marketing site into a database-backed
+      product with a Russian admin dashboard — without changing a single pixel of
+      what visitors see on day one.
+    </p>
+    <div class="stackstrip">
+      <span class="chip">Next.js 16.3.1</span>
+      <span class="chip">PostgreSQL</span>
+      <span class="chip">Prisma</span>
+      <span class="chip">unstable_cache + revalidateTag</span>
+      <span class="chip">argon2 sessions</span>
+      <span class="chip">sharp</span>
+      <span class="chip">nodemailer / Gmail SMTP</span>
+      <span class="chip">WhatsApp Cloud API</span>
+      <span class="chip">PM2 + nginx + certbot</span>
+    </div>
+  </header>
+
+  <section>
+    <h2>Scope</h2>
+    <p class="sectionlede">What becomes editable, and what deliberately stays in the message files.</p>
+    <div class="scope">
+      <div class="scopecard in">
+        <h3>Database-backed &amp; editable</h3>
+        <ul class="scopelist">
+          <li>Products — 16 across 4 categories</li>
+          <li>Categories — full CRUD, drives page sections</li>
+          <li>Home carousel — pick products, drag to reorder</li>
+          <li>Products hero carousel — 3 full-bleed slides</li>
+          <li>Team members</li>
+          <li>FAQ items</li>
+          <li>Certificates</li>
+          <li>Site contact details — phones, address, socials</li>
+          <li>Submissions log — contact + orders</li>
+        </ul>
+      </div>
+      <div class="scopecard out">
+        <h3>Stays in message files</h3>
+        <ul class="scopelist">
+          <li>About page — welcome, geography, history, quality, experts</li>
+          <li>Production process — 4 blocks</li>
+          <li>Home hero, office format, searched-for sections</li>
+          <li>Navigation, CTA and form labels</li>
+          <li>Product detail pages — slug reserved, pages deferred</li>
+          <li>Order pricing &amp; fulfilment pipeline — site is quote-based B2B</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Decisions</h2>
+    <p class="sectionlede">Thirteen forks, each resolved with its reasoning. This is the contract the build follows.</p>
+    <div class="decisions">
+
+      <div class="decision">
+        <div class="dkey">Architecture</div>
+        <div class="dval">
+          <p class="dcall">All-in-one Next.js app</p>
+          <p class="dwhy">Route handlers, server actions and <code>/admin</code> inside the existing project. One build, one PM2 process, one nginx vhost. No CORS, no cross-origin session sharing.</p>
+        </div>
+      </div>
+
+      <div class="decision">
+        <div class="dkey">Database</div>
+        <div class="dval">
+          <p class="dcall">PostgreSQL + Prisma</p>
+          <p class="dwhy">JSONB stores localized fields natively; Prisma gives real migration files, which matters when altering schema on a live server.</p>
+        </div>
+      </div>
+
+      <div class="decision">
+        <div class="dkey">Localization</div>
+        <div class="dval">
+          <p class="dcall">Russian required, other four optional with fallback</p>
+          <p class="dwhy">A product ships the moment its Russian copy exists. Empty locales fall back to <code>ru</code>, so the site never renders a blank field and translations can be backfilled at leisure.</p>
+        </div>
+      </div>
+
+      <div class="decision">
+        <div class="dkey">Carousels</div>
+        <div class="dval">
+          <p class="dcall">Slide table referencing a product, with image override</p>
+          <p class="dwhy">Dedicated admin screen with drag-to-reorder. Name, roast and acidity read live from the product; the optional image override preserves today's behaviour where the carousel shows different art than the product card.</p>
+        </div>
+      </div>
+
+      <div class="decision">
+        <div class="dkey">Descriptions</div>
+        <div class="dval">
+          <p class="dcall">Per-product, optional, falls back to the shared string</p>
+          <p class="dwhy">All 16 products currently share one paragraph — including the tea, which is described as coffee. Optional per-product copy fixes that incrementally without blocking launch on writing 21 paragraphs.</p>
+        </div>
+      </div>
+
+      <div class="decision">
+        <div class="dkey">Notifications</div>
+        <div class="dval">
+          <p class="dcall">Gmail SMTP + WhatsApp Cloud API, both feature-flagged</p>
+          <p class="dwhy">Every submission is written to Postgres first, so a failed send never loses a lead. WhatsApp ships behind <code>WHATSAPP_ENABLED</code> and switches on by env var once Meta approves the message template — no code change.</p>
+        </div>
+      </div>
+
+      <div class="decision">
+        <div class="dkey">Auth</div>
+        <div class="dval">
+          <p class="dcall">Hand-rolled sessions stored in Postgres</p>
+          <p class="dwhy">argon2 hashes, signed httpOnly cookie, revocable session rows. Avoids betting the admin on Auth.js v5 beta compatibility with a Next release this new.</p>
+        </div>
+      </div>
+
+      <div class="decision">
+        <div class="dkey">Media</div>
+        <div class="dval">
+          <p class="dcall">Disk outside the repo, served by nginx</p>
+          <p class="dwhy"><code>/var/www/nesilcoffee/uploads</code> survives every git operation and redeploy. sharp converts to webp and generates the blur placeholder at upload, stored on the media row.</p>
+        </div>
+      </div>
+
+      <div class="decision">
+        <div class="dkey">Rendering</div>
+        <div class="dval">
+          <p class="dcall">Cached reads, invalidated on save</p>
+          <p class="dwhy">Pages stay as fast as they are today. Every mutation calls <code>revalidateTag</code> for what it touched, plus a manual purge button in admin as a backstop against stale content.</p>
+        </div>
+      </div>
+
+      <div class="decision">
+        <div class="dkey">Cache API</div>
+        <div class="dval">
+          <p class="dcall"><code>unstable_cache</code>, not Cache Components</p>
+          <p class="dwhy">Enabling <code>cacheComponents: true</code> would change prerendering across all 20 existing pages at once. Tag invalidation works identically on the current config; migrating is a separate post-launch task.</p>
+        </div>
+      </div>
+
+      <div class="decision">
+        <div class="dkey">Orders</div>
+        <div class="dval">
+          <p class="dcall">Read-only submissions log with CSV export</p>
+          <p class="dwhy">No statuses or notes. The site shows no prices and the FAQ states terms are negotiated individually — these are leads worked out of email, and the database is the safety net.</p>
+        </div>
+      </div>
+
+      <div class="decision">
+        <div class="dkey">Deletion</div>
+        <div class="dval">
+          <p class="dcall">Active toggle plus soft delete</p>
+          <p class="dwhy">Seasonal products get hidden, not deleted and re-typed in five languages. Carousel slides pointing at a hidden or deleted product are flagged in admin and skipped on the site rather than crashing it.</p>
+        </div>
+      </div>
+
+      <div class="decision">
+        <div class="dkey">Spam</div>
+        <div class="dval">
+          <p class="dcall">Honeypot, per-IP rate limit, submission timing</p>
+          <p class="dwhy">Invisible to real users and adds no third-party script to a site that currently loads zero. Suspected spam is stored and flagged rather than silently dropped.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <h2>Data model</h2>
+    <p class="sectionlede">Every localized field is <code>Json</code> shaped <code>{ ru, en?, tk?, uz?, az? }</code>, read through one <code>pick(field, locale)</code> helper that falls back to <code>ru</code>.</p>
+
+    <div class="codewrap">
+<pre><i>// ---- Content -------------------------------------------------</i>
+
+model <b>Category</b> {
+  id         String    @id @default(cuid())
+  slug       String    @unique          <i>// bean | instant | freeze-dried | tea</i>
+  name       <em>Json</em>                     <i>// localized</i>
+  sortOrder  Int       @default(0)
+  isActive   Boolean   @default(true)
+  deletedAt  DateTime?
+  products   Product[]
+}
+
+model <b>Product</b> {
+  id           String    @id @default(cuid())
+  slug         String    @unique          <u>// reserved for detail pages</u>
+  name         <em>Json</em>
+  description  <em>Json?</em>                    <i>// null -> products.cardDescription</i>
+  tagline      <em>Json?</em>                    <i>// null -> home.products.tagline</i>
+  weight       String                     <i>// "1000 гр" — display string</i>
+  arabica      String?                    <i>// "65%" | null</i>
+  robusta      String?
+  roast        Int                        <i>// 1..5</i>
+  acidity      Int                        <i>// 1..5</i>
+  imageId      String?
+  image        Media?    @relation(fields: [imageId], references: [id])
+  categoryId   String
+  category     Category  @relation(fields: [categoryId], references: [id])
+  sortOrder    Int       @default(0)
+  isActive     Boolean   @default(true)
+  deletedAt    DateTime?
+  homeSlides       HomeSlide[]
+  productsSlides   ProductsHeroSlide[]
+  @@index([categoryId, sortOrder])
+}
+
+model <b>HomeSlide</b> {
+  id               String   @id @default(cuid())
+  productId        String
+  product          Product  @relation(fields: [productId], references: [id])
+  imageOverrideId  String?                  <u>// carousel art != card art</u>
+  sortOrder        Int
+  isActive         Boolean  @default(true)
+}
+
+model <b>ProductsHeroSlide</b> {
+  id              String   @id @default(cuid())
+  productId       String?
+  title           <em>Json</em>
+  body            <em>Json</em>
+  ctaLabel        <em>Json?</em>
+  bgImageId       String
+  productImageId  String?
+  overlayColor    String                    <i>// "#245314"</i>
+  overlayOpacity  Int                       <i>// 40 -> /40</i>
+  productWidth    String                    <i>// "38%"</i>
+  sortOrder       Int
+  isActive        Boolean  @default(true)
+}
+
+model <b>TeamMember</b> {
+  id         String    @id @default(cuid())
+  name       <em>Json</em>
+  role       <em>Json</em>
+  phone      String?
+  email      String?
+  avatarId   String?                        <u>// today all 5 share one image</u>
+  sortOrder  Int
+  isActive   Boolean   @default(true)
+  deletedAt  DateTime?
+}
+
+model <b>FaqItem</b>     { id, question <em>Json</em>, answer <em>Json</em>, sortOrder, isActive, deletedAt }
+model <b>Certificate</b> { id, name <em>Json</em>, description <em>Json</em>, imageId, sortOrder, isActive, deletedAt }
+
+model <b>Setting</b> {                            <i>// singleton, id = 1</i>
+  id         Int     @id @default(1)
+  phones     <em>Json</em>                          <i>// ["+993 137 32969", …]</i>
+  email      String
+  address    <em>Json</em>                          <i>// localized</i>
+  instagram  String?
+  tiktok     String?
+  whatsapp   String?
+}
+
+<i>// ---- Media ---------------------------------------------------</i>
+
+model <b>Media</b> {
+  id           String   @id @default(cuid())
+  path         String                        <i>// /uploads/products/2026/xk3f9a.webp</i>
+  width        Int
+  height       Int
+  blurDataUrl  String   @db.Text             <u>// generated by sharp on upload</u>
+  mimeType     String
+  bytes        Int
+  alt          <em>Json?</em>
+  createdAt    DateTime @default(now())
+}
+
+<i>// ---- Admin ---------------------------------------------------</i>
+
+model <b>AdminUser</b> {
+  id            String         @id @default(cuid())
+  email         String         @unique
+  passwordHash  String                        <i>// argon2id</i>
+  name          String
+  role          Role           @default(EDITOR)
+  createdAt     DateTime       @default(now())
+  sessions      AdminSession[]
+}
+
+model <b>AdminSession</b> {
+  id         String    @id @default(cuid())
+  tokenHash  String    @unique                <u>// raw token only ever in the cookie</u>
+  userId     String
+  user       AdminUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt  DateTime
+  ip         String?
+  userAgent  String?
+  createdAt  DateTime  @default(now())
+  @@index([userId])
+}
+
+<i>// ---- Inbound -------------------------------------------------</i>
+
+model <b>Submission</b> {
+  id                String         @id @default(cuid())
+  type              SubmissionType                <i>// CONTACT | ORDER</i>
+  name              String
+  email             String?
+  phone             String?
+  subject           String?
+  message           String?        @db.Text
+  productId         String?                       <i>// ORDER only</i>
+  quantity          Int?
+  locale            String
+  ip                String?
+  userAgent         String?
+  isSpam            Boolean        @default(false)
+  notifiedEmail     Boolean        @default(false)
+  notifiedWhatsapp  Boolean        @default(false)
+  createdAt         DateTime       @default(now())
+  @@index([createdAt])
+}
+
+model <b>RateLimit</b> { key String @id, count Int, windowEnd DateTime }
+
+enum Role           { ADMIN EDITOR }
+enum SubmissionType { CONTACT ORDER }</pre>
+    </div>
+  </section>
+
+  <section>
+    <h2>Build order</h2>
+    <p class="sectionlede">Sequenced by dependency — each phase is testable before the next begins, and the public site keeps working throughout.</p>
+
+    <div class="phases">
+
+      <div class="phase">
+        <div class="pnum">01</div>
+        <div class="pbody">
+          <h3>Foundation &amp; migration</h3>
+          <p>Prisma schema, first migration, the <code>pick()</code> locale helper, and a seed script that imports every existing product, team member, FAQ item and certificate out of the current arrays and message files — all five languages. When this phase ends the database mirrors the live site exactly.</p>
+          <div class="files">
+            <span class="file">prisma/schema.prisma</span>
+            <span class="file">prisma/seed.ts</span>
+            <span class="file">src/server/db.ts</span>
+            <span class="file">src/lib/i18n-field.ts</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="pnum">02</div>
+        <div class="pbody">
+          <h3>Authentication</h3>
+          <p>Login page, argon2 verification, signed session cookie, and a <code>requireAdmin()</code> guard called in the admin layout <em>and</em> at the top of every server action — not only in a route matcher. Rate-limited login, session list with remote revoke, and a CLI script to create the first user.</p>
+          <div class="files">
+            <span class="file">src/server/auth/session.ts</span>
+            <span class="file">src/app/admin/login/page.tsx</span>
+            <span class="file">src/app/admin/layout.tsx</span>
+            <span class="file">scripts/create-admin.ts</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="pnum">03</div>
+        <div class="pbody">
+          <h3>Media pipeline</h3>
+          <p>Upload route writing to disk outside the repo, sharp converting to webp and emitting the base64 blur placeholder, plus a reusable picker component. Existing <code>public/</code> images keep working through the generated blur map; uploads carry their own.</p>
+          <div class="files">
+            <span class="file">src/app/api/admin/upload/route.ts</span>
+            <span class="file">src/server/media.ts</span>
+            <span class="file">src/components/admin/MediaPicker.tsx</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="pnum">04</div>
+        <div class="pbody">
+          <h3>Admin shell &amp; core CRUD</h3>
+          <p>Russian-language sidebar, dashboard, and the localized-field editor with its RU/EN/TK/UZ/AZ tabs — built once and reused everywhere. Then products, categories, team, FAQ, certificates and settings on top of it, each with the active toggle, soft delete and trash view.</p>
+          <div class="files">
+            <span class="file">src/components/admin/LocalizedField.tsx</span>
+            <span class="file">src/app/admin/products/</span>
+            <span class="file">src/app/admin/team/</span>
+            <span class="file">src/app/admin/settings/</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="pnum">05</div>
+        <div class="pbody">
+          <h3>Carousel managers</h3>
+          <p>Two ordering screens with drag-and-drop. The home carousel picks a product and optionally overrides its image; the products hero adds background, overlay tint with opacity, and localized title and body. Slides referencing a hidden product show a warning row.</p>
+          <div class="files">
+            <span class="file">src/app/admin/carousel-home/</span>
+            <span class="file">src/app/admin/carousel-products/</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="pnum">06</div>
+        <div class="pbody">
+          <h3>Wire the public site</h3>
+          <p>Replace the hardcoded arrays with cached database reads. Category sections on <code>/products</code> become dynamic. The four section components stop importing constants and take props. Message-file fallbacks stay in place so nothing renders empty if a record is missing.</p>
+          <div class="files">
+            <span class="file">src/server/queries/*.ts</span>
+            <span class="file">src/app/[locale]/products/page.tsx</span>
+            <span class="file">src/components/sections/ProductsCarousel.tsx</span>
+            <span class="file">src/components/sections/Team.tsx</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="pnum">07</div>
+        <div class="pbody">
+          <h3>Forms, notifications, inbox</h3>
+          <p>Rewrite <code>/api/contact</code> to persist before sending, and give the order modal a real endpoint in place of its <code>setTimeout</code>. Honeypot, timing check and per-IP limit on both. Gmail SMTP via nodemailer; WhatsApp behind its flag. Submissions list with type filter and CSV export.</p>
+          <div class="files">
+            <span class="file">src/app/api/contact/route.ts</span>
+            <span class="file">src/app/api/order/route.ts</span>
+            <span class="file">src/server/notify/email.ts</span>
+            <span class="file">src/server/notify/whatsapp.ts</span>
+            <span class="file">src/app/admin/submissions/</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="pnum">08</div>
+        <div class="pbody">
+          <h3>Deploy</h3>
+          <p>Postgres and node on the server, nginx reverse proxy with a direct <code>/uploads</code> alias, certbot SSL, PM2 under systemd, and a nightly <code>pg_dump</code> plus uploads rsync on cron. The deploy script runs migrations before the build so a schema change never serves against an old database.</p>
+          <div class="files">
+            <span class="file">deploy.sh</span>
+            <span class="file">ecosystem.config.js</span>
+            <span class="file">docs/nginx.conf</span>
+            <span class="file">docs/DEPLOY.md</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <h2>Two Next 16 traps</h2>
+    <p class="sectionlede">Found by reading <code>node_modules/next/dist/docs</code> — both would have produced code that looked right and behaved wrong.</p>
+
+    <div class="callout">
+      <span class="tag">Renamed convention</span>
+      <h3><code>middleware.ts</code> is deprecated — it is now <code>proxy.ts</code></h3>
+      <p>Your existing file still runs, but the named export and filename are both on a deprecation path. More importantly, the proxy documentation states plainly that authentication must be verified inside each server function rather than relying on the matcher, because a matcher edit can silently remove coverage. Admin auth therefore lives in the layout and in every action, and the proxy is left to next-intl alone.</p>
+    </div>
+
+    <div class="callout">
+      <span class="tag">Divergent APIs</span>
+      <h3>Two caching models ship in parallel</h3>
+      <p>Projects with <code>cacheComponents: true</code> use <code>'use cache'</code>, <code>cacheTag</code> and <code>cacheLife</code>; projects without it use <code>unstable_cache</code>. Yours is the latter. <code>revalidateTag</code> also now takes a second argument controlling the stale-while-revalidate window — calls written from memory omit it.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Environment</h2>
+    <p class="sectionlede">Additions to <code>.env</code>. Everything below <code>WHATSAPP_ENABLED</code> can stay unset until Meta approves the template.</p>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>Variable</th><th>Purpose</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="mono">DATABASE_URL</td><td class="note">Postgres connection string</td></tr>
+          <tr><td class="mono">SESSION_SECRET</td><td class="note">Signs the admin session cookie — 32+ random bytes</td></tr>
+          <tr><td class="mono">UPLOAD_DIR</td><td class="note">Absolute path, e.g. <code>/var/www/nesilcoffee/uploads</code></td></tr>
+          <tr><td class="mono">SMTP_USER</td><td class="note">The Gmail address</td></tr>
+          <tr><td class="mono">SMTP_PASS</td><td class="note">Google App Password — needs 2FA on the account</td></tr>
+          <tr><td class="mono">CONTACT_TO_EMAIL</td><td class="note">Where notifications land (already in use)</td></tr>
+          <tr><td class="mono">WHATSAPP_ENABLED</td><td class="note">Master switch, <code>false</code> until the template is approved</td></tr>
+          <tr><td class="mono">WHATSAPP_TOKEN</td><td class="note">Meta permanent access token</td></tr>
+          <tr><td class="mono">WHATSAPP_PHONE_ID</td><td class="note">Cloud API phone number ID</td></tr>
+          <tr><td class="mono">WHATSAPP_TO</td><td class="note">Recipient number in international format</td></tr>
+          <tr><td class="mono">WHATSAPP_TEMPLATE</td><td class="note">Approved template name</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Open items</h2>
+    <p class="sectionlede">Nothing here blocks phases 1 through 6. All of it is needed before phase 7 goes live.</p>
+
+    <div class="callout blocker">
+      <span class="tag">Needs you</span>
+      <h3>Two-factor authentication on the Gmail account</h3>
+      <p>Google only offers App Passwords once 2-step verification is on, and SMTP will not authenticate without one. Roughly two minutes at <code>myaccount.google.com</code>, but email notifications cannot be tested until it is done.</p>
+    </div>
+
+    <div class="callout blocker">
+      <span class="tag">Lead time</span>
+      <h3>WhatsApp message template approval</h3>
+      <p>Business-initiated messages require a template reviewed by Meta, typically about a day. The number used also cannot already be registered on regular WhatsApp. The feature flag means this never blocks a release.</p>
+    </div>
+
+    <div class="callout">
+      <span class="tag">Content</span>
+      <h3>Team photographs</h3>
+      <p>All five team members currently render the same avatar and the same name, role, phone and email in every language. The schema gives each member their own photo — the images themselves still need supplying.</p>
+    </div>
+  </section>
+
+  <p class="foot">NesilCoffee &middot; 13 decisions resolved &middot; 8 phases &middot; next step: phase 01</p>
+
+</div>

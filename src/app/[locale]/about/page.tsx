@@ -7,6 +7,7 @@ import { Certificates } from "@/components/sections/Certificates";
 import { Team } from "@/components/sections/Team";
 import { CTAContact } from "@/components/sections/CTAContact";
 import { AboutHistory } from "@/components/sections/AboutHistory";
+import { teamView, certificatesView } from "@/server/views";
 import { cn } from "@/lib/utils";
 import { BlurImage } from "@/components/ui/BlurImage";
 
@@ -256,6 +257,11 @@ export default async function AboutPage({
   const { locale } = await params;
   setRequestLocale(locale);
 
+  const [team, certificates] = await Promise.all([
+    teamView(locale),
+    certificatesView(locale),
+  ]);
+
   return (
     <>
       {/* Order is the Figma child order of "О нас" (2048:5860) read top-down:
@@ -268,8 +274,8 @@ export default async function AboutPage({
       <ProductionProcess />
       <QualityControl />
       <Experts />
-      <Certificates />
-      <Team />
+      <Certificates items={certificates} />
+      <Team members={team} />
       <CTAContact />
     </>
   );

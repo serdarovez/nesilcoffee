@@ -1,10 +1,12 @@
 import { setRequestLocale, getTranslations } from "next-intl/server";
-import { useTranslations } from "next-intl";
 import type { Metadata } from "next";
 import { FAQ } from "@/components/sections/FAQ";
 import { ContactForm } from "@/components/sections/ContactForm";
-import { InstagramIcon, TikTokIcon } from "@/components/icons/Socials";
+import { InstagramIcon } from "@/components/icons/Socials";
 import { BlurImage } from "@/components/ui/BlurImage";
+import { getFaqItems } from "@/server/queries";
+import { contactInfo, telHref, type ContactInfo } from "@/server/views";
+import { pick } from "@/lib/i18n-field";
 
 export async function generateMetadata({
   params,
@@ -38,9 +40,20 @@ function InfoBlock({
 
 /** Contacts middle section — Figma "contact" (2048:13034).
  *  Top: divider. Left col: title + subtitle + 2x2 info grid (socials/phone/messenger/address).
- *  Right col: "НАПИШИТЕ НАМ" form card (rounded-3xl, bg #fbfbfb, padding). */
-function ContactsBlock() {
-  const t = useTranslations("contacts.contact");
+ *  Right col: "НАПИШИТЕ НАМ" form card (rounded-3xl, bg #fbfbfb, padding).
+ *
+ *  Phones, address and social links come from the settings row rather than
+ *  being repeated here, in the footer and in the JSON-LD block.
+ */
+async function ContactsBlock({
+  locale,
+  info,
+}: {
+  locale: string;
+  info: ContactInfo;
+}) {
+  const t = await getTranslations({ locale, namespace: "contacts.contact" });
+
   return (
     <section id="contacts" className="mx-auto w-full max-w-378 px-5 pt-12 md:px-9 md:pt-20">
       <div className="border-t border-[#dfdfdf] pt-6 md:pt-10">
@@ -57,58 +70,61 @@ function ContactsBlock() {
 
             <div className="grid grid-cols-2 gap-x-6 gap-y-6 md:max-w-146.5 md:gap-x-16 md:gap-y-10">
               <InfoBlock label={t("phoneLabel")}>
-                <a
-                  href="tel:+99313732969"
-                  className="hover:opacity-75 transition-opacity"
-                >
-                  +993 137 32969
-                </a>
-                <a
-                  href="tel:+99313732973"
-                  className="hover:opacity-75 transition-opacity"
-                >
-                  +993 137 32973
-                </a>
+                {info.phones.map((phone) => (
+                  <a
+                    key={phone}
+                    href={telHref(phone)}
+                    className="hover:opacity-75 transition-opacity"
+                  >
+                    {phone}
+                  </a>
+                ))}
               </InfoBlock>
 
               <InfoBlock label={t("socialsLabel")}>
-                <a
-                  href="https://instagram.com/nesilcoffee"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:opacity-75 transition-opacity"
-                >
-                  Instagram
-                </a>
-                <a
-                  href="https://tiktok.com/@nesilcoffee"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:opacity-75 transition-opacity"
-                >
-                  TikTok
-                </a>
+                {info.instagram && (
+                  <a
+                    href={info.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:opacity-75 transition-opacity"
+                  >
+                    Instagram
+                  </a>
+                )}
+                {info.tiktok && (
+                  <a
+                    href={info.tiktok}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:opacity-75 transition-opacity"
+                  >
+                    TikTok
+                  </a>
+                )}
               </InfoBlock>
 
               <InfoBlock label={t("addressLabel")}>
-                <p className="leading-[130%]">{t("address")}</p>
+                <p className="leading-[130%]">{info.address || t("address")}</p>
               </InfoBlock>
 
               <InfoBlock label={t("messengerLabel")}>
+                {info.whatsapp && (
+                  <a
+                    href={`https://wa.me/${info.whatsapp}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 hover:opacity-75 transition-opacity"
+                  >
+                    <InstagramIcon className="h-4 w-4 md:h-5 md:w-5" />
+                    +{info.whatsapp}
+                  </a>
+                )}
                 <a
-                  href="https://wa.me/99313732969"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 hover:opacity-75 transition-opacity"
-                >
-                  <InstagramIcon className="h-4 w-4 md:h-5 md:w-5" />
-                  +993 137 32969
-                </a>
-                <a
-                  href="mailto:info@nesilcoffee.com"
+                  href={`mailto:${info.email}`}
                   className="hover:opacity-75 transition-opacity"
                 >
-                  info@nesilcoffee.com
+                  {info.email}
                 </a>
               </InfoBlock>
             </div>
@@ -119,7 +135,9 @@ function ContactsBlock() {
               <h3 className="font-display text-2xl font-bold uppercase text-[#1a1a1a] leading-[100%] md:text-4xl">
                 {t("writeUs")}
               </h3>
-              <p className="text-sm text-[#444444] md:text-base">{t("writeUsBody")}</p>
+              <p className="text-sm text-[#444444] md:text-base">
+                {t("writeUsBody")}
+              </p>
             </div>
             <ContactForm />
           </div>
@@ -154,10 +172,21 @@ export default async function ContactsPage({
   const { locale } = await params;
   setRequestLocale(locale);
 
+  const [faqRows, info] = await Promise.all([
+    getFaqItems(),
+    contactInfo(locale),
+  ]);
+
+  const faq = faqRows.map((item) => ({
+    id: item.id,
+    question: pick(item.question, locale),
+    answer: pick(item.answer, locale),
+  }));
+
   return (
     <>
-      <FAQ />
-      <ContactsBlock />
+      <FAQ items={faq} />
+      <ContactsBlock locale={locale} info={info} />
       <MapBanner />
     </>
   );

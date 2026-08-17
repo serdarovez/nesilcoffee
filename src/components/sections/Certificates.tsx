@@ -3,14 +3,19 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { motion, useReducedMotion } from "motion/react";
 
-const CERTS = [
-  { key: "iso", image: "/certificates/iso-9001.png" },
-  { key: "halal", image: "/certificates/halal.png" },
-] as const;
+export type CertificateView = {
+  id: string;
+  name: string;
+  description: string;
+  image: string | null;
+};
 
-export function Certificates() {
+export function Certificates({ items }: { items: CertificateView[] }) {
   const t = useTranslations("home.certificates");
   const reduce = useReducedMotion();
+
+  if (items.length === 0) return null;
+
   return (
     <motion.section
       initial={reduce ? undefined : { opacity: 0, y: 140 }}
@@ -19,32 +24,28 @@ export function Certificates() {
       transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
       className="container-x section-pt"
     >
-      <h2 className="display-2 text-ink">
-        {t("title")}
-      </h2>
+      <h2 className="display-2 text-ink">{t("title")}</h2>
 
       <div className="mt-6 flex flex-col gap-4 md:mt-[clamp(32px,6dvh,60px)] md:flex-row md:gap-[clamp(16px,2vw,30px)]">
-        {CERTS.map((c) => (
+        {items.map((c) => (
           <article
-            key={c.key}
+            key={c.id}
             className="surface-card flex gap-3 p-4 md:min-w-0 md:flex-1 md:gap-[clamp(12px,1.4vw,20px)] md:p-[clamp(16px,1.8vw,28px)]"
           >
             <div className="relative h-32 w-24 shrink-0 overflow-hidden rounded-md bg-paper-mute md:aspect-[235/332] md:h-[clamp(220px,42dvh,332px)] md:w-auto md:rounded-lg">
-              <Image
-                src={c.image}
-                alt={t(`items.${c.key}.name`)}
-                fill
-                sizes="(max-width: 768px) 96px, 235px"
-                className="object-cover"
-              />
+              {c.image && (
+                <Image
+                  src={c.image}
+                  alt={c.name}
+                  fill
+                  sizes="(max-width: 768px) 96px, 235px"
+                  className="object-cover"
+                />
+              )}
             </div>
             <div className="flex min-w-0 flex-col justify-between gap-2 py-1 md:flex-1 md:py-2">
-              <h3 className="heading-1 whitespace-pre-line text-ink">
-                {t(`items.${c.key}.name`)}
-              </h3>
-              <p className="body-sm text-ink">
-                {t(`items.${c.key}.desc`)}
-              </p>
+              <h3 className="heading-1 whitespace-pre-line text-ink">{c.name}</h3>
+              <p className="body-sm text-ink">{c.description}</p>
             </div>
           </article>
         ))}

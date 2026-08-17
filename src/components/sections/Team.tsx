@@ -6,17 +6,18 @@ import { useCallback, useEffect, useState } from "react";
 import { ArrowLeft, ArrowRight, Phone, Mail } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const AVATAR = "/sections/team/adel-sakhieva.png";
+export type TeamMemberView = {
+  id: string;
+  name: string;
+  role: string;
+  phone: string | null;
+  email: string | null;
+  avatar: string | null;
+};
 
-export function Team() {
+export function Team({ members }: { members: TeamMemberView[] }) {
   const t = useTranslations("home.team");
-
-  const members = t.raw("members") as {
-    name: string;
-    role: string;
-    phone: string;
-    email: string;
-  }[];
+  const hasMembers = members.length > 0;
 
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
@@ -36,6 +37,10 @@ export function Team() {
     emblaApi.on("select", onSelect);
     onSelect();
   }, [emblaApi]);
+
+  // Nothing to show if every member has been hidden or deleted — render
+  // nothing rather than an empty carousel with dead arrows.
+  if (!hasMembers) return null;
 
   return (
     <section id="team" className="container-x section-pt">
@@ -73,20 +78,22 @@ export function Team() {
         ref={emblaRef}
       >
         <div className="flex gap-3 md:gap-[clamp(12px,1.2vw,20px)]">
-          {members.map((m, i) => (
+          {members.map((m) => (
             <article
-              key={i}
+              key={m.id}
               className="surface-card flex min-w-0 flex-[0_0_82%] flex-col p-3 md:flex-[0_0_clamp(220px,20vw,300px)] md:p-[clamp(12px,1.1vw,16px)]"
             >
               {/* Avatar — square, fills card width. */}
               <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-paper-mute md:rounded-2xl">
-                <Image
-                  src={AVATAR}
-                  alt={m.name}
-                  fill
-                  sizes="(max-width: 768px) 82vw, 20vw"
-                  className="object-cover"
-                />
+                {m.avatar && (
+                  <Image
+                    src={m.avatar}
+                    alt={m.name}
+                    fill
+                    sizes="(max-width: 768px) 82vw, 20vw"
+                    className="object-cover"
+                  />
+                )}
               </div>
 
               {/* Identity block — name on top, role below (matches the
@@ -98,22 +105,28 @@ export function Team() {
 
               {/* Contact rows — hairline separator, secondary color,
                * tighter than before to match the smaller card. */}
-              <div className="body-sm mt-3 flex flex-col gap-1.5 border-t border-line-strong pt-3 uppercase text-ink-4 md:mt-[clamp(12px,1.8dvh,18px)] md:pt-3">
-                <a
-                  href={`tel:${m.phone}`}
-                  className="inline-flex items-center gap-1.5 hover:text-ink transition-colors"
-                >
-                  <Phone className="h-3.5 w-3.5 shrink-0" />
-                  {m.phone}
-                </a>
-                <a
-                  href={`mailto:${m.email}`}
-                  className="inline-flex items-center gap-1.5 normal-case hover:text-ink transition-colors"
-                >
-                  <Mail className="h-3.5 w-3.5 shrink-0" />
-                  {m.email}
-                </a>
-              </div>
+              {(m.phone || m.email) && (
+                <div className="body-sm mt-3 flex flex-col gap-1.5 border-t border-line-strong pt-3 uppercase text-ink-4 md:mt-[clamp(12px,1.8dvh,18px)] md:pt-3">
+                  {m.phone && (
+                    <a
+                      href={`tel:${m.phone}`}
+                      className="inline-flex items-center gap-1.5 hover:text-ink transition-colors"
+                    >
+                      <Phone className="h-3.5 w-3.5 shrink-0" />
+                      {m.phone}
+                    </a>
+                  )}
+                  {m.email && (
+                    <a
+                      href={`mailto:${m.email}`}
+                      className="inline-flex items-center gap-1.5 normal-case hover:text-ink transition-colors"
+                    >
+                      <Mail className="h-3.5 w-3.5 shrink-0" />
+                      {m.email}
+                    </a>
+                  )}
+                </div>
+              )}
             </article>
           ))}
         </div>

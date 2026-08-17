@@ -2,12 +2,14 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { X, Minus, Plus, Check } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { lenisRef } from "@/components/layout/SmoothScroll";
 
 export type OrderProduct = {
+  /** Database id, so the submission can be linked to the product. */
+  id?: string;
   name: string;
   image: string;
   category: string;
@@ -23,14 +25,23 @@ interface OrderModalProps {
 
 export function OrderModal({ open, onClose, product }: OrderModalProps) {
   const t = useTranslations("products.orderModal");
+  const locale = useLocale();
   const [step, setStep] = useState<"form" | "success">("form");
   const [qty, setQty] = useState(1);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [comment, setComment] = useState("");
+  const [honeypot, setHoneypot] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  /**
+   * When the form became visible — the server rejects fills faster than a human
+   * could manage. Stamped in an effect rather than a `useRef` initialiser
+   * because `Date.now()` is impure and must not run during render.
+   */
+  const renderedAt = useRef<number>(0);
 
   // Lock page scroll while open. Lenis intercepts wheel events with its own
   // RAF loop, so setting overflow:hidden alone isn't enough — Lenis has to
@@ -77,6 +88,9 @@ export function OrderModal({ open, onClose, product }: OrderModalProps) {
       setPhone("");
       setEmail("");
       setComment("");
+      setHoneypot("");
+      setError(null);
+      renderedAt.current = Date.now();
     }
   }, [open]);
 
@@ -84,11 +98,35 @@ export function OrderModal({ open, onClose, product }: OrderModalProps) {
     e.preventDefault();
     if (!product) return;
     setSubmitting(true);
+    setError(null);
     try {
-      // TODO: wire to /api/order or Resend. For now, simulate a network round-trip
-      // so the button shows its sending state and users see visible feedback.
-      await new Promise((r) => setTimeout(r, 700));
+      const res = await fetch("/api/order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          email,
+          phone,
+          comment,
+          quantity: qty,
+          productId: product.id,
+          productName: product.name,
+          locale,
+          // Spam guards: `website` is the hidden honeypot, `renderedAt` lets
+          // the server reject submissions filled faster than a human could.
+          website: honeypot,
+          renderedAt: renderedAt.current,
+        }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        setError(data?.error ?? t("error"));
+        return;
+      }
       setStep("success");
+    } catch {
+      setError(t("error"));
     } finally {
       setSubmitting(false);
     }
@@ -138,7 +176,10 @@ export function OrderModal({ open, onClose, product }: OrderModalProps) {
                 setEmail={setEmail}
                 comment={comment}
                 setComment={setComment}
+                honeypot={honeypot}
+                setHoneypot={setHoneypot}
                 submitting={submitting}
+                error={error}
                 onSubmit={handleSubmit}
                 onClose={onClose}
               />
@@ -165,7 +206,10 @@ type FormStepProps = {
   setEmail: (v: string) => void;
   comment: string;
   setComment: (v: string) => void;
+  honeypot: string;
+  setHoneypot: (v: string) => void;
   submitting: boolean;
+  error: string | null;
   onSubmit: (e: React.FormEvent) => void;
   onClose: () => void;
 };
@@ -183,7 +227,10 @@ function FormStep({
   setEmail,
   comment,
   setComment,
+  honeypot,
+  setHoneypot,
   submitting,
+  error,
   onSubmit,
   onClose,
 }: FormStepProps) {
@@ -294,6 +341,32 @@ function FormStep({
             className="w-full resize-none rounded-2xl border border-[#d9d9d9] bg-white px-4 py-3 text-sm text-[#1a1a1a] outline-none transition-colors focus:border-[#1a1a1a]"
           />
         </Field>
+
+        {/* Honeypot: positioned off-screen rather than display:none, because
+         * some bots skip hidden fields but fill positioned ones. Real users
+         * never reach it — it is aria-hidden and outside the tab order. */}
+        <div aria-hidden className="absolute left-[-9999px] top-0 h-0 w-0 overflow-hidden">
+          <label>
+            Website
+            <input
+              type="text"
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+              value={honeypot}
+              onChange={(e) => setHoneypot(e.target.value)}
+            />
+          </label>
+        </div>
+
+        {error && (
+          <p
+            role="alert"
+            className="inline-flex items-start gap-2 rounded-lg bg-[#fdecec] px-3 py-2 text-sm text-[#c0392b]"
+          >
+            {error}
+          </p>
+        )}
 
         <button
           type="submit"

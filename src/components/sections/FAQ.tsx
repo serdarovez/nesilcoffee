@@ -7,10 +7,12 @@ import {
   AccordionContent,
 } from "@/components/ui/accordion";
 
-const ITEM_COUNT = 6;
+export type FaqEntry = { id: string; question: string; answer: string };
 
-export function FAQ() {
+export function FAQ({ items }: { items: FaqEntry[] }) {
   const t = useTranslations("contacts.faq");
+
+  if (items.length === 0) return null;
 
   return (
     <section className="mx-auto w-full max-w-378 px-5 pt-8 md:px-9 md:pt-20">
@@ -22,10 +24,10 @@ export function FAQ() {
         </h1>
         <div className="w-full md:w-207.5">
           <Accordion type="single" collapsible className="flex flex-col gap-3">
-            {Array.from({ length: ITEM_COUNT }).map((_, i) => (
-              <AccordionItem key={i} value={`item-${i}`}>
-                <AccordionTrigger>{t(`items.${i}.q`)}</AccordionTrigger>
-                <AccordionContent>{t(`items.${i}.a`)}</AccordionContent>
+            {items.map((item) => (
+              <AccordionItem key={item.id} value={item.id}>
+                <AccordionTrigger>{item.question}</AccordionTrigger>
+                <AccordionContent>{item.answer}</AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>

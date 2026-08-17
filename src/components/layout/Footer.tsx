@@ -1,7 +1,8 @@
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { InstagramIcon, TikTokIcon } from "@/components/icons/Socials";
+import { contactInfo, telHref } from "@/server/views";
 
 const NAV = [
   { key: "home", href: "/" as const, bold: true },
@@ -10,8 +11,15 @@ const NAV = [
   { key: "contacts", href: "/contacts" as const, bold: false },
 ];
 
-export function Footer() {
-  const t = useTranslations();
+/** Turn a profile URL into an @handle for display. */
+function handle(url: string): string {
+  const last = url.replace(/\/+$/, "").split("/").pop() ?? "";
+  return last.startsWith("@") ? last : `@${last}`;
+}
+
+export async function Footer({ locale }: { locale: string }) {
+  const t = await getTranslations({ locale });
+  const info = await contactInfo(locale);
 
   return (
     <footer className="w-full bg-paper-dark text-ink-inverse">
@@ -48,18 +56,15 @@ export function Footer() {
                     {t("footer.phoneLabel").toUpperCase()}
                   </div>
                   <div className="flex flex-col text-sm font-normal text-ink-inverse md:text-lg">
-                    <a
-                      href="tel:+99313732969"
-                      className="hover:opacity-80 transition-opacity"
-                    >
-                      +993 137 32969
-                    </a>
-                    <a
-                      href="tel:+99313732973"
-                      className="hover:opacity-80 transition-opacity"
-                    >
-                      +993 137 32973
-                    </a>
+                    {info.phones.map((phone) => (
+                      <a
+                        key={phone}
+                        href={telHref(phone)}
+                        className="hover:opacity-80 transition-opacity"
+                      >
+                        {phone}
+                      </a>
+                    ))}
                   </div>
                 </div>
 
@@ -68,10 +73,10 @@ export function Footer() {
                     {t("footer.emailLabel").toUpperCase()}
                   </div>
                   <a
-                    href="mailto:info@nesilcoffee.com"
+                    href={`mailto:${info.email}`}
                     className="text-sm font-normal text-ink-inverse hover:opacity-80 transition-opacity md:text-lg"
                   >
-                    info@nesilcoffee.com
+                    {info.email}
                   </a>
                 </div>
               </div>
@@ -82,7 +87,7 @@ export function Footer() {
                 {t("footer.addressLabel").toUpperCase()}
               </div>
               <p className="text-sm font-normal leading-[130%] text-ink-inverse md:text-lg">
-                {t("contacts.contact.address")}
+                {info.address || t("contacts.contact.address")}
               </p>
             </div>
           </div>
@@ -92,24 +97,28 @@ export function Footer() {
               {t("footer.socialsLabel").toUpperCase()}
             </div>
             <div className="flex flex-col gap-2.5 md:gap-3.25">
-              <a
-                href="https://tiktok.com/@nesilcoffee"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-sm font-normal text-ink-inverse hover:opacity-80 transition-opacity md:text-lg"
-              >
-                <TikTokIcon className="h-4 w-4 shrink-0 md:h-4.5 md:w-4.5" />
-                @nesilcoffee
-              </a>
-              <a
-                href="https://instagram.com/nesilcoffee"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-sm font-normal text-ink-inverse hover:opacity-80 transition-opacity md:text-lg"
-              >
-                <InstagramIcon className="h-4 w-4 shrink-0 md:h-5 md:w-5" />
-                @nesilcoffee
-              </a>
+              {info.tiktok && (
+                <a
+                  href={info.tiktok}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-sm font-normal text-ink-inverse hover:opacity-80 transition-opacity md:text-lg"
+                >
+                  <TikTokIcon className="h-4 w-4 shrink-0 md:h-4.5 md:w-4.5" />
+                  {handle(info.tiktok)}
+                </a>
+              )}
+              {info.instagram && (
+                <a
+                  href={info.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-sm font-normal text-ink-inverse hover:opacity-80 transition-opacity md:text-lg"
+                >
+                  <InstagramIcon className="h-4 w-4 shrink-0 md:h-5 md:w-5" />
+                  {handle(info.instagram)}
+                </a>
+              )}
             </div>
           </div>
         </div>

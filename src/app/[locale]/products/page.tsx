@@ -1,5 +1,4 @@
 import { setRequestLocale, getTranslations } from "next-intl/server";
-import { useTranslations } from "next-intl";
 import type { Metadata } from "next";
 import { ProductionProcess } from "@/components/sections/ProductionProcess";
 import { Certificates } from "@/components/sections/Certificates";
@@ -7,6 +6,9 @@ import { Team } from "@/components/sections/Team";
 import { CTAContact } from "@/components/sections/CTAContact";
 import { ProductsHeroCarousel } from "@/components/sections/ProductsHeroCarousel";
 import { ProductCard, type Product } from "@/components/sections/ProductCard";
+import { getCategoriesWithProducts } from "@/server/queries";
+import { heroSlidesView, teamView, certificatesView } from "@/server/views";
+import { pick } from "@/lib/i18n-field";
 
 export async function generateMetadata({
   params,
@@ -18,54 +20,37 @@ export async function generateMetadata({
   return { title: t("title") };
 }
 
-const BEAN: Product[] = [
-  { name: "Speciale",  image: "/products/speciale-main.png",   weight: "1000 гр", arabica: "65%", robusta: "35%", roast: 3, acidity: 3 },
-  { name: "Intenso",   image: "/products/speciale-var-a.png",  weight: "1000 гр", arabica: "100%", robusta: "—", roast: 5, acidity: 4 },
-  { name: "Classico",  image: "/products/grain-1.png",         weight: "1000 гр", arabica: "45%", robusta: "55%", roast: 4, acidity: 3 },
-  { name: "La Crema",  image: "/products/grain-2.png",         weight: "1000 гр", arabica: "80%", robusta: "20%", roast: 3, acidity: 2 },
-  { name: "Espresso",  image: "/products/grain-3.png",         weight: "1000 гр", arabica: "60%", robusta: "40%", roast: 5, acidity: 3 },
-];
-
-const INSTANT: Product[] = [
-  { name: "Coffee Latte",  image: "/products/instant-1.png", weight: "20 × 18 гр", arabica: "100%", robusta: "—", roast: 3, acidity: 2 },
-  { name: "Cappuccino",    image: "/products/instant-2.png", weight: "20 × 18 гр", arabica: "100%", robusta: "—", roast: 3, acidity: 2 },
-  { name: "Caramel Latte", image: "/products/instant-3.png", weight: "20 × 18 гр", arabica: "100%", robusta: "—", roast: 2, acidity: 2 },
-  { name: "Hazelnut",      image: "/products/instant-4.png", weight: "20 × 18 гр", arabica: "100%", robusta: "—", roast: 3, acidity: 2 },
-  { name: "Vanilla",       image: "/products/instant-5.png", weight: "20 × 18 гр", arabica: "100%", robusta: "—", roast: 2, acidity: 2 },
-];
-
-const FREEZE_DRIED: Product[] = [
-  { name: "Gold",    image: "/products/grain-4.png",                 weight: "95 гр", arabica: "100%", robusta: "—", roast: 4, acidity: 3 },
-  { name: "Platinum",image: "/products/grain-5.png",                 weight: "95 гр", arabica: "100%", robusta: "—", roast: 5, acidity: 3 },
-  { name: "Black",   image: "/products/latte-carousel.png",          weight: "95 гр", arabica: "100%", robusta: "—", roast: 5, acidity: 4 },
-  { name: "Aroma",   image: "/products/product-carousel-var-c.png",  weight: "95 гр", arabica: "100%", robusta: "—", roast: 4, acidity: 3 },
-  { name: "Classic", image: "/products/product-carousel-var-d.png",  weight: "95 гр", arabica: "100%", robusta: "—", roast: 4, acidity: 3 },
-];
-
-const TEA: Product[] = [
-  { name: "Karak", image: "/products/tea-1.png", weight: "200 гр", arabica: "—", robusta: "—", roast: 3, acidity: 2 },
-];
-
+/**
+ * One grid per category. Categories now come from the database, so adding a
+ * fifth category in the admin adds a fifth section here — the previous version
+ * had four hardcoded blocks keyed to a fixed union type.
+ */
 function CategoryGrid({
-  titleKey,
+  label,
   products,
+  fallbackDescription,
 }: {
-  titleKey: "bean" | "instant" | "freezeDried" | "tea";
-  products: Product[];
+  label: string;
+  products: (Product & { id: string })[];
+  fallbackDescription: string;
 }) {
-  const t = useTranslations("products.categories");
-  const categoryLabel = t(titleKey);
   return (
     <section className="mx-auto w-full max-w-378 px-5 pt-12 md:px-9 md:pt-20">
       <h2 className="font-display font-bold uppercase text-[#1a1a1a] text-[32px] leading-[100%] tracking-[-0.03em] md:text-[clamp(48px,7vw,96px)] md:leading-[97%] md:tracking-[-0.035em]">
-        {categoryLabel}
+        {label}
       </h2>
       {/* Explicit column counts — the old `flex-wrap` + `w-full` combination
        * gave each card the full container as its flex basis, so they came
        * out far wider (and taller) than the catalog needs. */}
       <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 md:mt-10 md:gap-6 lg:grid-cols-3 xl:grid-cols-4">
         {products.map((p) => (
-          <ProductCard key={p.name} p={p} categoryLabel={categoryLabel} />
+          <ProductCard
+            key={p.id}
+            p={p}
+            productId={p.id}
+            categoryLabel={label}
+            fallbackDescription={fallbackDescription}
+          />
         ))}
       </div>
     </section>
@@ -80,16 +65,44 @@ export default async function ProductsPage({
   const { locale } = await params;
   setRequestLocale(locale);
 
+  const t = await getTranslations({ locale, namespace: "products" });
+  const fallbackDescription = t("cardDescription");
+
+  const [categories, heroSlides, team, certificates] = await Promise.all([
+    getCategoriesWithProducts(),
+    heroSlidesView(locale),
+    teamView(locale),
+    certificatesView(locale),
+  ]);
+
   return (
     <>
-      <ProductsHeroCarousel />
-      <CategoryGrid titleKey="bean" products={BEAN} />
-      <CategoryGrid titleKey="instant" products={INSTANT} />
-      <CategoryGrid titleKey="freezeDried" products={FREEZE_DRIED} />
-      <CategoryGrid titleKey="tea" products={TEA} />
+      <ProductsHeroCarousel slides={heroSlides} />
+
+      {categories
+        .filter((c) => c.products.length > 0)
+        .map((category) => (
+          <CategoryGrid
+            key={category.id}
+            label={pick(category.name, locale)}
+            fallbackDescription={fallbackDescription}
+            products={category.products.map((p) => ({
+              id: p.id,
+              name: pick(p.name, locale),
+              image: p.image?.path ?? "",
+              weight: p.weight,
+              arabica: p.arabica ?? "—",
+              robusta: p.robusta ?? "—",
+              roast: p.roast,
+              acidity: p.acidity,
+              description: p.description ? pick(p.description, locale) || null : null,
+            }))}
+          />
+        ))}
+
       <ProductionProcess />
-      <Certificates />
-      <Team />
+      <Certificates items={certificates} />
+      <Team members={team} />
       <CTAContact />
     </>
   );
