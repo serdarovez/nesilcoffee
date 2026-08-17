@@ -8,6 +8,7 @@ export type CertificateView = {
   name: string;
   description: string;
   image: string | null;
+  blurDataUrl: string | null;
 };
 
 export function Certificates({ items }: { items: CertificateView[] }) {
@@ -38,8 +39,12 @@ export function Certificates({ items }: { items: CertificateView[] }) {
                   src={c.image}
                   alt={c.name}
                   fill
+                  loading="lazy"
                   sizes="(max-width: 768px) 96px, 235px"
                   className="object-cover"
+                  {...(c.blurDataUrl
+                    ? { placeholder: "blur" as const, blurDataURL: c.blurDataUrl }
+                    : {})}
                 />
               )}
             </div>

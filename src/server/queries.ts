@@ -63,10 +63,16 @@ export const getHeroSlides = unstable_cache(
     prisma.productsHeroSlide.findMany({
       where: { isActive: true },
       orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
-      include: { bgImage: true, productImage: true },
+      include: {
+        bgImage: true,
+        productImage: true,
+        // Slides inherit their headline, copy and artwork from the linked
+        // product unless overridden, so the product travels with the slide.
+        product: { include: { image: true } },
+      },
     }),
   ["hero-slides"],
-  { tags: [TAGS.productsCarousel] },
+  { tags: [TAGS.productsCarousel, TAGS.products] },
 );
 
 export const getTeamMembers = unstable_cache(

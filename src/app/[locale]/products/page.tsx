@@ -81,7 +81,7 @@ export default async function ProductsPage({
 
   const [categories, heroSlides, team, certificates, info] = await Promise.all([
     getCategoriesWithProducts(),
-    heroSlidesView(locale),
+    heroSlidesView(locale, fallbackDescription),
     teamView(locale),
     certificatesView(locale),
     contactInfo(locale),
@@ -110,6 +110,7 @@ export default async function ProductsPage({
               roast: p.roast,
               acidity: p.acidity,
               description: p.description ? pick(p.description, locale) || null : null,
+              blurDataUrl: p.image?.blurDataUrl ?? null,
             }))}
           />
         ))}

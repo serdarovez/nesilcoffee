@@ -155,13 +155,17 @@ model ProductsHeroSlide {
   productId String?
   product   Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
 
-  title    Json
-  body     Json
+  /// Optional overrides. When empty, the slide falls back to the linked
+  /// product's name and description, the same way the home carousel reads its
+  /// specs live from the product — so editing a product updates both places.
+  title    Json?
+  body     Json?
   ctaLabel Json?
 
   bgImageId String?
   bgImage   Media?  @relation("HeroSlideBackground", fields: [bgImageId], references: [id], onDelete: SetNull)
 
+  /// Empty means "use the linked product's own image".
   productImageId String?
   productImage   Media?  @relation("HeroSlideProductArt", fields: [productImageId], references: [id], onDelete: SetNull)
 

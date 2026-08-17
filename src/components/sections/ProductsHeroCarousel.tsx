@@ -3,7 +3,6 @@ import Image from "next/image";
 import useEmblaCarousel from "embla-carousel-react";
 import { useCallback, useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
-import { BlurImage } from "@/components/ui/BlurImage";
 
 export type HeroSlide = {
   id: string;
@@ -59,14 +58,22 @@ export function ProductsHeroCarousel({ slides }: { slides: HeroSlide[] }) {
               key={s.id}
               className="relative h-full w-full min-w-0 flex-[0_0_100%]"
             >
+              {/* Plain next/image rather than BlurImage: that component looks
+               * its placeholder up in the generated public/ map, which has no
+               * entry for an uploaded background. The blur travels with the
+               * media record instead. First slide is eager — it is the LCP. */}
               {s.bg && (
-                <BlurImage
+                <Image
                   src={s.bg}
                   alt=""
                   fill
-                  preload={i === 0}
+                  priority={i === 0}
+                  loading={i === 0 ? "eager" : "lazy"}
                   sizes="100vw"
                   className="object-cover"
+                  {...(s.bgBlurDataUrl
+                    ? { placeholder: "blur" as const, blurDataURL: s.bgBlurDataUrl }
+                    : {})}
                 />
               )}
               <div

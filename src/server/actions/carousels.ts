@@ -3,6 +3,7 @@
 import { revalidateContent } from "@/server/revalidate";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import { Prisma } from "@prisma/client";
 import { prisma } from "@/server/db";
 import { requireAdmin } from "@/server/auth/guard";
 import { TAGS } from "@/server/cache-tags";
@@ -118,11 +119,12 @@ export async function reorderHomeSlides(ids: string[]): Promise<void> {
 /*  Products-page hero carousel                                               */
 /* -------------------------------------------------------------------------- */
 
-const heroSchema = z.object({
-  title: localizedRequired,
-  body: localizedRequired,
-  ctaLabel: localizedOptional,
-  productId: z.string().nullable(),
+const heroSchema = z
+  .object({
+    title: localizedOptional,
+    body: localizedOptional,
+    ctaLabel: localizedOptional,
+    productId: z.string().nullable(),
   bgImageId: z.string().nullable(),
   productImageId: z.string().nullable(),
   overlayColor: z
@@ -133,11 +135,17 @@ const heroSchema = z.object({
     .int()
     .min(0, "От 0 до 100")
     .max(100, "От 0 до 100"),
-  productWidth: z
-    .string()
-    .regex(/^\d{1,3}%$/, "Ширина в процентах, например 42%"),
-  isActive: z.boolean(),
-});
+    productWidth: z
+      .string()
+      .regex(/^\d{1,3}%$/, "Ширина в процентах, например 42%"),
+    isActive: z.boolean(),
+  })
+  // A slide with no linked product has nothing to inherit, so it must carry its
+  // own headline. With a product selected, every text field is optional.
+  .refine((v) => Boolean(v.productId) || Boolean(v.title.ru?.trim()), {
+    message: "Выберите товар или заполните заголовок",
+    path: ["title"],
+  });
 
 export async function saveHeroSlide(
   _prev: FormState,
@@ -161,20 +169,28 @@ export async function saveHeroSlide(
   if (!parsed.success) return fieldErrors(parsed.error);
 
   const data = parsed.data;
-  const ctaLabel = Object.keys(data.ctaLabel).length ? data.ctaLabel : undefined;
+
+  // Blank overrides are stored as SQL NULL, not {}, so the render layer can
+  // tell "no override, inherit from the product" from "deliberately empty".
+  const blankToNull = (v: Record<string, string>) =>
+    Object.keys(v).length ? v : Prisma.DbNull;
+
+  const values = {
+    ...data,
+    title: blankToNull(data.title),
+    body: blankToNull(data.body),
+    ctaLabel: blankToNull(data.ctaLabel),
+  };
 
   if (id) {
-    await prisma.productsHeroSlide.update({
-      where: { id },
-      data: { ...data, ctaLabel },
-    });
+    await prisma.productsHeroSlide.update({ where: { id }, data: values });
   } else {
     const last = await prisma.productsHeroSlide.findFirst({
       orderBy: { sortOrder: "desc" },
       select: { sortOrder: true },
     });
     await prisma.productsHeroSlide.create({
-      data: { ...data, ctaLabel, sortOrder: (last?.sortOrder ?? -1) + 1 },
+      data: { ...values, sortOrder: (last?.sortOrder ?? -1) + 1 },
     });
   }
 

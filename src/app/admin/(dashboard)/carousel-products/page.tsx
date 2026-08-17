@@ -15,14 +15,23 @@ export default async function ProductsCarouselPage() {
 
   const slides = await prisma.productsHeroSlide.findMany({
     orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
-    include: { bgImage: true, productImage: true },
+    include: {
+      bgImage: true,
+      productImage: true,
+      product: { include: { image: true } },
+    },
   });
 
+  // Resolved the same way the site resolves them, so the list shows what a
+  // visitor will actually see rather than a blank row for inherited fields.
   const rows: HeroSlideRow[] = slides.map((s) => ({
     id: s.id,
-    title: pick(s.title, "ru"),
+    title:
+      (s.title ? pick(s.title, "ru") : "") ||
+      (s.product ? pick(s.product.name, "ru") : "") ||
+      "Без заголовка",
     bgPath: s.bgImage?.path ?? null,
-    artPath: s.productImage?.path ?? null,
+    artPath: s.productImage?.path ?? s.product?.image?.path ?? null,
     overlayColor: s.overlayColor,
     overlayOpacity: s.overlayOpacity,
     isActive: s.isActive,

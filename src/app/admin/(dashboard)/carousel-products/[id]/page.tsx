@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 import { requireAdmin } from "@/server/auth/guard";
 import { prisma } from "@/server/db";
 import { pick, toLocalized } from "@/lib/i18n-field";
 import { PageShell, PageHeader } from "@/components/admin/ui";
 import { HeroSlideForm } from "@/components/admin/HeroSlideForm";
+import { heroProductOptions } from "@/server/admin-options";
 
 export const metadata: Metadata = { title: "Слайд" };
 
@@ -36,32 +38,36 @@ export default async function EditHeroSlidePage({
   await requireAdmin();
   const { id } = await params;
 
-  const [slide, products] = await Promise.all([
+  const [slide, products, t] = await Promise.all([
     prisma.productsHeroSlide.findUnique({
       where: { id },
-      include: { bgImage: true, productImage: true },
+      include: { bgImage: true, productImage: true, product: true },
     }),
-    prisma.product.findMany({
-      where: { deletedAt: null },
-      orderBy: [{ categoryId: "asc" }, { sortOrder: "asc" }],
-      select: { id: true, name: true },
-    }),
+    heroProductOptions(),
+    getTranslations({ locale: "ru", namespace: "products" }),
   ]);
 
   if (!slide) notFound();
 
+  // Falls back the same way the site does, so the heading names the slide even
+  // when its title is inherited rather than typed.
+  const heading =
+    (slide.title ? pick(slide.title, "ru") : "") ||
+    (slide.product ? pick(slide.product.name, "ru") : "") ||
+    "Слайд";
+
   return (
     <PageShell>
       <PageHeader
-        title={pick(slide.title, "ru")}
+        title={heading}
         description="Слайд на странице продукции"
         back={{ href: "/admin/carousel-products", label: "К карусели" }}
       />
       <HeroSlideForm
         values={{
           id: slide.id,
-          title: toLocalized(slide.title),
-          body: toLocalized(slide.body),
+          title: slide.title ? toLocalized(slide.title) : null,
+          body: slide.body ? toLocalized(slide.body) : null,
           ctaLabel: slide.ctaLabel ? toLocalized(slide.ctaLabel) : null,
           productId: slide.productId,
           bgImage: mediaRef(slide.bgImage),
@@ -71,7 +77,8 @@ export default async function EditHeroSlidePage({
           productWidth: slide.productWidth,
           isActive: slide.isActive,
         }}
-        products={products.map((p) => ({ id: p.id, label: pick(p.name, "ru") }))}
+        products={products}
+        sharedDescription={t("cardDescription")}
       />
     </PageShell>
   );

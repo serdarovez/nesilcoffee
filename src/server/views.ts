@@ -30,6 +30,7 @@ export async function teamView(locale: string): Promise<TeamMemberView[]> {
     phone: m.phone,
     email: m.email,
     avatar: m.avatar?.path ?? null,
+    avatarBlurDataUrl: m.avatar?.blurDataUrl ?? null,
   }));
 }
 
@@ -42,6 +43,7 @@ export async function certificatesView(
     name: pick(c.name, locale),
     description: pick(c.description, locale),
     image: c.image?.path ?? null,
+    blurDataUrl: c.image?.blurDataUrl ?? null,
   }));
 }
 
@@ -63,20 +65,43 @@ export async function homeSlidesView(locale: string): Promise<Slide[]> {
   }));
 }
 
-export async function heroSlidesView(locale: string): Promise<HeroSlide[]> {
+/**
+ * Hero slides resolve each field in the same order: the slide's own override
+ * first, then the linked product, then the shared message. That is what lets an
+ * editor pick a product and get a complete slide without typing anything, while
+ * still being able to change any single field.
+ *
+ * `fallbackBody` is the shared `products.cardDescription` message, resolved by
+ * the caller because message lookup needs the request scope.
+ */
+export async function heroSlidesView(
+  locale: string,
+  fallbackBody = "",
+): Promise<HeroSlide[]> {
   const slides = await getHeroSlides();
-  return slides.map((s) => ({
-    id: s.id,
-    bg: s.bgImage?.path ?? null,
-    bgBlurDataUrl: s.bgImage?.blurDataUrl ?? null,
-    overlayColor: s.overlayColor,
-    overlayOpacity: s.overlayOpacity,
-    product: s.productImage?.path ?? null,
-    productWidth: s.productWidth,
-    title: pick(s.title, locale),
-    body: pick(s.body, locale),
-    cta: s.ctaLabel ? pick(s.ctaLabel, locale) || null : null,
-  }));
+  return slides.map((s) => {
+    const product = s.product;
+
+    const title = s.title ? pick(s.title, locale) : "";
+    const body = s.body ? pick(s.body, locale) : "";
+
+    return {
+      id: s.id,
+      bg: s.bgImage?.path ?? null,
+      bgBlurDataUrl: s.bgImage?.blurDataUrl ?? null,
+      overlayColor: s.overlayColor,
+      overlayOpacity: s.overlayOpacity,
+      // Override → the product's own image → nothing.
+      product: s.productImage?.path ?? product?.image?.path ?? null,
+      productWidth: s.productWidth,
+      title: title || (product ? pick(product.name, locale) : ""),
+      body:
+        body ||
+        (product?.description ? pick(product.description, locale) : "") ||
+        fallbackBody,
+      cta: s.ctaLabel ? pick(s.ctaLabel, locale) || null : null,
+    };
+  });
 }
 
 export type ContactInfo = {

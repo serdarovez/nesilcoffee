@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "ProductsHeroSlide" ALTER COLUMN "title" DROP NOT NULL,
+ALTER COLUMN "body" DROP NOT NULL;

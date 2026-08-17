@@ -13,6 +13,7 @@ export type TeamMemberView = {
   phone: string | null;
   email: string | null;
   avatar: string | null;
+  avatarBlurDataUrl: string | null;
 };
 
 export function Team({ members }: { members: TeamMemberView[] }) {
@@ -90,8 +91,15 @@ export function Team({ members }: { members: TeamMemberView[] }) {
                     src={m.avatar}
                     alt={m.name}
                     fill
+                    loading="lazy"
                     sizes="(max-width: 768px) 82vw, 20vw"
                     className="object-cover"
+                    {...(m.avatarBlurDataUrl
+                      ? {
+                          placeholder: "blur" as const,
+                          blurDataURL: m.avatarBlurDataUrl,
+                        }
+                      : {})}
                   />
                 )}
               </div>

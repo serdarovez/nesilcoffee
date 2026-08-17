@@ -171,6 +171,9 @@ function MobileSlide({
           fill
           sizes="350px"
           className="object-contain"
+          {...(slide.blurDataUrl
+            ? { placeholder: "blur" as const, blurDataURL: slide.blurDataUrl }
+            : {})}
         />
       </div>
       <div className="flex w-full flex-col gap-3">
@@ -244,6 +247,9 @@ function SlideCard({ slide }: { slide: Slide }) {
             fill
             sizes="45vw"
             className="object-contain object-bottom"
+            {...(slide.blurDataUrl
+              ? { placeholder: "blur" as const, blurDataURL: slide.blurDataUrl }
+              : {})}
           />
         </div>
       </div>

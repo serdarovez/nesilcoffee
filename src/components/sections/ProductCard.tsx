@@ -16,6 +16,8 @@ export type Product = {
   acidity: number;
   /** Per-product copy; null means use the shared message. */
   description?: string | null;
+  /** Base64 placeholder from the media record, shown while the image loads. */
+  blurDataUrl?: string | null;
 };
 
 export function ProductCard({
@@ -62,12 +64,23 @@ export function ProductCard({
             </span>
           </div>
           <div className="relative aspect-4/3 w-full overflow-hidden rounded-lg md:rounded-xl">
+            {/* Explicitly lazy (next/image's default without `priority`) so the
+             * intent is visible: a catalog page can hold 16+ of these and only
+             * the first row is ever above the fold.
+             *
+             * The blur placeholder comes from the media record rather than the
+             * pre-generated map in lib/blur-data, because that map is keyed by
+             * public/ path and knows nothing about uploaded files. */}
             <Image
               src={p.image}
               alt={p.name}
               fill
+              loading="lazy"
               sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, (max-width: 1280px) 30vw, 23vw"
               className="object-contain"
+              {...(p.blurDataUrl
+                ? { placeholder: "blur" as const, blurDataURL: p.blurDataUrl }
+                : {})}
             />
           </div>
         </div>
