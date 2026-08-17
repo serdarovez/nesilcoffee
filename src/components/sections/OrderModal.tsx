@@ -493,11 +493,11 @@ function FormStep({
               rel="noopener noreferrer"
               onClick={onHandoff("WHATSAPP")}
               className={cn(
-                "inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-[#25D366] px-5 py-3.5 text-base font-medium text-white transition-opacity",
+                "inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-[#25D366] px-3 py-2.5 text-sm font-medium leading-none text-white transition-opacity",
                 submitting ? "cursor-wait opacity-70" : "hover:opacity-90",
               )}
             >
-              <WhatsappGlyph className="h-5 w-5 shrink-0" />
+              <WhatsappGlyph className="h-4 w-4 shrink-0" />
               {t("sendWhatsapp")}
             </a>
           )}
@@ -507,11 +507,11 @@ function FormStep({
               href={mailtoHref}
               onClick={onHandoff("EMAIL")}
               className={cn(
-                "inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-[#1a1a1a] px-5 py-3.5 text-base font-medium text-white transition-colors",
+                "inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-[#1a1a1a] px-3 py-2.5 text-sm font-medium leading-none text-white transition-colors",
                 submitting ? "cursor-wait opacity-70" : "hover:bg-[#2a1810]",
               )}
             >
-              <Mail className="h-5 w-5 shrink-0" strokeWidth={1.75} />
+              <Mail className="h-4 w-4 shrink-0" strokeWidth={1.75} />
               {t("sendEmail")}
             </a>
           )}
@@ -524,7 +524,8 @@ function FormStep({
             type="submit"
             disabled={submitting}
             className={cn(
-              "mt-2 inline-flex w-full items-center justify-center rounded-xl bg-[#1a1a1a] px-8 py-3.5 text-base font-medium text-white transition-colors",
+              // Same scale as the WhatsApp/email pair it stands in for.
+              "mt-2 inline-flex w-full items-center justify-center rounded-lg bg-[#1a1a1a] px-8 py-2.5 text-sm font-medium leading-none text-white transition-colors",
               submitting ? "cursor-wait opacity-70" : "hover:bg-[#2a1810]",
             )}
           >

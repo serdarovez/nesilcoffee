@@ -4,7 +4,6 @@ import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useReducedMotion } from "motion/react";
-import { Pause, Play } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /** Time a slide holds before advancing. */
@@ -53,8 +52,12 @@ export function ProductsHeroCarousel({ slides }: { slides: HeroSlide[] }) {
               delay: AUTOPLAY_DELAY,
               // Dragging or tabbing in only pauses the timer; the hero picks
               // itself back up once the visitor moves on.
+              //
+              // Deliberately NOT stopOnMouseEnter: the plugin binds that to the
+              // carousel root, and this hero is the whole viewport — a cursor
+              // resting anywhere on the page stops the timer until it leaves,
+              // which reads as autoplay being broken.
               stopOnInteraction: false,
-              stopOnMouseEnter: true,
             }),
           ],
     [reduce, slides.length],
@@ -65,7 +68,6 @@ export function ProductsHeroCarousel({ slides }: { slides: HeroSlide[] }) {
     plugins,
   );
   const [selected, setSelected] = useState(0);
-  const [paused, setPaused] = useState(false);
 
   // Jumping to a slide by hand restarts the countdown, so the chosen slide
   // gets its full turn instead of the remainder of the previous one.
@@ -77,29 +79,15 @@ export function ProductsHeroCarousel({ slides }: { slides: HeroSlide[] }) {
     [emblaApi],
   );
 
-  const togglePaused = useCallback(() => {
-    const autoplay = emblaApi?.plugins().autoplay;
-    if (!autoplay) return;
-    if (autoplay.isPlaying()) autoplay.stop();
-    else autoplay.play();
-  }, [emblaApi]);
-
   useEffect(() => {
     if (!emblaApi) return;
     const onSelect = () => setSelected(emblaApi.selectedScrollSnap());
-    const syncPaused = () =>
-      setPaused(!emblaApi.plugins().autoplay?.isPlaying());
 
     emblaApi.on("select", onSelect);
-    emblaApi.on("autoplay:play", syncPaused);
-    emblaApi.on("autoplay:stop", syncPaused);
     onSelect();
-    syncPaused();
 
     return () => {
       emblaApi.off("select", onSelect);
-      emblaApi.off("autoplay:play", syncPaused);
-      emblaApi.off("autoplay:stop", syncPaused);
     };
   }, [emblaApi]);
 
@@ -198,24 +186,6 @@ export function ProductsHeroCarousel({ slides }: { slides: HeroSlide[] }) {
               )}
             />
           ))}
-
-          {/* Anything that moves on its own needs a way to stop it — the hero
-           * advances every few seconds, which is squarely what WCAG 2.2.2 is
-           * about. Only rendered when autoplay is actually running. */}
-          {plugins.length > 0 && (
-            <button
-              type="button"
-              onClick={togglePaused}
-              aria-label={paused ? "Play slideshow" : "Pause slideshow"}
-              className="ml-1 inline-flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border border-white/60 bg-white/25 text-white transition-colors hover:bg-white hover:text-ink md:h-7 md:w-7"
-            >
-              {paused ? (
-                <Play className="h-3 w-3 md:h-3.5 md:w-3.5" fill="currentColor" />
-              ) : (
-                <Pause className="h-3 w-3 md:h-3.5 md:w-3.5" fill="currentColor" />
-              )}
-            </button>
-          )}
         </div>
       )}
     </section>

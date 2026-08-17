@@ -24,7 +24,8 @@ const localeShort: Record<Locale, string> = {
  *  🇷🇺 renders as the bare "RU" regional-indicator letters there. */
 const localeFlagSrc: Record<Locale, string> = {
   ru: "/flags/ru.svg",
-  en: "/flags/gb.svg",
+  // US rather than GB: the copy is American English.
+  en: "/flags/us.svg",
   tk: "/flags/tm.svg",
   uz: "/flags/uz.svg",
   az: "/flags/az.svg",
