@@ -70,7 +70,13 @@ export function Sidebar({ userName, userEmail }: { userName: string; userEmail: 
   const pathname = usePathname();
 
   return (
-    <aside className="flex w-64 shrink-0 flex-col border-r border-line bg-paper">
+    /* `h-dvh` + `sticky` rather than plain flex stretch. As a bare flex child
+     * the aside inherits the container's *content* height, so it scrolled away
+     * on long pages and took the logout button with it. Pinning it to one
+     * viewport also gives `nav`'s overflow-y-auto a bounded parent, without
+     * which it could never scroll. `self-start` keeps align-items:stretch from
+     * re-expanding it, which would leave sticky nothing to travel over. */
+    <aside className="sticky top-0 flex h-dvh w-64 shrink-0 flex-col self-start border-r border-line bg-paper">
       <div className="flex items-center gap-2.5 border-b border-line px-5 py-4">
         <Image
           src="/logo-mark.png"

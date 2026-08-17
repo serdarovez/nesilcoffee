@@ -172,8 +172,6 @@ model ProductsHeroSlide {
   /// Hex, e.g. "#245314". Rendered as an rgba overlay at `overlayOpacity`%.
   overlayColor   String @default("#1e140f")
   overlayOpacity Int    @default(65)
-  /// Product art width as a share of the slide on desktop, e.g. "38%".
-  productWidth   String @default("42%")
 
   sortOrder Int      @default(0)
   isActive  Boolean  @default(true)

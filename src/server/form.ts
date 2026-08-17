@@ -1,6 +1,6 @@
 import "server-only";
 import { z } from "zod";
-import { routing } from "@/i18n/routing";
+import { routing, localeLabel } from "@/i18n/routing";
 import type { LocalizedField } from "@/lib/i18n-field";
 
 /** Shape returned by every admin form action, consumed via useActionState. */
@@ -74,11 +74,25 @@ export function readBool(formData: FormData, key: string): boolean {
   return raw === "on" || raw === "true" || raw === "1";
 }
 
-/** Localized field where the default locale is mandatory. */
+/**
+ * Localized field where *every* locale must be filled.
+ *
+ * One issue is raised per missing locale, pathed at that locale, so
+ * `fieldErrors()` flattens it to `name.en` and the form can mark the offending
+ * language tab instead of showing one vague message on the field.
+ */
 export const localizedRequired = z
   .record(z.string(), z.string())
-  .refine((v) => Boolean(v[routing.defaultLocale]?.trim()), {
-    message: "Заполните русскую версию",
+  .superRefine((value, ctx) => {
+    for (const locale of routing.locales) {
+      if (!value[locale]?.trim()) {
+        ctx.addIssue({
+          code: "custom",
+          path: [locale],
+          message: `Заполните версию «${localeLabel[locale]}»`,
+        });
+      }
+    }
   });
 
 export const localizedOptional = z.record(z.string(), z.string());

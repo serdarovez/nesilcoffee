@@ -200,7 +200,6 @@ const HERO_SLIDES: {
   productImage: string;
   overlayColor: string;
   overlayOpacity: number;
-  productWidth: string;
 }[] = [
   {
     id: "hero-slide-1",
@@ -210,7 +209,6 @@ const HERO_SLIDES: {
     productImage: "/products/product-carousel-var-d.png",
     overlayColor: "#245314",
     overlayOpacity: 40,
-    productWidth: "38%",
   },
   {
     id: "hero-slide-2",
@@ -220,7 +218,6 @@ const HERO_SLIDES: {
     productImage: "/products/grain-2.png",
     overlayColor: "#1e140f",
     overlayOpacity: 65,
-    productWidth: "46%",
   },
   {
     id: "hero-slide-3",
@@ -230,7 +227,6 @@ const HERO_SLIDES: {
     productImage: "/products/instant-1.png",
     overlayColor: "#1e140f",
     overlayOpacity: 65,
-    productWidth: "42%",
   },
 ];
 
@@ -324,7 +320,6 @@ async function seedCarousels(productIds: Map<string, string>) {
         productImageId: await media(slide.productImage),
         overlayColor: slide.overlayColor,
         overlayOpacity: slide.overlayOpacity,
-        productWidth: slide.productWidth,
         sortOrder: index,
       },
     });

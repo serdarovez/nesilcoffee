@@ -19,6 +19,15 @@ type Props = {
   /** Form field prefix; inputs are named `<name>.<locale>`. */
   name: string;
   label: string;
+  /**
+   * Whether the schema behind this field uses `localizedRequired`. Mandatory
+   * rather than defaulted so a new call site cannot silently inherit the wrong
+   * marker — the two must agree or the form lies about what it will accept.
+   *
+   * Note this only ever means "the default locale is required". No field in
+   * the admin requires all five languages; the other four fall back to Russian.
+   */
+  required: boolean;
   value?: LocalizedValue | null;
   multiline?: boolean;
   rows?: number;
@@ -39,6 +48,7 @@ type Props = {
 export function LocalizedField({
   name,
   label,
+  required,
   value,
   multiline,
   rows = 4,
@@ -51,14 +61,28 @@ export function LocalizedField({
     Object.fromEntries(LOCALE_ORDER.map((l) => [l, value?.[l] ?? ""])),
   );
 
-  const fieldError = errors?.[name] ?? errors?.[`${name}.${routing.defaultLocale}`];
+  // Errors now arrive per locale (`name.en`), so resolve them per tab and keep
+  // the field-level key as a fallback for non-locale issues.
+  const localeErrors = Object.fromEntries(
+    LOCALE_ORDER.map((l) => [l, errors?.[`${name}.${l}`]]),
+  ) as Record<string, string | undefined>;
+  const fieldError = errors?.[name] ?? localeErrors[active];
+  const missingLocales = LOCALE_ORDER.filter((l) => localeErrors[l]);
 
   return (
     <div className="flex flex-col gap-1.5">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <span className="text-sm font-semibold text-ink">
           {label}
-          <span className="ml-1 text-danger">*</span>
+          {required ? (
+            <span className="ml-1 text-xs font-normal text-danger">
+              * все языки
+            </span>
+          ) : (
+            <span className="ml-1.5 text-xs font-normal text-ink-4">
+              необязательно
+            </span>
+          )}
         </span>
 
         <div className="flex gap-1" role="tablist" aria-label={`${label}: язык`}>
@@ -73,21 +97,32 @@ export function LocalizedField({
                 aria-selected={active === locale}
                 onClick={() => setActive(locale)}
                 title={
-                  isDefault
-                    ? "Обязательный язык"
-                    : filled
+                  required
+                    ? filled
                       ? "Заполнено"
-                      : "Пусто — покажется русская версия"
+                      : "Обязательный язык — заполните"
+                    : isDefault
+                      ? "Основной язык"
+                      : filled
+                        ? "Заполнено"
+                        : "Пусто — покажется русская версия"
                 }
                 className={cn(
                   "relative rounded-md px-2 py-1 text-xs font-semibold transition-colors",
                   active === locale
                     ? "bg-paper-dark text-ink-inverse"
-                    : "bg-paper-alt text-ink-3 hover:text-ink",
+                    : localeErrors[locale]
+                      ? "bg-danger/10 text-danger"
+                      : "bg-paper-alt text-ink-3 hover:text-ink",
                 )}
               >
                 {LABELS[locale] ?? locale.toUpperCase()}
-                {!filled && !isDefault && (
+                {/* Markers sit on the tab, not the label — the requirement is
+                 * per language, so this is where it is actionable. */}
+                {required && !filled && (
+                  <span className="ml-0.5 text-danger">*</span>
+                )}
+                {!required && !filled && !isDefault && (
                   <span className="ml-1 text-ink-5">·</span>
                 )}
               </button>
@@ -107,7 +142,9 @@ export function LocalizedField({
           placeholder:
             locale === routing.defaultLocale
               ? placeholder
-              : "Оставьте пустым — покажется русская версия",
+              : required
+                ? "Перевод обязателен"
+                : "Оставьте пустым — покажется русская версия",
           className: cn(inputClass, fieldError && isActive && "border-danger"),
         };
 
@@ -122,11 +159,21 @@ export function LocalizedField({
         );
       })}
 
-      {hint && !fieldError && <span className="text-xs text-ink-4">{hint}</span>}
+      {hint && !fieldError && missingLocales.length === 0 && (
+        <span className="text-xs text-ink-4">{hint}</span>
+      )}
       {fieldError && (
         <span className="inline-flex items-center gap-1 text-xs text-danger">
           <AlertCircle className="h-3 w-3 shrink-0" />
           {fieldError}
+        </span>
+      )}
+      {/* The active tab only reports its own error, so list the rest — the
+       * missing language is usually on a tab that is not currently open. */}
+      {missingLocales.length > 0 && (
+        <span className="text-xs text-danger">
+          Не заполнено:{" "}
+          {missingLocales.map((l) => LABELS[l] ?? l.toUpperCase()).join(", ")}
         </span>
       )}
     </div>

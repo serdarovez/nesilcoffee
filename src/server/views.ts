@@ -93,7 +93,6 @@ export async function heroSlidesView(
       overlayOpacity: s.overlayOpacity,
       // Override → the product's own image → nothing.
       product: s.productImage?.path ?? product?.image?.path ?? null,
-      productWidth: s.productWidth,
       title: title || (product ? pick(product.name, locale) : ""),
       body:
         body ||

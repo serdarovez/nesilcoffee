@@ -27,7 +27,6 @@ export default async function NewHeroSlidePage() {
           isActive: true,
           overlayColor: "#1e140f",
           overlayOpacity: 65,
-          productWidth: "42%",
         }}
         products={products}
         sharedDescription={t("cardDescription")}

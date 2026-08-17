@@ -28,7 +28,6 @@ export type HeroSlideValues = {
   productImage?: MediaRef | null;
   overlayColor?: string;
   overlayOpacity?: number;
-  productWidth?: string;
   isActive?: boolean;
 };
 
@@ -125,6 +124,7 @@ export function HeroSlideForm({
       <Card className="flex flex-col gap-5">
         <LocalizedField
           name="title"
+          required={false}
           label="Заголовок"
           value={values.title ?? undefined}
           multiline
@@ -139,6 +139,7 @@ export function HeroSlideForm({
         />
         <LocalizedField
           name="body"
+          required={false}
           label="Текст"
           value={values.body ?? undefined}
           multiline
@@ -153,6 +154,7 @@ export function HeroSlideForm({
         />
         <LocalizedField
           name="ctaLabel"
+          required={false}
           label="Надпись на кнопке"
           value={values.ctaLabel ?? undefined}
           placeholder="Попробовать"
@@ -226,7 +228,7 @@ export function HeroSlideForm({
           </span>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2">
           <Field label="Цвет" required error={errors.overlayColor}>
             <div className="flex gap-2">
               <input
@@ -254,20 +256,6 @@ export function HeroSlideForm({
               value={opacity}
               onChange={(e) => setOpacity(Number(e.target.value))}
               className="h-10 w-full accent-[#191919]"
-            />
-          </Field>
-
-          <Field
-            label="Ширина товара"
-            required
-            error={errors.productWidth}
-            hint="Доля ширины экрана"
-          >
-            <input
-              name="productWidth"
-              defaultValue={values.productWidth ?? "42%"}
-              placeholder="42%"
-              className={inputClass}
             />
           </Field>
         </div>

@@ -65,6 +65,7 @@ export function CategoryForm({
       <Card className="flex flex-col gap-5">
         <LocalizedField
           name="name"
+          required
           label="Название категории"
           value={values.name}
           placeholder="Зерновой кофе"
@@ -123,6 +124,7 @@ export function TeamForm({
         />
         <LocalizedField
           name="name"
+          required
           label="Имя"
           value={values.name}
           placeholder="Аделя Сахбиева"
@@ -130,6 +132,7 @@ export function TeamForm({
         />
         <LocalizedField
           name="role"
+          required
           label="Должность"
           value={values.role}
           placeholder="Ведущий специалист по экспорту"
@@ -182,6 +185,7 @@ export function FaqForm({
       <Card className="flex flex-col gap-5">
         <LocalizedField
           name="question"
+          required
           label="Вопрос"
           value={values.question}
           placeholder="Какой минимальный объём заказа?"
@@ -189,6 +193,7 @@ export function FaqForm({
         />
         <LocalizedField
           name="answer"
+          required
           label="Ответ"
           value={values.answer}
           multiline
@@ -232,6 +237,7 @@ export function CertificateForm({
         />
         <LocalizedField
           name="name"
+          required
           label="Название"
           value={values.name}
           multiline
@@ -242,6 +248,7 @@ export function CertificateForm({
         />
         <LocalizedField
           name="description"
+          required
           label="Описание"
           value={values.description}
           multiline

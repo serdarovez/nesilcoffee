@@ -1,8 +1,14 @@
 "use client";
 import Image from "next/image";
 import useEmblaCarousel from "embla-carousel-react";
-import { useCallback, useEffect, useState } from "react";
+import Autoplay from "embla-carousel-autoplay";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useReducedMotion } from "motion/react";
+import { Pause, Play } from "lucide-react";
 import { cn } from "@/lib/utils";
+
+/** Time a slide holds before advancing. */
+const AUTOPLAY_DELAY = 5500;
 
 export type HeroSlide = {
   id: string;
@@ -12,8 +18,6 @@ export type HeroSlide = {
   overlayColor: string;
   overlayOpacity: number;
   product: string | null;
-  /** Product art width as a share of the slide, desktop only. */
-  productWidth: string;
   title: string;
   body: string;
   cta: string | null;
@@ -35,16 +39,68 @@ export type HeroSlide = {
  * Tailwind can only emit classes it can see at build time.
  */
 export function ProductsHeroCarousel({ slides }: { slides: HeroSlide[] }) {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "center" });
-  const [selected, setSelected] = useState(0);
+  const reduce = useReducedMotion() ?? false;
 
-  const scrollTo = useCallback((i: number) => emblaApi?.scrollTo(i), [emblaApi]);
+  // A hero that advances on its own is exactly what `prefers-reduced-motion`
+  // asks us to stop, so the plugin is left out entirely rather than paused —
+  // the dots still work. One slide has nowhere to go either.
+  const plugins = useMemo(
+    () =>
+      reduce || slides.length < 2
+        ? []
+        : [
+            Autoplay({
+              delay: AUTOPLAY_DELAY,
+              // Dragging or tabbing in only pauses the timer; the hero picks
+              // itself back up once the visitor moves on.
+              stopOnInteraction: false,
+              stopOnMouseEnter: true,
+            }),
+          ],
+    [reduce, slides.length],
+  );
+
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    { loop: true, align: "center" },
+    plugins,
+  );
+  const [selected, setSelected] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  // Jumping to a slide by hand restarts the countdown, so the chosen slide
+  // gets its full turn instead of the remainder of the previous one.
+  const scrollTo = useCallback(
+    (i: number) => {
+      emblaApi?.scrollTo(i);
+      emblaApi?.plugins().autoplay?.reset();
+    },
+    [emblaApi],
+  );
+
+  const togglePaused = useCallback(() => {
+    const autoplay = emblaApi?.plugins().autoplay;
+    if (!autoplay) return;
+    if (autoplay.isPlaying()) autoplay.stop();
+    else autoplay.play();
+  }, [emblaApi]);
 
   useEffect(() => {
     if (!emblaApi) return;
     const onSelect = () => setSelected(emblaApi.selectedScrollSnap());
+    const syncPaused = () =>
+      setPaused(!emblaApi.plugins().autoplay?.isPlaying());
+
     emblaApi.on("select", onSelect);
+    emblaApi.on("autoplay:play", syncPaused);
+    emblaApi.on("autoplay:stop", syncPaused);
     onSelect();
+    syncPaused();
+
+    return () => {
+      emblaApi.off("select", onSelect);
+      emblaApi.off("autoplay:play", syncPaused);
+      emblaApi.off("autoplay:stop", syncPaused);
+    };
   }, [emblaApi]);
 
   if (slides.length === 0) return null;
@@ -85,11 +141,10 @@ export function ProductsHeroCarousel({ slides }: { slides: HeroSlide[] }) {
               />
 
               <div className="relative z-10 mx-auto flex h-full w-full max-w-(--site-max) flex-col px-5 pb-16 pt-4 md:flex-row md:items-center md:justify-between md:gap-[clamp(24px,4vw,72px)] md:px-9 md:pb-0 md:pt-0">
-                {/* Product art — first (top) on mobile, right column on md+ */}
-                <div
-                  className="pointer-events-none relative order-first min-h-0 w-full flex-1 md:order-last md:h-[78%] md:w-(--pw) md:flex-none"
-                  style={{ ["--pw" as string]: s.productWidth }}
-                >
+                {/* Product art — first (top) on mobile, right column on md+.
+                 * 42% was the per-slide default before the width became fixed;
+                 * `object-contain` keeps any pack shape inside it. */}
+                <div className="pointer-events-none relative order-first min-h-0 w-full flex-1 md:order-last md:h-[78%] md:w-[42%] md:flex-none">
                   {s.product && (
                     <Image
                       src={s.product}
@@ -129,7 +184,7 @@ export function ProductsHeroCarousel({ slides }: { slides: HeroSlide[] }) {
 
       {/* Dots overlay the slide now that the hero runs edge to edge. */}
       {slides.length > 1 && (
-        <div className="absolute bottom-5 left-1/2 z-20 flex -translate-x-1/2 gap-3 md:bottom-[clamp(16px,3dvh,28px)] md:gap-4">
+        <div className="absolute bottom-5 left-1/2 z-20 flex -translate-x-1/2 items-center gap-3 md:bottom-[clamp(16px,3dvh,28px)] md:gap-4">
           {slides.map((s, i) => (
             <button
               key={s.id}
@@ -143,6 +198,24 @@ export function ProductsHeroCarousel({ slides }: { slides: HeroSlide[] }) {
               )}
             />
           ))}
+
+          {/* Anything that moves on its own needs a way to stop it — the hero
+           * advances every few seconds, which is squarely what WCAG 2.2.2 is
+           * about. Only rendered when autoplay is actually running. */}
+          {plugins.length > 0 && (
+            <button
+              type="button"
+              onClick={togglePaused}
+              aria-label={paused ? "Play slideshow" : "Pause slideshow"}
+              className="ml-1 inline-flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border border-white/60 bg-white/25 text-white transition-colors hover:bg-white hover:text-ink md:h-7 md:w-7"
+            >
+              {paused ? (
+                <Play className="h-3 w-3 md:h-3.5 md:w-3.5" fill="currentColor" />
+              ) : (
+                <Pause className="h-3 w-3 md:h-3.5 md:w-3.5" fill="currentColor" />
+              )}
+            </button>
+          )}
         </div>
       )}
     </section>

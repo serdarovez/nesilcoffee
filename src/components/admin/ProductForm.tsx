@@ -43,6 +43,7 @@ export function ProductForm({
       <Card className="flex flex-col gap-5">
         <LocalizedField
           name="name"
+          required
           label="Название"
           value={values.name}
           placeholder="Intenso"
@@ -157,6 +158,7 @@ export function ProductForm({
       <Card className="flex flex-col gap-5">
         <LocalizedField
           name="description"
+          required={false}
           label="Описание"
           value={values.description ?? undefined}
           multiline
@@ -166,6 +168,7 @@ export function ProductForm({
         />
         <LocalizedField
           name="tagline"
+          required={false}
           label="Подпись"
           value={values.tagline ?? undefined}
           errors={errors}

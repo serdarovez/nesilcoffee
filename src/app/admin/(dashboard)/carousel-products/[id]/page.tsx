@@ -74,7 +74,6 @@ export default async function EditHeroSlidePage({
           productImage: mediaRef(slide.productImage),
           overlayColor: slide.overlayColor,
           overlayOpacity: slide.overlayOpacity,
-          productWidth: slide.productWidth,
           isActive: slide.isActive,
         }}
         products={products}

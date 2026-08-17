@@ -85,6 +85,7 @@ export function SettingsForm({ values }: { values: SettingsValues }) {
 
         <LocalizedField
           name="address"
+          required
           label="Адрес"
           value={values.address}
           multiline
