@@ -73,7 +73,7 @@ export function Sidebar({ userName, userEmail }: { userName: string; userEmail: 
     <aside className="flex w-64 shrink-0 flex-col border-r border-line bg-paper">
       <div className="flex items-center gap-2.5 border-b border-line px-5 py-4">
         <Image
-          src="/logo.png"
+          src="/logo-mark.png"
           alt=""
           width={36}
           height={36}

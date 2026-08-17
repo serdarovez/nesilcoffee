@@ -1,7 +1,9 @@
 "use client";
+import Image from "next/image";
 import { useLocale } from "next-intl";
 import { useRouter, usePathname } from "@/i18n/navigation";
 import { routing, localeLabel, type Locale } from "@/i18n/routing";
+import { cn } from "@/lib/utils";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -18,13 +20,40 @@ const localeShort: Record<Locale, string> = {
   az: "AZ",
 };
 
-const localeFlag: Record<Locale, string> = {
-  ru: "🇷🇺",
-  en: "🇬🇧",
-  tk: "🇹🇲",
-  uz: "🇺🇿",
-  az: "🇦🇿",
+/** Flag files rather than emoji: Windows ships no country-flag glyphs, so
+ *  🇷🇺 renders as the bare "RU" regional-indicator letters there. */
+const localeFlagSrc: Record<Locale, string> = {
+  ru: "/flags/ru.svg",
+  en: "/flags/gb.svg",
+  tk: "/flags/tm.svg",
+  uz: "/flags/uz.svg",
+  az: "/flags/az.svg",
 };
+
+/** Round flag badge. Decorative — the adjacent code and language name carry
+ *  the meaning, so the image stays out of the accessibility tree.
+ *  `unoptimized` because the optimizer refuses SVG without `dangerouslyAllowSVG`,
+ *  and a 20px vector has nothing to gain from it anyway. */
+function Flag({ locale, className }: { locale: Locale; className?: string }) {
+  return (
+    <span
+      aria-hidden
+      className={cn(
+        "relative inline-block shrink-0 overflow-hidden rounded-full border border-line-strong",
+        className,
+      )}
+    >
+      <Image
+        src={localeFlagSrc[locale]}
+        alt=""
+        fill
+        sizes="24px"
+        className="object-cover"
+        unoptimized
+      />
+    </span>
+  );
+}
 
 export function LanguageSwitcher() {
   const locale = useLocale() as Locale;
@@ -38,12 +67,7 @@ export function LanguageSwitcher() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="inline-flex items-center gap-1 rounded-full text-paper-dark cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40">
-        <span
-          aria-hidden
-          className="inline-flex items-center justify-center h-4.5 w-4.5 rounded-full border border-line-strong text-[11px] leading-none overflow-hidden"
-        >
-          {localeFlag[locale]}
-        </span>
+        <Flag locale={locale} className="h-4.5 w-4.5" />
         <span className="px-0.5 text-[18px] font-medium leading-[110%] font-sans">
           {localeShort[locale]}
         </span>
@@ -69,9 +93,7 @@ export function LanguageSwitcher() {
           <DropdownMenuItem key={l} onSelect={() => change(l)}>
             <DropdownMenuCheckLabel active={l === locale}>
               <span className="flex items-center gap-2">
-                <span aria-hidden className="text-sm leading-none">
-                  {localeFlag[l]}
-                </span>
+                <Flag locale={l} className="h-5 w-5" />
                 <span className="text-xs font-bold text-muted-foreground w-6">
                   {localeShort[l]}
                 </span>

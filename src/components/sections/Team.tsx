@@ -28,6 +28,14 @@ export function Team({ members }: { members: TeamMemberView[] }) {
     containScroll: "trimSnaps",
   });
   const [selected, setSelected] = useState(0);
+  // One entry per *snap point*, which is not the same as one per member.
+  // Embla silently drops `loop` when `canLoop()` fails — that needs every
+  // slide but one to still cover the viewport, and 5 cards of ~300px in a
+  // ~1440px track do not. Losing loop then activates the `containScroll`
+  // above, which trims the snap list down to only the snaps that actually
+  // scroll. Rendering a dot per member therefore produced dead dots whose
+  // index was out of range for scrollTo(). Always ask Embla instead.
+  const [snaps, setSnaps] = useState<number[]>([]);
 
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
@@ -35,8 +43,19 @@ export function Team({ members }: { members: TeamMemberView[] }) {
   useEffect(() => {
     if (!emblaApi) return;
     const onSelect = () => setSelected(emblaApi.selectedScrollSnap());
+    // The snap count is viewport-dependent (card widths are clamped to vw),
+    // so it has to be re-read on every reInit, not just on mount.
+    const onReInit = () => {
+      setSnaps(emblaApi.scrollSnapList());
+      onSelect();
+    };
+    onReInit();
     emblaApi.on("select", onSelect);
-    onSelect();
+    emblaApi.on("reInit", onReInit);
+    return () => {
+      emblaApi.off("select", onSelect);
+      emblaApi.off("reInit", onReInit);
+    };
   }, [emblaApi]);
 
   // Nothing to show if every member has been hidden or deleted — render
@@ -141,21 +160,25 @@ export function Team({ members }: { members: TeamMemberView[] }) {
       </div>
 
       {/* Dot progress indicator — mirrors ProductionProcess so all
-       * carousels on the page share the same feedback pattern. */}
-      <div className="mt-6 flex items-center justify-center gap-2 md:mt-[clamp(20px,3dvh,32px)]">
-        {members.map((_, i) => (
-          <button
-            key={i}
-            type="button"
-            aria-label={`Go to member ${i + 1}`}
-            onClick={() => emblaApi?.scrollTo(i)}
-            className={cn(
-              "h-1.5 rounded-full transition-all cursor-pointer",
-              i === selected ? "w-6 bg-paper-dark" : "w-1.5 bg-paper-dark/20",
-            )}
-          />
-        ))}
-      </div>
+       * carousels on the page share the same feedback pattern. Hidden at a
+       * single snap, where every dot would be a no-op. */}
+      {snaps.length > 1 && (
+        <div className="mt-6 flex items-center justify-center gap-2 md:mt-[clamp(20px,3dvh,32px)]">
+          {snaps.map((_, i) => (
+            <button
+              key={i}
+              type="button"
+              aria-label={`Go to slide ${i + 1} of ${snaps.length}`}
+              aria-current={i === selected}
+              onClick={() => emblaApi?.scrollTo(i)}
+              className={cn(
+                "h-1.5 rounded-full transition-all cursor-pointer",
+                i === selected ? "w-6 bg-paper-dark" : "w-1.5 bg-paper-dark/20",
+              )}
+            />
+          ))}
+        </div>
+      )}
     </section>
   );
 }

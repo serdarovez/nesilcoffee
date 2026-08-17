@@ -298,7 +298,9 @@
       "addressLabel": "Ünvan",
       "address": "Türkmənistan, Ahal vilayəti, Ak-buğday rayonu, Magtymguly qəsəbəsi",
       "writeUs": "Bizə yazın",
-      "writeUsBody": "Formanı doldurun, biz ən qısa zamanda sizinlə əlaqə saxlayacağıq"
+      "writeUsBody": "Formanı doldurun, biz ən qısa zamanda sizinlə əlaqə saxlayacağıq",
+      "mapTitle": "Xəritə: NesilCoffee-nin yerləşdiyi yer",
+      "directions": "Marşrut qur"
     }
   },
   "footer": {

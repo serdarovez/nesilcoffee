@@ -298,7 +298,9 @@
       "addressLabel": "Manzil",
       "address": "Turkmaniston, Ahal viloyati, Ak-bugday tumani, Magtymguly qishlog'i",
       "writeUs": "Bizga yozing",
-      "writeUsBody": "Formani to'ldiring, biz yaqin orada siz bilan bog'lanamiz"
+      "writeUsBody": "Formani to'ldiring, biz yaqin orada siz bilan bog'lanamiz",
+      "mapTitle": "Xarita: NesilCoffee joylashuvi",
+      "directions": "Yo'nalishni ko'rsatish"
     }
   },
   "footer": {

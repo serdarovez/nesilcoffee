@@ -16,7 +16,7 @@ export default async function LoginPage() {
       <div className="w-full max-w-100">
         <div className="mb-8 flex flex-col items-center gap-4 text-center">
           <Image
-            src="/logo.png"
+            src="/logo-mark.png"
             alt="NesilCoffee"
             width={72}
             height={72}

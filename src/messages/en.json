@@ -298,7 +298,9 @@
       "addressLabel": "Address",
       "address": "Turkmenistan, Ahal Region, Ak Bugday District, Magtymguly village",
       "writeUs": "Write to us",
-      "writeUsBody": "Fill out the form and we'll be in touch shortly"
+      "writeUsBody": "Fill out the form and we'll be in touch shortly",
+      "mapTitle": "Map: NesilCoffee location",
+      "directions": "Get directions"
     }
   },
   "footer": {

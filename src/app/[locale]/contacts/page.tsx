@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { FAQ } from "@/components/sections/FAQ";
 import { ContactForm } from "@/components/sections/ContactForm";
 import { InstagramIcon } from "@/components/icons/Socials";
-import { BlurImage } from "@/components/ui/BlurImage";
 import { getFaqItems } from "@/server/queries";
 import { contactInfo, telHref, type ContactInfo } from "@/server/views";
 import { pick } from "@/lib/i18n-field";
@@ -150,18 +149,41 @@ async function ContactsBlock({
   );
 }
 
-/** Map banner — full-width image with rounded-3xl (24px per Figma Rectangle 518). */
-function MapBanner() {
+/** Google's own id for the NESIL COFFEE listing (from the shared maps.app.goo.gl
+ *  link). Embedding by `cid` spotlights the business marker with its name and
+ *  info card, which a bare `q=lat,lng` embed does not do. */
+const MAP_CID = "11155405956491020435";
+const MAP_LAT_LNG = "37.8486686,58.566173";
+
+/** Turn-by-turn directions to the roastery, opened in the Maps app on mobile. */
+const MAP_DIRECTIONS_URL = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
+  MAP_LAT_LNG,
+)}`;
+
+/** Map banner — live Google map in the Figma banner's frame (rounded-3xl,
+ *  24px per Rectangle 518), with a floating button that hands the visitor off
+ *  to real directions. `hl` follows the site locale so the labels match the
+ *  rest of the page. */
+function MapBanner({ locale, title, cta }: { locale: string; title: string; cta: string }) {
   return (
     <section className="mx-auto w-full max-w-378 px-5 pt-8 pb-12 md:px-9 md:pt-10 md:pb-20">
       <div className="relative h-[220px] w-full overflow-hidden rounded-2xl md:h-126.25 md:rounded-3xl">
-        <BlurImage
-          src="/sections/contacts/map-banner.png"
-          alt=""
-          fill
-          sizes="(max-width: 768px) 100vw, 1440px"
-          className="object-cover"
+        <iframe
+          title={title}
+          src={`https://www.google.com/maps?cid=${MAP_CID}&hl=${locale}&output=embed`}
+          className="absolute inset-0 h-full w-full border-0"
+          loading="lazy"
+          allowFullScreen
+          referrerPolicy="no-referrer-when-downgrade"
         />
+        <a
+          href={MAP_DIRECTIONS_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="absolute bottom-4 left-4 inline-flex h-11 items-center justify-center rounded-lg bg-[#1a1a1a] px-5 text-sm font-medium text-white shadow-lg transition-colors hover:bg-black md:bottom-6 md:left-6 md:h-13 md:px-6 md:text-base"
+        >
+          {cta}
+        </a>
       </div>
     </section>
   );
@@ -175,9 +197,10 @@ export default async function ContactsPage({
   const { locale } = await params;
   setRequestLocale(locale);
 
-  const [faqRows, info] = await Promise.all([
+  const [faqRows, info, t] = await Promise.all([
     getFaqItems(),
     contactInfo(locale),
+    getTranslations({ locale, namespace: "contacts.contact" }),
   ]);
 
   const faq = faqRows.map((item) => ({
@@ -190,7 +213,11 @@ export default async function ContactsPage({
     <>
       <FAQ items={faq} />
       <ContactsBlock locale={locale} info={info} />
-      <MapBanner />
+      <MapBanner
+        locale={locale}
+        title={t("mapTitle")}
+        cta={t("directions")}
+      />
     </>
   );
 }

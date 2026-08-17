@@ -7,8 +7,8 @@ import { Certificates } from "@/components/sections/Certificates";
 import { Team } from "@/components/sections/Team";
 import { CTAContact } from "@/components/sections/CTAContact";
 import { AboutHistory } from "@/components/sections/AboutHistory";
+import { QualityTimeline } from "@/components/sections/QualityTimeline";
 import { teamView, certificatesView } from "@/server/views";
-import { cn } from "@/lib/utils";
 import { BlurImage } from "@/components/ui/BlurImage";
 
 export async function generateMetadata({
@@ -126,84 +126,26 @@ const QUALITY_STEPS: QualityStep[] = [
 
 function QualityControl() {
   const t = useTranslations("about.quality");
+  // Copy is resolved here so the animated timeline receives plain strings and
+  // the messages never have to cross into the client bundle.
+  const steps = QUALITY_STEPS.map((s, i) => ({
+    key: s.key,
+    image: s.image,
+    title: t(`${s.key}.title`),
+    body: t(`${s.key}.body`),
+    stage: `${t("stageLabel")} 0${i + 1}`,
+  }));
+
   return (
     <section className="container-x section-pt">
-      <h2 className="display-2 text-ink md:max-w-[66.2%]">
-        {t.rich("title", {
+      {/* The heading is rendered inside the timeline: on desktop it has to sit
+       * within the pinned viewport so it stays on screen across all steps. */}
+      <QualityTimeline
+        title={t.rich("title", {
           a: (chunks) => <span className="text-quiet">{chunks}</span>,
         })}
-      </h2>
-
-      {/* Mobile: linear stack of steps */}
-      <div className="mt-6 flex flex-col gap-8 md:hidden">
-        {QUALITY_STEPS.map((s, i) => (
-          <article key={s.key} className="flex flex-col gap-4">
-            <div className="eyebrow inline-flex w-fit items-center rounded-full bg-ink px-3 py-1.5 text-ink-inverse">
-              {t("stageLabel")} 0{i + 1}
-            </div>
-            <div className="relative aspect-4/3 w-full overflow-hidden rounded-xl bg-line-strong">
-              <Image
-                src={s.image}
-                alt=""
-                fill
-                sizes="100vw"
-                className="object-cover"
-              />
-            </div>
-            <h3 className="heading-1 text-ink">{t(`${s.key}.title`)}</h3>
-            <p className="body-md text-ink-2">{t(`${s.key}.body`)}</p>
-          </article>
-        ))}
-      </div>
-
-      {/* Desktop: timeline rail + content rows */}
-      <div className="mt-[clamp(32px,6dvh,48px)] hidden gap-[clamp(16px,2vw,24px)] md:flex">
-        {/* Rail is 9% rather than the Figma 102px so the stage pill still
-         * fits on one line once the label scales with the viewport. */}
-        <div className="relative w-[9%] shrink-0">
-          <div className="absolute left-2 top-16 bottom-16 w-0.5 bg-line-strong" />
-          <div className="flex h-full flex-col justify-between py-[clamp(32px,6dvh,52px)]">
-            {QUALITY_STEPS.map((_, i) => (
-              <div key={i} className="relative pl-8">
-                <span className="absolute left-1 top-3.5 h-3 w-3 rounded-full bg-ink" />
-                <div className="eyebrow inline-flex h-10 items-center whitespace-nowrap rounded-full bg-ink px-3 text-ink-inverse">
-                  {t("stageLabel")} 0{i + 1}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="flex min-w-0 flex-1 flex-col">
-          {QUALITY_STEPS.map((s, i) => (
-            <div
-              key={s.key}
-              className={cn(
-                "border-t border-line-strong py-[clamp(24px,4dvh,40px)]",
-                i === QUALITY_STEPS.length - 1 && "border-b",
-              )}
-            >
-              <div className="flex items-start gap-[clamp(20px,3vw,48px)]">
-                <div className="relative aspect-296/317 w-[24.7%] shrink-0 overflow-hidden bg-line-strong">
-                  <Image
-                    src={s.image}
-                    alt=""
-                    fill
-                    sizes="25vw"
-                    className="object-cover"
-                  />
-                </div>
-                <h3 className="display-4 w-[18.4%] shrink-0 text-ink">
-                  {t(`${s.key}.title`)}
-                </h3>
-                <p className="body-xl min-w-0 flex-1 text-ink-2">
-                  {t(`${s.key}.body`)}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+        steps={steps}
+      />
     </section>
   );
 }

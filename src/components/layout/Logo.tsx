@@ -9,12 +9,12 @@ export function Logo({ className }: { className?: string }) {
       className={cn("flex items-center", className)}
     >
       <Image
-        src="/logo.png"
+        src="/logo-mark.png"
         alt="NesilCoffee"
-        width={44}
-        height={42}
+        width={34}
+        height={32}
         preload
-        className="h-20.5 w-21 object-contain"
+        className="h-14.5 w-17 object-contain"
       />
     </Link>
   );
