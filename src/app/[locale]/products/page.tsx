@@ -7,7 +7,12 @@ import { CTAContact } from "@/components/sections/CTAContact";
 import { ProductsHeroCarousel } from "@/components/sections/ProductsHeroCarousel";
 import { ProductCard, type Product } from "@/components/sections/ProductCard";
 import { getCategoriesWithProducts } from "@/server/queries";
-import { heroSlidesView, teamView, certificatesView } from "@/server/views";
+import {
+  heroSlidesView,
+  teamView,
+  certificatesView,
+  contactInfo,
+} from "@/server/views";
 import { pick } from "@/lib/i18n-field";
 
 export async function generateMetadata({
@@ -29,10 +34,14 @@ function CategoryGrid({
   label,
   products,
   fallbackDescription,
+  whatsapp,
+  contactEmail,
 }: {
   label: string;
   products: (Product & { id: string })[];
   fallbackDescription: string;
+  whatsapp: string | null;
+  contactEmail: string;
 }) {
   return (
     <section className="mx-auto w-full max-w-378 px-5 pt-12 md:px-9 md:pt-20">
@@ -50,6 +59,8 @@ function CategoryGrid({
             productId={p.id}
             categoryLabel={label}
             fallbackDescription={fallbackDescription}
+            whatsapp={whatsapp}
+            contactEmail={contactEmail}
           />
         ))}
       </div>
@@ -68,11 +79,12 @@ export default async function ProductsPage({
   const t = await getTranslations({ locale, namespace: "products" });
   const fallbackDescription = t("cardDescription");
 
-  const [categories, heroSlides, team, certificates] = await Promise.all([
+  const [categories, heroSlides, team, certificates, info] = await Promise.all([
     getCategoriesWithProducts(),
     heroSlidesView(locale),
     teamView(locale),
     certificatesView(locale),
+    contactInfo(locale),
   ]);
 
   return (
@@ -86,6 +98,8 @@ export default async function ProductsPage({
             key={category.id}
             label={pick(category.name, locale)}
             fallbackDescription={fallbackDescription}
+            whatsapp={info.whatsapp}
+            contactEmail={info.email}
             products={category.products.map((p) => ({
               id: p.id,
               name: pick(p.name, locale),

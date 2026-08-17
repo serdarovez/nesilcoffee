@@ -81,11 +81,36 @@
     "team": {
       "title": "Topar",
       "members": [
-        { "name": "Adelýa Sahbiýewa", "role": "Eksport boýunça öňdebaryjy hünärmen", "phone": "+9936483428", "email": "info@nesilcoffee.com" },
-        { "name": "Adelýa Sahbiýewa", "role": "Eksport boýunça öňdebaryjy hünärmen", "phone": "+9936483428", "email": "info@nesilcoffee.com" },
-        { "name": "Adelýa Sahbiýewa", "role": "Eksport boýunça öňdebaryjy hünärmen", "phone": "+9936483428", "email": "info@nesilcoffee.com" },
-        { "name": "Adelýa Sahbiýewa", "role": "Eksport boýunça öňdebaryjy hünärmen", "phone": "+9936483428", "email": "info@nesilcoffee.com" },
-        { "name": "Adelýa Sahbiýewa", "role": "Eksport boýunça öňdebaryjy hünärmen", "phone": "+9936483428", "email": "info@nesilcoffee.com" }
+        {
+          "name": "Adelýa Sahbiýewa",
+          "role": "Eksport boýunça öňdebaryjy hünärmen",
+          "phone": "+9936483428",
+          "email": "info@nesilcoffee.com"
+        },
+        {
+          "name": "Adelýa Sahbiýewa",
+          "role": "Eksport boýunça öňdebaryjy hünärmen",
+          "phone": "+9936483428",
+          "email": "info@nesilcoffee.com"
+        },
+        {
+          "name": "Adelýa Sahbiýewa",
+          "role": "Eksport boýunça öňdebaryjy hünärmen",
+          "phone": "+9936483428",
+          "email": "info@nesilcoffee.com"
+        },
+        {
+          "name": "Adelýa Sahbiýewa",
+          "role": "Eksport boýunça öňdebaryjy hünärmen",
+          "phone": "+9936483428",
+          "email": "info@nesilcoffee.com"
+        },
+        {
+          "name": "Adelýa Sahbiýewa",
+          "role": "Eksport boýunça öňdebaryjy hünärmen",
+          "phone": "+9936483428",
+          "email": "info@nesilcoffee.com"
+        }
       ]
     },
     "cta": {
@@ -105,7 +130,11 @@
     "validation": {
       "required": "Hökmany meýdan",
       "email": "Dogry e-poçta giriziň"
-    }
+    },
+    "sendWhatsapp": "WhatsApp-a ýazmak",
+    "sendEmail": "E-poçta ibermek",
+    "sendHint": "Habary nirä ibermelidigini saýlaň — formadaky ähli maglumaty alarys",
+    "messageIntro": "Salam! NesilCoffee saýtyndan ýazýaryn:"
   },
   "products": {
     "hero": {
@@ -152,7 +181,14 @@
       "sending": "Iberilýär...",
       "successTitle": "Arza iberildi",
       "successBody": "Sargydyňyz üçin sag boluň! Ýakyn wagtda siziň bilen habarlaşarys.",
-      "close": "Ýapmak"
+      "close": "Ýapmak",
+      "sendWhatsapp": "WhatsApp arkaly ibermek",
+      "sendEmail": "E-poçta ibermek",
+      "sendHint": "Arzany nirä ibermelidigini saýlaň — formadaky ähli maglumaty alarys",
+      "messageIntro": "Salam! Sargyt etmek isleýärin:",
+      "messageProduct": "Haryt",
+      "messageCategory": "Kategoriýa",
+      "messageWeight": "Agramy"
     }
   },
   "about": {
@@ -227,12 +263,30 @@
     "faq": {
       "title": "<a>Ýygy-ýygydan berilýän</a> soraglar",
       "items": [
-        { "q": "Iň az sargydyň möçberi näçe?", "a": "Iň az lomaý sargyt önüme we logistikä görä aýratyn ara alnyp maslahatlaşylýar. Takyk hasap üçin biziň bilen habarlaşyň." },
-        { "q": "Diňe lomaý sargytlar bilen işleýärsiňizmi?", "a": "Hawa, NesilCoffee B2B formatynda işleýär we lomaý üpjünçilige ugrukdyrylandyr. Biz distribýutorlar, söwda toplumlary, HoReCa, korporatiw müşderiler we eksport hyzmatdaşlary bilen hyzmatdaşlyk edýäris." },
-        { "q": "Önümiň eltilişi nähili amala aşyrylýar?", "a": "Biz barlagdan geçen logistika operatorlary bilen işleýäris. Eltiş şertleri, şol sanda eksport — ylalaşyk boýunça." },
-        { "q": "Töleg möhletini berýärsiňizmi?", "a": "Töleg şertleri her hyzmatdaş bilen aýratyn ara alnyp maslahatlaşylýar we şertnamada berkidilýär." },
-        { "q": "Haýsy resminamalary hödürleýärsiňiz?", "a": "Önüm üçin doly resminama toplumy: hil sertifikatlary, HALAL, ISO, harydy tabşyryş kagyzlary, hasap-fakturalar, eksport resminamalary." },
-        { "q": "Nyrhnamany alyp bolýarmy?", "a": "Hawa, aktual nyrhnama, biznesiňiz bilen gysga tanyşlykdan soň, sorag boýunça iberilýär. Aşakdaky formy dolduryň." }
+        {
+          "q": "Iň az sargydyň möçberi näçe?",
+          "a": "Iň az lomaý sargyt önüme we logistikä görä aýratyn ara alnyp maslahatlaşylýar. Takyk hasap üçin biziň bilen habarlaşyň."
+        },
+        {
+          "q": "Diňe lomaý sargytlar bilen işleýärsiňizmi?",
+          "a": "Hawa, NesilCoffee B2B formatynda işleýär we lomaý üpjünçilige ugrukdyrylandyr. Biz distribýutorlar, söwda toplumlary, HoReCa, korporatiw müşderiler we eksport hyzmatdaşlary bilen hyzmatdaşlyk edýäris."
+        },
+        {
+          "q": "Önümiň eltilişi nähili amala aşyrylýar?",
+          "a": "Biz barlagdan geçen logistika operatorlary bilen işleýäris. Eltiş şertleri, şol sanda eksport — ylalaşyk boýunça."
+        },
+        {
+          "q": "Töleg möhletini berýärsiňizmi?",
+          "a": "Töleg şertleri her hyzmatdaş bilen aýratyn ara alnyp maslahatlaşylýar we şertnamada berkidilýär."
+        },
+        {
+          "q": "Haýsy resminamalary hödürleýärsiňiz?",
+          "a": "Önüm üçin doly resminama toplumy: hil sertifikatlary, HALAL, ISO, harydy tabşyryş kagyzlary, hasap-fakturalar, eksport resminamalary."
+        },
+        {
+          "q": "Nyrhnamany alyp bolýarmy?",
+          "a": "Hawa, aktual nyrhnama, biznesiňiz bilen gysga tanyşlykdan soň, sorag boýunça iberilýär. Aşakdaky formy dolduryň."
+        }
       ]
     },
     "contact": {

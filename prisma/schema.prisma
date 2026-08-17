@@ -25,6 +25,15 @@ enum SubmissionType {
   ORDER
 }
 
+/// How the customer chose to send their enquiry. FORM means they used the
+/// plain submit; WHATSAPP and EMAIL mean they were handed a pre-filled message
+/// and continued in that app.
+enum SubmissionChannel {
+  FORM
+  WHATSAPP
+  EMAIL
+}
+
 /* -------------------------------------------------------------------------- */
 /*  Media                                                                     */
 /* -------------------------------------------------------------------------- */
@@ -306,6 +315,10 @@ model Submission {
   ip        String?
   userAgent String?
   isSpam    Boolean @default(false)
+
+  /// Which button the customer pressed. The row is written before the handoff,
+  /// so a lead is recorded even if they never finish sending in WhatsApp.
+  channel SubmissionChannel @default(FORM)
 
   notifiedEmail    Boolean @default(false)
   notifiedWhatsapp Boolean @default(false)

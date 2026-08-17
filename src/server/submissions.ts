@@ -4,7 +4,7 @@ import { prisma } from "@/server/db";
 import { consumeRateLimit } from "@/server/rate-limit";
 import { sendSubmissionEmail } from "@/server/notify/email";
 import { sendWhatsappNotification } from "@/server/notify/whatsapp";
-import type { Submission, SubmissionType } from "@prisma/client";
+import type { Submission, SubmissionType, SubmissionChannel } from "@prisma/client";
 
 /**
  * Shared pipeline for the contact form and the order modal.
@@ -30,6 +30,8 @@ export type SubmissionInput = {
   productName?: string | null;
   quantity?: number | null;
   locale: string;
+  /** Which button the customer pressed. */
+  channel?: SubmissionChannel;
   /** Hidden field; only bots fill it. */
   honeypot?: string | null;
   /** Client timestamp of when the form was rendered. */
@@ -90,6 +92,7 @@ export async function createSubmission(
       productName: input.productName ?? null,
       quantity: input.quantity ?? null,
       locale: input.locale,
+      channel: input.channel ?? "FORM",
       ip,
       userAgent,
       isSpam,

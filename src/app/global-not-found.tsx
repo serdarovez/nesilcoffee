@@ -38,6 +38,11 @@ export default function GlobalNotFound() {
               Возможно, ссылка устарела или в адресе опечатка.
             </p>
           </div>
+          {/* A plain anchor, not next/link: this page renders its own <html>
+           * outside the app shell, so a client-side transition would have no
+           * layout to navigate within. A full page load is the correct
+           * behaviour here. */}
+          {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
           <a
             href="/ru"
             className="inline-flex h-12 items-center justify-center rounded-lg bg-paper-dark px-8 text-base font-medium text-ink-inverse transition-colors hover:bg-brand-coffee"

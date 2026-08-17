@@ -1,7 +1,16 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { X, Minus, Plus, Check } from "lucide-react";
+import { X, Minus, Plus, Check, Mail } from "lucide-react";
+
+/** WhatsApp mark — lucide has no brand icons, so it is inlined. */
+function WhatsappGlyph({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden className={className}>
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.465 3.488" />
+    </svg>
+  );
+}
 import { useTranslations, useLocale } from "next-intl";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
@@ -21,9 +30,43 @@ interface OrderModalProps {
   open: boolean;
   onClose: () => void;
   product: OrderProduct | null;
+  /** Business WhatsApp number (digits only) and inbox, from site settings. */
+  whatsapp?: string | null;
+  email?: string | null;
 }
 
-export function OrderModal({ open, onClose, product }: OrderModalProps) {
+/**
+ * The plain-text order summary handed to WhatsApp or the mail client.
+ * Kept identical between channels so the business always sees the same shape.
+ */
+function buildMessage(
+  product: OrderProduct,
+  fields: { qty: number; name: string; phone: string; email: string; comment: string },
+  labels: { intro: string; product: string; category: string; weight: string; qty: string; name: string; phone: string; email: string; comment: string },
+): string {
+  const lines = [
+    labels.intro,
+    "",
+    `${labels.product}: ${product.name}`,
+    `${labels.category}: ${product.category}`,
+    `${labels.weight}: ${product.weight}`,
+    `${labels.qty}: ${fields.qty}`,
+    "",
+    `${labels.name}: ${fields.name}`,
+  ];
+  if (fields.phone) lines.push(`${labels.phone}: ${fields.phone}`);
+  if (fields.email) lines.push(`${labels.email}: ${fields.email}`);
+  if (fields.comment) lines.push("", `${labels.comment}: ${fields.comment}`);
+  return lines.join("\n");
+}
+
+export function OrderModal({
+  open,
+  onClose,
+  product,
+  whatsapp,
+  email: businessEmail,
+}: OrderModalProps) {
   const t = useTranslations("products.orderModal");
   const locale = useLocale();
   const [step, setStep] = useState<"form" | "success">("form");
@@ -94,9 +137,13 @@ export function OrderModal({ open, onClose, product }: OrderModalProps) {
     }
   }, [open]);
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    if (!product) return;
+  /**
+   * Record the enquiry. Always runs before the customer is handed off, so the
+   * lead exists in the admin inbox even if they abandon WhatsApp or their mail
+   * client without pressing send.
+   */
+  async function save(channel: "FORM" | "WHATSAPP" | "EMAIL") {
+    if (!product) return false;
     setSubmitting(true);
     setError(null);
     try {
@@ -112,6 +159,7 @@ export function OrderModal({ open, onClose, product }: OrderModalProps) {
           productId: product.id,
           productName: product.name,
           locale,
+          channel,
           // Spam guards: `website` is the hidden honeypot, `renderedAt` lets
           // the server reject submissions filled faster than a human could.
           website: honeypot,
@@ -122,15 +170,69 @@ export function OrderModal({ open, onClose, product }: OrderModalProps) {
       if (!res.ok) {
         const data = await res.json().catch(() => null);
         setError(data?.error ?? t("error"));
-        return;
+        return false;
       }
-      setStep("success");
+      return true;
     } catch {
       setError(t("error"));
+      return false;
     } finally {
       setSubmitting(false);
     }
   }
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (await save("FORM")) setStep("success");
+  }
+
+  /**
+   * Handoff click. The href is already on the anchor, so the browser navigates
+   * natively — calling window.open() after an await would be swallowed by the
+   * popup blocker. The save is fired without blocking that navigation, and the
+   * success screen follows once it resolves.
+   */
+  function handleHandoff(channel: "WHATSAPP" | "EMAIL") {
+    return (e: React.MouseEvent<HTMLAnchorElement>) => {
+      const form = e.currentTarget.closest("form");
+      if (form && !form.reportValidity()) {
+        e.preventDefault();
+        return;
+      }
+      void save(channel).then((ok) => {
+        if (ok) setStep("success");
+      });
+    };
+  }
+
+  // Recomputed on every keystroke so the link always carries what is on screen.
+  const messageBody = product
+    ? buildMessage(
+        product,
+        { qty, name, phone, email, comment },
+        {
+          intro: t("messageIntro"),
+          product: t("messageProduct"),
+          category: t("messageCategory"),
+          weight: t("messageWeight"),
+          qty: t("quantity"),
+          name: t("name"),
+          phone: t("phone"),
+          email: t("email"),
+          comment: t("comment"),
+        },
+      )
+    : "";
+
+  const whatsappHref = whatsapp
+    ? `https://wa.me/${whatsapp}?text=${encodeURIComponent(messageBody)}`
+    : null;
+
+  const mailtoHref = businessEmail
+    ? `mailto:${businessEmail}?subject=${encodeURIComponent(
+        `${t("title")}: ${product?.name ?? ""}${qty > 1 ? ` x ${qty}` : ""}`,
+      )}&body=${encodeURIComponent(messageBody)}`
+    : null;
 
   return (
     <AnimatePresence>
@@ -166,6 +268,9 @@ export function OrderModal({ open, onClose, product }: OrderModalProps) {
               <FormStep
                 t={t}
                 product={product}
+                whatsappHref={whatsappHref}
+                mailtoHref={mailtoHref}
+                onHandoff={handleHandoff}
                 qty={qty}
                 setQty={setQty}
                 name={name}
@@ -196,6 +301,11 @@ export function OrderModal({ open, onClose, product }: OrderModalProps) {
 type FormStepProps = {
   t: ReturnType<typeof useTranslations>;
   product: OrderProduct;
+  whatsappHref: string | null;
+  mailtoHref: string | null;
+  onHandoff: (
+    channel: "WHATSAPP" | "EMAIL",
+  ) => (e: React.MouseEvent<HTMLAnchorElement>) => void;
   qty: number;
   setQty: (n: number) => void;
   name: string;
@@ -217,6 +327,9 @@ type FormStepProps = {
 function FormStep({
   t,
   product,
+  whatsappHref,
+  mailtoHref,
+  onHandoff,
   qty,
   setQty,
   name,
@@ -368,18 +481,56 @@ function FormStep({
           </p>
         )}
 
-        <button
-          type="submit"
-          disabled={submitting}
-          className={cn(
-            "mt-2 inline-flex w-full items-center justify-center rounded-xl bg-[#1a1a1a] px-8 py-3.5 text-base font-medium text-white transition-colors",
-            submitting
-              ? "cursor-wait opacity-70"
-              : "hover:bg-[#2a1810]",
+        <p className="mt-1 text-center text-xs leading-[140%] text-[#777]">
+          {t("sendHint")}
+        </p>
+
+        <div className="flex flex-col gap-2 sm:flex-row">
+          {whatsappHref && (
+            <a
+              href={whatsappHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={onHandoff("WHATSAPP")}
+              className={cn(
+                "inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-[#25D366] px-5 py-3.5 text-base font-medium text-white transition-opacity",
+                submitting ? "cursor-wait opacity-70" : "hover:opacity-90",
+              )}
+            >
+              <WhatsappGlyph className="h-5 w-5 shrink-0" />
+              {t("sendWhatsapp")}
+            </a>
           )}
-        >
-          {submitting ? t("sending") : t("submit")}
-        </button>
+
+          {mailtoHref && (
+            <a
+              href={mailtoHref}
+              onClick={onHandoff("EMAIL")}
+              className={cn(
+                "inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-[#1a1a1a] px-5 py-3.5 text-base font-medium text-white transition-colors",
+                submitting ? "cursor-wait opacity-70" : "hover:bg-[#2a1810]",
+              )}
+            >
+              <Mail className="h-5 w-5 shrink-0" strokeWidth={1.75} />
+              {t("sendEmail")}
+            </a>
+          )}
+        </div>
+
+        {/* Fallback when neither channel is configured in site settings, so the
+         * modal is never a dead end. */}
+        {!whatsappHref && !mailtoHref && (
+          <button
+            type="submit"
+            disabled={submitting}
+            className={cn(
+              "mt-2 inline-flex w-full items-center justify-center rounded-xl bg-[#1a1a1a] px-8 py-3.5 text-base font-medium text-white transition-colors",
+              submitting ? "cursor-wait opacity-70" : "hover:bg-[#2a1810]",
+            )}
+          >
+            {submitting ? t("sending") : t("submit")}
+          </button>
+        )}
       </form>
     </>
   );

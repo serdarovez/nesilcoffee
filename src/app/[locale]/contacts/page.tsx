@@ -139,7 +139,10 @@ async function ContactsBlock({
                 {t("writeUsBody")}
               </p>
             </div>
-            <ContactForm />
+            <ContactForm
+              whatsapp={info.whatsapp}
+              contactEmail={info.email}
+            />
           </div>
         </div>
       </div>

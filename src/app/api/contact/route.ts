@@ -15,6 +15,8 @@ const schema = z.object({
   subject: z.string().trim().min(1).max(200),
   message: z.string().trim().min(1).max(5000),
   locale: z.string().trim().max(5).optional(),
+  /** Which button the visitor pressed; defaults to the plain form submit. */
+  channel: z.enum(["FORM", "WHATSAPP", "EMAIL"]).optional(),
   // Spam guards — absent for legitimate no-JS submissions, which is fine.
   website: z.string().optional(),
   renderedAt: z.number().optional(),
@@ -37,6 +39,7 @@ export async function POST(request: Request) {
     subject: data.subject,
     message: data.message,
     locale: data.locale ?? "ru",
+    channel: data.channel ?? "FORM",
     honeypot: data.website,
     renderedAt: data.renderedAt,
   });

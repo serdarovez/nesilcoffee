@@ -23,12 +23,17 @@ export function ProductCard({
   categoryLabel,
   fallbackDescription,
   productId,
+  whatsapp,
+  contactEmail,
 }: {
   p: Product;
   categoryLabel: string;
   /** Shared `products.cardDescription` message, resolved on the server. */
   fallbackDescription: string;
   productId?: string;
+  /** Business contact channels from site settings, for the order handoff. */
+  whatsapp?: string | null;
+  contactEmail?: string | null;
 }) {
   const t = useTranslations("products");
   const [open, setOpen] = useState(false);
@@ -109,6 +114,8 @@ export function ProductCard({
         open={open}
         onClose={() => setOpen(false)}
         product={orderProduct}
+        whatsapp={whatsapp}
+        email={contactEmail}
       />
     </>
   );

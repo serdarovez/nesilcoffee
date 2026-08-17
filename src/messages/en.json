@@ -81,11 +81,36 @@
     "team": {
       "title": "Team",
       "members": [
-        { "name": "Adelya Sakhbieva", "role": "Lead export specialist", "phone": "+9936483428", "email": "info@nesilcoffee.com" },
-        { "name": "Adelya Sakhbieva", "role": "Lead export specialist", "phone": "+9936483428", "email": "info@nesilcoffee.com" },
-        { "name": "Adelya Sakhbieva", "role": "Lead export specialist", "phone": "+9936483428", "email": "info@nesilcoffee.com" },
-        { "name": "Adelya Sakhbieva", "role": "Lead export specialist", "phone": "+9936483428", "email": "info@nesilcoffee.com" },
-        { "name": "Adelya Sakhbieva", "role": "Lead export specialist", "phone": "+9936483428", "email": "info@nesilcoffee.com" }
+        {
+          "name": "Adelya Sakhbieva",
+          "role": "Lead export specialist",
+          "phone": "+9936483428",
+          "email": "info@nesilcoffee.com"
+        },
+        {
+          "name": "Adelya Sakhbieva",
+          "role": "Lead export specialist",
+          "phone": "+9936483428",
+          "email": "info@nesilcoffee.com"
+        },
+        {
+          "name": "Adelya Sakhbieva",
+          "role": "Lead export specialist",
+          "phone": "+9936483428",
+          "email": "info@nesilcoffee.com"
+        },
+        {
+          "name": "Adelya Sakhbieva",
+          "role": "Lead export specialist",
+          "phone": "+9936483428",
+          "email": "info@nesilcoffee.com"
+        },
+        {
+          "name": "Adelya Sakhbieva",
+          "role": "Lead export specialist",
+          "phone": "+9936483428",
+          "email": "info@nesilcoffee.com"
+        }
       ]
     },
     "cta": {
@@ -105,7 +130,11 @@
     "validation": {
       "required": "Required field",
       "email": "Enter a valid e-mail"
-    }
+    },
+    "sendWhatsapp": "Message on WhatsApp",
+    "sendEmail": "Send by email",
+    "sendHint": "Choose where to send your message — we receive everything from the form",
+    "messageIntro": "Hello! Writing from the NesilCoffee website:"
   },
   "products": {
     "hero": {
@@ -152,7 +181,14 @@
       "sending": "Sending...",
       "successTitle": "Request sent",
       "successBody": "Thank you for your order! We'll be in touch shortly.",
-      "close": "Close"
+      "close": "Close",
+      "sendWhatsapp": "Send via WhatsApp",
+      "sendEmail": "Send by email",
+      "sendHint": "Choose where to send your request — we receive everything from the form",
+      "messageIntro": "Hello! I would like to place an order:",
+      "messageProduct": "Product",
+      "messageCategory": "Category",
+      "messageWeight": "Weight"
     }
   },
   "about": {
@@ -227,12 +263,30 @@
     "faq": {
       "title": "<a>Frequently asked</a> questions",
       "items": [
-        { "q": "What's the minimum order volume?", "a": "The minimum wholesale order is discussed individually depending on the product and logistics. Contact us for an exact quote." },
-        { "q": "Do you only work with wholesale orders?", "a": "Yes, NesilCoffee operates B2B and focuses on wholesale supply. We work with distributors, retail chains, HoReCa, corporate clients and export partners." },
-        { "q": "How is delivery handled?", "a": "We work with trusted logistics operators. Delivery terms are agreed individually, including exports." },
-        { "q": "Do you offer deferred payment?", "a": "Payment terms are discussed individually with each partner and set out in the contract." },
-        { "q": "What documents do you provide?", "a": "A full document package for the product: quality certificates, HALAL, ISO, delivery notes, invoices, export documents." },
-        { "q": "Can I get a price list?", "a": "Yes — the current price list is sent on request after a short intro to your business. Fill out the form below." }
+        {
+          "q": "What's the minimum order volume?",
+          "a": "The minimum wholesale order is discussed individually depending on the product and logistics. Contact us for an exact quote."
+        },
+        {
+          "q": "Do you only work with wholesale orders?",
+          "a": "Yes, NesilCoffee operates B2B and focuses on wholesale supply. We work with distributors, retail chains, HoReCa, corporate clients and export partners."
+        },
+        {
+          "q": "How is delivery handled?",
+          "a": "We work with trusted logistics operators. Delivery terms are agreed individually, including exports."
+        },
+        {
+          "q": "Do you offer deferred payment?",
+          "a": "Payment terms are discussed individually with each partner and set out in the contract."
+        },
+        {
+          "q": "What documents do you provide?",
+          "a": "A full document package for the product: quality certificates, HALAL, ISO, delivery notes, invoices, export documents."
+        },
+        {
+          "q": "Can I get a price list?",
+          "a": "Yes — the current price list is sent on request after a short intro to your business. Fill out the form below."
+        }
       ]
     },
     "contact": {

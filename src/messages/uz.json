@@ -81,11 +81,36 @@
     "team": {
       "title": "Jamoa",
       "members": [
-        { "name": "Adelya Sahbieva", "role": "Eksport bo'yicha yetakchi mutaxassis", "phone": "+9936483428", "email": "info@nesilcoffee.com" },
-        { "name": "Adelya Sahbieva", "role": "Eksport bo'yicha yetakchi mutaxassis", "phone": "+9936483428", "email": "info@nesilcoffee.com" },
-        { "name": "Adelya Sahbieva", "role": "Eksport bo'yicha yetakchi mutaxassis", "phone": "+9936483428", "email": "info@nesilcoffee.com" },
-        { "name": "Adelya Sahbieva", "role": "Eksport bo'yicha yetakchi mutaxassis", "phone": "+9936483428", "email": "info@nesilcoffee.com" },
-        { "name": "Adelya Sahbieva", "role": "Eksport bo'yicha yetakchi mutaxassis", "phone": "+9936483428", "email": "info@nesilcoffee.com" }
+        {
+          "name": "Adelya Sahbieva",
+          "role": "Eksport bo'yicha yetakchi mutaxassis",
+          "phone": "+9936483428",
+          "email": "info@nesilcoffee.com"
+        },
+        {
+          "name": "Adelya Sahbieva",
+          "role": "Eksport bo'yicha yetakchi mutaxassis",
+          "phone": "+9936483428",
+          "email": "info@nesilcoffee.com"
+        },
+        {
+          "name": "Adelya Sahbieva",
+          "role": "Eksport bo'yicha yetakchi mutaxassis",
+          "phone": "+9936483428",
+          "email": "info@nesilcoffee.com"
+        },
+        {
+          "name": "Adelya Sahbieva",
+          "role": "Eksport bo'yicha yetakchi mutaxassis",
+          "phone": "+9936483428",
+          "email": "info@nesilcoffee.com"
+        },
+        {
+          "name": "Adelya Sahbieva",
+          "role": "Eksport bo'yicha yetakchi mutaxassis",
+          "phone": "+9936483428",
+          "email": "info@nesilcoffee.com"
+        }
       ]
     },
     "cta": {
@@ -105,7 +130,11 @@
     "validation": {
       "required": "Majburiy maydon",
       "email": "To'g'ri e-mail kiriting"
-    }
+    },
+    "sendWhatsapp": "WhatsApp'ga yozish",
+    "sendEmail": "Pochta orqali yuborish",
+    "sendHint": "Xabarni qayerga yuborishni tanlang — formadagi barcha ma'lumotni olamiz",
+    "messageIntro": "Salom! NesilCoffee saytidan yozyapman:"
   },
   "products": {
     "hero": {
@@ -152,7 +181,14 @@
       "sending": "Yuborilmoqda...",
       "successTitle": "So'rov yuborildi",
       "successBody": "Buyurtmangiz uchun rahmat! Yaqin orada siz bilan bog'lanamiz.",
-      "close": "Yopish"
+      "close": "Yopish",
+      "sendWhatsapp": "WhatsApp orqali yuborish",
+      "sendEmail": "Pochta orqali yuborish",
+      "sendHint": "Arizani qayerga yuborishni tanlang — formadagi barcha ma'lumotni olamiz",
+      "messageIntro": "Salom! Buyurtma bermoqchiman:",
+      "messageProduct": "Mahsulot",
+      "messageCategory": "Kategoriya",
+      "messageWeight": "Og'irligi"
     }
   },
   "about": {
@@ -227,12 +263,30 @@
     "faq": {
       "title": "<a>Tez-tez beriladigan</a> savollar",
       "items": [
-        { "q": "Buyurtmaning eng kam hajmi qancha?", "a": "Eng kam ulgurji buyurtma mahsulot va logistikaga qarab alohida muhokama qilinadi. Aniq hisob-kitob uchun biz bilan bog'laning." },
-        { "q": "Siz faqat ulgurji buyurtmalar bilan ishlaysizmi?", "a": "Ha, NesilCoffee B2B formatida ishlaydi va ulgurji yetkazib berishga yo'naltirilgan. Biz distribyutorlar, savdo tarmoqlari, HoReCa, korporativ mijozlar va eksport hamkorlari bilan hamkorlik qilamiz." },
-        { "q": "Mahsulot yetkazib berish qanday amalga oshiriladi?", "a": "Biz sinovdan o'tgan logistika operatorlari bilan ishlaymiz. Yetkazib berish shartlari — kelishuv bo'yicha, jumladan eksport ham." },
-        { "q": "To'lov muddatini uzaytirasizmi?", "a": "To'lov shartlari har bir hamkor bilan alohida muhokama qilinadi va shartnomada qayd etiladi." },
-        { "q": "Qanday hujjatlarni taqdim etasiz?", "a": "Mahsulot bo'yicha to'liq hujjatlar to'plami: sifat sertifikatlari, HALAL, ISO, tovar yuk xatlari, hisob-fakturalar, eksport hujjatlari." },
-        { "q": "Narxlar ro'yxatini olsa bo'ladimi?", "a": "Ha, dolzarb narxlar ro'yxati sizning biznesingiz bilan qisqa tanishuvdan keyin so'rov bo'yicha yuboriladi. Quyidagi formani to'ldiring." }
+        {
+          "q": "Buyurtmaning eng kam hajmi qancha?",
+          "a": "Eng kam ulgurji buyurtma mahsulot va logistikaga qarab alohida muhokama qilinadi. Aniq hisob-kitob uchun biz bilan bog'laning."
+        },
+        {
+          "q": "Siz faqat ulgurji buyurtmalar bilan ishlaysizmi?",
+          "a": "Ha, NesilCoffee B2B formatida ishlaydi va ulgurji yetkazib berishga yo'naltirilgan. Biz distribyutorlar, savdo tarmoqlari, HoReCa, korporativ mijozlar va eksport hamkorlari bilan hamkorlik qilamiz."
+        },
+        {
+          "q": "Mahsulot yetkazib berish qanday amalga oshiriladi?",
+          "a": "Biz sinovdan o'tgan logistika operatorlari bilan ishlaymiz. Yetkazib berish shartlari — kelishuv bo'yicha, jumladan eksport ham."
+        },
+        {
+          "q": "To'lov muddatini uzaytirasizmi?",
+          "a": "To'lov shartlari har bir hamkor bilan alohida muhokama qilinadi va shartnomada qayd etiladi."
+        },
+        {
+          "q": "Qanday hujjatlarni taqdim etasiz?",
+          "a": "Mahsulot bo'yicha to'liq hujjatlar to'plami: sifat sertifikatlari, HALAL, ISO, tovar yuk xatlari, hisob-fakturalar, eksport hujjatlari."
+        },
+        {
+          "q": "Narxlar ro'yxatini olsa bo'ladimi?",
+          "a": "Ha, dolzarb narxlar ro'yxati sizning biznesingiz bilan qisqa tanishuvdan keyin so'rov bo'yicha yuboriladi. Quyidagi formani to'ldiring."
+        }
       ]
     },
     "contact": {

@@ -20,6 +20,8 @@ const schema = z.object({
   productId: z.string().trim().max(40).optional(),
   productName: z.string().trim().min(1).max(200),
   locale: z.string().trim().max(5).optional(),
+  /** Which button the customer pressed; defaults to the plain form submit. */
+  channel: z.enum(["FORM", "WHATSAPP", "EMAIL"]).optional(),
   website: z.string().optional(),
   renderedAt: z.number().optional(),
 });
@@ -60,6 +62,7 @@ export async function POST(request: Request) {
     productName,
     quantity: data.quantity,
     locale: data.locale ?? "ru",
+    channel: data.channel ?? "FORM",
     honeypot: data.website,
     renderedAt: data.renderedAt,
   });

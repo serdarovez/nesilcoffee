@@ -163,6 +163,19 @@ export default async function SubmissionsPage({
                       )}
                     </span>
                     <span className="text-sm font-semibold text-ink">{s.name}</span>
+                    {s.channel !== "FORM" && (
+                      <span
+                        title="Клиент продолжил в этом приложении"
+                        className={cn(
+                          "rounded-md px-1.5 py-0.5 text-[11px] font-semibold uppercase",
+                          s.channel === "WHATSAPP"
+                            ? "bg-[#e7f8ed] text-[#128c3e]"
+                            : "bg-paper-alt text-ink-2",
+                        )}
+                      >
+                        {s.channel === "WHATSAPP" ? "через WhatsApp" : "через почту"}
+                      </span>
+                    )}
                     {s.isSpam && (
                       <span className="inline-flex items-center gap-1 rounded-md bg-[#fbefe7] px-1.5 py-0.5 text-[11px] font-semibold uppercase text-[#8a4b2a]">
                         <AlertTriangle className="h-3 w-3" />

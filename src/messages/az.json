@@ -81,11 +81,36 @@
     "team": {
       "title": "Komanda",
       "members": [
-        { "name": "Adelya Sahbieva", "role": "İxrac üzrə aparıcı mütəxəssis", "phone": "+9936483428", "email": "info@nesilcoffee.com" },
-        { "name": "Adelya Sahbieva", "role": "İxrac üzrə aparıcı mütəxəssis", "phone": "+9936483428", "email": "info@nesilcoffee.com" },
-        { "name": "Adelya Sahbieva", "role": "İxrac üzrə aparıcı mütəxəssis", "phone": "+9936483428", "email": "info@nesilcoffee.com" },
-        { "name": "Adelya Sahbieva", "role": "İxrac üzrə aparıcı mütəxəssis", "phone": "+9936483428", "email": "info@nesilcoffee.com" },
-        { "name": "Adelya Sahbieva", "role": "İxrac üzrə aparıcı mütəxəssis", "phone": "+9936483428", "email": "info@nesilcoffee.com" }
+        {
+          "name": "Adelya Sahbieva",
+          "role": "İxrac üzrə aparıcı mütəxəssis",
+          "phone": "+9936483428",
+          "email": "info@nesilcoffee.com"
+        },
+        {
+          "name": "Adelya Sahbieva",
+          "role": "İxrac üzrə aparıcı mütəxəssis",
+          "phone": "+9936483428",
+          "email": "info@nesilcoffee.com"
+        },
+        {
+          "name": "Adelya Sahbieva",
+          "role": "İxrac üzrə aparıcı mütəxəssis",
+          "phone": "+9936483428",
+          "email": "info@nesilcoffee.com"
+        },
+        {
+          "name": "Adelya Sahbieva",
+          "role": "İxrac üzrə aparıcı mütəxəssis",
+          "phone": "+9936483428",
+          "email": "info@nesilcoffee.com"
+        },
+        {
+          "name": "Adelya Sahbieva",
+          "role": "İxrac üzrə aparıcı mütəxəssis",
+          "phone": "+9936483428",
+          "email": "info@nesilcoffee.com"
+        }
       ]
     },
     "cta": {
@@ -105,7 +130,11 @@
     "validation": {
       "required": "Məcburi sahə",
       "email": "Düzgün e-poçt daxil edin"
-    }
+    },
+    "sendWhatsapp": "WhatsApp-a yaz",
+    "sendEmail": "E-poçt ilə göndər",
+    "sendHint": "Mesajı haraya göndərəcəyinizi seçin — formadakı bütün məlumatı alırıq",
+    "messageIntro": "Salam! NesilCoffee saytından yazıram:"
   },
   "products": {
     "hero": {
@@ -152,7 +181,14 @@
       "sending": "Göndərilir...",
       "successTitle": "Müraciət göndərildi",
       "successBody": "Sifarişiniz üçün təşəkkür edirik! Ən qısa zamanda sizinlə əlaqə saxlayacağıq.",
-      "close": "Bağla"
+      "close": "Bağla",
+      "sendWhatsapp": "WhatsApp ilə göndər",
+      "sendEmail": "E-poçt ilə göndər",
+      "sendHint": "Sorğunu haraya göndərəcəyinizi seçin — formadakı bütün məlumatı alırıq",
+      "messageIntro": "Salam! Sifariş vermək istəyirəm:",
+      "messageProduct": "Məhsul",
+      "messageCategory": "Kateqoriya",
+      "messageWeight": "Çəkisi"
     }
   },
   "about": {
@@ -227,12 +263,30 @@
     "faq": {
       "title": "<a>Tez-tez verilən</a> suallar",
       "items": [
-        { "q": "Minimum sifariş həcmi nə qədərdir?", "a": "Minimum topdan sifariş məhsul və logistikadan asılı olaraq fərdi qaydada müzakirə edilir. Dəqiq hesablama üçün bizimlə əlaqə saxlayın." },
-        { "q": "Yalnız topdan sifarişlərlə işləyirsiniz?", "a": "Bəli, NesilCoffee B2B formatında işləyir və topdan tədarükə yönəlib. Distribyutorlar, ticarət şəbəkələri, HoReCa, korporativ müştərilər və ixrac tərəfdaşları ilə əməkdaşlıq edirik." },
-        { "q": "Məhsul çatdırılması necə həyata keçirilir?", "a": "Sınaqdan keçmiş logistika operatorları ilə işləyirik. Çatdırılma şərtləri — razılaşma əsasında, ixrac daxil." },
-        { "q": "Ödəniş möhləti verirsiniz?", "a": "Ödəniş şərtləri hər tərəfdaşla fərdi müzakirə edilir və müqavilədə qeyd olunur." },
-        { "q": "Hansı sənədləri təqdim edirsiniz?", "a": "Məhsul üzrə tam sənəd paketi: keyfiyyət sertifikatları, HALAL, ISO, mal göndəriş qaimələri, hesab-fakturalar, ixrac sənədləri." },
-        { "q": "Qiymət cədvəlini almaq olar?", "a": "Bəli, aktual qiymət cədvəli biznesinizlə qısa tanışlıqdan sonra sorğu əsasında göndərilir. Aşağıdakı formanı doldurun." }
+        {
+          "q": "Minimum sifariş həcmi nə qədərdir?",
+          "a": "Minimum topdan sifariş məhsul və logistikadan asılı olaraq fərdi qaydada müzakirə edilir. Dəqiq hesablama üçün bizimlə əlaqə saxlayın."
+        },
+        {
+          "q": "Yalnız topdan sifarişlərlə işləyirsiniz?",
+          "a": "Bəli, NesilCoffee B2B formatında işləyir və topdan tədarükə yönəlib. Distribyutorlar, ticarət şəbəkələri, HoReCa, korporativ müştərilər və ixrac tərəfdaşları ilə əməkdaşlıq edirik."
+        },
+        {
+          "q": "Məhsul çatdırılması necə həyata keçirilir?",
+          "a": "Sınaqdan keçmiş logistika operatorları ilə işləyirik. Çatdırılma şərtləri — razılaşma əsasında, ixrac daxil."
+        },
+        {
+          "q": "Ödəniş möhləti verirsiniz?",
+          "a": "Ödəniş şərtləri hər tərəfdaşla fərdi müzakirə edilir və müqavilədə qeyd olunur."
+        },
+        {
+          "q": "Hansı sənədləri təqdim edirsiniz?",
+          "a": "Məhsul üzrə tam sənəd paketi: keyfiyyət sertifikatları, HALAL, ISO, mal göndəriş qaimələri, hesab-fakturalar, ixrac sənədləri."
+        },
+        {
+          "q": "Qiymət cədvəlini almaq olar?",
+          "a": "Bəli, aktual qiymət cədvəli biznesinizlə qısa tanışlıqdan sonra sorğu əsasında göndərilir. Aşağıdakı formanı doldurun."
+        }
       ]
     },
     "contact": {
