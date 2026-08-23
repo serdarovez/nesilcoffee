@@ -1,8 +1,10 @@
 import "server-only";
 import { pick } from "@/lib/i18n-field";
+import { parseFieldRules, applyFieldRules } from "@/lib/category-fields";
 import {
   getTeamMembers,
   getCertificates,
+  getExperts,
   getHomeSlides,
   getHeroSlides,
   getSettings,
@@ -47,22 +49,68 @@ export async function certificatesView(
   }));
 }
 
+export type ExpertView = {
+  id: string;
+  name: string;
+  role: string;
+  /** Sanitized HTML — written only by the admin form, which allowlists tags. */
+  quote: string;
+  photo: string | null;
+  blurDataUrl: string | null;
+};
+
+/**
+ * The two About-page experts, plus the heading above them.
+ *
+ * `fallbackTitle` is the `about.experts.title` message, passed in because
+ * message lookup needs the request scope. The heading is stored on the settings
+ * singleton rather than on either expert — it is page copy, not a property of a
+ * person.
+ */
+export async function expertsView(
+  locale: string,
+  fallbackTitle = "",
+): Promise<{ title: string; items: ExpertView[] }> {
+  const [experts, settings] = await Promise.all([getExperts(), getSettings()]);
+
+  return {
+    title: settings?.expertsTitle
+      ? pick(settings.expertsTitle, locale, fallbackTitle)
+      : fallbackTitle,
+    items: experts.map((e) => ({
+      id: e.id,
+      name: pick(e.name, locale),
+      role: pick(e.role, locale),
+      quote: pick(e.quote, locale),
+      photo: e.photo?.path ?? null,
+      blurDataUrl: e.photo?.blurDataUrl ?? null,
+    })),
+  };
+}
+
 export async function homeSlidesView(locale: string): Promise<Slide[]> {
   const slides = await getHomeSlides();
-  return slides.map((s) => ({
+  return slides.map((s) => {
+    const spec = applyFieldRules(
+      parseFieldRules(s.product.category.fieldRules),
+      s.product,
+    );
+    return {
     id: s.id,
     name: pick(s.product.name, locale),
     // The override wins when set; otherwise the product's own image.
-    image: s.imageOverride?.path ?? s.product.image?.path ?? "",
-    roast: s.product.roast,
-    acidity: s.product.acidity,
+    image: s.imageOverride?.path ?? s.product.image?.path ?? null,
+    pieces: spec.pieces,
+    roast: spec.roast,
+    acidity: spec.acidity,
     // null here tells the component to fall back to the shared message.
     description: s.product.description
       ? pick(s.product.description, locale) || null
       : null,
     tagline: s.product.tagline ? pick(s.product.tagline, locale) || null : null,
     blurDataUrl: s.imageOverride?.blurDataUrl ?? s.product.image?.blurDataUrl ?? null,
-  }));
+    };
+  });
 }
 
 /**
@@ -107,7 +155,12 @@ export type ContactInfo = {
   phones: string[];
   email: string;
   address: string;
+  /** Receives orders and contact-form hand-offs. Not necessarily displayed. */
   whatsapp: string | null;
+  /** Shown on the contacts page. Falls back to `whatsapp` when unset. */
+  contactWhatsapp: string | null;
+  /** Bare handle; `telegramHref` builds the URL. */
+  telegram: string | null;
   instagram: string | null;
   tiktok: string | null;
 };
@@ -129,9 +182,23 @@ export async function contactInfo(locale: string): Promise<ContactInfo> {
     email: s?.email ?? "info@nesilcoffee.com",
     address: s ? pick(s.address, locale) : "",
     whatsapp: s?.whatsapp ?? null,
+    // One number is the common case: a site that never fills in a separate
+    // display number should still show the one it has.
+    contactWhatsapp: s?.contactWhatsapp ?? s?.whatsapp ?? null,
+    telegram: s?.telegram ?? null,
     instagram: s?.instagram ?? null,
     tiktok: s?.tiktok ?? null,
   };
+}
+
+/** Public URL for a stored Telegram handle. */
+export function telegramHref(handle: string): string {
+  return `https://t.me/${handle}`;
+}
+
+/** Display form of a WhatsApp number stored as bare digits. */
+export function whatsappLabel(digits: string): string {
+  return `+${digits}`;
 }
 
 /** Strip everything but digits so a display number becomes a tel: href. */

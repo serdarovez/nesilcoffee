@@ -12,9 +12,11 @@ import { Link } from "@/i18n/navigation";
 export type Slide = {
   id: string;
   name: string;
-  image: string;
-  roast: number;
-  acidity: number;
+  image: string | null;
+  pieces?: number | null;
+  /** null when the category switches the spec off — the row is omitted. */
+  roast: number | null;
+  acidity: number | null;
   /** Per-product copy; null falls back to the shared message. */
   description: string | null;
   tagline: string | null;
@@ -165,16 +167,18 @@ function MobileSlide({
   return (
     <div className="flex flex-col items-center gap-4 rounded-3xl bg-paper/60 p-5 backdrop-blur">
       <div className="relative h-64 w-full">
-        <Image
-          src={slide.image}
-          alt={slide.name}
-          fill
-          sizes="350px"
-          className="object-contain"
-          {...(slide.blurDataUrl
-            ? { placeholder: "blur" as const, blurDataURL: slide.blurDataUrl }
-            : {})}
-        />
+        {slide.image && (
+          <Image
+            src={slide.image}
+            alt={slide.name}
+            fill
+            sizes="350px"
+            className="object-contain"
+            {...(slide.blurDataUrl
+              ? { placeholder: "blur" as const, blurDataURL: slide.blurDataUrl }
+              : {})}
+          />
+        )}
       </div>
       <div className="flex w-full flex-col gap-3">
         <div className="flex flex-col gap-1.5">
@@ -192,8 +196,12 @@ function MobileSlide({
             })}
         </p>
         <div className="flex flex-col gap-2">
-          <SpecRow label={t("roast")} value={slide.roast} icon={RoastIcon} />
-          <SpecRow label={t("acidity")} value={slide.acidity} icon={AcidityIcon} />
+          {slide.roast !== null && (
+            <SpecRow label={t("roast")} value={slide.roast} icon={RoastIcon} />
+          )}
+          {slide.acidity !== null && (
+            <SpecRow label={t("acidity")} value={slide.acidity} icon={AcidityIcon} />
+          )}
         </div>
       </div>
     </div>
@@ -232,8 +240,16 @@ function SlideCard({ slide }: { slide: Slide }) {
               })}
           </p>
           <div className="mt-[clamp(4px,0.8dvh,8px)] flex items-center gap-3.5">
-            <SpecRow label={t("roast")} value={slide.roast} icon={RoastIcon} />
-            <SpecRow label={t("acidity")} value={slide.acidity} icon={AcidityIcon} />
+            {slide.roast !== null && (
+              <SpecRow label={t("roast")} value={slide.roast} icon={RoastIcon} />
+            )}
+            {slide.acidity !== null && (
+              <SpecRow
+                label={t("acidity")}
+                value={slide.acidity}
+                icon={AcidityIcon}
+              />
+            )}
           </div>
         </div>
 
@@ -241,16 +257,18 @@ function SlideCard({ slide }: { slide: Slide }) {
          * with card bottom by clipping the render box just above the card
          * bottom padding. */}
         <div className="pointer-events-none relative h-full">
-          <Image
-            src={slide.image}
-            alt={slide.name}
-            fill
-            sizes="45vw"
-            className="object-contain object-bottom"
-            {...(slide.blurDataUrl
-              ? { placeholder: "blur" as const, blurDataURL: slide.blurDataUrl }
-              : {})}
-          />
+          {slide.image && (
+            <Image
+              src={slide.image}
+              alt={slide.name}
+              fill
+              sizes="45vw"
+              className="object-contain object-bottom"
+              {...(slide.blurDataUrl
+                ? { placeholder: "blur" as const, blurDataURL: slide.blurDataUrl }
+                : {})}
+            />
+          )}
         </div>
       </div>
     </div>

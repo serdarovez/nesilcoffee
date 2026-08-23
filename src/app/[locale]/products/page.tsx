@@ -14,6 +14,7 @@ import {
   contactInfo,
 } from "@/server/views";
 import { pick } from "@/lib/i18n-field";
+import { parseFieldRules, applyFieldRules } from "@/lib/category-fields";
 
 export async function generateMetadata({
   params,
@@ -96,27 +97,39 @@ export default async function ProductsPage({
 
       {categories
         .filter((c) => c.products.length > 0)
-        .map((category) => (
+        .map((category) => {
+          // Fields the category switches off are blanked here rather than in
+          // the database, so turning a rule back on restores the old values.
+          const rules = parseFieldRules(category.fieldRules);
+          return (
           <CategoryGrid
             key={category.id}
             label={pick(category.name, locale)}
             fallbackDescription={fallbackDescription}
             whatsapp={info.whatsapp}
             contactEmail={info.email}
-            products={category.products.map((p) => ({
-              id: p.id,
-              name: pick(p.name, locale),
-              image: p.image?.path ?? "",
-              weight: p.weight,
-              arabica: p.arabica ?? "—",
-              robusta: p.robusta ?? "—",
-              roast: p.roast,
-              acidity: p.acidity,
-              description: p.description ? pick(p.description, locale) || null : null,
-              blurDataUrl: p.image?.blurDataUrl ?? null,
-            }))}
+            products={category.products.map((p) => {
+              const spec = applyFieldRules(rules, p);
+              return {
+                id: p.id,
+                name: pick(p.name, locale),
+                image: p.image?.path ?? null,
+                weight: spec.weight,
+                pieces: spec.pieces,
+                // The card treats "—" as "do not render this chip".
+                arabica: spec.arabica ?? "—",
+                robusta: spec.robusta ?? "—",
+                roast: spec.roast,
+                acidity: spec.acidity,
+                description: p.description
+                  ? pick(p.description, locale) || null
+                  : null,
+                blurDataUrl: p.image?.blurDataUrl ?? null,
+              };
+            })}
           />
-        ))}
+          );
+        })}
 
       <ProductionProcess />
       <Certificates items={certificates} />

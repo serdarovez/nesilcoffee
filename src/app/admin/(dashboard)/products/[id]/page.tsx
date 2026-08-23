@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { requireAdmin } from "@/server/auth/guard";
 import { prisma } from "@/server/db";
 import { pick, toLocalized } from "@/lib/i18n-field";
+import { parseFieldRules } from "@/lib/category-fields";
 import { PageShell, PageHeader } from "@/components/admin/ui";
 import { ProductForm } from "@/components/admin/ProductForm";
 
@@ -32,7 +33,7 @@ export default async function EditProductPage({
     prisma.category.findMany({
       where: { deletedAt: null },
       orderBy: { sortOrder: "asc" },
-      select: { id: true, name: true },
+      select: { id: true, name: true, fieldRules: true },
     }),
   ]);
 
@@ -70,7 +71,11 @@ export default async function EditProductPage({
             : null,
           isActive: product.isActive,
         }}
-        categories={categories.map((c) => ({ id: c.id, label: pick(c.name, "ru") }))}
+        categories={categories.map((c) => ({
+          id: c.id,
+          label: pick(c.name, "ru"),
+          rules: parseFieldRules(c.fieldRules),
+        }))}
       />
     </PageShell>
   );

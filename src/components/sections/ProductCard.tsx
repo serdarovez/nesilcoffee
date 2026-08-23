@@ -4,16 +4,24 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { RoastIcon, AcidityIcon } from "@/components/icons/ProductSpecs";
 import { OrderModal, type OrderProduct } from "@/components/sections/OrderModal";
+import { formatPack } from "@/lib/product-rules";
 import { cn } from "@/lib/utils";
 
 export type Product = {
   name: string;
-  image: string;
+  /** null when the product has no photo. Such a product is never active â
+   *  see the invariant in src/server/actions/products.ts â so this only
+   *  renders for a preview or a legacy row, never for live catalog copy. */
+  image: string | null;
   weight: string;
+  /** Units per pack; null for a single container. Composed into the badge. */
+  pieces?: number | null;
   arabica: string;
   robusta: string;
-  roast: number;
-  acidity: number;
+  /** null when the product's category switches the spec off, or it is unset.
+   *  A missing spec renders as one fewer row, not as a zero. */
+  roast: number | null;
+  acidity: number | null;
   /** Per-product copy; null means use the shared message. */
   description?: string | null;
   /** Base64 placeholder from the media record, shown while the image loads. */
@@ -41,13 +49,14 @@ export function ProductCard({
   const [open, setOpen] = useState(false);
 
   const description = p.description ?? fallbackDescription;
+  const pack = formatPack(p, t("pieceUnit"));
 
   const orderProduct: OrderProduct = {
     id: productId,
     name: p.name,
     image: p.image,
     category: categoryLabel,
-    weight: p.weight,
+    weight: pack,
     description,
   };
 
@@ -59,9 +68,14 @@ export function ProductCard({
             <h3 className="font-display text-xl font-bold uppercase text-[#1a1a1a] leading-[100%] md:text-2xl">
               {p.name}
             </h3>
-            <span className="inline-flex shrink-0 items-center rounded-md bg-white px-2 py-0.5 font-display text-xs font-bold text-[#444444] md:rounded-lg md:py-1 md:text-sm">
-              {p.weight}
-            </span>
+            {/* A category may switch the weight field off entirely, leaving
+             * nothing to put in the badge — render no chip rather than an
+             * empty one. */}
+            {pack && (
+              <span className="inline-flex shrink-0 items-center rounded-md bg-white px-2 py-0.5 font-display text-xs font-bold text-[#444444] md:rounded-lg md:py-1 md:text-sm">
+                {pack}
+              </span>
+            )}
           </div>
           <div className="relative aspect-4/3 w-full overflow-hidden rounded-lg md:rounded-xl">
             {/* Explicitly lazy (next/image's default without `priority`) so the
@@ -71,17 +85,19 @@ export function ProductCard({
              * The blur placeholder comes from the media record rather than the
              * pre-generated map in lib/blur-data, because that map is keyed by
              * public/ path and knows nothing about uploaded files. */}
-            <Image
-              src={p.image}
-              alt={p.name}
-              fill
-              loading="lazy"
-              sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, (max-width: 1280px) 30vw, 23vw"
-              className="object-contain"
-              {...(p.blurDataUrl
-                ? { placeholder: "blur" as const, blurDataURL: p.blurDataUrl }
-                : {})}
-            />
+            {p.image && (
+              <Image
+                src={p.image}
+                alt={p.name}
+                fill
+                loading="lazy"
+                sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, (max-width: 1280px) 30vw, 23vw"
+                className="object-contain"
+                {...(p.blurDataUrl
+                  ? { placeholder: "blur" as const, blurDataURL: p.blurDataUrl }
+                  : {})}
+              />
+            )}
           </div>
         </div>
 
@@ -107,10 +123,25 @@ export function ProductCard({
             <p className="text-sm leading-[140%] text-[#444444]">
               {description}
             </p>
-            <div className="flex items-start gap-6">
-              <SpecCol label={t("roast")} value={p.roast} icon={RoastIcon} tight />
-              <SpecCol label={t("acidity")} value={p.acidity} icon={AcidityIcon} />
-            </div>
+            {(p.roast !== null || p.acidity !== null) && (
+              <div className="flex items-start gap-6">
+                {p.roast !== null && (
+                  <SpecCol
+                    label={t("roast")}
+                    value={p.roast}
+                    icon={RoastIcon}
+                    tight
+                  />
+                )}
+                {p.acidity !== null && (
+                  <SpecCol
+                    label={t("acidity")}
+                    value={p.acidity}
+                    icon={AcidityIcon}
+                  />
+                )}
+              </div>
+            )}
           </div>
 
           <button

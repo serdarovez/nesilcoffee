@@ -16,6 +16,11 @@ import {
   readBool,
   slugify,
 } from "@/server/form";
+import {
+  PRODUCT_FIELDS,
+  FIELD_MODES,
+  type CategoryFieldRules,
+} from "@/lib/category-fields";
 
 const schema = z.object({
   name: localizedRequired,
@@ -24,7 +29,30 @@ const schema = z.object({
     .min(1, "Укажите адрес")
     .regex(/^[a-z0-9-]+$/, "Только строчные латинские буквы, цифры и дефис"),
   isActive: z.boolean(),
+  // Unlike the parser in src/lib/category-fields.ts, which is total by design,
+  // this reads form input — so it is validated rather than defaulted.
+  fieldRules: z.record(
+    z.enum(PRODUCT_FIELDS.map((f) => f.key) as [string, ...string[]]),
+    z.enum(FIELD_MODES as unknown as [string, ...string[]]),
+  ),
 });
+
+/**
+ * Read the rules matrix out of the form.
+ *
+ * A field whose radio group is missing falls back to its default rather than
+ * disappearing, so a partially-submitted form cannot quietly switch a spec off
+ * for a whole category.
+ */
+function readFieldRules(formData: FormData): CategoryFieldRules {
+  return Object.fromEntries(
+    PRODUCT_FIELDS.map((field) => {
+      const raw = readString(formData, `fieldRules.${field.key}`);
+      const mode = FIELD_MODES.find((m) => m === raw) ?? field.defaultMode;
+      return [field.key, mode];
+    }),
+  ) as CategoryFieldRules;
+}
 
 function refresh() {
   revalidateContent(TAGS.categories);
@@ -47,6 +75,7 @@ export async function saveCategory(
     name,
     slug: rawSlug ? slugify(rawSlug) : slugify(name.ru ?? ""),
     isActive: readBool(formData, "isActive"),
+    fieldRules: readFieldRules(formData),
   });
   if (!parsed.success) return fieldErrors(parsed.error);
 
@@ -63,6 +92,7 @@ export async function saveCategory(
         name: parsed.data.name,
         slug: parsed.data.slug,
         isActive: parsed.data.isActive,
+        fieldRules: parsed.data.fieldRules,
       },
     });
   } else {
@@ -75,6 +105,7 @@ export async function saveCategory(
         name: parsed.data.name,
         slug: parsed.data.slug,
         isActive: parsed.data.isActive,
+        fieldRules: parsed.data.fieldRules,
         sortOrder: (last?.sortOrder ?? -1) + 1,
       },
     });

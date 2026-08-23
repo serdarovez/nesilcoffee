@@ -165,6 +165,7 @@
     "order": "Sifariş et",
     "roast": "Qovurma dərəcəsi",
     "acidity": "Turşuluq",
+    "pieceUnit": "əd.",
     "cardDescription": "Yumşaq dadlı, kremli teksturalı və yüngül şirinlikli tarazlaşdırılmış qəhvə — gündəlik istifadə üçün uyğundur",
     "orderModal": {
       "title": "Sifariş rəsmiləşdir",

@@ -165,6 +165,7 @@
     "order": "Buyurtma berish",
     "roast": "Qovurish darajasi",
     "acidity": "Kislotalilik",
+    "pieceUnit": "dona",
     "cardDescription": "Yumshoq ta'mli, qaymoqli teksturali va yengil shirinlikka ega muvozanatli qahva — kundalik foydalanish uchun mos",
     "orderModal": {
       "title": "Buyurtma berish",

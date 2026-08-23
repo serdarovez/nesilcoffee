@@ -49,6 +49,11 @@
   --color-success:          #1fa044;
   --color-success-tint:     #dcf5e0;
   --color-danger:           #ef4444;
+  /* Amber, for "needs attention but nothing is broken" — the admin uses it
+   * for a product missing a spec its category now requires, which still
+   * renders correctly on the site. */
+  --color-warning:          #a16207;
+  --color-warning-tint:     #fef3c7;
 
   /* ---- Radii ---------------------------------------------- */
   --radius-xs:              4px;
@@ -155,6 +160,8 @@
   --color-success:          var(--color-success);
   --color-success-tint:     var(--color-success-tint);
   --color-danger:           var(--color-danger);
+  --color-warning:          var(--color-warning);
+  --color-warning-tint:     var(--color-warning-tint);
 
   /* Radii → rounded-md, rounded-2xl, … */
   --radius-xs:              var(--radius-xs);
@@ -507,5 +514,68 @@
     width: calc(100vw / var(--fluid-scale));
     margin-inline: calc(50% - 50vw / var(--fluid-scale));
     max-width: none;
+  }
+}
+
+@layer components {
+  /* -- Rich text -------------------------------------------- */
+  /* One rule set for both ends of the pipeline: the Tiptap editor
+   * in the admin and the sanitized HTML rendered on the site. If
+   * they drifted, an editor would be styling their copy against a
+   * layout the visitor never sees. The tag list matches the
+   * allowlist in sanitizeRichText() — nothing else can appear. */
+  .rich-text > :first-child {
+    margin-top: 0;
+  }
+  .rich-text > :last-child {
+    margin-bottom: 0;
+  }
+  .rich-text p {
+    margin-block: 0.75em;
+  }
+  .rich-text ul,
+  .rich-text ol {
+    margin-block: 0.75em;
+    padding-inline-start: 1.5em;
+  }
+  .rich-text ul {
+    list-style: disc;
+  }
+  .rich-text ol {
+    list-style: decimal;
+  }
+  .rich-text li {
+    margin-block: 0.25em;
+  }
+  .rich-text li::marker {
+    color: currentColor;
+    opacity: 0.5;
+  }
+  .rich-text strong {
+    font-weight: 700;
+  }
+  .rich-text em {
+    font-style: italic;
+  }
+  .rich-text a {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  /* ProseMirror needs an explicit height to be clickable when the
+   * document is empty, and hides its own focus ring in favour of
+   * the wrapper's border. */
+  .rich-text-editor .ProseMirror {
+    min-height: 7rem;
+    outline: none;
+  }
+  /* Placeholder for an empty document — ProseMirror marks the node
+   * with `is-editor-empty` and carries the text in a data attribute. */
+  .rich-text-editor .ProseMirror p.is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+    color: var(--color-ink-4, #9a9a9a);
   }
 }
