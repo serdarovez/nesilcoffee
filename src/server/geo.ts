@@ -42,8 +42,16 @@ function openReader(): Promise<Reader<CountryResponse> | null> {
     // bundler traces the whole project into the output.
     const absolute = path.resolve(/*turbopackIgnore: true*/ process.cwd(), DB_PATH);
     if (!existsSync(absolute)) {
+      // Logged once per process, not per request: the null below is cached.
       console.warn(
-        `[geo] ${absolute} not found — language detection will fall back to Accept-Language. Run "npm run geoip:fetch".`,
+        [
+          `[geo] No country database at ${absolute}.`,
+          "      Language detection falls back to Accept-Language, then English.",
+          "      To enable it, put any IP-to-country MMDB file there — either",
+          '      `npm run geoip:fetch` (needs MaxMind credentials) or a file',
+          "      downloaded by hand, e.g. DB-IP Lite, which needs no account.",
+          "      GEOIP_DB_PATH overrides the location. No redeploy needed.",
+        ].join("\n"),
       );
       return null;
     }

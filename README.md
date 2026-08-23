@@ -145,9 +145,20 @@ The lookup reads a local MaxMind GeoLite2 database rather than a CDN header or a
 geo API: the site is self-hosted behind nginx, and a CDN in front would be a
 third party that can be blocked in the primary market.
 
+**Detection is off until a database is present**, and the site is fully
+functional without one: it logs a single warning on the first request that would
+have needed it, then negotiates on `Accept-Language` and falls back to English —
+exactly as it did before this feature existed. Nothing is stored against a
+visitor either way; only the country code is read.
+
+Any IP-to-country database in MMDB format works. Drop the file at
+`data/GeoLite2-Country.mmdb` (or point `GEOIP_DB_PATH` at it) and detection
+starts working on the next request — no rebuild, no redeploy.
+
 ```bash
-# free account: https://www.maxmind.com/en/geolite2/signup
-# both values are in the account portal, next to the licence key list
+# MaxMind GeoLite2 — free, but needs an account:
+#   https://www.maxmind.com/en/geolite2/signup
+# Both values are in the account portal, next to the licence key list.
 echo 'MAXMIND_ACCOUNT_ID=123456' >> .env
 echo 'MAXMIND_LICENSE_KEY=...'   >> .env
 npm run geoip:fetch           # writes data/GeoLite2-Country.mmdb (gitignored)
@@ -157,9 +168,16 @@ MaxMind has changed how downloads authenticate over the years, so the script
 tries the documented account-ID/licence-key pair first and falls back to the
 older licence-key-only URL, reporting both failures if neither answers.
 
-This is optional. With no database present the site logs one warning and falls
-back to `Accept-Language`, so a missing or stale file degrades the guess rather
-than breaking the site. Re-run the fetch every month or so.
+MaxMind's signup rejects VPN addresses, which makes it awkward to register from
+somewhere that needs one to reach the site. If that applies, [DB-IP
+Lite](https://db-ip.com/db/download/ip-to-country-lite) publishes an equivalent
+country database at a plain monthly URL with no account at all — the file is a
+drop-in replacement. Its CC BY 4.0 licence requires a visible
+`IP Geolocation by DB-IP` credit link on pages that use the data, which is why
+it is not the default here.
+
+Refresh whichever source you use every month or so. A stale database still
+works; it just knows about fewer ranges.
 
 ## Media
 
