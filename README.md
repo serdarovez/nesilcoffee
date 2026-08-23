@@ -146,10 +146,16 @@ geo API: the site is self-hosted behind nginx, and a CDN in front would be a
 third party that can be blocked in the primary market.
 
 ```bash
-# free key: https://www.maxmind.com/en/geolite2/signup
-echo 'MAXMIND_LICENSE_KEY=...' >> .env
+# free account: https://www.maxmind.com/en/geolite2/signup
+# both values are in the account portal, next to the licence key list
+echo 'MAXMIND_ACCOUNT_ID=123456' >> .env
+echo 'MAXMIND_LICENSE_KEY=...'   >> .env
 npm run geoip:fetch           # writes data/GeoLite2-Country.mmdb (gitignored)
 ```
+
+MaxMind has changed how downloads authenticate over the years, so the script
+tries the documented account-ID/licence-key pair first and falls back to the
+older licence-key-only URL, reporting both failures if neither answers.
 
 This is optional. With no database present the site logs one warning and falls
 back to `Accept-Language`, so a missing or stale file degrades the guess rather

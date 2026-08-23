@@ -68,39 +68,101 @@ function* tarEntries(buffer) {
 async function main() {
   loadEnv();
 
+  const account = process.env.MAXMIND_ACCOUNT_ID?.trim();
   const key = process.env.MAXMIND_LICENSE_KEY?.trim();
+
   if (!key) {
     console.error(
       [
         "MAXMIND_LICENSE_KEY is not set.",
         "",
         "  1. Create a free account: https://www.maxmind.com/en/geolite2/signup",
-        "  2. Generate a licence key in your account settings",
-        "  3. Add it to .env:  MAXMIND_LICENSE_KEY=...",
+        "  2. In the account portal, generate a key under 'Manage License Keys'",
+        "     and note the account ID shown on the same page",
+        "  3. Add both to .env:",
+        "       MAXMIND_ACCOUNT_ID=123456",
+        "       MAXMIND_LICENSE_KEY=...",
         "",
-        "Without it the site still works — language detection just falls back",
+        "Without them the site still works — language detection just falls back",
         "to the browser's Accept-Language header.",
       ].join("\n"),
     );
     process.exit(1);
   }
 
-  const url =
-    `https://download.maxmind.com/app/geoip_download` +
-    `?edition_id=${EDITION}&license_key=${encodeURIComponent(key)}&suffix=tar.gz`;
-
   console.log(`Downloading ${EDITION}…`);
-  const response = await fetch(url);
-  if (!response.ok) {
+
+  /**
+   * Two endpoints, tried in order.
+   *
+   * MaxMind documents Basic auth over the account-ID/licence-key pair against
+   * /geoip/databases/…; the older query-parameter form needs only the key and
+   * is what most existing scripts use. Which one an account is served by has
+   * changed over time, so rather than guess, try the documented one and fall
+   * back. Whichever answers first wins.
+   */
+  const attempts = [];
+  if (account) {
+    attempts.push({
+      label: "account ID + licence key",
+      url: `https://download.maxmind.com/geoip/databases/${EDITION}/download?suffix=tar.gz`,
+      headers: {
+        Authorization: `Basic ${Buffer.from(`${account}:${key}`).toString("base64")}`,
+      },
+    });
+  }
+  attempts.push({
+    label: "licence key only (legacy)",
+    url:
+      `https://download.maxmind.com/app/geoip_download` +
+      `?edition_id=${EDITION}&license_key=${encodeURIComponent(key)}&suffix=tar.gz`,
+    headers: {},
+  });
+
+  let response = null;
+  const failures = [];
+
+  for (const attempt of attempts) {
+    let res;
+    try {
+      res = await fetch(attempt.url, {
+        headers: attempt.headers,
+        // The endpoint redirects to a presigned R2 URL. It is followed by hand
+        // so credentials are never replayed to another host; the presigned URL
+        // carries its own signature and needs no header.
+        redirect: "manual",
+      });
+      if (res.status >= 300 && res.status < 400) {
+        const location = res.headers.get("location");
+        if (!location) throw new Error("redirect without Location");
+        res = await fetch(location);
+      }
+    } catch (error) {
+      failures.push(`${attempt.label}: ${error.message}`);
+      continue;
+    }
+
+    if (res.ok) {
+      response = res;
+      console.log(`  authenticated with ${attempt.label}`);
+      break;
+    }
+    failures.push(`${attempt.label}: ${res.status} ${res.statusText}`);
+  }
+
+  if (!response) {
     console.error(
-      `Download failed: ${response.status} ${response.statusText}` +
-        (response.status === 401
-          ? "\nThat usually means the licence key is wrong or expired."
-          : ""),
+      [
+        "Could not download the database. Tried:",
+        ...failures.map((f) => `  - ${f}`),
+        "",
+        account
+          ? "A 401 on both means the credentials were rejected — check the pair."
+          : "Set MAXMIND_ACCOUNT_ID as well; MaxMind's current endpoint needs it.",
+      ].join("\n"),
     );
     process.exit(1);
   }
-
   const archive = gunzipSync(Buffer.from(await response.arrayBuffer()));
 
   const entry = [...tarEntries(archive)].find((file) =>
