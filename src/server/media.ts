@@ -4,6 +4,7 @@ import { mkdir, writeFile, unlink } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
 import { prisma } from "@/server/db";
+import { pick } from "@/lib/i18n-field";
 import type { Media } from "@prisma/client";
 
 /**
@@ -63,6 +64,24 @@ async function makeBlurDataUrl(input: Buffer): Promise<string> {
   return `data:image/jpeg;base64,${buf.toString("base64")}`;
 }
 
+/**
+ * Sanitize the filename the browser handed us before storing it.
+ *
+ * This value is only ever rendered as text, never used to build a path — the
+ * file on disk is named from `randomBytes` — but it is fully attacker
+ * controlled, so strip directory separators and control characters and cap the
+ * length rather than trusting it.
+ */
+function cleanOriginalName(name: string): string | undefined {
+  const cleaned = name
+    .split(/[\\/]/)
+    .pop()
+    ?.replace(/[\u0000-\u001f\u007f]/g, "")
+    .trim()
+    .slice(0, 120);
+  return cleaned || undefined;
+}
+
 export type StoreResult = { media: Media; reused: boolean };
 
 /**
@@ -75,6 +94,7 @@ export type StoreResult = { media: Media; reused: boolean };
 export async function storeUpload(
   file: File,
   altText?: string,
+  originalName?: string,
 ): Promise<StoreResult> {
   if (file.size === 0) throw new MediaError("Файл пуст");
   if (file.size > MAX_BYTES) {
@@ -136,6 +156,10 @@ export async function storeUpload(
     const media = await prisma.media.create({
       data: {
         path: publicPath,
+        // `publicPath` is random hex, so this is the only human-readable
+        // handle the gallery can show. Capped because it is display-only and
+        // the client controls it.
+        originalName: cleanOriginalName(originalName ?? file.name),
         width: info.width,
         height: info.height,
         blurDataUrl,
@@ -152,41 +176,202 @@ export async function storeUpload(
   }
 }
 
+/* -------------------------------------------------------------------------- */
+/*  Usage and deletion                                                        */
+/* -------------------------------------------------------------------------- */
+
 /**
- * Delete a media row and its file. Rows still referenced by content are kept —
- * the caller is told, rather than silently breaking a product image.
+ * One place an image is currently attached.
+ *
+ * `disables` is the part that matters: a product cannot render without a
+ * photo, so losing its image takes it off the site. Every other consumer —
+ * team avatars, certificates, both carousels — already guards for a missing
+ * image and keeps working, so the gallery can say so plainly instead of
+ * warning about all six the same way.
  */
-export async function deleteMedia(
-  id: string,
-): Promise<{ deleted: boolean; usedBy: number }> {
+export type MediaUsage = {
+  kind:
+    | "product"
+    | "homeSlide"
+    | "heroBackground"
+    | "heroProductArt"
+    | "teamMember"
+    | "certificate"
+    | "expert";
+  id: string;
+  label: string;
+  disables: boolean;
+  /** Admin screen this usage can be edited on. */
+  href: string;
+};
+
+const KIND_LABEL: Record<MediaUsage["kind"], string> = {
+  product: "Товар",
+  homeSlide: "Слайдер на главной",
+  heroBackground: "Слайдер продукции — фон",
+  heroProductArt: "Слайдер продукции — изображение товара",
+  teamMember: "Команда",
+  certificate: "Сертификат",
+  expert: "Эксперт",
+};
+
+/** Human-readable prefix for the confirm modal, e.g. "Товар «Intenso»". */
+export function usageTitle(usage: MediaUsage): string {
+  return `${KIND_LABEL[usage.kind]} «${usage.label}»`;
+}
+
+/**
+ * Everywhere this image is attached right now.
+ *
+ * Six separate queries rather than one `include` on Media: the relations point
+ * the other way, and counting them via `_count` (as the previous version did)
+ * cannot produce the per-item names the confirm dialog has to show.
+ */
+export async function mediaUsage(id: string): Promise<MediaUsage[]> {
+  const [
+    products,
+    homeSlides,
+    heroBackgrounds,
+    heroArt,
+    team,
+    certificates,
+    experts,
+  ] = await Promise.all([
+      prisma.product.findMany({
+        where: { imageId: id },
+        select: { id: true, name: true },
+      }),
+      prisma.homeSlide.findMany({
+        where: { imageOverrideId: id },
+        select: { id: true, product: { select: { name: true } } },
+      }),
+      prisma.productsHeroSlide.findMany({
+        where: { bgImageId: id },
+        select: { id: true, title: true, product: { select: { name: true } } },
+      }),
+      prisma.productsHeroSlide.findMany({
+        where: { productImageId: id },
+        select: { id: true, title: true, product: { select: { name: true } } },
+      }),
+      prisma.teamMember.findMany({
+        where: { avatarId: id },
+        select: { id: true, name: true },
+      }),
+      prisma.certificate.findMany({
+        where: { imageId: id },
+        select: { id: true, name: true },
+      }),
+      prisma.expert.findMany({
+        where: { photoId: id },
+        select: { id: true, name: true },
+      }),
+    ]);
+
+  // The admin is Russian-only, so every label resolves against `ru`.
+  const slideLabel = (s: {
+    title: unknown;
+    product: { name: unknown } | null;
+  }): string =>
+    pick(s.title, "ru") ||
+    (s.product ? pick(s.product.name, "ru") : "") ||
+    "Без названия";
+
+  return [
+    ...products.map((p) => ({
+      kind: "product" as const,
+      id: p.id,
+      label: pick(p.name, "ru") || "Без названия",
+      disables: true,
+      href: `/admin/products/${p.id}`,
+    })),
+    ...homeSlides.map((s) => ({
+      kind: "homeSlide" as const,
+      id: s.id,
+      label: s.product ? pick(s.product.name, "ru") : "Слайд",
+      disables: false,
+      href: `/admin/carousel-home/${s.id}`,
+    })),
+    ...heroBackgrounds.map((s) => ({
+      kind: "heroBackground" as const,
+      id: s.id,
+      label: slideLabel(s),
+      disables: false,
+      href: `/admin/carousel-products/${s.id}`,
+    })),
+    ...heroArt.map((s) => ({
+      kind: "heroProductArt" as const,
+      id: s.id,
+      label: slideLabel(s),
+      disables: false,
+      href: `/admin/carousel-products/${s.id}`,
+    })),
+    ...team.map((m) => ({
+      kind: "teamMember" as const,
+      id: m.id,
+      label: pick(m.name, "ru") || "Без имени",
+      disables: false,
+      href: `/admin/team/${m.id}`,
+    })),
+    ...certificates.map((c) => ({
+      kind: "certificate" as const,
+      id: c.id,
+      label: pick(c.name, "ru") || "Без названия",
+      disables: false,
+      href: `/admin/certificates/${c.id}`,
+    })),
+    // The card renders without a photo, so this detaches rather than hides —
+    // and it could not hide anyway: the pair is fixed and always rendered.
+    ...experts.map((e) => ({
+      kind: "expert" as const,
+      id: e.id,
+      label: pick(e.name, "ru") || "Без имени",
+      disables: false,
+      href: "/admin/experts",
+    })),
+  ];
+}
+
+export type MediaDeletion = {
+  deleted: boolean;
+  /** Names of the products taken off the site by this delete. */
+  disabledProducts: string[];
+};
+
+/**
+ * Delete a media row, its file, and every reference to it.
+ *
+ * Deletion is never refused. Each of the six relations is declared
+ * `onDelete: SetNull`, so removing the row detaches it everywhere in one
+ * statement; the only extra work is deactivating the products that just lost
+ * their photo, because an imageless product cannot render. That is the same
+ * invariant `saveProduct`/`toggleProduct` enforce — see
+ * src/server/actions/products.ts.
+ */
+export async function deleteMedia(id: string): Promise<MediaDeletion> {
   const media = await prisma.media.findUnique({
     where: { id },
-    include: {
-      _count: {
-        select: {
-          productImages: true,
-          slideOverrides: true,
-          heroBackgrounds: true,
-          heroProductArt: true,
-          teamAvatars: true,
-          certificateImages: true,
-        },
-      },
-    },
+    select: { path: true },
   });
-  if (!media) return { deleted: false, usedBy: 0 };
+  if (!media) return { deleted: false, disabledProducts: [] };
 
-  const usedBy =
-    media._count.productImages +
-    media._count.slideOverrides +
-    media._count.heroBackgrounds +
-    media._count.heroProductArt +
-    media._count.teamAvatars +
-    media._count.certificateImages;
+  // Read before the delete: afterwards the foreign keys are already NULL and
+  // there is no way to recover which products were affected.
+  const affected = await prisma.product.findMany({
+    where: { imageId: id },
+    select: { id: true, name: true },
+  });
 
-  if (usedBy > 0) return { deleted: false, usedBy };
-
-  await prisma.media.delete({ where: { id } });
+  await prisma.$transaction([
+    prisma.media.delete({ where: { id } }),
+    ...(affected.length > 0
+      ? [
+          prisma.product.updateMany({
+            where: { id: { in: affected.map((p) => p.id) } },
+            data: { isActive: false },
+          }),
+        ]
+      : []),
+  ]);
 
   // Seeded rows point into public/ and are not ours to remove.
   if (media.path.startsWith("/uploads/")) {
@@ -195,5 +380,8 @@ export async function deleteMedia(
     if (abs) await unlink(abs).catch(() => undefined);
   }
 
-  return { deleted: true, usedBy: 0 };
+  return {
+    deleted: true,
+    disabledProducts: affected.map((p) => pick(p.name, "ru") || "Без названия"),
+  };
 }

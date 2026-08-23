@@ -15,8 +15,15 @@ export async function GET(request: Request) {
   const page = Math.max(1, Number(searchParams.get("page") ?? 1) || 1);
   const search = searchParams.get("q")?.trim();
 
+  // Both names are searchable: `path` is random hex, so the filename the
+  // editor actually recognises is `originalName`.
   const where = search
-    ? { path: { contains: search, mode: "insensitive" as const } }
+    ? {
+        OR: [
+          { path: { contains: search, mode: "insensitive" as const } },
+          { originalName: { contains: search, mode: "insensitive" as const } },
+        ],
+      }
     : {};
 
   const [items, total] = await Promise.all([
@@ -28,6 +35,7 @@ export async function GET(request: Request) {
       select: {
         id: true,
         path: true,
+        originalName: true,
         width: true,
         height: true,
         blurDataUrl: true,

@@ -28,6 +28,12 @@ type Props = {
   onRestore?: () => Promise<void>;
   /** Blocks deletion with an explanation instead of silently doing nothing. */
   deleteBlockedReason?: string;
+  /**
+   * Blocks *showing* the row with an explanation. Hiding stays available —
+   * the constraint is only ever on making something visible, e.g. a product
+   * that has no photo to render.
+   */
+  showBlockedReason?: string;
   confirmLabel: string;
 };
 
@@ -46,6 +52,7 @@ export function RowActions({
   onDelete,
   onRestore,
   deleteBlockedReason,
+  showBlockedReason,
   confirmLabel,
 }: Props) {
   const [pending, startTransition] = useTransition();
@@ -100,11 +107,19 @@ export function RowActions({
         <ChevronDown className="h-4 w-4" />
       </button>
 
+      {/* Hiding is always permitted; showing can be blocked by a missing
+       * prerequisite. Disabling the button with the reason in its tooltip is
+       * the honest form of a rule the server enforces anyway — the
+       * alternative, a click that silently does nothing, reads as a bug. */}
       <button
         type="button"
         onClick={run(onToggle)}
-        disabled={pending}
-        title={isActive ? "Скрыть с сайта" : "Показать на сайте"}
+        disabled={pending || (!isActive && Boolean(showBlockedReason))}
+        title={
+          isActive
+            ? "Скрыть с сайта"
+            : (showBlockedReason ?? "Показать на сайте")
+        }
         className={ICON_BTN}
       >
         {isActive ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}

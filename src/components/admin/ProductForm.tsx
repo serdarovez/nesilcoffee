@@ -1,10 +1,19 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useRef, useState } from "react";
+import { ImageOff } from "lucide-react";
 import { LocalizedField } from "./LocalizedField";
 import { MediaPicker, type MediaRef } from "./MediaPicker";
+import { ConfirmDialog } from "./ConfirmDialog";
 import { Card, Field, FormMessage, SubmitButton, inputClass } from "./ui";
 import { saveProduct } from "@/server/actions/products";
+import { NO_IMAGE_REASON } from "@/lib/product-rules";
+import {
+  DEFAULT_FIELD_RULES,
+  PRODUCT_FIELDS,
+  type CategoryFieldRules,
+  type ProductFieldKey,
+} from "@/lib/category-fields";
 import type { FormState } from "@/server/form";
 import type { LocalizedField as LocalizedValue } from "@/lib/i18n-field";
 
@@ -16,12 +25,20 @@ export type ProductFormValues = {
   slug?: string;
   categoryId?: string;
   weight?: string;
+  pieces?: number | null;
   arabica?: string | null;
   robusta?: string | null;
-  roast?: number;
-  acidity?: number;
+  roast?: number | null;
+  acidity?: number | null;
   image?: MediaRef | null;
   isActive?: boolean;
+};
+
+export type CategoryOption = {
+  id: string;
+  label: string;
+  /** Which fields this category uses. Drives what the form below renders. */
+  rules: CategoryFieldRules;
 };
 
 export function ProductForm({
@@ -29,14 +46,64 @@ export function ProductForm({
   categories,
 }: {
   values: ProductFormValues;
-  categories: { id: string; label: string }[];
+  categories: CategoryOption[];
 }) {
   const [state, formAction] = useActionState<FormState, FormData>(saveProduct, {});
   const [image, setImage] = useState<MediaRef | null>(values.image ?? null);
+  // Controlled so the confirm dialog can react to the checkbox live, rather
+  // than reading the DOM at submit time.
+  const [isActive, setIsActive] = useState(values.isActive ?? true);
+  const [asking, setAsking] = useState(false);
+  // Controlled so the spec fields below follow the dropdown immediately, rather
+  // than only after a save round-trip.
+  const [categoryId, setCategoryId] = useState(values.categoryId ?? "");
   const errors = state.fieldErrors ?? {};
 
+  // Falls back to the defaults for "no category picked yet", which is the same
+  // set of rules a category with nothing stored gets.
+  const rules =
+    categories.find((c) => c.id === categoryId)?.rules ?? DEFAULT_FIELD_RULES;
+
+  /** A field the current category switches off is not rendered at all. */
+  const uses = (key: ProductFieldKey) => rules[key] !== "off";
+  const required = (key: ProductFieldKey) => rules[key] === "required";
+  const hiddenFields = PRODUCT_FIELDS.filter((f) => rules[f.key] === "off");
+
+  const formRef = useRef<HTMLFormElement>(null);
+  // A ref, not state: `requestSubmit()` below runs before a state update would
+  // be visible to the submit handler, so the flag has to be readable
+  // synchronously.
+  const confirmedRef = useRef(false);
+
+  // Saving without a photo is allowed — it just takes the product off the
+  // site, which is what the server does regardless (see NO_IMAGE_REASON).
+  // Asking first means that is never a surprise.
+  const willBeHidden = !image && isActive;
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    if (willBeHidden && !confirmedRef.current) {
+      event.preventDefault();
+      setAsking(true);
+      return;
+    }
+    // Re-arm: if the action comes back with a validation error the form stays
+    // on screen, and the next attempt should ask again.
+    confirmedRef.current = false;
+  };
+
+  const confirmAndSave = () => {
+    confirmedRef.current = true;
+    setAsking(false);
+    formRef.current?.requestSubmit();
+  };
+
   return (
-    <form action={formAction} className="flex flex-col gap-4">
+    <form
+      ref={formRef}
+      action={formAction}
+      onSubmit={handleSubmit}
+      className="flex flex-col gap-4"
+    >
       {values.id && <input type="hidden" name="id" value={values.id} />}
       <input type="hidden" name="imageId" value={image?.id ?? ""} />
 
@@ -59,7 +126,8 @@ export function ProductForm({
           >
             <select
               name="categoryId"
-              defaultValue={values.categoryId ?? ""}
+              value={categoryId}
+              onChange={(e) => setCategoryId(e.target.value)}
               className={inputClass}
               required
             >
@@ -97,62 +165,113 @@ export function ProductForm({
           hint="Прозрачный PNG или WebP. Длинная сторона будет уменьшена до 2400 px."
         />
 
+        {/* Which of these appear is decided by the selected category. A field
+         * it marks «Нет» is not rendered, and the server leaves whatever is
+         * already stored for it alone — so switching the rule back restores
+         * the value rather than resurrecting a blank. */}
         <div className="grid gap-4 sm:grid-cols-3">
-          <Field label="Вес / объём" required error={errors.weight}>
-            <input
-              name="weight"
-              defaultValue={values.weight ?? ""}
-              placeholder="1000 гр"
-              className={inputClass}
-              required
-            />
-          </Field>
-          <Field label="Арабика" error={errors.arabica} hint="Пусто — не показывать">
-            <input
-              name="arabica"
-              defaultValue={values.arabica ?? ""}
-              placeholder="100%"
-              className={inputClass}
-            />
-          </Field>
-          <Field label="Робуста" error={errors.robusta} hint="Пусто — не показывать">
-            <input
-              name="robusta"
-              defaultValue={values.robusta ?? ""}
-              placeholder="35%"
-              className={inputClass}
-            />
-          </Field>
+          {uses("weight") && (
+            <Field
+              label="Вес / объём"
+              required={required("weight")}
+              error={errors.weight}
+              hint={
+                uses("pieces")
+                  ? "Вес одной штуки — на карточке умножится на количество"
+                  : undefined
+              }
+            >
+              <input
+                name="weight"
+                defaultValue={values.weight ?? ""}
+                placeholder={uses("pieces") ? "18 гр" : "1000 гр"}
+                className={inputClass}
+                required={required("weight")}
+              />
+            </Field>
+          )}
+          {uses("pieces") && (
+            <Field
+              label="Штук в упаковке"
+              required={required("pieces")}
+              error={errors.pieces}
+              hint="На карточке: «20 шт × 18 гр»"
+            >
+              <input
+                name="pieces"
+                type="number"
+                min={1}
+                defaultValue={values.pieces ?? ""}
+                placeholder="20"
+                className={inputClass}
+                required={required("pieces")}
+              />
+            </Field>
+          )}
+          {uses("arabica") && (
+            <Field
+              label="Арабика"
+              required={required("arabica")}
+              error={errors.arabica}
+              hint={required("arabica") ? undefined : "Пусто — не показывать"}
+            >
+              <input
+                name="arabica"
+                defaultValue={values.arabica ?? ""}
+                placeholder="100%"
+                className={inputClass}
+                required={required("arabica")}
+              />
+            </Field>
+          )}
+          {uses("robusta") && (
+            <Field
+              label="Робуста"
+              required={required("robusta")}
+              error={errors.robusta}
+              hint={required("robusta") ? undefined : "Пусто — не показывать"}
+            >
+              <input
+                name="robusta"
+                defaultValue={values.robusta ?? ""}
+                placeholder="35%"
+                className={inputClass}
+                required={required("robusta")}
+              />
+            </Field>
+          )}
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2">
-          <Field label="Степень обжарки" required error={errors.roast}>
-            <select
-              name="roast"
-              defaultValue={String(values.roast ?? 3)}
-              className={inputClass}
-            >
-              {[1, 2, 3, 4, 5].map((n) => (
-                <option key={n} value={n}>
-                  {n} из 5
-                </option>
-              ))}
-            </select>
-          </Field>
-          <Field label="Кислотность" required error={errors.acidity}>
-            <select
-              name="acidity"
-              defaultValue={String(values.acidity ?? 3)}
-              className={inputClass}
-            >
-              {[1, 2, 3, 4, 5].map((n) => (
-                <option key={n} value={n}>
-                  {n} из 5
-                </option>
-              ))}
-            </select>
-          </Field>
-        </div>
+        {(uses("roast") || uses("acidity")) && (
+          <div className="grid gap-4 sm:grid-cols-2">
+            {uses("roast") && (
+              <SpecSelect
+                name="roast"
+                label="Степень обжарки"
+                required={required("roast")}
+                value={values.roast}
+                error={errors.roast}
+              />
+            )}
+            {uses("acidity") && (
+              <SpecSelect
+                name="acidity"
+                label="Кислотность"
+                required={required("acidity")}
+                value={values.acidity}
+                error={errors.acidity}
+              />
+            )}
+          </div>
+        )}
+
+        {hiddenFields.length > 0 && (
+          <p className="text-xs text-ink-4">
+            Не используются в этой категории:{" "}
+            {hiddenFields.map((f) => f.label.toLowerCase()).join(", ")}. Изменить
+            — в настройках категории.
+          </p>
+        )}
       </Card>
 
       <Card className="flex flex-col gap-5">
@@ -176,12 +295,13 @@ export function ProductForm({
         />
       </Card>
 
-      <Card>
+      <Card className="flex flex-col gap-3">
         <label className="flex cursor-pointer items-center gap-2.5">
           <input
             type="checkbox"
             name="isActive"
-            defaultChecked={values.isActive ?? true}
+            checked={isActive}
+            onChange={(e) => setIsActive(e.target.checked)}
             className="h-4 w-4 accent-[#191919]"
           />
           <span className="flex flex-col">
@@ -191,12 +311,76 @@ export function ProductForm({
             </span>
           </span>
         </label>
+
+        {willBeHidden && (
+          <p className="inline-flex items-start gap-2 rounded-lg bg-danger/10 px-3 py-2 text-xs text-danger">
+            <ImageOff className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+            {NO_IMAGE_REASON}. При сохранении товар будет скрыт.
+          </p>
+        )}
       </Card>
 
       <div className="flex items-center gap-3">
         <SubmitButton />
         <FormMessage state={state} />
       </div>
+
+      <ConfirmDialog
+        open={asking}
+        title="Сохранить без фотографии?"
+        confirmLabel="Сохранить и скрыть"
+        onCancel={() => setAsking(false)}
+        onConfirm={confirmAndSave}
+      >
+        <p>
+          У товара нет изображения, поэтому он будет{" "}
+          <strong className="font-semibold text-ink">скрыт с сайта</strong>.
+        </p>
+        <p className="text-ink-3">
+          Чтобы снова показать его, загрузите фотографию и включите «Показывать
+          на сайте».
+        </p>
+      </ConfirmDialog>
     </form>
+  );
+}
+
+/**
+ * A 1–5 spec dropdown.
+ *
+ * When the category marks the field optional it offers a blank first option:
+ * "not specified" is a real answer for a product whose roast nobody measured,
+ * and it is distinct from any of the five levels. A required field has no such
+ * option, so the browser blocks submission before the server has to.
+ */
+function SpecSelect({
+  name,
+  label,
+  required,
+  value,
+  error,
+}: {
+  name: string;
+  label: string;
+  required: boolean;
+  value?: number | null;
+  error?: string;
+}) {
+  return (
+    <Field label={label} required={required} error={error}>
+      <select
+        name={name}
+        defaultValue={value != null ? String(value) : required ? "3" : ""}
+        className={inputClass}
+        required={required}
+      >
+        {!required && <option value="">Не указано</option>}
+        {[1, 2, 3, 4, 5].map((n) => (
+          <option key={n} value={n}>
+            {n} из 5
+          </option>
+        ))}
+      </select>
+    </Field>
   );
 }
