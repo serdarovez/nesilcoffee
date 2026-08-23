@@ -13,6 +13,8 @@ export type SettingsValues = {
   email: string;
   address?: LocalizedValue;
   whatsapp?: string | null;
+  contactWhatsapp?: string | null;
+  telegram?: string | null;
   instagram?: string | null;
   tiktok?: string | null;
 };
@@ -94,21 +96,64 @@ export function SettingsForm({ values }: { values: SettingsValues }) {
         />
       </Card>
 
+      {/* Two groups, because the numbers do two unrelated jobs. Kept apart
+       * on screen so nobody changes where orders arrive while meaning to
+       * update what visitors see. */}
       <Card className="flex flex-col gap-4">
-        <h2 className="text-sm font-semibold text-ink">Мессенджеры и соцсети</h2>
+        <div className="flex flex-col gap-0.5">
+          <h2 className="text-sm font-semibold text-ink">Куда приходят заказы</h2>
+          <p className="text-xs text-ink-4">
+            Этот номер получает сообщения из формы заказа и формы обратной
+            связи. На сайте он не показывается.
+          </p>
+        </div>
         <Field
-          label="WhatsApp"
+          label="WhatsApp для заказов"
           error={errors.whatsapp}
-          hint="Только цифры в международном формате, например 99313732969"
+          hint="Только цифры в международном формате, например 99363308311"
         >
           <input
             name="whatsapp"
             defaultValue={values.whatsapp ?? ""}
-            placeholder="99313732969"
+            placeholder="99363308311"
             className={inputClass}
           />
         </Field>
+      </Card>
+
+      <Card className="flex flex-col gap-4">
+        <div className="flex flex-col gap-0.5">
+          <h2 className="text-sm font-semibold text-ink">Показывать на сайте</h2>
+          <p className="text-xs text-ink-4">
+            Контакты в блоке «Мессенджер» и «Социальные сети» на странице
+            контактов.
+          </p>
+        </div>
         <div className="grid gap-4 sm:grid-cols-2">
+          <Field
+            label="WhatsApp"
+            error={errors.contactWhatsapp}
+            hint="Пусто — покажется номер для заказов"
+          >
+            <input
+              name="contactWhatsapp"
+              defaultValue={values.contactWhatsapp ?? ""}
+              placeholder="99312345678"
+              className={inputClass}
+            />
+          </Field>
+          <Field
+            label="Telegram"
+            error={errors.telegram}
+            hint="Имя пользователя или ссылка — сохранится как @имя"
+          >
+            <input
+              name="telegram"
+              defaultValue={values.telegram ? `@${values.telegram}` : ""}
+              placeholder="@nesilcoffee"
+              className={inputClass}
+            />
+          </Field>
           <Field label="Instagram" error={errors.instagram}>
             <input
               name="instagram"

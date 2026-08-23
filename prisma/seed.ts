@@ -19,6 +19,7 @@ import { PrismaClient, type Prisma } from "@prisma/client";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { BLUR_DATA } from "../src/lib/blur-data";
+import type { CategoryFieldRules } from "../src/lib/category-fields";
 
 const prisma = new PrismaClient();
 
@@ -37,6 +38,29 @@ const MESSAGES = Object.fromEntries(
 /* -------------------------------------------------------------------------- */
 /*  Helpers                                                                   */
 /* -------------------------------------------------------------------------- */
+
+/**
+ * Wrap every locale of a localized value in a paragraph.
+ *
+ * Rich-text columns (FaqItem.answer, Expert.quote) hold HTML. The message files
+ * hold plain sentences, so seeding them raw would put unwrapped text where the
+ * renderer expects markup. Escapes the three characters that would otherwise be
+ * read as tags — none appear in the current copy, but the copy is editable.
+ */
+function paragraphs(value: Prisma.InputJsonValue): Prisma.InputJsonValue {
+  const out: Record<string, string> = {};
+  for (const [locale, text] of Object.entries(
+    value as Record<string, string>,
+  )) {
+    const escaped = text
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/\n/g, "<br>");
+    out[locale] = `<p>${escaped}</p>`;
+  }
+  return out;
+}
 
 /** Read a dotted path out of a parsed message file. Array indices work too. */
 function dot(source: unknown, path: string): unknown {
@@ -113,7 +137,10 @@ type SeedProduct = {
   slug: string;
   name: string;
   image: string;
+  /** Weight of ONE unit; multiplied by `pieces` on the card when set. */
   weight: string;
+  /** Units per pack, for stick and sachet formats. */
+  pieces?: number;
   arabica: string | null;
   robusta: string | null;
   roast: number;
@@ -124,12 +151,19 @@ type SeedCategory = {
   slug: string;
   /** Message path holding the translated category label. */
   messagePath: string;
+  /**
+   * Which product fields this category uses. Mirrors what migration
+   * 20260823093050 writes to the categories that already existed, so a fresh
+   * seed and a migrated database end up identical.
+   */
+  fieldRules: CategoryFieldRules;
   products: SeedProduct[];
 };
 
 const CATEGORIES: SeedCategory[] = [
   {
     slug: "bean",
+    fieldRules: { weight: "required", pieces: "off", arabica: "optional", robusta: "optional", roast: "required", acidity: "required" },
     messagePath: "products.categories.bean",
     products: [
       { slug: "speciale", name: "Speciale", image: "/products/speciale-main.png",  weight: "1000 гр", arabica: "65%",  robusta: "35%", roast: 3, acidity: 3 },
@@ -141,17 +175,19 @@ const CATEGORIES: SeedCategory[] = [
   },
   {
     slug: "instant",
+    fieldRules: { weight: "required", pieces: "required", arabica: "optional", robusta: "off", roast: "required", acidity: "off" },
     messagePath: "products.categories.instant",
     products: [
-      { slug: "coffee-latte",  name: "Coffee Latte",  image: "/products/instant-1.png", weight: "20 × 18 гр", arabica: "100%", robusta: null, roast: 3, acidity: 2 },
-      { slug: "cappuccino",    name: "Cappuccino",    image: "/products/instant-2.png", weight: "20 × 18 гр", arabica: "100%", robusta: null, roast: 3, acidity: 2 },
-      { slug: "caramel-latte", name: "Caramel Latte", image: "/products/instant-3.png", weight: "20 × 18 гр", arabica: "100%", robusta: null, roast: 2, acidity: 2 },
-      { slug: "hazelnut",      name: "Hazelnut",      image: "/products/instant-4.png", weight: "20 × 18 гр", arabica: "100%", robusta: null, roast: 3, acidity: 2 },
-      { slug: "vanilla",       name: "Vanilla",       image: "/products/instant-5.png", weight: "20 × 18 гр", arabica: "100%", robusta: null, roast: 2, acidity: 2 },
+      { slug: "coffee-latte",  name: "Coffee Latte",  image: "/products/instant-1.png", weight: "18 гр", pieces: 20, arabica: "100%", robusta: null, roast: 3, acidity: 2 },
+      { slug: "cappuccino",    name: "Cappuccino",    image: "/products/instant-2.png", weight: "18 гр", pieces: 20, arabica: "100%", robusta: null, roast: 3, acidity: 2 },
+      { slug: "caramel-latte", name: "Caramel Latte", image: "/products/instant-3.png", weight: "18 гр", pieces: 20, arabica: "100%", robusta: null, roast: 2, acidity: 2 },
+      { slug: "hazelnut",      name: "Hazelnut",      image: "/products/instant-4.png", weight: "18 гр", pieces: 20, arabica: "100%", robusta: null, roast: 3, acidity: 2 },
+      { slug: "vanilla",       name: "Vanilla",       image: "/products/instant-5.png", weight: "18 гр", pieces: 20, arabica: "100%", robusta: null, roast: 2, acidity: 2 },
     ],
   },
   {
     slug: "freeze-dried",
+    fieldRules: { weight: "required", pieces: "off", arabica: "optional", robusta: "off", roast: "required", acidity: "required" },
     messagePath: "products.categories.freezeDried",
     products: [
       { slug: "gold",     name: "Gold",     image: "/products/grain-4.png",                weight: "95 гр", arabica: "100%", robusta: null, roast: 4, acidity: 3 },
@@ -163,6 +199,7 @@ const CATEGORIES: SeedCategory[] = [
   },
   {
     slug: "tea",
+    fieldRules: { weight: "required", pieces: "off", arabica: "off", robusta: "off", roast: "off", acidity: "off" },
     messagePath: "products.categories.tea",
     products: [
       { slug: "karak", name: "Karak", image: "/products/tea-1.png", weight: "200 гр", arabica: null, robusta: null, roast: 3, acidity: 2 },
@@ -234,6 +271,12 @@ const TEAM_AVATAR = "/sections/team/adel-sakhieva.png";
 const TEAM_COUNT = 5;
 const FAQ_COUNT = 6;
 
+/// The About page has exactly two expert cards; these are their message keys.
+const EXPERT_KEYS = ["one", "two"] as const;
+/// public/ ships only expert-1, so both cards seed with it. Replace the second
+/// from the admin once a photo of Bayramguly exists.
+const EXPERT_PHOTO = "/sections/about/expert-1.png";
+
 const CERTIFICATES: { id: string; key: "iso" | "halal"; image: string }[] = [
   { id: "cert-iso",   key: "iso",   image: "/certificates/iso-9001.png" },
   { id: "cert-halal", key: "halal", image: "/certificates/halal.png" },
@@ -253,6 +296,7 @@ async function seedCatalog() {
       create: {
         slug: category.slug,
         name: localized(category.messagePath),
+        fieldRules: category.fieldRules,
         sortOrder: categoryIndex,
       },
     });
@@ -270,6 +314,7 @@ async function seedCatalog() {
           // shared `products.cardDescription` / `home.products.tagline`
           // messages, which is exactly what it renders today.
           weight: product.weight,
+          pieces: product.pieces ?? null,
           arabica: product.arabica,
           robusta: product.robusta,
           roast: product.roast,
@@ -359,8 +404,29 @@ async function seedPageContent() {
       create: {
         id: `faq-${i + 1}`,
         question: localized(`contacts.faq.items.${i}.q`),
-        answer: localized(`contacts.faq.items.${i}.a`),
+        // Rich text since the Tiptap editor landed. Wrapped here so a fresh
+        // seed matches what migration 20260823084500 did to existing rows.
+        answer: paragraphs(localized(`contacts.faq.items.${i}.a`)),
         sortOrder: i,
+      },
+    });
+  }
+
+  // Exactly two, matching the two cards the About page renders. `update: {}`
+  // as everywhere else, so re-seeding never clobbers edits made in the admin.
+  for (const [index, key] of EXPERT_KEYS.entries()) {
+    await prisma.expert.upsert({
+      where: { id: `expert-${index + 1}` },
+      update: {},
+      create: {
+        id: `expert-${index + 1}`,
+        name: localized(`about.experts.${key}.name`),
+        role: localized(`about.experts.${key}.role`),
+        quote: paragraphs(localized(`about.experts.${key}.quote`)),
+        // Both start on the one photo that exists in public/. The second is
+        // meant to be replaced from the admin — there is no expert-2 asset.
+        photoId: await media(EXPERT_PHOTO),
+        sortOrder: index,
       },
     });
   }
@@ -380,7 +446,7 @@ async function seedPageContent() {
   }
 
   console.log(
-    `  team: ${TEAM_COUNT}   faq: ${FAQ_COUNT}   certificates: ${CERTIFICATES.length}`,
+    `  team: ${TEAM_COUNT}   faq: ${FAQ_COUNT}   certificates: ${CERTIFICATES.length}   experts: ${EXPERT_KEYS.length}`,
   );
 }
 

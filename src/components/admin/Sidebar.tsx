@@ -9,7 +9,9 @@ import {
   FolderTree,
   GalleryHorizontal,
   Images,
+  ImageIcon,
   Users,
+  Quote,
   HelpCircle,
   Award,
   Inbox,
@@ -40,6 +42,7 @@ const NAV: { heading: string; items: NavItem[] }[] = [
     items: [
       { href: "/admin/products", label: "Продукция", icon: Coffee, ready: true },
       { href: "/admin/categories", label: "Категории", icon: FolderTree, ready: true },
+      { href: "/admin/gallery", label: "Галерея", icon: ImageIcon, ready: true },
     ],
   },
   {
@@ -53,6 +56,7 @@ const NAV: { heading: string; items: NavItem[] }[] = [
     heading: "Содержимое",
     items: [
       { href: "/admin/team", label: "Команда", icon: Users, ready: true },
+      { href: "/admin/experts", label: "Эксперты", icon: Quote, ready: true },
       { href: "/admin/faq", label: "Вопросы и ответы", icon: HelpCircle, ready: true },
       { href: "/admin/certificates", label: "Сертификаты", icon: Award, ready: true },
     ],

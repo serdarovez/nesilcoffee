@@ -7,6 +7,7 @@ import {
   AccordionContent,
 } from "@/components/ui/accordion";
 
+/** `answer` is sanitized HTML — see sanitizeRichText() in src/server/form.ts. */
 export type FaqEntry = { id: string; question: string; answer: string };
 
 export function FAQ({ items }: { items: FaqEntry[] }) {
@@ -27,7 +28,15 @@ export function FAQ({ items }: { items: FaqEntry[] }) {
             {items.map((item) => (
               <AccordionItem key={item.id} value={item.id}>
                 <AccordionTrigger>{item.question}</AccordionTrigger>
-                <AccordionContent>{item.answer}</AccordionContent>
+                <AccordionContent>
+                  {/* Safe by construction: the only writer is the admin form,
+                   * which runs every value through the tag allowlist before it
+                   * reaches the database. Nothing else can write this column. */}
+                  <div
+                    className="rich-text"
+                    dangerouslySetInnerHTML={{ __html: item.answer }}
+                  />
+                </AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>

@@ -22,9 +22,29 @@ const schema = z.object({
     .string()
     .regex(/^\d{6,15}$/, "Только цифры, в международном формате")
     .nullable(),
+  contactWhatsapp: z
+    .string()
+    .regex(/^\d{6,15}$/, "Только цифры, в международном формате")
+    .nullable(),
+  telegram: z.string().min(1).nullable(),
   instagram: z.string().url("Укажите полный адрес").nullable(),
   tiktok: z.string().url("Укажите полный адрес").nullable(),
 });
+
+/**
+ * Accept a Telegram handle in any of the shapes someone will paste, and store
+ * the bare username. Rendering builds the t.me URL, so the database holds one
+ * canonical form instead of three.
+ */
+function normalizeTelegram(input: string | null): string | null {
+  if (!input) return null;
+  const handle = input
+    .trim()
+    .replace(/^https?:\/\/(t\.me|telegram\.me)\//i, "")
+    .replace(/^@/, "")
+    .replace(/\/$/, "");
+  return handle || null;
+}
 
 export async function saveSettings(
   _prev: FormState,
@@ -45,6 +65,9 @@ export async function saveSettings(
     email: readString(formData, "email") ?? "",
     address: readLocalized(formData, "address"),
     whatsapp: readString(formData, "whatsapp")?.replace(/\D/g, "") || null,
+    contactWhatsapp:
+      readString(formData, "contactWhatsapp")?.replace(/\D/g, "") || null,
+    telegram: normalizeTelegram(readString(formData, "telegram")),
     instagram: readString(formData, "instagram"),
     tiktok: readString(formData, "tiktok"),
   });

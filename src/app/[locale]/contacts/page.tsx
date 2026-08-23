@@ -2,9 +2,15 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { FAQ } from "@/components/sections/FAQ";
 import { ContactForm } from "@/components/sections/ContactForm";
-import { InstagramIcon } from "@/components/icons/Socials";
+import { WhatsAppIcon, TelegramIcon } from "@/components/icons/Socials";
 import { getFaqItems } from "@/server/queries";
-import { contactInfo, telHref, type ContactInfo } from "@/server/views";
+import {
+  contactInfo,
+  telHref,
+  telegramHref,
+  whatsappLabel,
+  type ContactInfo,
+} from "@/server/views";
 import { pick } from "@/lib/i18n-field";
 
 export async function generateMetadata({
@@ -107,16 +113,30 @@ async function ContactsBlock({
                 <p className="leading-[130%]">{info.address || t("address")}</p>
               </InfoBlock>
 
+              {/* Messengers, then e-mail. The WhatsApp number here is the
+               * one meant for display — the number that receives orders is a
+               * separate setting and is never shown. */}
               <InfoBlock label={t("messengerLabel")}>
-                {info.whatsapp && (
+                {info.contactWhatsapp && (
                   <a
-                    href={`https://wa.me/${info.whatsapp}`}
+                    href={`https://wa.me/${info.contactWhatsapp}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 hover:opacity-75 transition-opacity"
                   >
-                    <InstagramIcon className="h-4 w-4 md:h-5 md:w-5" />
-                    +{info.whatsapp}
+                    <WhatsAppIcon className="h-4 w-4 shrink-0 md:h-5 md:w-5" />
+                    {whatsappLabel(info.contactWhatsapp)}
+                  </a>
+                )}
+                {info.telegram && (
+                  <a
+                    href={telegramHref(info.telegram)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 hover:opacity-75 transition-opacity"
+                  >
+                    <TelegramIcon className="h-4 w-4 shrink-0 md:h-5 md:w-5" />
+                    @{info.telegram}
                   </a>
                 )}
                 <a

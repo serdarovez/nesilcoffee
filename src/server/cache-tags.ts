@@ -13,6 +13,7 @@ export const TAGS = {
   homeCarousel: "home-carousel",
   productsCarousel: "products-carousel",
   team: "team",
+  experts: "experts",
   faq: "faq",
   certificates: "certificates",
   settings: "settings",

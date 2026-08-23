@@ -8,7 +8,7 @@ import { Team } from "@/components/sections/Team";
 import { CTAContact } from "@/components/sections/CTAContact";
 import { AboutHistory } from "@/components/sections/AboutHistory";
 import { QualityTimeline } from "@/components/sections/QualityTimeline";
-import { teamView, certificatesView } from "@/server/views";
+import { teamView, certificatesView, expertsView, type ExpertView } from "@/server/views";
 import { BlurImage } from "@/components/ui/BlurImage";
 
 export async function generateMetadata({
@@ -155,35 +155,60 @@ function QualityControl() {
  *  48pt title (708/1440 = 49.2%) over two equal cards. Photo is 180/708 =
  *  25.4% of its card, square, so it tracks the card instead of a fixed px.  */
 /* -------------------------------------------------------------------------- */
-function Experts() {
-  const t = useTranslations("about.experts");
+function Experts({
+  title,
+  items,
+}: {
+  title: string;
+  items: ExpertView[];
+}) {
+  if (items.length === 0) return null;
+
   return (
     <section className="container-x section-pt">
-      <h2 className="display-3 text-ink md:max-w-[49.2%]">{t("title")}</h2>
+      <h2 className="display-3 text-ink md:max-w-[49.2%]">{title}</h2>
       <div className="mt-6 flex flex-col gap-4 md:mt-[clamp(24px,5dvh,40px)] md:flex-row md:gap-[clamp(16px,2vw,24px)]">
-        {(["one", "two"] as const).map((k) => (
+        {items.map((expert) => (
           <article
-            key={k}
+            key={expert.id}
             className="surface-card flex flex-col gap-4 p-5 md:min-w-0 md:flex-1 md:gap-[clamp(16px,2.6dvh,24px)] md:p-[clamp(18px,2vw,30px)]"
           >
             <div className="flex items-center gap-4 md:gap-[clamp(16px,2.2vw,30px)]">
+              {/* The photo slot keeps its box when empty rather than letting
+               * the name jump left: the two cards sit side by side and must
+               * stay aligned even if only one has a portrait. */}
               <div className="relative aspect-square w-24 shrink-0 overflow-hidden rounded-lg bg-paper-mute md:w-[25.4%]">
-                <Image
-                  src="/sections/about/expert-1.png"
-                  alt={t(`${k}.name`)}
-                  fill
-                  sizes="(max-width: 768px) 96px, 13vw"
-                  className="object-cover"
-                />
+                {expert.photo && (
+                  <Image
+                    src={expert.photo}
+                    alt={expert.name}
+                    fill
+                    sizes="(max-width: 768px) 96px, 13vw"
+                    className="object-cover"
+                    {...(expert.blurDataUrl
+                      ? {
+                          placeholder: "blur" as const,
+                          blurDataURL: expert.blurDataUrl,
+                        }
+                      : {})}
+                  />
+                )}
               </div>
               <div className="flex min-w-0 flex-col gap-1 md:gap-2">
                 <div className="heading-1 text-paper-charcoal">
-                  {t(`${k}.name`)}
+                  {expert.name}
                 </div>
-                <div className="text-sm text-ink-3 md:text-[clamp(14px,1.2vw,18px)]">{t(`${k}.role`)}</div>
+                <div className="text-sm text-ink-3 md:text-[clamp(14px,1.2vw,18px)]">
+                  {expert.role}
+                </div>
               </div>
             </div>
-            <p className="body-xl text-paper-charcoal">{t(`${k}.quote`)}</p>
+            {/* Rich text. Safe by construction — the admin form is the only
+             * writer and runs every value through the tag allowlist. */}
+            <div
+              className="rich-text body-xl text-paper-charcoal"
+              dangerouslySetInnerHTML={{ __html: expert.quote }}
+            />
           </article>
         ))}
       </div>
@@ -199,9 +224,12 @@ export default async function AboutPage({
   const { locale } = await params;
   setRequestLocale(locale);
 
-  const [team, certificates] = await Promise.all([
+  const tExperts = await getTranslations({ locale, namespace: "about.experts" });
+
+  const [team, certificates, experts] = await Promise.all([
     teamView(locale),
     certificatesView(locale),
+    expertsView(locale, tExperts("title")),
   ]);
 
   return (
@@ -215,7 +243,7 @@ export default async function AboutPage({
       <AboutHistory />
       <ProductionProcess />
       <QualityControl />
-      <Experts />
+      <Experts title={experts.title} items={experts.items} />
       <Certificates items={certificates} />
       <Team members={team} />
       <CTAContact />
