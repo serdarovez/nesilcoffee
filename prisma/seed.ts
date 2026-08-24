@@ -40,26 +40,51 @@ const MESSAGES = Object.fromEntries(
 /* -------------------------------------------------------------------------- */
 
 /**
- * Wrap every locale of a localized value in a paragraph.
+ * Turn every locale of a localized value into rich-text HTML.
  *
- * Rich-text columns (FaqItem.answer, Expert.quote) hold HTML. The message files
- * hold plain sentences, so seeding them raw would put unwrapped text where the
- * renderer expects markup. Escapes the three characters that would otherwise be
- * read as tags — none appear in the current copy, but the copy is editable.
+ * Rich-text columns (FaqItem.answer, Expert.quote) hold HTML, but the message
+ * files stay plain text so a translator never has to edit markup — get that
+ * wrong and the value is still stored, just broken. The two conventions
+ * understood here are the ones the copy actually uses:
+ *
+ *   blank line   -> a new <p>
+ *   "- " prefix  -> an <li> in a <ul> (a run of them is one list)
+ *   single \n    -> <br> inside the current paragraph
+ *
+ * Everything is escaped first, so a stray `<` in the copy is text rather than
+ * markup. The output is limited to <p>, <br>, <ul> and <li>, all of which are
+ * on the allowlist in sanitizeRichText() — this produces nothing that editing
+ * the same field in the admin would strip back out.
  */
 function paragraphs(value: Prisma.InputJsonValue): Prisma.InputJsonValue {
   const out: Record<string, string> = {};
   for (const [locale, text] of Object.entries(
     value as Record<string, string>,
   )) {
-    const escaped = text
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/\n/g, "<br>");
-    out[locale] = `<p>${escaped}</p>`;
+    out[locale] = richTextFromPlain(text);
   }
   return out;
+}
+
+function richTextFromPlain(text: string): string {
+  const escape = (s: string) =>
+    s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+  return text
+    .split(/\n\s*\n/)
+    .map((block) => block.trim())
+    .filter(Boolean)
+    .map((block) => {
+      const lines = block.split("\n").map((l) => l.trim());
+      if (lines.every((l) => l.startsWith("- "))) {
+        const items = lines
+          .map((l) => `<li>${escape(l.slice(2).trim())}</li>`)
+          .join("");
+        return `<ul>${items}</ul>`;
+      }
+      return `<p>${lines.map(escape).join("<br>")}</p>`;
+    })
+    .join("");
 }
 
 /** Read a dotted path out of a parsed message file. Array indices work too. */
