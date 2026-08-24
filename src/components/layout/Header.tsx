@@ -42,10 +42,14 @@ export function Header() {
       {/* The hairline is a shadow, not a border, so the header occupies
        * exactly `--site-header-h` and `--hero-h` lands on the fold. */}
       <header className="sticky top-0 z-40 w-full bg-white/50 shadow-[0_1px_0_var(--color-line)] backdrop-blur-[20px]">
-        <div className="fluid-desktop flex h-(--site-header-h) w-full items-center justify-between px-5 md:pl-8 md:pr-9">
-          <div className="flex items-center gap-6 md:gap-109">
-            <Logo />
-            <nav className="hidden items-center gap-2.75 md:flex">
+        {/* Same container as every section, so the logo's left edge sits
+         * on the site gutter. The nav used to be pushed off the logo by a
+         * fixed 436px gap (`md:gap-109`), which only centred it at the
+         * 1512px design frame; it now centres in whatever space is left
+         * between the logo and the language switcher. */}
+        <div className="container-x flex h-(--site-header-h) w-full items-center gap-6">
+          <Logo />
+          <nav className="hidden flex-1 items-center justify-center gap-2.75 md:flex">
               {NAV_ITEMS.map((item) => {
                 const active =
                   item.href === "/"
@@ -66,17 +70,17 @@ export function Header() {
                   </Link>
                 );
               })}
-            </nav>
-          </div>
+          </nav>
           <div className="hidden md:block">
             <LanguageSwitcher />
           </div>
-          {/* Mobile: hamburger */}
+          {/* Mobile: hamburger. `ml-auto` because the nav that would
+           * otherwise push it right is hidden below md. */}
           <button
             type="button"
             onClick={() => setOpen(true)}
             aria-label="Open menu"
-            className="grid h-11 w-11 place-items-center text-ink md:hidden"
+            className="ml-auto grid h-11 w-11 place-items-center text-ink md:hidden"
           >
             <Menu className="h-7 w-7" strokeWidth={1.75} />
           </button>
@@ -93,7 +97,7 @@ export function Header() {
         )}
         aria-hidden={!open}
       >
-        <div className="flex items-center justify-between px-5 py-3">
+        <div className="flex items-center justify-between gutter-x py-3">
           <div className="text-ink-inverse">
             <Logo />
           </div>
@@ -107,7 +111,7 @@ export function Header() {
           </button>
         </div>
 
-        <div className="flex flex-1 flex-col gap-8 overflow-y-auto px-5 pb-10 pt-4">
+        <div className="flex flex-1 flex-col gap-8 overflow-y-auto gutter-x pb-10 pt-4">
           <nav className="flex flex-col gap-4">
             {NAV_ITEMS.map((item) => {
               const active =

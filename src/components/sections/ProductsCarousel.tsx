@@ -59,7 +59,7 @@ export function ProductsCarousel({ slides }: { slides: Slide[] }) {
 
       {/* ================= MOBILE ================= */}
       <div className="md:hidden">
-        <h2 className="display-2 px-5 text-ink">
+        <h2 className="display-2 gutter-x text-ink">
           {t.rich("sectionTitle", {
             a: (chunks) => <span className="text-quiet">{chunks}</span>,
           })}
@@ -68,7 +68,7 @@ export function ProductsCarousel({ slides }: { slides: Slide[] }) {
         <div className="mt-6 overflow-hidden" ref={emblaRef}>
           <div className="flex">
             {SLIDES.map((s) => (
-              <div key={s.id} className="flex-[0_0_100%] min-w-0 px-5">
+              <div key={s.id} className="flex-[0_0_100%] min-w-0 gutter-x">
                 <MobileSlide slide={s} t={t} />
               </div>
             ))}
@@ -90,7 +90,7 @@ export function ProductsCarousel({ slides }: { slides: Slide[] }) {
           ))}
         </div>
 
-        <div className="mt-6 px-5">
+        <div className="mt-6 gutter-x">
           <Link
             href="/products"
             className="body-md inline-flex w-full items-center justify-center rounded-lg bg-paper-dark px-8 py-3.5 font-medium text-ink-inverse transition-colors hover:bg-brand-coffee"
@@ -107,7 +107,7 @@ export function ProductsCarousel({ slides }: { slides: Slide[] }) {
        * top and the carousel row filling the rest. The card bg, product
        * image, text column and arrows all scale via dvh/vw clamps so the
        * whole composition fits any viewport height without needing zoom. */}
-      <div className="relative mx-auto hidden h-full w-full max-w-(--site-max) flex-col px-9 pt-[clamp(48px,9dvh,120px)] pb-[clamp(20px,3dvh,40px)] md:flex">
+      <div className="container-x relative hidden h-full flex-col pt-[clamp(48px,9dvh,120px)] pb-[clamp(20px,3dvh,40px)] md:flex">
         <h2 className="display-2 text-ink">
           {t.rich("sectionTitle", {
             a: (chunks) => <span className="text-quiet">{chunks}</span>,
@@ -166,7 +166,10 @@ function MobileSlide({
 }) {
   return (
     <div className="flex flex-col items-center gap-4 rounded-3xl bg-paper/60 p-5 backdrop-blur">
-      <div className="relative h-64 w-full">
+      {/* Square box rather than a fixed 256px height — the art is
+        * `object-contain`, so the ratio only has to give it room, and a
+        * ratio scales with the slide instead of pinning it. */}
+      <div className="relative aspect-square w-full">
         {slide.image && (
           <Image
             src={slide.image}
@@ -216,7 +219,7 @@ function SlideCard({ slide }: { slide: Slide }) {
        * can protrude above it, mirroring the Figma composition. */}
       <div
         aria-hidden
-        className="absolute inset-x-[clamp(0px,2vw,36px)] top-[20%] bottom-0 rounded-3xl bg-paper/60"
+        className="absolute  top-[20%]  w-full bottom-0 rounded-3xl bg-paper/60"
         style={{ boxShadow: "var(--shadow-card)" }}
       />
 

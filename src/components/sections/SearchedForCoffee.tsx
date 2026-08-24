@@ -36,7 +36,10 @@ export function SearchedForCoffee() {
        * section's screen height rather than carrying a height of its own —
        * that is what keeps copy + video at exactly one screen instead of the
        * two competing fixed heights this had before. */}
-      <div className="relative mt-6 h-[220px] w-full overflow-hidden bg-paper-dark md:mt-[clamp(20px,3dvh,40px)] md:h-auto md:min-h-0 md:flex-1">
+      {/* Mobile height is a ratio rather than 220px; on md+ the block
+        * still takes the section's leftover height via flex-1, which is
+        * what keeps copy + video at exactly one screen. */}
+      <div className="relative mt-6 aspect-[16/9] w-full overflow-hidden bg-paper-dark md:mt-[clamp(20px,3dvh,40px)] md:aspect-auto md:h-auto md:min-h-0 md:flex-1">
         {/* Ping-pong loop. The file is pre-rendered as forward + reversed
          * frames, so plain `loop` turns around at the end instead of cutting
          * back to frame 0 — that cut was the visible jolt. Doing it in the

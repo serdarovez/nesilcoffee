@@ -23,7 +23,10 @@ export async function Footer({ locale }: { locale: string }) {
 
   return (
     <footer className="w-full bg-paper-dark text-ink-inverse">
-      <div className="fluid-desktop flex w-full flex-col gap-6 px-5 py-8 md:gap-5 md:pl-9 md:pr-7.5 md:py-10">
+      {/* Same container as every section, so the footer's left edge
+       * lands on the site gutter. It previously carried its own
+       * asymmetric padding (pl-9 / pr-7.5). */}
+      <div className="container-x flex w-full flex-col gap-6 py-8 md:gap-5 md:py-10">
         <Image
           src="/sections/footer-icon.png"
           alt=""
@@ -33,10 +36,12 @@ export async function Footer({ locale }: { locale: string }) {
           className="h-10 w-10 object-contain md:h-14.5 md:w-15"
         />
 
-        <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between md:gap-35.25">
-          <div className="flex flex-col gap-8 md:flex-row md:items-start md:gap-68.25">
-            <div className="flex flex-col gap-8 md:w-113.25 md:flex-row md:items-start md:justify-between md:gap-53.25">
-              <nav className="flex flex-col gap-3 md:gap-4 md:pt-0.5">
+        {/* Four columns on one grid, replacing three nested flex rows
+         * whose 141px / 273px / 213px gaps and 453px fixed width summed
+         * to a 1286px hard minimum — that overflowed every viewport
+         * narrower than the 1512px design frame. */}
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-4 md:items-start md:gap-x-[clamp(1.5rem,4vw,4.5rem)] md:gap-y-0">
+          <nav className="flex flex-col gap-3 md:gap-4 md:pt-0.5">
                 {NAV.map((item) => (
                   <Link
                     key={item.key}
@@ -80,9 +85,8 @@ export async function Footer({ locale }: { locale: string }) {
                   </a>
                 </div>
               </div>
-            </div>
 
-            <div className="flex flex-col gap-3 md:w-59.75 md:gap-5.25">
+          <div className="flex flex-col gap-3 md:gap-5.25">
               <div className="text-sm font-bold text-ink-inverse md:text-lg">
                 {t("footer.addressLabel").toUpperCase()}
               </div>
@@ -90,9 +94,7 @@ export async function Footer({ locale }: { locale: string }) {
                 {info.address || t("contacts.contact.address")}
               </p>
             </div>
-          </div>
-
-          <div className="flex flex-col gap-3 md:w-45 md:gap-5.25">
+          <div className="flex flex-col gap-3 md:gap-5.25">
             <div className="text-sm font-bold text-ink-inverse md:text-lg">
               {t("footer.socialsLabel").toUpperCase()}
             </div>

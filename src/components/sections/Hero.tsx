@@ -3,13 +3,16 @@ import { Link } from "@/i18n/navigation";
 
 /**
  * Fills the viewport below the sticky header at every breakpoint via the
- * shared `--hero-h` token (see globals.css), which already compensates for
- * the `.fluid-viewport` zoom on md+.
+ * shared `--hero-h` token (see globals.css).
  *
- * The section itself is full-bleed; the inner container keeps the 1440
- * design frame so the composition matches Figma. On mobile the video takes
- * whatever height is left over after the copy block, so the hero fills the
- * screen exactly instead of ending in dead space.
+ * The section is full-bleed; the inner block uses the shared `.container-x`
+ * so the hero copy starts on the same gutter as the header logo and every
+ * section heading. It previously carried its own 1440px frame, which put it
+ * 36px inside everything else at the design width and — once that frame was
+ * dropped — full-bleed, which diverged again on screens wider than the cap.
+ *
+ * On mobile the video takes whatever height is left over after the copy
+ * block, so the hero fills the screen exactly instead of ending in dead space.
  */
 export function Hero() {
   const t = useTranslations("home.hero");
@@ -17,9 +20,12 @@ export function Hero() {
 
   return (
     <section className="flex min-h-(--hero-h) w-full flex-col md:h-(--hero-h) md:min-h-0 md:overflow-hidden md:py-6">
-      <div className="mx-auto flex w-full max-w-360 flex-1 flex-col gap-5 px-5 pb-6 pt-4 md:h-full md:flex-row md:items-center md:justify-between md:gap-[clamp(24px,4vw,76px)] md:px-9 md:pb-0 md:pt-0">
+      <div className="container-x flex flex-1 flex-col gap-5 pb-6 pt-4 md:h-full md:flex-row md:items-center md:justify-between md:gap-[clamp(24px,4vw,76px)] md:pb-0 md:pt-0">
         {/* Mobile: video appears first (top of stack) and absorbs the slack */}
-        <div className="relative order-first min-h-45 w-full flex-1 overflow-hidden rounded-3xl bg-paper-dark md:order-last md:h-full md:w-1/2 md:min-h-0 md:flex-none md:rounded-4xl">
+        {/* Mobile floor is a share of the viewport, not a flat 180px, so
+          * a short phone and a tall one both give the video a sensible
+          * minimum before flex-1 hands it the leftover height. */}
+        <div className="relative order-first min-h-[22dvh] w-full flex-1 overflow-hidden rounded-3xl bg-paper-dark md:order-last md:h-full md:w-1/2 md:min-h-0 md:flex-none md:rounded-4xl">
           <video
             src="/sections/home/hero-video.mp4"
             poster="/sections/home/hero-video-poster.png"
@@ -39,7 +45,9 @@ export function Hero() {
                 a: (chunks) => <span className="text-quiet">{chunks}</span>,
               })}
             </h1>
-            <p className="body-lg text-ink-3 md:max-w-121.25">
+            {/* Measure, not the design's 485px: `ch` tracks the font size
+              * so the lead keeps its line length as the type scale grows. */}
+            <p className="body-lg text-ink-3 md:max-w-[46ch]">
               {t("subtitle")}
             </p>
           </div>

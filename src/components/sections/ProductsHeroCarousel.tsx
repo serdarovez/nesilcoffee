@@ -128,7 +128,7 @@ export function ProductsHeroCarousel({ slides }: { slides: HeroSlide[] }) {
                 }}
               />
 
-              <div className="relative z-10 mx-auto flex h-full w-full max-w-(--site-max) flex-col px-5 pb-16 pt-4 md:flex-row md:items-center md:justify-between md:gap-[clamp(24px,4vw,72px)] md:px-9 md:pb-0 md:pt-0">
+              <div className="container-x relative z-10 flex h-full flex-col pb-16 pt-4 md:flex-row md:items-center md:justify-between md:gap-[clamp(24px,4vw,72px)] md:pb-0 md:pt-0">
                 {/* Product art — first (top) on mobile, right column on md+.
                  * 42% was the per-slide default before the width became fixed;
                  * `object-contain` keeps any pack shape inside it. */}
@@ -145,7 +145,7 @@ export function ProductsHeroCarousel({ slides }: { slides: HeroSlide[] }) {
                 </div>
 
                 {/* Copy */}
-                <div className="flex shrink-0 flex-col gap-3 md:min-w-0 md:max-w-171.5 md:flex-1 md:gap-[clamp(16px,3dvh,24px)]">
+                <div className="flex shrink-0 flex-col gap-3 md:min-w-0 md:max-w-[52ch] md:flex-1 md:gap-[clamp(16px,3dvh,24px)]">
                   <h1 className="font-display font-bold uppercase text-white text-[clamp(28px,8vw,36px)] leading-[100%] tracking-[-0.03em] md:text-[clamp(38px,6.6dvh,64px)] md:leading-[97%] md:tracking-[-0.035em]">
                     {s.title}
                   </h1>

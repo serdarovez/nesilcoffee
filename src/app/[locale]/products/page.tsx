@@ -45,7 +45,7 @@ function CategoryGrid({
   contactEmail: string;
 }) {
   return (
-    <section className="mx-auto w-full max-w-378 px-5 pt-12 md:px-9 md:pt-20">
+    <section className="container-x pt-12 md:pt-20">
       <h2 className="font-display font-bold uppercase text-[#1a1a1a] text-[32px] leading-[100%] tracking-[-0.03em] md:text-[clamp(48px,7vw,96px)] md:leading-[97%] md:tracking-[-0.035em]">
         {label}
       </h2>
