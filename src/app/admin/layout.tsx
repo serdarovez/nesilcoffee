@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { interTight, robotoCondensed } from "@/lib/fonts";
+import { fontSans, fontDisplay } from "@/lib/fonts";
 
 /**
  * Shell for every /admin route.
@@ -24,7 +24,7 @@ export default function AdminRootLayout({
   return (
     <html
       lang="ru"
-      className={`${interTight.variable} ${robotoCondensed.variable} h-full antialiased`}
+      className={`${fontSans.variable} ${fontDisplay.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-paper-alt text-ink">{children}</body>
     </html>

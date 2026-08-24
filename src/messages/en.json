@@ -165,6 +165,7 @@
     "order": "Order",
     "roast": "Roast level",
     "acidity": "Acidity",
+    "pieceUnit": "pcs",
     "cardDescription": "A balanced coffee with soft flavor, creamy texture and a light sweetness — perfect for everyday use",
     "orderModal": {
       "title": "Place order",
@@ -264,28 +265,28 @@
       "title": "<a>Frequently asked</a> questions",
       "items": [
         {
-          "q": "What's the minimum order volume?",
-          "a": "The minimum wholesale order is discussed individually depending on the product and logistics. Contact us for an exact quote."
+          "q": "What is the minimum order quantity?",
+          "a": "The minimum order quantity depends on the product category and the delivery format.\n\nFor wholesale orders, minimum volumes are set by what makes logistics cost-effective and by the type of packaging. We are happy to discuss small starter and trial batches with new partners."
         },
         {
-          "q": "Do you only work with wholesale orders?",
-          "a": "Yes, NesilCoffee operates B2B and focuses on wholesale supply. We work with distributors, retail chains, HoReCa, corporate clients and export partners."
+          "q": "Do you work only with wholesale orders?",
+          "a": "Yes. NesilCoffee operates as a B2B business and focuses on wholesale supply.\n\nWe work with distributors, regional dealers, retail chains, HoReCa businesses, corporate clients and international export partners, providing consistent supply and a flexible approach to each partner's needs."
         },
         {
-          "q": "How is delivery handled?",
-          "a": "We work with trusted logistics operators. Delivery terms are agreed individually, including exports."
+          "q": "How is the product delivered?",
+          "a": "Product is supplied on FCA (Free Carrier) terms — collection from the manufacturer's warehouse.\n\nOnce an order is ready, the buyer or their authorised carrier collects it from our warehouse. On our side we make sure the consignment is fully ready for dispatch: packaging, labelling and a complete set of accompanying documents.\n\nIf needed, we can also recommend reliable logistics partners to arrange transport to the destination."
         },
         {
           "q": "Do you offer deferred payment?",
-          "a": "Payment terms are discussed individually with each partner and set out in the contract."
+          "a": "Deferred payment is not available. Payment is made on 100% prepayment terms."
         },
         {
           "q": "What documents do you provide?",
-          "a": "A full document package for the product: quality certificates, HALAL, ISO, delivery notes, invoices, export documents."
+          "a": "We provide the full set of documents required for commercial activity and export supply, including:\n\n- supply contract;\n- commercial invoice;\n- packing list;\n- quality certificates;\n- ISO 22000:2018 and ISO 9001:2015 certificates;\n- Halal certificate;\n- certificate of origin, form CT-1;\n- phytosanitary certificate;\n- any other documents required by the importing country."
         },
         {
           "q": "Can I get a price list?",
-          "a": "Yes — the current price list is sent on request after a short intro to your business. Fill out the form below."
+          "a": "Yes, a current price list is available on request.\n\nPlease contact our sales department with the products, volumes and destination country you are interested in, and we will prepare an individual commercial offer."
         }
       ]
     },

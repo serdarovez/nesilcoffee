@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { requireAdmin } from "@/server/auth/guard";
 import { prisma } from "@/server/db";
 import { pick, filledLocales, LOCALE_ORDER } from "@/lib/i18n-field";
+import { plainText } from "@/lib/rich-text";
 import { PageShell, PageHeader, EmptyState, StatusDot, LocaleBadges } from "@/components/admin/ui";
 import { RowActions } from "@/components/admin/RowActions";
 import {
@@ -42,7 +43,7 @@ export default async function FaqPage() {
                   <span className="truncate">{pick(item.question, "ru")}</span>
                 </span>
                 <span className="line-clamp-2 text-xs leading-relaxed text-ink-4">
-                  {pick(item.answer, "ru")}
+                  {plainText(pick(item.answer, "ru"))}
                 </span>
               </div>
               <div className="hidden shrink-0 pt-0.5 sm:block">

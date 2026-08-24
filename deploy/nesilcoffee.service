@@ -1,0 +1,34 @@
+[Unit]
+Description=NesilCoffee (Next.js)
+After=network.target postgresql.service
+Wants=postgresql.service
+
+[Service]
+Type=simple
+User=nesil
+Group=nesil
+WorkingDirectory=/var/www/nesilcoffee/app
+
+# The app reads DATABASE_URL, UPLOAD_DIR and the optional mail/WhatsApp
+# settings from here. prisma.config.ts does not load .env on its own in
+# production by design — this file is what supplies them.
+EnvironmentFile=/var/www/nesilcoffee/.env
+
+ExecStart=/usr/bin/npm run start
+Restart=always
+RestartSec=5
+
+# Uploads live outside the repo so a redeploy cannot destroy them; this is
+# the only path outside the app the service needs to write.
+ReadWritePaths=/var/www/nesilcoffee/uploads
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=nesilcoffee
+
+[Install]
+WantedBy=multi-user.target

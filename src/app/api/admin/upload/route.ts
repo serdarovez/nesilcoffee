@@ -38,6 +38,7 @@ export async function POST(request: Request) {
     return NextResponse.json({
       id: media.id,
       path: media.path,
+      originalName: media.originalName,
       width: media.width,
       height: media.height,
       blurDataUrl: media.blurDataUrl,

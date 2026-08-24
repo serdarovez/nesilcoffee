@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { interTight, robotoCondensed } from "@/lib/fonts";
+import { fontSans, fontDisplay } from "@/lib/fonts";
 
 /**
  * 404 for URLs that match no route at all.
@@ -23,7 +23,7 @@ export default function GlobalNotFound() {
   return (
     <html
       lang="ru"
-      className={`${interTight.variable} ${robotoCondensed.variable} h-full antialiased`}
+      className={`${fontSans.variable} ${fontDisplay.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-paper text-ink">
         <main className="flex min-h-dvh flex-col items-center justify-center gap-6 px-5 text-center">

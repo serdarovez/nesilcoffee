@@ -2,9 +2,15 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { FAQ } from "@/components/sections/FAQ";
 import { ContactForm } from "@/components/sections/ContactForm";
-import { InstagramIcon } from "@/components/icons/Socials";
+import { WhatsAppIcon, TelegramIcon } from "@/components/icons/Socials";
 import { getFaqItems } from "@/server/queries";
-import { contactInfo, telHref, type ContactInfo } from "@/server/views";
+import {
+  contactInfo,
+  telHref,
+  telegramHref,
+  whatsappLabel,
+  type ContactInfo,
+} from "@/server/views";
 import { pick } from "@/lib/i18n-field";
 
 export async function generateMetadata({
@@ -54,20 +60,23 @@ async function ContactsBlock({
   const t = await getTranslations({ locale, namespace: "contacts.contact" });
 
   return (
-    <section id="contacts" className="mx-auto w-full max-w-378 px-5 pt-12 md:px-9 md:pt-20">
+    <section id="contacts" className="container-x pt-12 md:pt-20">
       <div className="border-t border-[#dfdfdf] pt-6 md:pt-10">
         <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between md:gap-35.25">
           <div className="flex flex-col gap-6 md:flex-1 md:gap-10">
             <div className="flex flex-col gap-3 md:gap-4">
-              <h2 className="font-display font-bold uppercase text-[#1a1a1a] text-[32px] leading-[100%] tracking-[-0.03em] md:text-[96px] md:leading-[97%] md:tracking-[-0.035em]">
+              {/* Was a hardcoded 32px/96px in a literal hex. The shared
+                * type scale already carries both, fluidly, and tracks the
+                * ink token. */}
+              <h2 className="display-2 text-ink">
                 {t("title")}
               </h2>
-              <p className="text-sm leading-[140%] text-[#1a1a1a] md:max-w-146.5 md:text-xl md:leading-[130%]">
+              <p className="text-sm leading-[140%] text-[#1a1a1a] md:max-w-[58ch] md:text-xl md:leading-[130%]">
                 {t("subtitle")}
               </p>
             </div>
 
-            <div className="grid grid-cols-2 gap-x-6 gap-y-6 md:max-w-146.5 md:gap-x-16 md:gap-y-10">
+            <div className="grid grid-cols-2 gap-x-6 gap-y-6 md:max-w-[58ch] md:gap-x-16 md:gap-y-10">
               <InfoBlock label={t("phoneLabel")}>
                 {info.phones.map((phone) => (
                   <a
@@ -107,16 +116,30 @@ async function ContactsBlock({
                 <p className="leading-[130%]">{info.address || t("address")}</p>
               </InfoBlock>
 
+              {/* Messengers, then e-mail. The WhatsApp number here is the
+               * one meant for display — the number that receives orders is a
+               * separate setting and is never shown. */}
               <InfoBlock label={t("messengerLabel")}>
-                {info.whatsapp && (
+                {info.contactWhatsapp && (
                   <a
-                    href={`https://wa.me/${info.whatsapp}`}
+                    href={`https://wa.me/${info.contactWhatsapp}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 hover:opacity-75 transition-opacity"
                   >
-                    <InstagramIcon className="h-4 w-4 md:h-5 md:w-5" />
-                    +{info.whatsapp}
+                    <WhatsAppIcon className="h-4 w-4 shrink-0 md:h-5 md:w-5" />
+                    {whatsappLabel(info.contactWhatsapp)}
+                  </a>
+                )}
+                {info.telegram && (
+                  <a
+                    href={telegramHref(info.telegram)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 hover:opacity-75 transition-opacity"
+                  >
+                    <TelegramIcon className="h-4 w-4 shrink-0 md:h-5 md:w-5" />
+                    @{info.telegram}
                   </a>
                 )}
                 <a
@@ -155,22 +178,60 @@ async function ContactsBlock({
 const MAP_CID = "11155405956491020435";
 const MAP_LAT_LNG = "37.8486686,58.566173";
 
+/**
+ * Map type the banner opens on.
+ *
+ *   m — roadmap (Google's default)   k — satellite, imagery only
+ *   h — hybrid, imagery with labels  p — terrain
+ *
+ * Hybrid rather than plain satellite: it is what Google Maps itself shows when
+ * you switch to "Satellite", and the roastery sits among unnamed fields where
+ * the road and place labels are the only things telling a visitor where they
+ * are. Swap to "k" for bare imagery.
+ */
+const MAP_TYPE = "h";
+
+/** Close enough to read the plot, wide enough to show the road to it. */
+const MAP_ZOOM = 17;
+
 /** Turn-by-turn directions to the roastery, opened in the Maps app on mobile. */
 const MAP_DIRECTIONS_URL = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
   MAP_LAT_LNG,
 )}`;
 
+/**
+ * Embed URL for the banner.
+ *
+ * The keyless `maps?…&output=embed` form, not the official Maps Embed API,
+ * which would need a billable API key for the same result. `cid` keeps the
+ * business card and its marker; `t` and `z` are what this function exists to
+ * pin down, since without them Google picks a roadmap at its own zoom.
+ */
+function mapEmbedUrl(locale: string): string {
+  const params = new URLSearchParams({
+    cid: MAP_CID,
+    hl: locale,
+    t: MAP_TYPE,
+    z: String(MAP_ZOOM),
+    output: "embed",
+  });
+  return `https://www.google.com/maps?${params}`;
+}
+
 /** Map banner — live Google map in the Figma banner's frame (rounded-3xl,
  *  24px per Rectangle 518), with a floating button that hands the visitor off
- *  to real directions. `hl` follows the site locale so the labels match the
- *  rest of the page. */
+ *  to real directions. Opens on satellite imagery at the roastery; `hl`
+ *  follows the site locale so the labels match the rest of the page. */
 function MapBanner({ locale, title, cta }: { locale: string; title: string; cta: string }) {
   return (
-    <section className="mx-auto w-full max-w-378 px-5 pt-8 pb-12 md:px-9 md:pt-10 md:pb-20">
-      <div className="relative h-[220px] w-full overflow-hidden rounded-2xl md:h-126.25 md:rounded-3xl">
+    <section className="container-x pt-8 pb-12 md:pt-10 md:pb-20">
+      {/* Ratio, not a fixed 220px / 505px height. The banner keeps its
+        * design proportion and derives its height from the width it is
+        * actually given, so it works on any screen. */}
+      <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl md:aspect-[1512/505] md:rounded-3xl">
         <iframe
           title={title}
-          src={`https://www.google.com/maps?cid=${MAP_CID}&hl=${locale}&output=embed`}
+          src={mapEmbedUrl(locale)}
           className="absolute inset-0 h-full w-full border-0"
           loading="lazy"
           allowFullScreen

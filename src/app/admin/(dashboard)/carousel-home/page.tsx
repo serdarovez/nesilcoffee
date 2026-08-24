@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { requireAdmin } from "@/server/auth/guard";
 import { prisma } from "@/server/db";
 import { pick } from "@/lib/i18n-field";
+import { parseFieldRules, applyFieldRules } from "@/lib/category-fields";
 import { PageShell, PageHeader, EmptyState } from "@/components/admin/ui";
 import {
   HomeCarouselManager,
@@ -18,7 +19,7 @@ export default async function HomeCarouselPage() {
       orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
       include: {
         imageOverride: true,
-        product: { include: { image: true } },
+        product: { include: { image: true, category: true } },
       },
     }),
     prisma.product.findMany({
@@ -28,18 +29,26 @@ export default async function HomeCarouselPage() {
     }),
   ]);
 
-  const rows: HomeSlideRow[] = slides.map((s) => ({
+  const rows: HomeSlideRow[] = slides.map((s) => {
+    // Same rules the slide itself renders under, so this list never advertises
+    // a spec the site does not show.
+    const spec = applyFieldRules(
+      parseFieldRules(s.product.category.fieldRules),
+      s.product,
+    );
+    return {
     id: s.id,
     productId: s.productId,
     productName: pick(s.product.name, "ru"),
     productActive: s.product.isActive,
     productDeleted: Boolean(s.product.deletedAt),
-    roast: s.product.roast,
-    acidity: s.product.acidity,
+    roast: spec.roast,
+    acidity: spec.acidity,
     imagePath: s.imageOverride?.path ?? s.product.image?.path ?? null,
     hasOverride: Boolean(s.imageOverrideId),
     isActive: s.isActive,
-  }));
+    };
+  });
 
   return (
     <PageShell>

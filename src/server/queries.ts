@@ -51,7 +51,10 @@ export const getHomeSlides = unstable_cache(
       orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
       include: {
         imageOverride: true,
-        product: { include: { image: true } },
+        // The category comes along for its fieldRules: the slide shows roast
+        // and acidity read live off the product, and a category that switches
+        // them off must switch them off here too.
+        product: { include: { image: true, category: true } },
       },
     }),
   ["home-slides"],
@@ -84,6 +87,18 @@ export const getTeamMembers = unstable_cache(
     }),
   ["team-members"],
   { tags: [TAGS.team] },
+);
+
+/// No `isActive` filter: the pair is fixed and always rendered, so there is
+/// nothing to hide. See the Expert model comment in prisma/schema.prisma.
+export const getExperts = unstable_cache(
+  async () =>
+    prisma.expert.findMany({
+      orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
+      include: { photo: true },
+    }),
+  ["experts"],
+  { tags: [TAGS.experts] },
 );
 
 export const getFaqItems = unstable_cache(

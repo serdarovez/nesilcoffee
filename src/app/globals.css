@@ -49,6 +49,11 @@
   --color-success:          #1fa044;
   --color-success-tint:     #dcf5e0;
   --color-danger:           #ef4444;
+  /* Amber, for "needs attention but nothing is broken" — the admin uses it
+   * for a product missing a spec its category now requires, which still
+   * renders correctly on the site. */
+  --color-warning:          #a16207;
+  --color-warning-tint:     #fef3c7;
 
   /* ---- Radii ---------------------------------------------- */
   --radius-xs:              4px;
@@ -66,7 +71,13 @@
   --shadow-card-sm:         0 8px 24px -8px rgba(0, 0, 0, 0.08);
 
   /* ---- Layout constants ----------------------------------- */
-  --site-max:               1512px;    /* Figma design frame width */
+  /* Content ceiling, NOT a design frame. The Figma was drawn at
+   * 1512px, but capping there left ~520px of dead margin per side
+   * on a 2560px monitor — the page read as a small island. The
+   * layout is fluid between the two, and individual text blocks
+   * bound their own line length in `ch`, so a wider shell costs
+   * readability nothing. */
+  --site-max:               1920px;
   /* Sticky header height. Mobile is content-driven (82px logo +
    * 2 × 12px padding); md+ overrides to the 82px design height. */
   --site-header-h:          106px;
@@ -85,25 +96,17 @@
   --gap-xl:                 clamp(2rem, 4vw, 3.75rem);
   --gap-2xl:                clamp(2.5rem, 5vw, 5rem);
 
-  /* ---- Fluid width scale (used by the .fluid-* zoom) ------ */
-  --fluid-scale:            1;
-
   /* ---- Viewport-anchored heights -------------------------- */
-  /* `--screen-h` is exactly one visual viewport tall; `--hero-h`
-   * is the space left under the sticky header. Both divide by
-   * --fluid-scale so elements *inside* the zoomed `main` still
-   * measure a real viewport rather than a scaled one.
-   *   visual = layout * scale
-   *   => layout = 100dvh / scale                                */
-  --screen-h:               calc(100dvh / var(--fluid-scale));
+  /* `--screen-h` is exactly one viewport tall; `--hero-h` is the
+   * space left under the sticky header. These were previously
+   * divided by a zoom factor; the layout is now genuinely fluid,
+   * so a viewport unit already measures a real viewport. */
+  --screen-h:               100dvh;
   --hero-h:                 calc(var(--screen-h) - var(--site-header-h));
 }
 
-/* Fluid scale kicks in at md+: shrinks the 1512-design layout so
- * a windowed Chrome at 1200px still fits without overflow. */
 @media (min-width: 768px) {
   :root {
-    --fluid-scale: min(1, calc((100vw - 48px) / 1512px));
     --site-header-h: 82px;
   }
 }
@@ -155,6 +158,8 @@
   --color-success:          var(--color-success);
   --color-success-tint:     var(--color-success-tint);
   --color-danger:           var(--color-danger);
+  --color-warning:          var(--color-warning);
+  --color-warning-tint:     var(--color-warning-tint);
 
   /* Radii → rounded-md, rounded-2xl, … */
   --radius-xs:              var(--radius-xs);
@@ -191,12 +196,31 @@
     border-color: var(--color-line);
   }
 
+  html {
+    /* Reserve the scrollbar gutter at all times. Without this,
+     * `100vw` (used by .full-bleed) is wider than the content box
+     * by the scrollbar width and overflows horizontally — and the
+     * page also shifts sideways whenever a route toggles between
+     * scrolling and not. */
+    scrollbar-gutter: stable;
+  }
+
   body {
     background-color: var(--color-paper);
     color: var(--color-ink);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Form controls do not inherit font-family — every browser hands them
+   * its own UI font instead — so buttons, inputs, selects and textareas
+   * have to be told explicitly or they fall back to Segoe UI / San
+   * Francisco while the rest of the page is Roboto Condensed. Only the
+   * family is inherited: sizing stays with whatever utility the element
+   * already carries. */
+  button, input, optgroup, select, textarea {
+    font-family: inherit;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -233,7 +257,15 @@
   }
   @media (min-width: 768px) {
     .display-1 {
-      font-size: clamp(56px, 12dvh, 116px);
+      /* Keyed to viewport WIDTH, not dvh. A heading sits in a
+       * width-constrained column, so tying it to window height made
+       * a short wide window render 116px type in a narrow column.
+       *
+       * The ceiling is 80px, not the Figma frame's 116px: the hero
+       * copy occupies roughly a 45% column, and at 116px that is
+       * ~6 characters per line — the heading wrapped to five lines
+       * and took 59% of the viewport height. 44px at 768, 80px at 1512. */
+      font-size: clamp(36px, calc(6.84px + 4.8387vw), 96px);
       line-height: 97%;
       letter-spacing: -0.035em;
     }
@@ -250,7 +282,9 @@
   }
   @media (min-width: 768px) {
     .display-2 {
-      font-size: clamp(48px, 10dvh, 96px);
+      /* Width-keyed, same ceiling reasoning as .display-1.
+       * 40px at 768, 64px at 1512. */
+      font-size: clamp(32px, calc(15.23px + 3.2258vw), 76px);
       line-height: 97%;
       letter-spacing: -0.035em;
     }
@@ -266,7 +300,8 @@
   }
   @media (min-width: 768px) {
     .display-3 {
-      font-size: clamp(32px, 5.5dvh, 48px);
+      /* Width-keyed — see .display-1. 32px at 768, 48px at 1512. */
+      font-size: clamp(32px, calc(15.48px + 2.1505vw), 48px);
       line-height: 100%;
     }
   }
@@ -346,7 +381,8 @@
   }
   @media (min-width: 768px) {
     .body-lg {
-      font-size: clamp(16px, 2dvh, 22px);
+      /* Width-keyed — see .display-1. 16px at 768, 22px at 1512. */
+      font-size: clamp(16px, calc(9.81px + 0.8065vw), 24px);
       line-height: 110%;
     }
   }
@@ -404,16 +440,25 @@
 @layer utilities {
   /* .container-x — standard page horizontal container. Caps at
    * the site max width and centers, with a fluid gutter. */
+  /* One continuous rule, no breakpoint. --space-container-x-md
+   * floors at exactly --space-container-x (1.25rem), so the old
+   * md override changed nothing at 768 and only existed to restate
+   * the mobile value. The gutter now grows smoothly 20px → 36px
+   * across the whole range instead of stepping at one width. */
   .container-x {
     width: 100%;
     max-width: var(--site-max);
     margin-inline: auto;
-    padding-inline: var(--space-container-x);
+    padding-inline: var(--space-container-x-md);
   }
-  @media (min-width: 768px) {
-    .container-x {
-      padding-inline: var(--space-container-x-md);
-    }
+
+  /* .gutter-x — the container's horizontal gutter WITHOUT its width
+   * cap. For full-bleed rows (mobile sliders) whose track must run
+   * edge to edge while their heading, slides and CTA still line up
+   * with `.container-x`. Uses the same token, so the two can never
+   * drift apart the way hardcoded `px-5` did. */
+  .gutter-x {
+    padding-inline: var(--space-container-x-md);
   }
 
   /* .section-pt / .section-pb / .section-y — vertical rhythm. */
@@ -467,45 +512,99 @@
     .container-page { padding-inline: 4rem; }
   }
 
-  /* -- Fluid desktop zoom ----------------------------------- */
-  /* Proportionally shrinks the 1512-baked layout to fit windowed
-   * viewports, and caps + centers it. Used by the chrome that is
-   * always contained: Header bar and Footer. --fluid-scale is
-   * exposed on :root above so dvh-anchored elements can
-   * compensate (see --screen-h / --hero-h). */
+  /* -- Contained chrome ------------------------------------- */
+  /* Caps and centers at the site max. Used by the chrome that is
+   * always contained: Header bar and Footer. These used to carry a
+   * `zoom` that proportionally shrank a 1512px-baked layout; the
+   * layout now reflows instead, so this is width capping only. */
   .fluid-desktop {
     max-width: var(--site-max);
     margin-inline: auto;
   }
-  @media (min-width: 768px) {
-    .fluid-desktop {
-      zoom: var(--fluid-scale);
-    }
-  }
 
-  /* -- Fluid viewport (page shell) -------------------------- */
-  /* Same proportional zoom as .fluid-desktop but deliberately NOT
-   * width-capped, so full-bleed children (heroes, banners, the
-   * carousel backdrop) can span the entire viewport. Contained
-   * sections cap themselves with `max-w-(--site-max)` /
-   * `.container-x`, so uncapping the shell costs them nothing.
-   * Applied to <main>. */
+  /* -- Page shell ------------------------------------------- */
+  /* Deliberately NOT width-capped, so full-bleed children (heroes,
+   * banners, the carousel backdrop) can span the entire viewport.
+   * Contained sections cap themselves with `.container-x`, so
+   * uncapping the shell costs them nothing. Applied to <main>. */
   .fluid-viewport {
     width: 100%;
   }
-  @media (min-width: 768px) {
-    .fluid-viewport {
-      zoom: var(--fluid-scale);
-    }
-  }
 
   /* -- Full-bleed section ----------------------------------- */
-  /* Edge-to-edge inside .fluid-viewport: children of <main> only
-   * need `w-full`, but a section nested inside a capped wrapper
-   * can escape with this. */
+  /* Edge-to-edge escape from a capped ancestor. Children of <main>
+   * are already full width and only need `w-full`; this is for a
+   * section nested inside `.container-x`.
+   *
+   * `100vw` includes the scrollbar gutter, which would overflow by
+   * the scrollbar width — `scrollbar-gutter: stable` on <html>
+   * (set in the base layer) is what makes the two agree. */
   .full-bleed {
-    width: calc(100vw / var(--fluid-scale));
-    margin-inline: calc(50% - 50vw / var(--fluid-scale));
+    width: 100vw;
+    margin-inline: calc(50% - 50vw);
     max-width: none;
+  }
+}
+
+@layer components {
+  /* -- Rich text -------------------------------------------- */
+  /* One rule set for both ends of the pipeline: the Tiptap editor
+   * in the admin and the sanitized HTML rendered on the site. If
+   * they drifted, an editor would be styling their copy against a
+   * layout the visitor never sees. The tag list matches the
+   * allowlist in sanitizeRichText() — nothing else can appear. */
+  .rich-text > :first-child {
+    margin-top: 0;
+  }
+  .rich-text > :last-child {
+    margin-bottom: 0;
+  }
+  .rich-text p {
+    margin-block: 0.75em;
+  }
+  .rich-text ul,
+  .rich-text ol {
+    margin-block: 0.75em;
+    padding-inline-start: 1.5em;
+  }
+  .rich-text ul {
+    list-style: disc;
+  }
+  .rich-text ol {
+    list-style: decimal;
+  }
+  .rich-text li {
+    margin-block: 0.25em;
+  }
+  .rich-text li::marker {
+    color: currentColor;
+    opacity: 0.5;
+  }
+  .rich-text strong {
+    font-weight: 700;
+  }
+  .rich-text em {
+    font-style: italic;
+  }
+  .rich-text a {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  /* ProseMirror needs an explicit height to be clickable when the
+   * document is empty, and hides its own focus ring in favour of
+   * the wrapper's border. */
+  .rich-text-editor .ProseMirror {
+    min-height: 7rem;
+    outline: none;
+  }
+  /* Placeholder for an empty document — ProseMirror marks the node
+   * with `is-editor-empty` and carries the text in a data attribute. */
+  .rich-text-editor .ProseMirror p.is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+    color: var(--color-ink-4, #9a9a9a);
   }
 }

@@ -2,6 +2,7 @@
 
 import { useActionState, useState } from "react";
 import { LocalizedField } from "./LocalizedField";
+import { RichLocalizedField } from "./RichLocalizedField";
 import { MediaPicker, type MediaRef } from "./MediaPicker";
 import { Card, Field, FormMessage, SubmitButton, inputClass } from "./ui";
 import { saveCategory } from "@/server/actions/categories";
@@ -12,6 +13,13 @@ import {
 } from "@/server/actions/content";
 import type { FormState } from "@/server/form";
 import type { LocalizedField as LocalizedValue } from "@/lib/i18n-field";
+import {
+  PRODUCT_FIELDS,
+  FIELD_MODES,
+  FIELD_MODE_LABEL,
+  DEFAULT_FIELD_RULES,
+  type CategoryFieldRules,
+} from "@/lib/category-fields";
 
 /** Shared "visible on the site" switch — identical across every entity. */
 function ActiveToggle({ defaultChecked }: { defaultChecked: boolean }) {
@@ -54,6 +62,7 @@ export function CategoryForm({
     name?: LocalizedValue;
     slug?: string;
     isActive?: boolean;
+    fieldRules?: CategoryFieldRules;
   };
 }) {
   const [state, formAction] = useActionState<FormState, FormData>(saveCategory, {});
@@ -85,9 +94,70 @@ export function CategoryForm({
           />
         </Field>
       </Card>
+      <FieldRulesCard rules={values.fieldRules ?? DEFAULT_FIELD_RULES} />
       <ActiveToggle defaultChecked={values.isActive ?? true} />
       <Footer state={state} />
     </form>
+  );
+}
+
+/**
+ * Per-category product-field rules.
+ *
+ * Radios rather than dropdowns: with six fields and three states the whole
+ * matrix is readable at a glance, which is the point — the question an editor
+ * is answering is "what does a product in this category look like", and that is
+ * easier to judge as a grid than as six separate selects.
+ *
+ * Switching a field to «Нет» never deletes anything. Values already stored stay
+ * in the database and come back if the rule is switched on again — see
+ * `specWrite` in src/server/actions/products.ts.
+ */
+function FieldRulesCard({ rules }: { rules: CategoryFieldRules }) {
+  return (
+    <Card className="flex flex-col gap-4">
+      <div className="flex flex-col gap-0.5">
+        <h2 className="text-sm font-semibold text-ink">Поля товара</h2>
+        <p className="text-xs text-ink-4">
+          Что заполняется у товаров этой категории. «Нет» — поле не
+          используется: оно скрыто в форме товара и не показывается на сайте.
+          Уже введённые значения при этом сохраняются.
+        </p>
+      </div>
+
+      <div className="flex flex-col divide-y divide-line">
+        {PRODUCT_FIELDS.map((field) => (
+          <div
+            key={field.key}
+            className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 py-2.5 first:pt-0 last:pb-0"
+          >
+            <span className="flex min-w-0 flex-col">
+              <span className="text-sm text-ink">{field.label}</span>
+              {field.hint && (
+                <span className="text-xs text-ink-4">{field.hint}</span>
+              )}
+            </span>
+            <span className="flex shrink-0 gap-1">
+              {FIELD_MODES.map((mode) => (
+                <label
+                  key={mode}
+                  className="cursor-pointer select-none rounded-md border border-line-strong px-2.5 py-1 text-xs text-ink-3 transition-colors has-checked:border-ink has-checked:bg-paper-dark has-checked:text-ink-inverse hover:border-ink-4"
+                >
+                  <input
+                    type="radio"
+                    name={`fieldRules.${field.key}`}
+                    value={mode}
+                    defaultChecked={rules[field.key] === mode}
+                    className="sr-only"
+                  />
+                  {FIELD_MODE_LABEL[mode]}
+                </label>
+              ))}
+            </span>
+          </div>
+        ))}
+      </div>
+    </Card>
   );
 }
 
@@ -191,14 +261,14 @@ export function FaqForm({
           placeholder="Какой минимальный объём заказа?"
           errors={errors}
         />
-        <LocalizedField
+        <RichLocalizedField
           name="answer"
           required
           label="Ответ"
           value={values.answer}
-          multiline
-          rows={5}
+          preset="rich"
           errors={errors}
+          hint="Можно выделять текст, делать списки и ставить ссылки."
         />
       </Card>
       <ActiveToggle defaultChecked={values.isActive ?? true} />

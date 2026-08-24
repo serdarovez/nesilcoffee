@@ -1,5 +1,6 @@
 import "server-only";
 import { z } from "zod";
+import sanitizeHtml from "sanitize-html";
 import { routing, localeLabel } from "@/i18n/routing";
 import type { LocalizedField } from "@/lib/i18n-field";
 
@@ -50,6 +51,80 @@ export function readLocalized(
     if (typeof raw === "string" && raw.trim()) {
       out[locale] = raw.trim();
     }
+  }
+  return out;
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Rich text                                                                 */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Tags the editor is allowed to produce.
+ *
+ * One list rather than one per field. The Tiptap presets already decide what
+ * can be *created* — the quote editor has no list or link buttons and its
+ * schema drops them on paste — so narrowing the allowlist per field would only
+ * ever fire on content that got past the editor, and would silently strip an
+ * editor's pasted markup mid-save. The job here is XSS, not house style.
+ */
+const RICH_TEXT_OPTIONS: sanitizeHtml.IOptions = {
+  allowedTags: ["p", "br", "strong", "em", "u", "s", "ul", "ol", "li", "a"],
+  // `rel`/`target` are listed because transformTags below adds them, and
+  // attribute filtering runs after the transform.
+  allowedAttributes: { a: ["href", "rel", "target"] },
+  allowedSchemes: ["http", "https", "mailto", "tel"],
+  // `//evil.com` would otherwise inherit the page scheme and pass as relative.
+  allowProtocolRelative: false,
+  transformTags: {
+    // Word and Google Docs paste these; Tiptap renders the semantic pair.
+    b: "strong",
+    i: "em",
+    a: (tagName, attribs) => ({
+      tagName,
+      attribs: { ...attribs, rel: "noopener noreferrer", target: "_blank" },
+    }),
+  },
+};
+
+/** Strip everything not on the allowlist. Always applied before storing. */
+export function sanitizeRichText(html: string): string {
+  return sanitizeHtml(html, RICH_TEXT_OPTIONS).trim();
+}
+
+/**
+ * True when the markup carries no actual copy.
+ *
+ * An empty Tiptap document serializes to `<p></p>`, which is not the empty
+ * string and would otherwise be stored as real content — defeating the
+ * fall-back-to-Russian behaviour every localized field relies on.
+ */
+export function isEmptyRichText(html: string): boolean {
+  return (
+    sanitizeHtml(html, { allowedTags: [], allowedAttributes: {} })
+      .replace(/&nbsp;/g, " ")
+      .trim().length === 0
+  );
+}
+
+/**
+ * Collect a localized rich-text field out of FormData.
+ *
+ * Mirrors `readLocalized`, but every value is sanitized on the way in and
+ * blank documents are dropped rather than stored as `<p></p>`. Sanitizing here
+ * rather than at render time means the database never holds markup we would
+ * not be willing to output.
+ */
+export function readLocalizedHtml(
+  formData: FormData,
+  field: string,
+): LocalizedField {
+  const out: LocalizedField = {};
+  for (const locale of routing.locales) {
+    const raw = formData.get(`${field}.${locale}`);
+    if (typeof raw !== "string") continue;
+    const clean = sanitizeRichText(raw);
+    if (!isEmptyRichText(clean)) out[locale] = clean;
   }
   return out;
 }

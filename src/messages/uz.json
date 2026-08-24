@@ -165,6 +165,7 @@
     "order": "Buyurtma berish",
     "roast": "Qovurish darajasi",
     "acidity": "Kislotalilik",
+    "pieceUnit": "dona",
     "cardDescription": "Yumshoq ta'mli, qaymoqli teksturali va yengil shirinlikka ega muvozanatli qahva — kundalik foydalanish uchun mos",
     "orderModal": {
       "title": "Buyurtma berish",
@@ -264,28 +265,28 @@
       "title": "<a>Tez-tez beriladigan</a> savollar",
       "items": [
         {
-          "q": "Buyurtmaning eng kam hajmi qancha?",
-          "a": "Eng kam ulgurji buyurtma mahsulot va logistikaga qarab alohida muhokama qilinadi. Aniq hisob-kitob uchun biz bilan bog'laning."
+          "q": "Minimal buyurtma hajmi qancha?",
+          "a": "Minimal buyurtma hajmi mahsulot toifasiga va yetkazib berish formatiga bog'liq.\n\nUlgurji buyurtmalar uchun minimal hajmlar iqtisodiy jihatdan samarali logistika va qadoqlash turidan kelib chiqib belgilanadi. Yangi hamkorlar uchun kichik boshlang'ich va sinov partiyalarini muhokama qilishga tayyormiz."
         },
         {
-          "q": "Siz faqat ulgurji buyurtmalar bilan ishlaysizmi?",
-          "a": "Ha, NesilCoffee B2B formatida ishlaydi va ulgurji yetkazib berishga yo'naltirilgan. Biz distribyutorlar, savdo tarmoqlari, HoReCa, korporativ mijozlar va eksport hamkorlari bilan hamkorlik qilamiz."
+          "q": "Faqat ulgurji buyurtmalar bilan ishlaysizmi?",
+          "a": "Ha, NesilCoffee B2B formatida ishlaydi va ulgurji yetkazib berishga yo'naltirilgan.\n\nBiz distribyutorlar, mintaqaviy dilerlar, chakana savdo tarmoqlari, HoReCa korxonalari, korporativ mijozlar va xalqaro eksport hamkorlari bilan hamkorlik qilib, barqaror yetkazib berishni va har bir hamkorning ehtiyojlariga moslashuvchan yondashuvni ta'minlaymiz."
         },
         {
-          "q": "Mahsulot yetkazib berish qanday amalga oshiriladi?",
-          "a": "Biz sinovdan o'tgan logistika operatorlari bilan ishlaymiz. Yetkazib berish shartlari — kelishuv bo'yicha, jumladan eksport ham."
+          "q": "Mahsulot qanday yetkazib beriladi?",
+          "a": "Mahsulot FCA (Free Carrier) shartlarida — ishlab chiqaruvchi omboridan olib ketish asosida yetkazib beriladi.\n\nBuyurtma tayyor bo'lgach, xaridor yoki uning vakolatli tashuvchisi mahsulotni bizning omborimizdan olib ketadi. O'z tomonimizdan yukning jo'natishga to'liq tayyorligini ta'minlaymiz: qadoqlash, markirovka va hamrohlik hujjatlari to'plami.\n\nZarur bo'lganda, manzilgacha tashishni tashkil etish uchun ishonchli logistika hamkorlarini ham tavsiya qilishimiz mumkin."
         },
         {
-          "q": "To'lov muddatini uzaytirasizmi?",
-          "a": "To'lov shartlari har bir hamkor bilan alohida muhokama qilinadi va shartnomada qayd etiladi."
+          "q": "To'lovni kechiktirish imkoniyati bormi?",
+          "a": "To'lovni kechiktirish nazarda tutilmagan. To'lov 100% oldindan to'lov shartlarida amalga oshiriladi."
         },
         {
           "q": "Qanday hujjatlarni taqdim etasiz?",
-          "a": "Mahsulot bo'yicha to'liq hujjatlar to'plami: sifat sertifikatlari, HALAL, ISO, tovar yuk xatlari, hisob-fakturalar, eksport hujjatlari."
+          "a": "Tijorat faoliyati va eksport yetkazib berish uchun zarur bo'lgan hujjatlarning to'liq to'plamini taqdim etamiz, jumladan:\n\n- yetkazib berish shartnomasi;\n- tijorat invoysi;\n- qadoqlash varaqasi;\n- sifat sertifikatlari;\n- ISO 22000:2018 va ISO 9001:2015 sertifikatlari;\n- Halal sertifikati;\n- CT-1 shaklidagi tovar kelib chiqishi to'g'risidagi sertifikat;\n- fitosanitariya sertifikati;\n- import qiluvchi mamlakat talablariga muvofiq boshqa hujjatlar."
         },
         {
-          "q": "Narxlar ro'yxatini olsa bo'ladimi?",
-          "a": "Ha, dolzarb narxlar ro'yxati sizning biznesingiz bilan qisqa tanishuvdan keyin so'rov bo'yicha yuboriladi. Quyidagi formani to'ldiring."
+          "q": "Narxlar ro'yxatini olish mumkinmi?",
+          "a": "Ha, joriy narxlar ro'yxati so'rov bo'yicha taqdim etiladi.\n\nIltimos, qiziqtirgan mahsulot, hajm va yetkazib berish mamlakatini ko'rsatgan holda savdo bo'limimiz bilan bog'laning — biz individual tijorat taklifini tayyorlaymiz."
         }
       ]
     },

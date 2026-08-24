@@ -14,6 +14,7 @@ import {
   contactInfo,
 } from "@/server/views";
 import { pick } from "@/lib/i18n-field";
+import { parseFieldRules, applyFieldRules } from "@/lib/category-fields";
 
 export async function generateMetadata({
   params,
@@ -44,8 +45,11 @@ function CategoryGrid({
   contactEmail: string;
 }) {
   return (
-    <section className="mx-auto w-full max-w-378 px-5 pt-12 md:px-9 md:pt-20">
-      <h2 className="font-display font-bold uppercase text-[#1a1a1a] text-[32px] leading-[100%] tracking-[-0.03em] md:text-[clamp(48px,7vw,96px)] md:leading-[97%] md:tracking-[-0.035em]">
+    <section className="container-x pt-12 md:pt-20">
+      {/* Was a hardcoded 32px / clamp(48px,7vw,96px) in a literal hex —
+        * its own private type ramp. The shared scale does the same job
+        * and stays in step with every other heading on the site. */}
+      <h2 className="display-2 text-ink">
         {label}
       </h2>
       {/* Explicit column counts — the old `flex-wrap` + `w-full` combination
@@ -96,27 +100,39 @@ export default async function ProductsPage({
 
       {categories
         .filter((c) => c.products.length > 0)
-        .map((category) => (
+        .map((category) => {
+          // Fields the category switches off are blanked here rather than in
+          // the database, so turning a rule back on restores the old values.
+          const rules = parseFieldRules(category.fieldRules);
+          return (
           <CategoryGrid
             key={category.id}
             label={pick(category.name, locale)}
             fallbackDescription={fallbackDescription}
             whatsapp={info.whatsapp}
             contactEmail={info.email}
-            products={category.products.map((p) => ({
-              id: p.id,
-              name: pick(p.name, locale),
-              image: p.image?.path ?? "",
-              weight: p.weight,
-              arabica: p.arabica ?? "—",
-              robusta: p.robusta ?? "—",
-              roast: p.roast,
-              acidity: p.acidity,
-              description: p.description ? pick(p.description, locale) || null : null,
-              blurDataUrl: p.image?.blurDataUrl ?? null,
-            }))}
+            products={category.products.map((p) => {
+              const spec = applyFieldRules(rules, p);
+              return {
+                id: p.id,
+                name: pick(p.name, locale),
+                image: p.image?.path ?? null,
+                weight: spec.weight,
+                pieces: spec.pieces,
+                // The card treats "—" as "do not render this chip".
+                arabica: spec.arabica ?? "—",
+                robusta: spec.robusta ?? "—",
+                roast: spec.roast,
+                acidity: spec.acidity,
+                description: p.description
+                  ? pick(p.description, locale) || null
+                  : null,
+                blurDataUrl: p.image?.blurDataUrl ?? null,
+              };
+            })}
           />
-        ))}
+          );
+        })}
 
       <ProductionProcess />
       <Certificates items={certificates} />

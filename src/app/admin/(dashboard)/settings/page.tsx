@@ -24,6 +24,8 @@ export default async function SettingsPage() {
           email: settings?.email ?? "info@nesilcoffee.com",
           address: settings ? toLocalized(settings.address) : undefined,
           whatsapp: settings?.whatsapp ?? null,
+          contactWhatsapp: settings?.contactWhatsapp ?? null,
+          telegram: settings?.telegram ?? null,
           instagram: settings?.instagram ?? null,
           tiktok: settings?.tiktok ?? null,
         }}

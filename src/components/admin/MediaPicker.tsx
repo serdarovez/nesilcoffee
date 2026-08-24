@@ -8,6 +8,9 @@ import { cn } from "@/lib/utils";
 export type MediaRef = {
   id: string;
   path: string;
+  /** The filename as uploaded. `path` is random hex, so this is the only
+   *  label an editor can recognise. Null for rows predating the column. */
+  originalName?: string | null;
   width?: number | null;
   height?: number | null;
   blurDataUrl?: string | null;
@@ -57,8 +60,11 @@ export function MediaPicker({ value, onChange, label, hint, required }: Props) {
             />
           </div>
           <div className="flex min-w-0 flex-1 flex-col gap-0.5">
-            <span className="truncate text-sm text-ink">
-              {value.path.split("/").pop()}
+            <span
+              className="truncate text-sm text-ink"
+              title={value.originalName ?? value.path}
+            >
+              {value.originalName ?? value.path.split("/").pop()}
             </span>
             <span className="text-xs text-ink-4">
               {value.width && value.height ? `${value.width}×${value.height}` : ""}
@@ -195,14 +201,27 @@ function MediaDialog({
           <h2 className="font-display text-lg font-bold uppercase tracking-tight text-ink">
             Изображения
           </h2>
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="Закрыть"
-            className="grid h-8 w-8 place-items-center rounded-full text-ink-3 transition-colors hover:bg-paper-alt hover:text-ink"
-          >
-            <X className="h-4 w-4" />
-          </button>
+          <div className="flex items-center gap-3">
+            {/* Deletion deliberately lives on the gallery screen, not here:
+             * it needs the full usage list to warn about, and this dialog is
+             * open on top of an unsaved form. New tab for the same reason. */}
+            <a
+              href="/admin/gallery"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-ink-3 underline underline-offset-2 transition-colors hover:text-ink"
+            >
+              Управление и удаление — в Галерее
+            </a>
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label="Закрыть"
+              className="grid h-8 w-8 place-items-center rounded-full text-ink-3 transition-colors hover:bg-paper-alt hover:text-ink"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </div>
         </header>
 
         <div className="border-b border-line p-4">
@@ -280,7 +299,7 @@ function MediaDialog({
                   key={m.id}
                   type="button"
                   onClick={() => onPick(m)}
-                  title={m.path}
+                  title={m.originalName ?? m.path}
                   className={cn(
                     "group relative aspect-square overflow-hidden rounded-lg border-2 bg-paper-alt transition-colors",
                     m.id === selectedId

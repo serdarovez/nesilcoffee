@@ -69,7 +69,7 @@ export function LanguageSwitcher() {
     <DropdownMenu>
       <DropdownMenuTrigger className="inline-flex items-center gap-1 rounded-full text-paper-dark cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40">
         <Flag locale={locale} className="h-4.5 w-4.5" />
-        <span className="px-0.5 text-[18px] font-medium leading-[110%] font-sans">
+        <span className="px-0.5 text-[clamp(14px,1.2vw,18px)] font-medium leading-[110%] font-sans">
           {localeShort[locale]}
         </span>
         <svg

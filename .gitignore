@@ -45,3 +45,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# GeoLite2 database — downloaded with `npm run geoip:fetch`, not committed
+# (MaxMind redistribution terms, and it is regenerated monthly).
+/data

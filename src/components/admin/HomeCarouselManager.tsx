@@ -20,8 +20,8 @@ export type HomeSlideRow = {
   productName: string;
   productActive: boolean;
   productDeleted: boolean;
-  roast: number;
-  acidity: number;
+  roast: number | null;
+  acidity: number | null;
   /** Image actually rendered — the override when set, otherwise the product's. */
   imagePath: string | null;
   hasOverride: boolean;
@@ -73,7 +73,12 @@ export function HomeCarouselManager({
                   {slide.productName}
                 </span>
                 <span className="truncate text-xs text-ink-4">
-                  обжарка {slide.roast}/5 · кислотность {slide.acidity}/5
+                  {[
+                    slide.roast !== null ? `обжарка ${slide.roast}/5` : null,
+                    slide.acidity !== null ? `кислотность ${slide.acidity}/5` : null,
+                  ]
+                    .filter(Boolean)
+                    .join(" · ") || "без характеристик"}
                   {slide.hasOverride ? " · своё изображение" : ""}
                 </span>
 

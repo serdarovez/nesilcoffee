@@ -201,7 +201,7 @@ export function ContactForm({
                 rel="noopener noreferrer"
                 onClick={handleHandoff("WHATSAPP")}
                 className={cn(
-                  "inline-flex h-13 flex-1 items-center justify-center gap-2 rounded-lg bg-[#25D366] px-5 text-base font-medium text-white transition-opacity",
+                  "inline-flex py-3.5 flex-1 items-center justify-center gap-2 rounded-lg bg-[#25D366] px-5 text-base font-medium text-white transition-opacity",
                   status === "sending" ? "cursor-wait opacity-70" : "hover:opacity-90",
                 )}
               >
@@ -214,7 +214,7 @@ export function ContactForm({
                 href={mailtoHref}
                 onClick={handleHandoff("EMAIL")}
                 className={cn(
-                  "inline-flex h-13 flex-1 items-center justify-center gap-2 rounded-lg bg-[#1a1a1a] px-5 text-base font-medium text-white transition-colors",
+                  "inline-flex py-3.5 flex-1 items-center justify-center gap-2 rounded-lg bg-[#1a1a1a] px-5 text-base font-medium text-white transition-colors",
                   status === "sending" ? "cursor-wait opacity-70" : "hover:bg-black",
                 )}
               >
@@ -230,7 +230,7 @@ export function ContactForm({
         <button
           type="submit"
           disabled={status === "sending"}
-          className="mt-2 inline-flex h-13 items-center justify-center rounded-lg bg-[#1a1a1a] px-8 text-lg font-medium text-white transition-colors hover:bg-black disabled:opacity-60 cursor-pointer"
+          className="mt-2 inline-flex py-3.5 items-center justify-center rounded-lg bg-[#1a1a1a] px-8 text-lg font-medium text-white transition-colors hover:bg-black disabled:opacity-60 cursor-pointer"
         >
           {status === "sending" ? t("sending") : t("send")}
         </button>

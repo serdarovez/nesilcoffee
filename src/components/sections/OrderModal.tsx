@@ -20,7 +20,7 @@ export type OrderProduct = {
   /** Database id, so the submission can be linked to the product. */
   id?: string;
   name: string;
-  image: string;
+  image: string | null;
   category: string;
   weight: string;
   description: string;
@@ -366,13 +366,15 @@ function FormStep({
       {/* Product summary card */}
       <div className="mb-5 flex gap-3 rounded-2xl bg-[#f5f5f5] p-3">
         <div className="relative h-24 w-20 shrink-0 overflow-hidden rounded-xl bg-white">
-          <Image
-            src={product.image}
-            alt={product.name}
-            fill
-            sizes="80px"
-            className="object-contain"
-          />
+          {product.image && (
+            <Image
+              src={product.image}
+              alt={product.name}
+              fill
+              sizes="80px"
+              className="object-contain"
+            />
+          )}
         </div>
         <div className="flex flex-1 flex-col gap-2">
           <h3 className="font-display text-xl font-extrabold uppercase text-[#1a1a1a] leading-[100%]">

@@ -33,7 +33,10 @@ export function Certificates({ items }: { items: CertificateView[] }) {
             key={c.id}
             className="surface-card flex gap-3 p-4 md:min-w-0 md:flex-1 md:gap-[clamp(12px,1.4vw,20px)] md:p-[clamp(16px,1.8vw,28px)]"
           >
-            <div className="relative h-32 w-24 shrink-0 overflow-hidden rounded-md bg-paper-mute md:aspect-[235/332] md:h-[clamp(220px,42dvh,332px)] md:w-auto md:rounded-lg">
+            {/* Mobile thumb sized as a share of the card with the
+              * certificate's own 235:332 ratio, instead of a fixed
+              * 96x128 box. md+ was already height-driven and fluid. */}
+            <div className="relative aspect-[235/332] w-[28%] shrink-0 overflow-hidden rounded-md bg-paper-mute md:h-[clamp(220px,42dvh,332px)] md:w-auto md:rounded-lg">
               {c.image && (
                 <Image
                   src={c.image}

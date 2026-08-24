@@ -10,10 +10,13 @@ import {
   type FormState,
   fieldErrors,
   localizedRequired,
+  localizedOptional,
   readLocalized,
+  readLocalizedHtml,
   readString,
   readBool,
 } from "@/server/form";
+import { Prisma } from "@prisma/client";
 
 /* -------------------------------------------------------------------------- */
 /*  Team                                                                      */
@@ -120,7 +123,9 @@ export async function saveFaqItem(
 
   const parsed = faqSchema.safeParse({
     question: readLocalized(formData, "question"),
-    answer: readLocalized(formData, "answer"),
+    // Rich text: sanitized on the way in, and an empty document (`<p></p>`)
+    // is dropped so `localizedRequired` still catches a blank tab.
+    answer: readLocalizedHtml(formData, "answer"),
     isActive: readBool(formData, "isActive"),
   });
   if (!parsed.success) return fieldErrors(parsed.error);
@@ -261,4 +266,89 @@ export async function moveCertificate(id: string, direction: -1 | 1): Promise<vo
     all.map((x, n) => prisma.certificate.update({ where: { id: x.id }, data: { sortOrder: n } })),
   );
   revalidateContent(TAGS.certificates);
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Experts                                                                   */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * The two expert cards on the About page, plus the heading above them.
+ *
+ * One action for the whole section rather than the list/detail pair every other
+ * content type uses: the pair is fixed, so there is nothing to create, delete
+ * or reorder — only two records to edit, which fit on one screen.
+ *
+ * `experts` is an array so the zod issue paths come out as
+ * `experts.0.name.ru`, matching the input names the form renders. That is what
+ * lets `fieldErrors()` mark the right language tab on the right card.
+ */
+const expertsSchema = z.object({
+  title: localizedOptional,
+  experts: z.array(
+    z.object({
+      id: z.string().min(1),
+      name: localizedRequired,
+      role: localizedRequired,
+      quote: localizedRequired,
+      photoId: z.string().nullable(),
+    }),
+  ),
+});
+
+export async function saveExperts(
+  _prev: FormState,
+  formData: FormData,
+): Promise<FormState> {
+  await requireAdmin();
+
+  // Ids come from the form, but only rows that already exist are written —
+  // this action can edit the pair, never grow it.
+  const ids = formData.getAll("expertId").map(String).filter(Boolean);
+
+  const parsed = expertsSchema.safeParse({
+    title: readLocalized(formData, "title"),
+    experts: ids.map((id, i) => ({
+      id,
+      name: readLocalized(formData, `experts.${i}.name`),
+      role: readLocalized(formData, `experts.${i}.role`),
+      quote: readLocalizedHtml(formData, `experts.${i}.quote`),
+      photoId: readString(formData, `experts.${i}.photoId`),
+    })),
+  });
+  if (!parsed.success) return fieldErrors(parsed.error);
+
+  const existing = await prisma.expert.findMany({
+    where: { id: { in: ids } },
+    select: { id: true },
+  });
+  const known = new Set(existing.map((e) => e.id));
+
+  const title = Object.keys(parsed.data.title).length ? parsed.data.title : null;
+
+  await prisma.$transaction([
+    ...parsed.data.experts
+      .filter((e) => known.has(e.id))
+      .map((e) =>
+        prisma.expert.update({
+          where: { id: e.id },
+          data: {
+            name: e.name,
+            role: e.role,
+            quote: e.quote,
+            photoId: e.photoId,
+          },
+        }),
+      ),
+    // The heading lives on the settings singleton — it is page copy, not a
+    // property of either expert. DbNull rather than null so a cleared heading
+    // falls back to the message file instead of storing JSON `null`.
+    prisma.setting.update({
+      where: { id: 1 },
+      data: { expertsTitle: title ?? Prisma.DbNull },
+    }),
+  ]);
+
+  revalidateContent(TAGS.experts, TAGS.settings);
+  return { ok: true };
 }

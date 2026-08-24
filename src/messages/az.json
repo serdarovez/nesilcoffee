@@ -165,6 +165,7 @@
     "order": "Sifariş et",
     "roast": "Qovurma dərəcəsi",
     "acidity": "Turşuluq",
+    "pieceUnit": "əd.",
     "cardDescription": "Yumşaq dadlı, kremli teksturalı və yüngül şirinlikli tarazlaşdırılmış qəhvə — gündəlik istifadə üçün uyğundur",
     "orderModal": {
       "title": "Sifariş rəsmiləşdir",
@@ -265,27 +266,27 @@
       "items": [
         {
           "q": "Minimum sifariş həcmi nə qədərdir?",
-          "a": "Minimum topdan sifariş məhsul və logistikadan asılı olaraq fərdi qaydada müzakirə edilir. Dəqiq hesablama üçün bizimlə əlaqə saxlayın."
+          "a": "Minimum sifariş həcmi məhsul kateqoriyasından və tədarük formatından asılıdır.\n\nTopdan sifarişlər üçün minimum həcmlər iqtisadi cəhətdən səmərəli logistika və qablaşdırma növü əsasında müəyyən edilir. Yeni tərəfdaşlar üçün kiçik başlanğıc və sınaq partiyalarını müzakirə etməyə hazırıq."
         },
         {
           "q": "Yalnız topdan sifarişlərlə işləyirsiniz?",
-          "a": "Bəli, NesilCoffee B2B formatında işləyir və topdan tədarükə yönəlib. Distribyutorlar, ticarət şəbəkələri, HoReCa, korporativ müştərilər və ixrac tərəfdaşları ilə əməkdaşlıq edirik."
+          "a": "Bəli, NesilCoffee B2B formatında fəaliyyət göstərir və topdan tədarükə yönəlmişdir.\n\nBiz distribyutorlar, regional dilerlər, pərakəndə satış şəbəkələri, HoReCa müəssisələri, korporativ müştərilər və beynəlxalq ixrac tərəfdaşları ilə əməkdaşlıq edərək, sabit tədarük və hər tərəfdaşın ehtiyaclarına çevik yanaşma təmin edirik."
         },
         {
-          "q": "Məhsul çatdırılması necə həyata keçirilir?",
-          "a": "Sınaqdan keçmiş logistika operatorları ilə işləyirik. Çatdırılma şərtləri — razılaşma əsasında, ixrac daxil."
+          "q": "Məhsul necə çatdırılır?",
+          "a": "Məhsul FCA (Free Carrier) şərtləri ilə — istehsalçının anbarından götürülməklə tədarük olunur.\n\nSifariş hazır olduqdan sonra alıcı və ya onun səlahiyyətli daşıyıcısı məhsulu anbarımızdan götürür. Öz tərəfimizdən yükün göndərişə tam hazırlığını təmin edirik: qablaşdırma, markalanma və müşayiət sənədləri toplusu.\n\nZərurət yarandıqda, təyinat məntəqəsinə daşınmanın təşkili üçün etibarlı logistika tərəfdaşları da tövsiyə edə bilərik."
         },
         {
-          "q": "Ödəniş möhləti verirsiniz?",
-          "a": "Ödəniş şərtləri hər tərəfdaşla fərdi müzakirə edilir və müqavilədə qeyd olunur."
+          "q": "Ödənişin təxirə salınması imkanı varmı?",
+          "a": "Ödənişin təxirə salınması nəzərdə tutulmur. Ödəniş 100% ilkin ödəniş şərtləri ilə həyata keçirilir."
         },
         {
           "q": "Hansı sənədləri təqdim edirsiniz?",
-          "a": "Məhsul üzrə tam sənəd paketi: keyfiyyət sertifikatları, HALAL, ISO, mal göndəriş qaimələri, hesab-fakturalar, ixrac sənədləri."
+          "a": "Kommersiya fəaliyyəti və ixrac tədarükü üçün zəruri olan sənədlərin tam paketini təqdim edirik, o cümlədən:\n\n- tədarük müqaviləsi;\n- kommersiya invoysu;\n- qablaşdırma siyahısı;\n- keyfiyyət sertifikatları;\n- ISO 22000:2018 və ISO 9001:2015 sertifikatları;\n- Halal sertifikatı;\n- CT-1 formalı malın mənşə sertifikatı;\n- fitosanitar sertifikat;\n- idxalçı ölkənin tələblərinə uyğun digər sənədlər."
         },
         {
-          "q": "Qiymət cədvəlini almaq olar?",
-          "a": "Bəli, aktual qiymət cədvəli biznesinizlə qısa tanışlıqdan sonra sorğu əsasında göndərilir. Aşağıdakı formanı doldurun."
+          "q": "Qiymət siyahısını əldə etmək mümkündürmü?",
+          "a": "Bəli, cari qiymət siyahısı sorğu əsasında təqdim edilir.\n\nZəhmət olmasa, maraqlandığınız məhsulu, həcmi və tədarük ölkəsini göstərməklə satış şöbəmizlə əlaqə saxlayın — biz fərdi kommersiya təklifi hazırlayacağıq."
         }
       ]
     },

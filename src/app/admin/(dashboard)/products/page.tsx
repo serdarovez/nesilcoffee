@@ -12,6 +12,13 @@ import {
   restoreProduct,
   moveProduct,
 } from "@/server/actions/products";
+import { NO_IMAGE_REASON } from "@/lib/product-rules";
+import {
+  parseFieldRules,
+  missingRequired,
+  fieldLabel,
+} from "@/lib/category-fields";
+import { ImageOff, AlertTriangle } from "lucide-react";
 
 export const metadata: Metadata = { title: "Продукция" };
 
@@ -84,25 +91,37 @@ export default async function ProductsPage({
         <div className="flex flex-col gap-6">
           {categories
             .filter((c) => c.products.length > 0)
-            .map((category) => (
+            .map((category) => {
+              const rules = parseFieldRules(category.fieldRules);
+              return (
               <section key={category.id}>
                 <h2 className="mb-2 text-xs font-semibold uppercase tracking-wider text-ink-4">
                   {pick(category.name, "ru")}
                 </h2>
                 <div className="overflow-hidden rounded-xl border border-line bg-paper">
-                  {category.products.map((product, index) => (
+                  {category.products.map((product, index) => {
+                    // Recomputed per render rather than stored: a category rule
+                    // change must show up here immediately, without touching
+                    // every product row in the database.
+                    const missing = missingRequired(rules, product);
+                    return (
                     <div
                       key={product.id}
                       className="flex items-center gap-3 border-b border-line px-3 py-2.5 last:border-b-0"
                     >
-                      <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-lg bg-paper-alt">
-                        {product.image && (
+                      <div className="relative grid h-11 w-11 shrink-0 place-items-center overflow-hidden rounded-lg bg-paper-alt">
+                        {product.image ? (
                           <Image
                             src={product.image.path}
                             alt=""
                             fill
                             sizes="44px"
                             className="object-contain p-0.5"
+                          />
+                        ) : (
+                          <ImageOff
+                            className="h-4 w-4 text-ink-5"
+                            aria-label="Нет фотографии"
                           />
                         )}
                       </div>
@@ -118,6 +137,24 @@ export default async function ProductsPage({
                           {" · обжарка "}
                           {product.roast}/5
                         </span>
+                        {/* Stated on the row rather than only in the toggle's
+                         * tooltip: this is why the product is off the site,
+                         * and it is not discoverable by hovering. */}
+                        {!product.image && (
+                          <span className="inline-flex w-fit items-center gap-1 rounded bg-danger/10 px-1.5 py-0.5 text-[11px] font-medium text-danger">
+                            <ImageOff className="h-3 w-3 shrink-0" />
+                            Нет фотографии — скрыт с сайта
+                          </span>
+                        )}
+                        {/* A warning, not a block: unlike a missing photo, a
+                         * missing spec just means the card shows one fewer
+                         * line. The product stays on the site. */}
+                        {missing.length > 0 && (
+                          <span className="inline-flex w-fit items-center gap-1 rounded bg-warning-tint px-1.5 py-0.5 text-[11px] font-medium text-warning">
+                            <AlertTriangle className="h-3 w-3 shrink-0" />
+                            Заполните: {missing.map(fieldLabel).join(", ").toLowerCase()}
+                          </span>
+                        )}
                       </div>
 
                       <div className="hidden shrink-0 sm:block">
@@ -138,13 +175,18 @@ export default async function ProductsPage({
                         onMoveDown={moveProduct.bind(null, product.id, 1)}
                         onDelete={deleteProduct.bind(null, product.id)}
                         onRestore={restoreProduct.bind(null, product.id)}
+                        showBlockedReason={
+                          product.image ? undefined : NO_IMAGE_REASON
+                        }
                         confirmLabel="Удалить?"
                       />
                     </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </section>
-            ))}
+              );
+            })}
         </div>
       )}
     </PageShell>

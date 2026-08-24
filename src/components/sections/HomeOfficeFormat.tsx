@@ -7,17 +7,21 @@ export function HomeOfficeFormat() {
   return (
     <section className="container-x section-pt">
       <div className="flex flex-col gap-5 md:flex-row md:gap-6">
-        <div className="relative h-[220px] w-full shrink-0 overflow-hidden rounded-2xl md:h-[549px] md:w-[708px] md:rounded-3xl">
+        {/* Proportion, not pixels. The banner was 708×549 fixed, which
+         * only fitted inside the 1512px design frame — below that it
+         * overflowed the row. It now keeps that design ratio and takes
+         * half the row, so it scales with the container at any width. */}
+        <div className="relative aspect-[17/10] w-full shrink-0 overflow-hidden rounded-2xl md:aspect-[708/549] md:w-1/2 md:rounded-3xl">
           <BlurImage
             src="/sections/home/home-office-banner.jpg"
             alt=""
             fill
-            sizes="(max-width: 768px) 100vw, 708px"
+            sizes="(max-width: 768px) 100vw, 50vw"
             className="object-cover"
           />
         </div>
 
-        <div className="flex flex-col gap-3 md:w-[618px] md:gap-3.5">
+        <div className="flex flex-col gap-3 md:min-w-0 md:flex-1 md:gap-3.5">
           <div className="flex flex-col gap-2 md:gap-1">
             <span className="eyebrow inline-flex w-fit items-center rounded-md bg-paper-alt px-2 py-1 text-ink md:rounded-lg md:p-2">
               {t("pill")}
@@ -29,7 +33,10 @@ export function HomeOfficeFormat() {
             </h2>
           </div>
 
-          <div className="flex flex-col gap-3 md:w-127.25 md:gap-4">
+          {/* Measure, not a pixel width: 509px was the design's line
+           * length at 1512px only. `ch` tracks the font size, so the
+           * column stays readable as the type scale changes. */}
+          <div className="flex flex-col gap-3 md:max-w-[52ch] md:gap-4">
             <p className="body-md text-ink">
               {t("body1")}
             </p>
