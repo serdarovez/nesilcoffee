@@ -60,7 +60,10 @@ export function Header() {
                     key={item.key}
                     href={item.href}
                     className={cn(
-                      "px-0.5 py-0.5 text-[20px] leading-[110%] uppercase transition-colors",
+                      // Fluid rather than a flat 20px: the nav has to
+                      // survive five locales, and Turkmen/Azeri labels
+                      // are longer than the Russian the design was set in.
+                      "px-0.5 py-0.5 text-[clamp(15px,1.3vw,20px)] leading-[110%] uppercase transition-colors",
                       active
                         ? "text-paper-dark font-extrabold border-b border-paper-dark"
                         : "text-ink-3 font-normal hover:text-paper-dark",

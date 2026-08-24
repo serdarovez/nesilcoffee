@@ -46,7 +46,10 @@ function CategoryGrid({
 }) {
   return (
     <section className="container-x pt-12 md:pt-20">
-      <h2 className="font-display font-bold uppercase text-[#1a1a1a] text-[32px] leading-[100%] tracking-[-0.03em] md:text-[clamp(48px,7vw,96px)] md:leading-[97%] md:tracking-[-0.035em]">
+      {/* Was a hardcoded 32px / clamp(48px,7vw,96px) in a literal hex —
+        * its own private type ramp. The shared scale does the same job
+        * and stays in step with every other heading on the site. */}
+      <h2 className="display-2 text-ink">
         {label}
       </h2>
       {/* Explicit column counts — the old `flex-wrap` + `w-full` combination

@@ -18,10 +18,14 @@ const buttonVariants = cva(
         dark: "bg-brand-espresso text-white hover:bg-brand-coffee active:scale-[.98]",
         link: "underline-offset-4 hover:underline text-primary rounded-none",
       },
+      // Sized by padding, not a fixed height, so a button grows with its
+      // label instead of clipping it — the labels here are translated
+      // into five languages and the type scale is fluid. `icon` keeps a
+      // fixed square because it holds a glyph, not text.
       size: {
-        default: "h-11 px-6",
-        sm: "h-9 px-4 text-xs",
-        lg: "h-14 px-8 text-base",
+        default: "px-6 py-2.5",
+        sm: "px-4 py-2 text-xs",
+        lg: "px-8 py-4 text-base",
         icon: "h-10 w-10",
       },
     },

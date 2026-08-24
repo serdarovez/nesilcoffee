@@ -65,7 +65,10 @@ async function ContactsBlock({
         <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between md:gap-35.25">
           <div className="flex flex-col gap-6 md:flex-1 md:gap-10">
             <div className="flex flex-col gap-3 md:gap-4">
-              <h2 className="font-display font-bold uppercase text-[#1a1a1a] text-[32px] leading-[100%] tracking-[-0.03em] md:text-[96px] md:leading-[97%] md:tracking-[-0.035em]">
+              {/* Was a hardcoded 32px/96px in a literal hex. The shared
+                * type scale already carries both, fluidly, and tracks the
+                * ink token. */}
+              <h2 className="display-2 text-ink">
                 {t("title")}
               </h2>
               <p className="text-sm leading-[140%] text-[#1a1a1a] md:max-w-[58ch] md:text-xl md:leading-[130%]">
