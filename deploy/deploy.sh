@@ -50,6 +50,11 @@ npx prisma migrate deploy
 # the admin cannot add — an unseeded environment shows an empty Experts screen.
 npm run db:seed
 
+# Country database for first-visit language detection. Best-effort: the site is
+# fully functional without it (it falls back to Accept-Language), so a download
+# failure must not fail the release. Refreshes the file monthly on redeploys.
+npm run geoip:fetch || echo "  geoip:fetch failed — detection falls back to Accept-Language"
+
 # --------------------------------------------------------------------------
 log "Build"
 # --------------------------------------------------------------------------

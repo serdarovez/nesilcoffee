@@ -88,10 +88,12 @@ UPLOAD_DIR=$UPLOAD_DIR
 NODE_ENV=production
 PORT=3000
 
-# Optional — see .env.example. Each degrades gracefully when blank.
-MAXMIND_ACCOUNT_ID=
-MAXMIND_LICENSE_KEY=
-GEOIP_DB_PATH=$APP_DIR/data/GeoLite2-Country.mmdb
+# Country DB for first-visit language detection. Defaults to the free DB-IP
+# Lite file that `npm run geoip:fetch` downloads (no account); set a MaxMind
+# key instead to use GeoLite2. See .env.example.
+GEOIP_DB_PATH=$APP_DIR/app/data/dbip-country-lite.mmdb
+# MAXMIND_ACCOUNT_ID=
+# MAXMIND_LICENSE_KEY=
 
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587

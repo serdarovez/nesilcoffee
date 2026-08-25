@@ -151,33 +151,39 @@ have needed it, then negotiates on `Accept-Language` and falls back to English �
 exactly as it did before this feature existed. Nothing is stored against a
 visitor either way; only the country code is read.
 
-Any IP-to-country database in MMDB format works. Drop the file at
-`data/GeoLite2-Country.mmdb` (or point `GEOIP_DB_PATH` at it) and detection
-starts working on the next request — no rebuild, no redeploy.
+Any IP-to-country database in MMDB format works. `npm run geoip:fetch` gets one,
+`GEOIP_DB_PATH` says where it lives, and detection starts on the next request —
+no rebuild, no redeploy.
+
+The default source is **DB-IP Lite**: free, no account, a plain monthly URL, and
+what the script downloads when no MaxMind key is set.
 
 ```bash
-# MaxMind GeoLite2 — free, but needs an account:
-#   https://www.maxmind.com/en/geolite2/signup
-# Both values are in the account portal, next to the licence key list.
+npm run geoip:fetch    # writes data/dbip-country-lite.mmdb (gitignored)
+```
+
+Its CC BY 4.0 licence requires a visible `IP Geolocation by DB-IP` credit, which
+is in the site footer ([`Footer.tsx`](src/components/layout/Footer.tsx)). Keep
+that credit while DB-IP is the source.
+
+**MaxMind GeoLite2** is the alternative — no credit required, but its signup
+rejects VPN addresses, which makes it awkward to register from somewhere that
+needs one to reach the site. Set a key and the same script uses it instead:
+
+```bash
 echo 'MAXMIND_ACCOUNT_ID=123456' >> .env
 echo 'MAXMIND_LICENSE_KEY=...'   >> .env
-npm run geoip:fetch           # writes data/GeoLite2-Country.mmdb (gitignored)
+npm run geoip:fetch    # now writes data/GeoLite2-Country.mmdb — point GEOIP_DB_PATH at it
 ```
 
 MaxMind has changed how downloads authenticate over the years, so the script
 tries the documented account-ID/licence-key pair first and falls back to the
 older licence-key-only URL, reporting both failures if neither answers.
 
-MaxMind's signup rejects VPN addresses, which makes it awkward to register from
-somewhere that needs one to reach the site. If that applies, [DB-IP
-Lite](https://db-ip.com/db/download/ip-to-country-lite) publishes an equivalent
-country database at a plain monthly URL with no account at all — the file is a
-drop-in replacement. Its CC BY 4.0 licence requires a visible
-`IP Geolocation by DB-IP` credit link on pages that use the data, which is why
-it is not the default here.
-
 Refresh whichever source you use every month or so. A stale database still
-works; it just knows about fewer ranges.
+works; it just knows about fewer ranges. The download prefers a direct
+connection and falls back to `curl` when one is not available, so it also works
+from behind a proxy such as a VPN.
 
 ## Media
 
