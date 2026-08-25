@@ -1,4 +1,5 @@
 import { useTranslations } from "next-intl";
+import { LazyVideo } from "@/components/ui/LazyVideo";
 
 export function SearchedForCoffee() {
   const t = useTranslations("home.searched");
@@ -58,15 +59,9 @@ export function SearchedForCoffee() {
          *      [a][r]concat=n=2:v=1[out]" -map "[out]" -an \
          *     -c:v libx264 -crf 28 -preset slow -pix_fmt yuv420p -g 48 \
          *     -movflags +faststart searched-video-loop.mp4 */}
-        <video
+        <LazyVideo
           src="/sections/home/searched-video-loop.mp4"
           poster="/sections/home/searched-visual.png"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          className="absolute inset-0 h-full w-full object-cover"
         />
       </div>
     </section>
