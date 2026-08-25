@@ -47,7 +47,7 @@ empty Experts screen until it has been seeded once.
 | `npm run db:seed` | Load or top up baseline content |
 | `npm run db:studio` | Browse the database in Prisma Studio |
 | `npm run db:reset` | Drop, re-migrate and re-seed — destroys all data |
-| `npm run geoip:fetch` | Download the GeoLite2 country database (see below) |
+| `npm run geoip:fetch` | Download the DB-IP Lite country database (see below) |
 
 ### Admin access
 
@@ -141,7 +141,7 @@ the `NEXT_LOCALE` cookie both still win — a language someone chose is never
 overridden by a guess about them. The full order is documented in
 [`src/proxy.ts`](src/proxy.ts).
 
-The lookup reads a local MaxMind GeoLite2 database rather than a CDN header or a
+The lookup reads a local IP-to-country database rather than a CDN header or a
 geo API: the site is self-hosted behind nginx, and a CDN in front would be a
 third party that can be blocked in the primary market.
 
@@ -151,33 +151,25 @@ have needed it, then negotiates on `Accept-Language` and falls back to English �
 exactly as it did before this feature existed. Nothing is stored against a
 visitor either way; only the country code is read.
 
-Any IP-to-country database in MMDB format works. Drop the file at
-`data/GeoLite2-Country.mmdb` (or point `GEOIP_DB_PATH` at it) and detection
-starts working on the next request — no rebuild, no redeploy.
+Any IP-to-country database in MMDB format works. `npm run geoip:fetch` gets one,
+`GEOIP_DB_PATH` says where it lives, and detection starts on the next request —
+no rebuild, no redeploy.
+
+The source is **DB-IP Lite**: free, no account, a plain monthly URL.
 
 ```bash
-# MaxMind GeoLite2 — free, but needs an account:
-#   https://www.maxmind.com/en/geolite2/signup
-# Both values are in the account portal, next to the licence key list.
-echo 'MAXMIND_ACCOUNT_ID=123456' >> .env
-echo 'MAXMIND_LICENSE_KEY=...'   >> .env
-npm run geoip:fetch           # writes data/GeoLite2-Country.mmdb (gitignored)
+npm run geoip:fetch    # writes data/dbip-country-lite.mmdb (gitignored)
 ```
 
-MaxMind has changed how downloads authenticate over the years, so the script
-tries the documented account-ID/licence-key pair first and falls back to the
-older licence-key-only URL, reporting both failures if neither answers.
+Its CC BY 4.0 licence requires a visible `IP Geolocation by DB-IP` credit, which
+is in the site footer ([`Footer.tsx`](src/components/layout/Footer.tsx)). Keep
+that credit while DB-IP is the source.
 
-MaxMind's signup rejects VPN addresses, which makes it awkward to register from
-somewhere that needs one to reach the site. If that applies, [DB-IP
-Lite](https://db-ip.com/db/download/ip-to-country-lite) publishes an equivalent
-country database at a plain monthly URL with no account at all — the file is a
-drop-in replacement. Its CC BY 4.0 licence requires a visible
-`IP Geolocation by DB-IP` credit link on pages that use the data, which is why
-it is not the default here.
-
-Refresh whichever source you use every month or so. A stale database still
-works; it just knows about fewer ranges.
+Any other IP-to-country MMDB works too — drop it in and point `GEOIP_DB_PATH`
+at it. Refresh the database every month or so; a stale one still works, it just
+knows about fewer ranges. The download prefers a direct connection and falls
+back to `curl` when one is not available, so it also works from behind a proxy
+such as a VPN.
 
 ## Media
 
@@ -201,7 +193,7 @@ until one is uploaded. See `NO_IMAGE_REASON` in
 
 See [`.env.example`](.env.example) for the full list. `DATABASE_URL` and
 `UPLOAD_DIR` are the only variables needed to run the site locally; the mail,
-WhatsApp and MaxMind settings are each optional and degrade gracefully when
+WhatsApp and GeoIP settings are each optional and degrade gracefully when
 absent.
 
 ## Notes

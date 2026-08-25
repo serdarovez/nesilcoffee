@@ -22,7 +22,7 @@ Paths:
 | Repository checkout | `/var/www/nesilcoffee/app` |
 | Uploads (outside the repo, survives redeploys) | `/var/www/nesilcoffee/uploads` |
 | Environment | `/var/www/nesilcoffee/.env` |
-| GeoIP database | `/var/www/nesilcoffee/data/GeoLite2-Country.mmdb` |
+| GeoIP database | `/var/www/nesilcoffee/app/data/dbip-country-lite.mmdb` |
 | Generated DB password | `/var/www/nesilcoffee/.dbpass` |
 
 ## Reaching the server
@@ -121,12 +121,11 @@ like `127.0.0.1`: language detection silently stops, and the 5-per-hour form
 limit becomes global rather than per-visitor.
 
 **GeoIP is optional and off until a file exists.** The site works without it —
-it logs one warning and negotiates on `Accept-Language`. To switch it on, put
-any IP-to-country MMDB at `/var/www/nesilcoffee/data/GeoLite2-Country.mmdb`;
-detection starts on the next request, no rebuild. With MaxMind credentials in
-`.env`, `npm run geoip:fetch` downloads it. MaxMind's signup rejects VPN
-addresses — DB-IP Lite is a drop-in alternative needing no account, but its
-licence requires a visible credit link.
+it logs one warning and negotiates on `Accept-Language`. `deploy.sh` runs
+`npm run geoip:fetch`, which downloads the free DB-IP Lite database (no account)
+to `data/dbip-country-lite.mmdb`; `GEOIP_DB_PATH` points at it. Any IP-to-country
+MMDB works if dropped there by hand. DB-IP's licence requires the visible credit
+link that is already in the site footer.
 
 **Email and WhatsApp are blank by default** and skip sending rather than
 failing. Leads are written to Postgres before any notification is attempted, so

@@ -5,12 +5,13 @@ import maxmind, { type CountryResponse, type Reader } from "maxmind";
 /**
  * Country lookup for first-visit language detection.
  *
- * Reads a local MaxMind GeoLite2-Country database rather than calling a
- * geo API or relying on a CDN header. The site is self-hosted behind nginx, so
- * there is no `CF-IPCountry` to read, and Next removed `NextRequest.geo` in
- * v15. A bundled database also has no third party that can be slow, rate-limit
- * us, or — the deciding factor for this site — be blocked in Turkmenistan, its
- * primary market.
+ * Reads a local IP-to-country database (DB-IP Lite by default — see
+ * scripts/fetch-geoip.mjs) rather than calling a geo API or relying on a CDN
+ * header. The site is self-hosted behind nginx, so there is no `CF-IPCountry`
+ * to read, and Next removed `NextRequest.geo` in v15. A bundled database also
+ * has no third party that can be slow, rate-limit us, or — the deciding factor
+ * for this site — be blocked in Turkmenistan, its primary market. Any MMDB-format
+ * file works; the `maxmind` package below is a generic reader, not the service.
  *
  * Deliberately NOT marked `server-only`: this is imported by src/proxy.ts,
  * which is neither a Server Component nor a client one.
@@ -21,7 +22,7 @@ import maxmind, { type CountryResponse, type Reader } from "maxmind";
  */
 
 const DB_PATH =
-  process.env.GEOIP_DB_PATH?.trim() || "./data/GeoLite2-Country.mmdb";
+  process.env.GEOIP_DB_PATH?.trim() || "./data/dbip-country-lite.mmdb";
 
 /**
  * One reader for the process lifetime. `maxmind.open` memory-maps the file and
@@ -47,9 +48,8 @@ function openReader(): Promise<Reader<CountryResponse> | null> {
         [
           `[geo] No country database at ${absolute}.`,
           "      Language detection falls back to Accept-Language, then English.",
-          "      To enable it, put any IP-to-country MMDB file there — either",
-          '      `npm run geoip:fetch` (needs MaxMind credentials) or a file',
-          "      downloaded by hand, e.g. DB-IP Lite, which needs no account.",
+          "      To enable it, run `npm run geoip:fetch` (free DB-IP Lite, no",
+          "      account), or drop any IP-to-country MMDB file at that path.",
           "      GEOIP_DB_PATH overrides the location. No redeploy needed.",
         ].join("\n"),
       );
