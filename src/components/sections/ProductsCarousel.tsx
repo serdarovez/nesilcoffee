@@ -24,23 +24,15 @@ export type Slide = {
 };
 
 export function ProductsCarousel({ slides }: { slides: Slide[] }) {
+  // Two independent Embla instances — see MobileCarousel / DesktopCarousel.
   const t = useTranslations("home.products");
   const cta = useTranslations("cta");
-  const SLIDES = slides;
 
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "center" });
-  const [selected, setSelected] = useState(0);
-
-  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
-  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
-
-  useEffect(() => {
-    if (!emblaApi) return;
-    const onSelect = () => setSelected(emblaApi.selectedScrollSnap());
-    emblaApi.on("select", onSelect);
-    onSelect();
-  }, [emblaApi]);
-
+  // Two independent Embla instances, one per layout. A single shared ref
+  // cannot drive both: attaching it to the mobile AND the desktop container
+  // left it bound to whichever mounted last (the desktop one), so on a phone
+  // Embla was initialised on a `display:none` element and the visible mobile
+  // carousel could not be swiped. Each layout now owns its own instance.
   return (
     <section className="relative w-full overflow-hidden pt-16 md:h-(--hero-h) md:pt-0">
       {/* Blurred coffee-beans backdrop — desktop-only. Fills the section so
@@ -57,103 +49,161 @@ export function ProductsCarousel({ slides }: { slides: Slide[] }) {
         />
       </div>
 
-      {/* ================= MOBILE ================= */}
-      <div className="md:hidden">
-        <h2 className="display-2 gutter-x text-ink">
-          {t.rich("sectionTitle", {
-            a: (chunks) => <span className="text-quiet">{chunks}</span>,
-          })}
-        </h2>
+      <MobileCarousel slides={slides} t={t} cta={cta} />
+      <DesktopCarousel slides={slides} t={t} />
+    </section>
+  );
+}
 
-        <div className="mt-6 overflow-hidden" ref={emblaRef}>
-          <div className="flex">
-            {SLIDES.map((s) => (
-              <div key={s.id} className="flex-[0_0_100%] min-w-0 gutter-x">
-                <MobileSlide slide={s} t={t} />
+function MobileCarousel({
+  slides,
+  t,
+  cta,
+}: {
+  slides: Slide[];
+  t: ReturnType<typeof useTranslations>;
+  cta: ReturnType<typeof useTranslations>;
+}) {
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "center" });
+  const [selected, setSelected] = useState(0);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    const onSelect = () => setSelected(emblaApi.selectedScrollSnap());
+    emblaApi.on("select", onSelect);
+    onSelect();
+    // Re-measure once layout has settled. On first mount Embla can cache
+    // zero slide widths here (loop mode + percentage-basis slides inside a
+    // responsive wrapper), which left selection updating while the track
+    // never actually moved. A reInit on the next frame fixes the geometry.
+    const raf = requestAnimationFrame(() => emblaApi.reInit());
+    return () => {
+      cancelAnimationFrame(raf);
+      emblaApi.off("select", onSelect);
+    };
+  }, [emblaApi]);
+
+  return (
+    <div className="md:hidden">
+      <h2 className="display-2 gutter-x text-ink">
+        {t.rich("sectionTitle", {
+          a: (chunks) => <span className="text-quiet">{chunks}</span>,
+        })}
+      </h2>
+
+      <div className="mt-6 overflow-hidden" ref={emblaRef}>
+        <div className="flex">
+          {slides.map((s) => (
+            <div key={s.id} className="flex-[0_0_100%] min-w-0 gutter-x">
+              <MobileSlide slide={s} t={t} />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-6 flex items-center justify-center gap-2">
+        {slides.map((_, i) => (
+          <button
+            key={i}
+            type="button"
+            aria-label={`Slide ${i + 1}`}
+            onClick={() => emblaApi?.scrollTo(i)}
+            className={cn(
+              "h-1.5 rounded-full transition-all cursor-pointer",
+              i === selected ? "w-6 bg-paper-dark" : "w-1.5 bg-paper-dark/20",
+            )}
+          />
+        ))}
+      </div>
+
+      <div className="mt-6 gutter-x">
+        <Link
+          href="/products"
+          className="body-md inline-flex w-full items-center justify-center rounded-lg bg-paper-dark px-8 py-3.5 font-medium text-ink-inverse transition-colors hover:bg-brand-coffee"
+        >
+          {cta("viewProducts")}
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+/* Fluid rebuild: no more 951×1512 absolute frame. Section height is pinned to
+ * `100dvh - header`. Inside: a flex column with the h2 on top and the carousel
+ * row filling the rest. Card bg, product image, text column and arrows all
+ * scale via dvh/vw clamps so the composition fits any viewport height. */
+function DesktopCarousel({
+  slides,
+  t,
+}: {
+  slides: Slide[];
+  t: ReturnType<typeof useTranslations>;
+}) {
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "center" });
+  const [selected, setSelected] = useState(0);
+
+  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
+  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    const onSelect = () => setSelected(emblaApi.selectedScrollSnap());
+    emblaApi.on("select", onSelect);
+    onSelect();
+    const raf = requestAnimationFrame(() => emblaApi.reInit());
+    return () => {
+      cancelAnimationFrame(raf);
+      emblaApi.off("select", onSelect);
+    };
+  }, [emblaApi]);
+
+  return (
+    <div className="container-x relative hidden h-full flex-col pt-[clamp(48px,9dvh,120px)] pb-[clamp(20px,3dvh,40px)] md:flex">
+      <h2 className="display-2 text-ink">
+        {t.rich("sectionTitle", {
+          a: (chunks) => <span className="text-quiet">{chunks}</span>,
+        })}
+      </h2>
+
+      <div className="relative mt-[clamp(-56px,-6dvh,-24px)] flex-1 min-h-0">
+        <div className="h-full overflow-hidden" ref={emblaRef}>
+          <div className="flex h-full">
+            {slides.map((s) => (
+              <div key={s.id} className="h-full min-w-0 flex-[0_0_100%]">
+                <SlideCard slide={s} />
               </div>
             ))}
           </div>
         </div>
 
-        <div className="mt-6 flex items-center justify-center gap-2">
-          {SLIDES.map((_, i) => (
-            <button
-              key={i}
-              type="button"
-              aria-label={`Slide ${i + 1}`}
-              onClick={() => emblaApi?.scrollTo(i)}
-              className={cn(
-                "h-1.5 rounded-full transition-all cursor-pointer",
-                i === selected ? "w-6 bg-paper-dark" : "w-1.5 bg-paper-dark/20",
-              )}
-            />
-          ))}
-        </div>
-
-        <div className="mt-6 gutter-x">
-          <Link
-            href="/products"
-            className="body-md inline-flex w-full items-center justify-center rounded-lg bg-paper-dark px-8 py-3.5 font-medium text-ink-inverse transition-colors hover:bg-brand-coffee"
-          >
-            {cta("viewProducts")}
-          </Link>
-        </div>
+        <button
+          type="button"
+          onClick={scrollPrev}
+          aria-label="Previous"
+          className={cn(
+            "absolute left-[clamp(20px,3vw,70px)] top-1/2 z-10 grid size-[clamp(48px,6dvh,70px)] -translate-y-1/2 place-items-center rounded-full transition-colors cursor-pointer",
+            selected === 0
+              ? "bg-quiet text-ink hover:bg-quiet-hover"
+              : "bg-paper-darker text-ink-inverse hover:bg-black",
+          )}
+        >
+          <ArrowLeft className="size-[clamp(18px,2.4dvh,26px)]" />
+        </button>
+        <button
+          type="button"
+          onClick={scrollNext}
+          aria-label="Next"
+          className={cn(
+            "absolute right-[clamp(20px,3vw,70px)] top-1/2 z-10 grid size-[clamp(48px,6dvh,70px)] -translate-y-1/2 place-items-center rounded-full transition-colors cursor-pointer",
+            selected === slides.length - 1
+              ? "bg-quiet text-ink hover:bg-quiet-hover"
+              : "bg-paper-darker text-ink-inverse hover:bg-black",
+          )}
+        >
+          <ArrowRight className="size-[clamp(18px,2.4dvh,26px)]" />
+        </button>
       </div>
-
-      {/* ================= DESKTOP =================
-       * Fluid rebuild: no more 951×1512 absolute frame. Section height is
-       * pinned to `100dvh - header` (compensated for the outer fluid-scale
-       * zoom, same trick as Hero). Inside: a flex column with the h2 on
-       * top and the carousel row filling the rest. The card bg, product
-       * image, text column and arrows all scale via dvh/vw clamps so the
-       * whole composition fits any viewport height without needing zoom. */}
-      <div className="container-x relative hidden h-full flex-col pt-[clamp(48px,9dvh,120px)] pb-[clamp(20px,3dvh,40px)] md:flex">
-        <h2 className="display-2 text-ink">
-          {t.rich("sectionTitle", {
-            a: (chunks) => <span className="text-quiet">{chunks}</span>,
-          })}
-        </h2>
-
-        <div className="relative mt-[clamp(-56px,-6dvh,-24px)] flex-1 min-h-0">
-          <div className="h-full overflow-hidden" ref={emblaRef}>
-            <div className="flex h-full">
-              {SLIDES.map((s) => (
-                <div key={s.id} className="h-full min-w-0 flex-[0_0_100%]">
-                  <SlideCard slide={s} />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <button
-            type="button"
-            onClick={scrollPrev}
-            aria-label="Previous"
-            className={cn(
-              "absolute left-[clamp(20px,3vw,70px)] top-1/2 z-10 grid size-[clamp(48px,6dvh,70px)] -translate-y-1/2 place-items-center rounded-full transition-colors cursor-pointer",
-              selected === 0
-                ? "bg-quiet text-ink hover:bg-quiet-hover"
-                : "bg-paper-darker text-ink-inverse hover:bg-black",
-            )}
-          >
-            <ArrowLeft className="size-[clamp(18px,2.4dvh,26px)]" />
-          </button>
-          <button
-            type="button"
-            onClick={scrollNext}
-            aria-label="Next"
-            className={cn(
-              "absolute right-[clamp(20px,3vw,70px)] top-1/2 z-10 grid size-[clamp(48px,6dvh,70px)] -translate-y-1/2 place-items-center rounded-full transition-colors cursor-pointer",
-              selected === SLIDES.length - 1
-                ? "bg-quiet text-ink hover:bg-quiet-hover"
-                : "bg-paper-darker text-ink-inverse hover:bg-black",
-            )}
-          >
-            <ArrowRight className="size-[clamp(18px,2.4dvh,26px)]" />
-          </button>
-        </div>
-      </div>
-    </section>
+    </div>
   );
 }
 
