@@ -10,7 +10,6 @@ import { AboutHistory } from "@/components/sections/AboutHistory";
 import { QualityTimeline } from "@/components/sections/QualityTimeline";
 import { teamView, certificatesView, expertsView, type ExpertView } from "@/server/views";
 import { BlurImage } from "@/components/ui/BlurImage";
-import { PingPongVideo } from "@/components/ui/PingPongVideo";
 
 export async function generateMetadata({
   params,
@@ -44,10 +43,25 @@ function Welcome() {
        * viewports — there the section grows past the fold rather than
        * squeezing the video to nothing. */}
       <div className="relative aspect-4/3 w-full overflow-hidden rounded-2xl bg-brand-espresso md:aspect-auto md:min-h-[38dvh] md:flex-1 md:rounded-4xl">
-        <PingPongVideo
-          src="/sections/about/welcome-video.mp4"
+        {/* Two sources: the browser plays the first that loads. When a
+          * pre-rendered forward+reverse file is present it boomerangs
+          * seamlessly on a plain `loop`; until then it falls back to the
+          * original clip (a plain loop with one soft cut). Both play smoothly
+          * — no JS reverse-seek, which stuttered on this clip's sparse
+          * keyframes. Generate the loop file with the ffmpeg command in the
+          * deploy notes / SearchedForCoffee.tsx. */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
           poster="/sections/about/welcome-hero.jpg"
-        />
+          className="absolute inset-0 h-full w-full object-cover"
+        >
+          <source src="/sections/about/welcome-video-loop.mp4" type="video/mp4" />
+          <source src="/sections/about/welcome-video.mp4" type="video/mp4" />
+        </video>
         {/* Flat scrim, matching the solid black @ 60% that Figma stacks on
          * top of the video fill — no gradient, the copy is off-image. */}
         <div className="absolute inset-0 bg-black/60" />
