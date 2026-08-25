@@ -5,6 +5,7 @@ import Autoplay from "embla-carousel-autoplay";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
+import { OrderModal, type OrderProduct } from "@/components/sections/OrderModal";
 
 /** Time a slide holds before advancing. */
 const AUTOPLAY_DELAY = 5500;
@@ -20,6 +21,9 @@ export type HeroSlide = {
   title: string;
   body: string;
   cta: string | null;
+  /** The linked product, ready for the order popup. Null when the slide has
+   *  no product linked — in that case the CTA button is not rendered. */
+  orderProduct: OrderProduct | null;
 };
 
 /**
@@ -37,8 +41,21 @@ export type HeroSlide = {
  * choose the colour and opacity per slide it has to be an inline style, since
  * Tailwind can only emit classes it can see at build time.
  */
-export function ProductsHeroCarousel({ slides }: { slides: HeroSlide[] }) {
+export function ProductsHeroCarousel({
+  slides,
+  whatsapp,
+  email,
+}: {
+  slides: HeroSlide[];
+  whatsapp?: string | null;
+  email?: string | null;
+}) {
   const reduce = useReducedMotion() ?? false;
+
+  // The order popup, opened by a slide's CTA. `orderProduct` is the product of
+  // whichever slide's button was pressed.
+  const [orderProduct, setOrderProduct] = useState<OrderProduct | null>(null);
+  const [orderOpen, setOrderOpen] = useState(false);
 
   // A hero that advances on its own is exactly what `prefers-reduced-motion`
   // asks us to stop, so the plugin is left out entirely rather than paused —
@@ -94,6 +111,7 @@ export function ProductsHeroCarousel({ slides }: { slides: HeroSlide[] }) {
   if (slides.length === 0) return null;
 
   return (
+    <>
     <section className="relative h-(--hero-h) w-full overflow-hidden">
       <div className="h-full overflow-hidden" ref={emblaRef}>
         <div className="flex h-full">
@@ -152,16 +170,21 @@ export function ProductsHeroCarousel({ slides }: { slides: HeroSlide[] }) {
                   <p className="text-sm leading-[130%] text-white md:text-[clamp(16px,2.4dvh,24px)] md:leading-[120%]">
                     {s.body}
                   </p>
-                  {/* Anchors to the catalog below rather than being an inert
-                   * button. A plain <a href="#…"> also works without JS and is
-                   * picked up by the page's smooth-scroll handler. */}
-                  {s.cta && (
-                    <a
-                      href="#catalog"
-                      className="mt-2 inline-flex w-full items-center justify-center rounded-lg border border-white/40 bg-white/10 px-8 py-3 text-base font-medium text-white backdrop-blur-md transition-colors hover:bg-white hover:text-ink md:mt-0 md:w-fit md:py-4 md:text-lg"
+                  {/* Opens the order popup pre-filled with this slide's
+                   * product. Rendered only when the slide is linked to a
+                   * product (and has a CTA label); an unlinked slide shows no
+                   * button. */}
+                  {s.cta && s.orderProduct && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setOrderProduct(s.orderProduct);
+                        setOrderOpen(true);
+                      }}
+                      className="mt-2 inline-flex w-full cursor-pointer items-center justify-center rounded-lg border border-white/40 bg-white/10 px-8 py-3 text-base font-medium text-white backdrop-blur-md transition-colors hover:bg-white hover:text-ink md:mt-0 md:w-fit md:py-4 md:text-lg"
                     >
                       {s.cta}
-                    </a>
+                    </button>
                   )}
                 </div>
               </div>
@@ -189,5 +212,14 @@ export function ProductsHeroCarousel({ slides }: { slides: HeroSlide[] }) {
         </div>
       )}
     </section>
+
+    <OrderModal
+      open={orderOpen}
+      onClose={() => setOrderOpen(false)}
+      product={orderProduct}
+      whatsapp={whatsapp}
+      email={email}
+    />
+    </>
   );
 }
