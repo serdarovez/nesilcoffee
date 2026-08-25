@@ -45,10 +45,12 @@ log "Database"
 npx prisma generate
 npx prisma migrate deploy
 
-# Idempotent and never overwrites admin-edited rows, so it is safe on every
-# release. It is also what creates the fixed pair of About-page experts, which
-# the admin cannot add — an unseeded environment shows an empty Experts screen.
-npm run db:seed
+# Seeds ONLY an empty database (--if-empty). This creates content on a fresh
+# server — including the fixed pair of About-page experts the admin cannot add
+# — but never runs again once products exist, so a redeploy can't re-create
+# demo rows an editor deleted. To reseed deliberately, run `npm run db:seed`
+# (no flag) by hand.
+npm run db:seed:if-empty
 
 # Country database for first-visit language detection. Best-effort: the site is
 # fully functional without it (it falls back to Accept-Language), so a download
