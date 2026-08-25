@@ -18,12 +18,14 @@ type Props = {
   editHref?: string;
   isActive: boolean;
   isDeleted?: boolean;
-  canMoveUp: boolean;
-  canMoveDown: boolean;
+  canMoveUp?: boolean;
+  canMoveDown?: boolean;
+  /** Hide the up/down chevrons — used where a drag handle reorders instead. */
+  hideMove?: boolean;
   /** Server actions, pre-bound to the row id by the parent. */
   onToggle: () => Promise<void>;
-  onMoveUp: () => Promise<void>;
-  onMoveDown: () => Promise<void>;
+  onMoveUp?: () => Promise<void>;
+  onMoveDown?: () => Promise<void>;
   onDelete: () => Promise<void>;
   onRestore?: () => Promise<void>;
   /** Blocks deletion with an explanation instead of silently doing nothing. */
@@ -46,6 +48,7 @@ export function RowActions({
   isDeleted,
   canMoveUp,
   canMoveDown,
+  hideMove,
   onToggle,
   onMoveUp,
   onMoveDown,
@@ -88,24 +91,28 @@ export function RowActions({
 
   return (
     <div className="flex items-center gap-0.5">
-      <button
-        type="button"
-        onClick={run(onMoveUp)}
-        disabled={!canMoveUp || pending}
-        title="Выше"
-        className={ICON_BTN}
-      >
-        <ChevronUp className="h-4 w-4" />
-      </button>
-      <button
-        type="button"
-        onClick={run(onMoveDown)}
-        disabled={!canMoveDown || pending}
-        title="Ниже"
-        className={ICON_BTN}
-      >
-        <ChevronDown className="h-4 w-4" />
-      </button>
+      {!hideMove && (
+        <>
+          <button
+            type="button"
+            onClick={onMoveUp ? run(onMoveUp) : undefined}
+            disabled={!canMoveUp || pending}
+            title="Выше"
+            className={ICON_BTN}
+          >
+            <ChevronUp className="h-4 w-4" />
+          </button>
+          <button
+            type="button"
+            onClick={onMoveDown ? run(onMoveDown) : undefined}
+            disabled={!canMoveDown || pending}
+            title="Ниже"
+            className={ICON_BTN}
+          >
+            <ChevronDown className="h-4 w-4" />
+          </button>
+        </>
+      )}
 
       {/* Hiding is always permitted; showing can be blocked by a missing
        * prerequisite. Disabling the button with the reason in its tooltip is

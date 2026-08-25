@@ -313,3 +313,18 @@ export async function moveProduct(id: string, direction: -1 | 1): Promise<void> 
   );
   refresh();
 }
+
+/**
+ * Persist a drag-and-drop reorder of one category's products: sortOrder =
+ * position in `ids`. The caller passes the ids of a single category (ordering
+ * is per category), so a plain index is the new order.
+ */
+export async function reorderProducts(ids: string[]): Promise<void> {
+  await requireAdmin();
+  await prisma.$transaction(
+    ids.map((id, i) =>
+      prisma.product.update({ where: { id }, data: { sortOrder: i } }),
+    ),
+  );
+  refresh();
+}

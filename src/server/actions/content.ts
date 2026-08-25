@@ -104,6 +104,17 @@ export async function moveTeamMember(id: string, direction: -1 | 1): Promise<voi
   revalidateContent(TAGS.team);
 }
 
+/** Persist a drag-and-drop reorder of the team: sortOrder = position in `ids`. */
+export async function reorderTeamMembers(ids: string[]): Promise<void> {
+  await requireAdmin();
+  await prisma.$transaction(
+    ids.map((id, i) =>
+      prisma.teamMember.update({ where: { id }, data: { sortOrder: i } }),
+    ),
+  );
+  revalidateContent(TAGS.team);
+}
+
 /* -------------------------------------------------------------------------- */
 /*  FAQ                                                                       */
 /* -------------------------------------------------------------------------- */
