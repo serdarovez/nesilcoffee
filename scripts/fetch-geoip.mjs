@@ -1,20 +1,16 @@
 /**
- * Download the IP-to-country database used for first-visit language detection
- * (see src/server/geo.ts). Two sources, chosen automatically:
+ * Download the DB-IP Lite country database used for first-visit language
+ * detection (see src/server/geo.ts).
  *
- *   - DB-IP Lite (default). Free, no account, a plain monthly URL. This is what
- *     runs when no MaxMind key is set, and what the site is configured for out
- *     of the box. Its CC BY 4.0 licence requires a visible "IP Geolocation by
- *     DB-IP" credit on pages that use it — that credit lives in the footer.
+ * Free, no account, a plain monthly URL. Its CC BY 4.0 licence requires a
+ * visible "IP Geolocation by DB-IP" credit on pages that use it — that credit
+ * lives in the footer. Point GEOIP_DB_PATH at the file this writes (the default
+ * in .env.example already matches).
  *
- *   - MaxMind GeoLite2. Used only when MAXMIND_LICENSE_KEY is present. No credit
- *     required, but the account signup rejects VPN addresses. Set both
- *     MAXMIND_ACCOUNT_ID and MAXMIND_LICENSE_KEY in .env to use it.
- *
- * Either way, point GEOIP_DB_PATH at the file this writes (the default in
- * .env.example already matches the DB-IP path). Re-run monthly-ish: a stale
- * database still works, it just knows about fewer ranges, and an unrecognised
- * address degrades to Accept-Language rather than failing.
+ * Re-run monthly-ish: a stale database still works, it just knows about fewer
+ * ranges, and an unrecognised address degrades to Accept-Language rather than
+ * failing. Any IP-to-country MMDB works, so a different source can be dropped in
+ * by hand at GEOIP_DB_PATH without this script.
  */
 
 import { readFileSync, unlinkSync } from "node:fs";
@@ -26,43 +22,7 @@ import path from "node:path";
 import process from "node:process";
 
 const OUT_DIR = path.resolve(process.cwd(), "data");
-
-function loadEnv() {
-  // Same .env the app reads; no dotenv import so this runs standalone.
-  try {
-    const text = readFileSync(path.resolve(process.cwd(), ".env"), "utf8");
-    for (const line of text.split("\n")) {
-      const match = /^\s*([A-Z0-9_]+)\s*=\s*(.*)$/.exec(line);
-      if (!match) continue;
-      const value = match[2].trim().replace(/^["']|["']$/g, "");
-      if (!process.env[match[1]]) process.env[match[1]] = value;
-    }
-  } catch {
-    // No .env is fine — keys may come from the real environment.
-  }
-}
-
-/** Yield each regular file in an uncompressed tar buffer (MaxMind ships .tar.gz). */
-function* tarEntries(buffer) {
-  let offset = 0;
-  while (offset + 512 <= buffer.length) {
-    const header = buffer.subarray(offset, offset + 512);
-    if (header.every((byte) => byte === 0)) return;
-    const name = header.subarray(0, 100).toString("utf8").replace(/\0.*$/, "");
-    const size = parseInt(
-      header.subarray(124, 136).toString("utf8").replace(/\0.*$/, "").trim(),
-      8,
-    );
-    const type = String.fromCharCode(header[156]);
-    offset += 512;
-    if (Number.isFinite(size)) {
-      if (type === "0" || type === "\0") {
-        yield { name, data: buffer.subarray(offset, offset + size) };
-      }
-      offset += Math.ceil(size / 512) * 512;
-    }
-  }
-}
+const OUT_FILE = path.join(OUT_DIR, "dbip-country-lite.mmdb");
 
 /** YYYY-MM for a date, in UTC. */
 function yearMonth(date) {
@@ -103,15 +63,11 @@ async function download(url) {
   }
 }
 
-/**
- * DB-IP Lite. The plain .mmdb.gz — no account, no tar. Publishes a new file at
- * the start of each month; for the first day or two the current month may 404,
- * so this falls back to the previous month.
- */
-async function fetchDbIp() {
+async function main() {
+  // DB-IP publishes a new file at the start of each month; for the first day or
+  // two the current month can 404, so fall back to the previous month.
   const now = new Date();
   const prev = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - 1, 1));
-  const outFile = path.join(OUT_DIR, "dbip-country-lite.mmdb");
 
   const failures = [];
   for (const month of [yearMonth(now), yearMonth(prev)]) {
@@ -121,9 +77,9 @@ async function fetchDbIp() {
     if (result instanceof Buffer) {
       const mmdb = gunzipSync(result);
       await mkdir(OUT_DIR, { recursive: true });
-      await writeFile(outFile, mmdb);
+      await writeFile(OUT_FILE, mmdb);
       const mb = (mmdb.length / 1024 / 1024).toFixed(1);
-      console.log(`Wrote ${path.relative(process.cwd(), outFile)} (${mb} MB)`);
+      console.log(`Wrote ${path.relative(process.cwd(), OUT_FILE)} (${mb} MB)`);
       console.log(
         "Remember: DB-IP's CC BY 4.0 licence needs the visible credit in the footer.",
       );
@@ -131,98 +87,11 @@ async function fetchDbIp() {
     }
     failures.push(`${month}: ${result.error}`);
   }
+
   console.error(
     ["Could not download DB-IP Lite. Tried:", ...failures.map((f) => `  - ${f}`)].join("\n"),
   );
   process.exit(1);
-}
-
-/** MaxMind GeoLite2 — only when a licence key is configured. */
-async function fetchMaxMind(account, key) {
-  const EDITION = "GeoLite2-Country";
-  const outFile = path.join(OUT_DIR, `${EDITION}.mmdb`);
-  console.log(`Downloading ${EDITION}…`);
-
-  // Documented account-ID/key pair first, older key-only URL as fallback.
-  const attempts = [];
-  if (account) {
-    attempts.push({
-      label: "account ID + licence key",
-      url: `https://download.maxmind.com/geoip/databases/${EDITION}/download?suffix=tar.gz`,
-      headers: {
-        Authorization: `Basic ${Buffer.from(`${account}:${key}`).toString("base64")}`,
-      },
-    });
-  }
-  attempts.push({
-    label: "licence key only (legacy)",
-    url:
-      `https://download.maxmind.com/app/geoip_download` +
-      `?edition_id=${EDITION}&license_key=${encodeURIComponent(key)}&suffix=tar.gz`,
-    headers: {},
-  });
-
-  let response = null;
-  const failures = [];
-  for (const attempt of attempts) {
-    let res;
-    try {
-      res = await fetch(attempt.url, { headers: attempt.headers, redirect: "manual" });
-      if (res.status >= 300 && res.status < 400) {
-        const location = res.headers.get("location");
-        if (!location) throw new Error("redirect without Location");
-        res = await fetch(location);
-      }
-    } catch (error) {
-      failures.push(`${attempt.label}: ${error.message}`);
-      continue;
-    }
-    if (res.ok) {
-      response = res;
-      console.log(`  authenticated with ${attempt.label}`);
-      break;
-    }
-    failures.push(`${attempt.label}: ${res.status} ${res.statusText}`);
-  }
-
-  if (!response) {
-    console.error(
-      [
-        "Could not download from MaxMind. Tried:",
-        ...failures.map((f) => `  - ${f}`),
-        account
-          ? "A 401 on both means the credentials were rejected — check the pair."
-          : "Set MAXMIND_ACCOUNT_ID as well; MaxMind's current endpoint needs it.",
-      ].join("\n"),
-    );
-    process.exit(1);
-  }
-
-  const archive = gunzipSync(Buffer.from(await response.arrayBuffer()));
-  const entry = [...tarEntries(archive)].find((f) => f.name.endsWith(".mmdb"));
-  if (!entry) {
-    console.error("No .mmdb file inside the archive — aborting.");
-    process.exit(1);
-  }
-  await mkdir(OUT_DIR, { recursive: true });
-  await writeFile(outFile, entry.data);
-  const mb = (entry.data.length / 1024 / 1024).toFixed(1);
-  console.log(`Wrote ${path.relative(process.cwd(), outFile)} (${mb} MB)`);
-  console.log(
-    `Point GEOIP_DB_PATH at ${path.relative(process.cwd(), outFile)} to use it.`,
-  );
-}
-
-async function main() {
-  loadEnv();
-  const account = process.env.MAXMIND_ACCOUNT_ID?.trim();
-  const key = process.env.MAXMIND_LICENSE_KEY?.trim();
-
-  if (key) {
-    await fetchMaxMind(account, key);
-  } else {
-    await fetchDbIp();
-  }
 }
 
 main().catch((error) => {
