@@ -33,7 +33,13 @@ const nextConfig: NextConfig = {
 
   images: {
     formats: ["image/avif", "image/webp"],
-    qualities: [75, 85],
+    qualities: [60, 75, 85],
+    // Cap the largest generated variant at 1920. The default ceiling is
+    // 3840, so a full-bleed `sizes="100vw"` background fetched the 3840
+    // variant on a 2x display — several times the bytes needed for photos
+    // and blurred backdrops. 1920 covers virtually every screen and upscales
+    // imperceptibly on the rare 4K one.
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
     minimumCacheTTL: 2678400,
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com" },

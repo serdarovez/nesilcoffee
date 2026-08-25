@@ -132,6 +132,7 @@ export function ProductsHeroCarousel({
                   priority={i === 0}
                   loading={i === 0 ? "eager" : "lazy"}
                   sizes="100vw"
+                  quality={60}
                   className="object-cover"
                   {...(s.bgBlurDataUrl
                     ? { placeholder: "blur" as const, blurDataURL: s.bgBlurDataUrl }
