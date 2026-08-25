@@ -73,10 +73,12 @@ export function ProductionProcess() {
           />
         ))}
 
-        {/* Sticky viewport — pinned to viewport top for the runway
-         * duration. `--screen-h` compensates for the outer .fluid-viewport
-         * zoom so the visual height matches the real viewport on md+. */}
-        <div className="sticky top-0 h-(--screen-h) w-full overflow-hidden">
+        {/* Sticky viewport — pinned just BELOW the sticky header for the
+         * runway duration, so the section title clears the header bar instead
+         * of sitting behind its translucent overlay. Height is the space left
+         * under the header (`--hero-h`), and the offset is the header's own
+         * height, so the pinned stage fills exactly the visible viewport. */}
+        <div className="sticky top-(--site-header-h) h-(--hero-h) w-full overflow-hidden">
           <div className="container-x flex h-full flex-col pt-[clamp(48px,9dvh,80px)] pb-8 md:pt-[clamp(100px,14dvh,160px)] md:pb-[clamp(16px,3dvh,32px)]">
             {/* Header — title + dot progress indicator */}
             <div className="flex items-start justify-between gap-4">
