@@ -71,7 +71,9 @@ export const getHeroSlides = unstable_cache(
         productImage: true,
         // Slides inherit their headline, copy and artwork from the linked
         // product unless overridden, so the product travels with the slide.
-        product: { include: { image: true } },
+        // Category comes along too: the hero's "order" button opens the
+        // OrderModal, which shows the product's category.
+        product: { include: { image: true, category: true } },
       },
     }),
   ["hero-slides"],

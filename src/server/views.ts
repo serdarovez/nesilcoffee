@@ -147,6 +147,21 @@ export async function heroSlidesView(
         (product?.description ? pick(product.description, locale) : "") ||
         fallbackBody,
       cta: s.ctaLabel ? pick(s.ctaLabel, locale) || null : null,
+      // Only a slide linked to a product can open the order popup; the hero
+      // shows its CTA only when this is non-null. Built from the linked
+      // product so the modal has everything it needs (db id, category, weight).
+      orderProduct: product
+        ? {
+            id: product.id,
+            name: pick(product.name, locale),
+            image: s.productImage?.path ?? product.image?.path ?? null,
+            category: pick(product.category.name, locale),
+            weight: product.weight,
+            description:
+              (product.description ? pick(product.description, locale) : "") ||
+              fallbackBody,
+          }
+        : null,
     };
   });
 }

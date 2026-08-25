@@ -495,6 +495,21 @@ async function seedSettings() {
 }
 
 async function main() {
+  // `--if-empty` makes the seed a no-op once the catalog has any products.
+  // deploy.sh passes it so a redeploy never re-creates demo rows an editor
+  // deleted (the upserts below would otherwise re-add them by slug/id). A
+  // fresh database still seeds fully, and a manual `npm run db:seed` without
+  // the flag always seeds regardless.
+  if (process.argv.includes("--if-empty")) {
+    const existing = await prisma.product.count();
+    if (existing > 0) {
+      console.log(
+        `Seed skipped: ${existing} product(s) already present (--if-empty).`,
+      );
+      return;
+    }
+  }
+
   console.log("Seeding NesilCoffee content…\n");
 
   const productIds = await seedCatalog();

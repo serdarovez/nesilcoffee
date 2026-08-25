@@ -28,7 +28,7 @@ export function Hero() {
         <div className="relative order-first min-h-[22dvh] w-full flex-1 overflow-hidden rounded-3xl bg-paper-dark md:order-last md:h-full md:w-1/2 md:min-h-0 md:flex-none md:rounded-4xl">
           <video
             src="/sections/home/hero-video.mp4"
-            poster="/sections/home/hero-video-poster.png"
+            poster="/sections/home/hero-video-poster.webp"
             autoPlay
             muted
             loop

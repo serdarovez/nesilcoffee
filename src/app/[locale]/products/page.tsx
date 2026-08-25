@@ -93,9 +93,13 @@ export default async function ProductsPage({
 
   return (
     <>
-      <ProductsHeroCarousel slides={heroSlides} />
+      <ProductsHeroCarousel
+        slides={heroSlides}
+        whatsapp={info.whatsapp}
+        email={info.email}
+      />
 
-      {/* Scroll target for the hero's call-to-action. */}
+      {/* Anchor kept for any in-page links to the catalog. */}
       <div id="catalog" />
 
       {categories
