@@ -130,7 +130,7 @@ export async function Footer({ locale }: { locale: string }) {
           * requires a visible credit wherever the data is used; the footer is
           * site-wide, so this one line covers every page. Remove it only if the
           * GeoIP source is swapped for one that does not require attribution. */}
-        <div className="text-xs text-ink-inverse/50">
+        <div className="text-xs hidden text-ink-inverse/50">
           IP Geolocation by{" "}
           <a
             href="https://db-ip.com"

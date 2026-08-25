@@ -180,3 +180,18 @@ export async function moveCategory(id: string, direction: -1 | 1): Promise<void>
   );
   refresh();
 }
+
+/**
+ * Persist a drag-and-drop reorder of the categories: sortOrder = position in
+ * `ids`. The products page renders one block per category in this order, so
+ * this controls which category's products appear first on the site.
+ */
+export async function reorderCategories(ids: string[]): Promise<void> {
+  await requireAdmin();
+  await prisma.$transaction(
+    ids.map((id, i) =>
+      prisma.category.update({ where: { id }, data: { sortOrder: i } }),
+    ),
+  );
+  refresh();
+}

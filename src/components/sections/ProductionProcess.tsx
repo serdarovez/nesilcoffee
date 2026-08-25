@@ -79,7 +79,11 @@ export function ProductionProcess() {
          * under the header (`--hero-h`), and the offset is the header's own
          * height, so the pinned stage fills exactly the visible viewport. */}
         <div className="sticky top-(--site-header-h) h-(--hero-h) w-full overflow-hidden">
-          <div className="container-x flex h-full flex-col pt-[clamp(48px,9dvh,80px)] pb-8 md:pt-[clamp(100px,14dvh,160px)] md:pb-[clamp(16px,3dvh,32px)]">
+          {/* Small top padding only: the sticky wrapper already offsets by the
+           * header height, so this is just breathing room. It used to be
+           * ~100-160px to clear a `top:0` pin — that now doubled up as a visible
+           * gap and shrank the image. */}
+          <div className="container-x flex h-full flex-col pt-[clamp(10px,2dvh,20px)] pb-6 md:pt-[clamp(10px,1.6dvh,22px)] md:pb-[clamp(16px,3dvh,32px)]">
             {/* Header — title + dot progress indicator */}
             <div className="flex items-start justify-between gap-4">
               <h2 className="display-2 text-ink md:max-w-[62vw]">
@@ -106,7 +110,7 @@ export function ProductionProcess() {
 
             {/* Stage stack — all layered, cross-fade on scroll-driven
              * active change. */}
-            <div className="relative mt-6 flex-1 min-h-0 md:mt-[clamp(24px,4dvh,40px)]">
+            <div className="relative mt-4 flex-1 min-h-0 md:mt-[clamp(16px,2.5dvh,28px)]">
               {BLOCKS.map((b, i) => (
                 <div
                   key={b.key}

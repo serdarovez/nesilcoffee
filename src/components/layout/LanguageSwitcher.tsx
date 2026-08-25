@@ -66,7 +66,12 @@ export function LanguageSwitcher() {
   };
 
   return (
-    <DropdownMenu>
+    // modal={false}: the default modal mode scroll-locks the page and adds
+    // scrollbar-width padding while open. Combined with `scrollbar-gutter:
+    // stable` on <html>, that compensation doubled up and opened a white gap
+    // on the right. A language menu does not need to trap scroll, so turning
+    // modal off removes the gap; it still closes on outside-click and Escape.
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger className="inline-flex items-center gap-1 rounded-full text-paper-dark cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40">
         <Flag locale={locale} className="h-4.5 w-4.5" />
         <span className="px-0.5 text-[clamp(14px,1.2vw,18px)] font-medium leading-[110%] font-sans">
