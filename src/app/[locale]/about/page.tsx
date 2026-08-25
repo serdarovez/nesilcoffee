@@ -10,6 +10,7 @@ import { AboutHistory } from "@/components/sections/AboutHistory";
 import { QualityTimeline } from "@/components/sections/QualityTimeline";
 import { teamView, certificatesView, expertsView, type ExpertView } from "@/server/views";
 import { BlurImage } from "@/components/ui/BlurImage";
+import { PingPongVideo } from "@/components/ui/PingPongVideo";
 
 export async function generateMetadata({
   params,
@@ -43,15 +44,9 @@ function Welcome() {
        * viewports — there the section grows past the fold rather than
        * squeezing the video to nothing. */}
       <div className="relative aspect-4/3 w-full overflow-hidden rounded-2xl bg-brand-espresso md:aspect-auto md:min-h-[38dvh] md:flex-1 md:rounded-4xl">
-        <video
+        <PingPongVideo
           src="/sections/about/welcome-video.mp4"
           poster="/sections/about/welcome-hero.jpg"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          className="absolute inset-0 h-full w-full object-cover"
         />
         {/* Flat scrim, matching the solid black @ 60% that Figma stacks on
          * top of the video fill — no gradient, the copy is off-image. */}
