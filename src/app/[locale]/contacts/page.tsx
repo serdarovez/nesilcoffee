@@ -62,8 +62,8 @@ async function ContactsBlock({
   return (
     <section id="contacts" className="container-x pt-12 md:pt-20">
       <div className="border-t border-[#dfdfdf] pt-6 md:pt-10">
-        <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between md:gap-35.25">
-          <div className="flex flex-col gap-6 md:flex-1 md:gap-10">
+        <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between md:gap-[clamp(24px,4vw,80px)]">
+          <div className="flex flex-col gap-6 md:min-w-0 md:flex-1 md:gap-10">
             <div className="flex flex-col gap-3 md:gap-4">
               {/* Was a hardcoded 32px/96px in a literal hex. The shared
                 * type scale already carries both, fluidly, and tracks the
@@ -152,7 +152,7 @@ async function ContactsBlock({
             </div>
           </div>
 
-          <div className="flex w-full shrink-0 flex-col gap-4 rounded-2xl bg-[#fbfbfb] p-5 md:w-146.5 md:gap-6 md:rounded-3xl md:p-8">
+          <div className="flex w-full shrink-0 flex-col gap-4 rounded-2xl bg-[#fbfbfb] p-5 md:w-[48%] md:max-w-146.5 md:gap-6 md:rounded-3xl md:p-8">
             <div className="flex flex-col gap-2">
               <h3 className="font-display text-2xl font-bold uppercase text-[#1a1a1a] leading-[100%] md:text-4xl">
                 {t("writeUs")}

@@ -103,6 +103,69 @@ restarts, health-checks. The seed is idempotent and never overwrites rows edited
 in the admin, so it runs on every release by design — it is also the only thing
 that creates the two About-page experts.
 
+## Automatic deploy on push to main (GitHub Actions)
+
+`.github/workflows/deploy.yml` runs the release above whenever `main` changes
+(and on demand from the Actions tab). The runner is in GitHub's cloud, so it
+reaches the server directly even from networks that cannot — it just needs an
+SSH key the server trusts and the server's host key to verify against.
+
+The server still pulls and builds itself; the workflow only opens an SSH
+session and runs `deploy.sh main`. So the box must be able to `git pull` this
+repo (a public repo works as-is; a private one needs a read-only deploy key on
+the server) and must already be provisioned with `setup-server.sh`.
+
+**One-time setup.**
+
+1. Generate a dedicated CI key **on your machine** (no passphrase — CI cannot
+   type one):
+
+   ```bash
+   ssh-keygen -t ed25519 -C "github-actions-deploy" -f ci_deploy -N ""
+   ```
+
+2. Install its **public** half on the server — the same step that blocks a
+   manual login, so do it from the provider's web console or have whoever has
+   access paste it into the deploy user's `authorized_keys`:
+
+   ```bash
+   cat ci_deploy.pub >> ~/.ssh/authorized_keys   # as the DEPLOY_USER, on the server
+   ```
+
+3. Capture the server's host key so the workflow can verify it (run from
+   anywhere that can reach the server — e.g. the console, or a colleague's
+   machine):
+
+   ```bash
+   ssh-keyscan -p 22 <server-ip>
+   ```
+
+4. In the repo, **Settings → Secrets and variables → Actions**, add:
+
+   | Secret | Value |
+   | --- | --- |
+   | `DEPLOY_SSH_KEY` | the **private** key — the whole `ci_deploy` file |
+   | `DEPLOY_KNOWN_HOSTS` | the full output of the `ssh-keyscan` above |
+   | `DEPLOY_HOST` | the server IP or hostname |
+   | `DEPLOY_USER` | the SSH user (`root`, or the deploy user) |
+
+   Optional repository **variable** `DEPLOY_PORT` if SSH is not on 22.
+
+   Then delete the local `ci_deploy` / `ci_deploy.pub` files — the private key
+   now lives only in the GitHub secret.
+
+**Notes.**
+
+- If `DEPLOY_USER` is not `root`, that user needs passwordless `sudo` for the
+  `systemctl restart` inside `deploy.sh`.
+- Deploys are serialised (`concurrency`), so two quick pushes queue rather than
+  race. A failed release (bad migration, build error, unhealthy restart) exits
+  non-zero and fails the workflow, leaving the previous version running only if
+  the restart itself did not happen — see the expand/contract note below for the
+  one case that can still break mid-deploy.
+- Rotate the CI key by regenerating it, replacing `authorized_keys` on the
+  server and the `DEPLOY_SSH_KEY` secret.
+
 ## Things that will bite
 
 **Migrations run before the new build starts.** A migration that drops a column

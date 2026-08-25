@@ -1,0 +1,56 @@
+name: Deploy to production
+
+# Runs on every push to main, and can be triggered by hand from the Actions
+# tab. GitHub's runner reaches the server directly over the public internet —
+# it is not behind the network filtering that blocks a direct connection from
+# some locations, so this path works where a local `ssh` does not.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# One release at a time. A second push while a deploy is running waits rather
+# than racing it — never cancel a release mid-flight (migrations, build swap).
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    # No checkout: the server pulls the code itself in deploy.sh. This job only
+    # opens an SSH session and runs that script.
+    steps:
+      - name: Configure SSH
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          test -n "$DEPLOY_SSH_KEY" || { echo "::error::secret DEPLOY_SSH_KEY is not set"; exit 1; }
+          test -n "$DEPLOY_KNOWN_HOSTS" || { echo "::error::secret DEPLOY_KNOWN_HOSTS is not set"; exit 1; }
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          # printf, not echo -e: the key must be written byte-for-byte, and
+          # secrets are masked in the log regardless.
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/id_deploy
+          chmod 600 ~/.ssh/id_deploy
+          # Pins the server's host key, so a MITM cannot impersonate it. Populate
+          # the secret with `ssh-keyscan -p <port> <host>` (see deploy/README.md).
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+
+      - name: Run release on the server
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          # Optional; defaults to 22. Set the repository variable to override.
+          DEPLOY_PORT: ${{ vars.DEPLOY_PORT || '22' }}
+        run: |
+          test -n "$DEPLOY_HOST" || { echo "::error::secret DEPLOY_HOST is not set"; exit 1; }
+          test -n "$DEPLOY_USER" || { echo "::error::secret DEPLOY_USER is not set"; exit 1; }
+          # -o IdentitiesOnly: use only the key we just wrote, ignore any agent.
+          # StrictHostKeyChecking is left at its default (yes) because known_hosts
+          # is populated — an unrecognised host key fails the deploy on purpose.
+          ssh -i ~/.ssh/id_deploy -o IdentitiesOnly=yes \
+              -o ConnectTimeout=25 -p "$DEPLOY_PORT" \
+              "$DEPLOY_USER@$DEPLOY_HOST" \
+              'bash /var/www/nesilcoffee/app/deploy/deploy.sh main'
