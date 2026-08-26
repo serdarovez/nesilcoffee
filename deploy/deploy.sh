@@ -20,6 +20,25 @@ cd "$REPO_DIR"
 set -a; . "$ENV_FILE"; set +a
 
 # --------------------------------------------------------------------------
+log "Backup (pre-deploy DB snapshot)"
+# --------------------------------------------------------------------------
+# Dump the live database BEFORE anything changes, so a bad migration or release
+# can be rolled back. Kept in $APP_DIR/backups (outside the repo, so git never
+# touches them), newest 10 retained. Best-effort: a fresh server with no data
+# yet must not fail the release here. The `?schema=…` Prisma param is stripped
+# because pg_dump rejects it.
+BACKUP_DIR="$APP_DIR/backups"
+mkdir -p "$BACKUP_DIR"
+STAMP="$(date +%F-%H%M%S)"
+if pg_dump "${DATABASE_URL%%[?]*}" 2>/dev/null | gzip > "$BACKUP_DIR/db-$STAMP.sql.gz"; then
+  ls -1t "$BACKUP_DIR"/db-*.sql.gz | tail -n +11 | xargs -r rm -f
+  echo "  saved db-$STAMP.sql.gz ($(du -h "$BACKUP_DIR/db-$STAMP.sql.gz" | cut -f1)) — keeping newest 10"
+else
+  rm -f "$BACKUP_DIR/db-$STAMP.sql.gz"
+  echo "  skipped (database not reachable yet — normal on first setup)"
+fi
+
+# --------------------------------------------------------------------------
 log "Fetching source"
 # --------------------------------------------------------------------------
 git fetch --all --prune
@@ -62,7 +81,12 @@ log "Build"
 # --------------------------------------------------------------------------
 # NEXT_PUBLIC_SITE_URL is inlined at build time, which is why .env is sourced
 # above rather than left to the systemd unit alone.
-npm run build
+#
+# NODE_OPTIONS caps V8's heap so the build can't balloon and freeze a small
+# (2 GB) box — with a swap file as backstop, it completes instead of OOM-ing.
+# Raise this if the server has more RAM. `${NODE_OPTIONS:-}` lets an outer
+# override win.
+NODE_OPTIONS="${NODE_OPTIONS:---max-old-space-size=1536}" npm run build
 
 # --------------------------------------------------------------------------
 log "Restart"
