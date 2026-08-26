@@ -101,4 +101,17 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    import os
+
+    try:
+        main()
+    except (KeyboardInterrupt, OSError):
+        # A dropped tunnel or Ctrl+C is normal teardown, not an error worth a
+        # traceback.
+        pass
+    finally:
+        # Skip interpreter finalization: the daemon reader thread may be
+        # blocked in stdin.read1(), and a normal shutdown then crashes with
+        # "_enter_buffered_busy … at interpreter shutdown". os._exit exits
+        # immediately without that cleanup, so ssh just sees the pipe close.
+        os._exit(0)
