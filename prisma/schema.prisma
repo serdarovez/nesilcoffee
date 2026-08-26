@@ -190,6 +190,12 @@ model ProductsHeroSlide {
   overlayColor   String @default("#1e140f")
   overlayOpacity Int    @default(65)
 
+  /// Horizontal placement of the product image within its column on desktop:
+  /// "left" | "center" | "right". Product pack shots carry different amounts of
+  /// transparent padding, so a fixed alignment leaves some looking off-centre —
+  /// this lets an editor nudge each slide. "right" reproduces the old default.
+  productAlign String @default("right")
+
   sortOrder Int      @default(0)
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())

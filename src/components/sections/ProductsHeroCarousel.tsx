@@ -18,6 +18,8 @@ export type HeroSlide = {
   overlayColor: string;
   overlayOpacity: number;
   product: string | null;
+  /** Horizontal placement of the product art within its column on desktop. */
+  productAlign: "left" | "center" | "right";
   title: string;
   body: string;
   cta: string | null;
@@ -158,7 +160,17 @@ export function ProductsHeroCarousel({
                       alt={s.title}
                       fill
                       sizes="(max-width: 767px) 85vw, 45vw"
-                      className="object-contain object-center md:object-right"
+                      // Mobile stays centered; desktop placement is per-slide,
+                      // set in the admin. Static class strings so Tailwind emits
+                      // them.
+                      className={cn(
+                        "object-contain object-center",
+                        s.productAlign === "left"
+                          ? "md:object-left"
+                          : s.productAlign === "center"
+                            ? "md:object-center"
+                            : "md:object-right",
+                      )}
                     />
                   )}
                 </div>

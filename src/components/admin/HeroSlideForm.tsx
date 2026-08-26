@@ -28,6 +28,7 @@ export type HeroSlideValues = {
   productImage?: MediaRef | null;
   overlayColor?: string;
   overlayOpacity?: number;
+  productAlign?: "left" | "center" | "right";
   isActive?: boolean;
 };
 
@@ -47,7 +48,18 @@ export function HeroSlideForm({
   const [art, setArt] = useState<MediaRef | null>(values.productImage ?? null);
   const [color, setColor] = useState(values.overlayColor ?? "#1e140f");
   const [opacity, setOpacity] = useState(values.overlayOpacity ?? 65);
+  const [align, setAlign] = useState<"left" | "center" | "right">(
+    values.productAlign ?? "right",
+  );
   const errors = state.fieldErrors ?? {};
+
+  // Where the preview art sits, matching how the slide renders each alignment.
+  const previewArtPos =
+    align === "left"
+      ? "left-3"
+      : align === "center"
+        ? "left-1/2 -translate-x-1/2"
+        : "right-3";
 
   const product = products.find((p) => p.id === productId) ?? null;
 
@@ -195,6 +207,24 @@ export function HeroSlideForm({
             </div>
           )}
         </div>
+
+        <Field
+          label="Положение изображения товара"
+          hint="Как выровнять картинку товара по горизонтали на широком экране. Если товар кажется смещённым, подвиньте его."
+        >
+          <select
+            name="productAlign"
+            value={align}
+            onChange={(e) =>
+              setAlign(e.target.value as "left" | "center" | "right")
+            }
+            className={inputClass}
+          >
+            <option value="left">Слева</option>
+            <option value="center">По центру</option>
+            <option value="right">Справа</option>
+          </select>
+        </Field>
       </Card>
 
       <Card className="flex flex-col gap-5">
@@ -220,7 +250,7 @@ export function HeroSlideForm({
             <img
               src={inheritedArt}
               alt=""
-              className="absolute inset-y-2 right-3 h-[calc(100%-1rem)] object-contain"
+              className={`absolute inset-y-2 ${previewArtPos} h-[calc(100%-1rem)] object-contain`}
             />
           )}
           <span className="absolute bottom-3 left-3 max-w-[60%] truncate text-sm font-semibold text-white drop-shadow">
