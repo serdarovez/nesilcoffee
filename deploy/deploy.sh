@@ -54,8 +54,10 @@ git --no-pager log -1 --oneline
 log "Dependencies"
 # --------------------------------------------------------------------------
 # Dev dependencies are required: the build needs typescript, tailwind and the
-# next-intl plugin, and `db:seed` runs through tsx. Do not add --omit=dev.
-npm ci
+# next-intl plugin, prisma.config.ts needs dotenv, and `db:seed` runs through
+# tsx. `.env` (sourced above) sets NODE_ENV=production, which makes npm skip
+# devDependencies — so force them in explicitly with --include=dev.
+npm ci --include=dev
 
 # --------------------------------------------------------------------------
 log "Database"
