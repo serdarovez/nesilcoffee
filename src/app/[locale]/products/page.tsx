@@ -14,7 +14,11 @@ import {
   contactInfo,
 } from "@/server/views";
 import { pick } from "@/lib/i18n-field";
-import { parseFieldRules, applyFieldRules } from "@/lib/category-fields";
+import {
+  parseFieldRules,
+  applyFieldRules,
+  usesDescription,
+} from "@/lib/category-fields";
 
 export async function generateMetadata({
   params,
@@ -131,9 +135,12 @@ export default async function ProductsPage({
                 robusta: spec.robusta ?? "—",
                 roast: spec.roast,
                 acidity: spec.acidity,
-                description: p.description
-                  ? pick(p.description, locale) || null
-                  : null,
+                // A category that switches descriptions off falls back to the
+                // shared message, exactly as a blank description always has.
+                description:
+                  usesDescription(rules) && p.description
+                    ? pick(p.description, locale) || null
+                    : null,
                 blurDataUrl: p.image?.blurDataUrl ?? null,
               };
             })}

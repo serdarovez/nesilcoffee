@@ -1,7 +1,11 @@
 import "server-only";
 import { getTranslations } from "next-intl/server";
 import { pick } from "@/lib/i18n-field";
-import { parseFieldRules, applyFieldRules } from "@/lib/category-fields";
+import {
+  parseFieldRules,
+  applyFieldRules,
+  usesDescription,
+} from "@/lib/category-fields";
 import { formatPack } from "@/lib/product-rules";
 import {
   getTeamMembers,
@@ -93,10 +97,8 @@ export async function expertsView(
 export async function homeSlidesView(locale: string): Promise<Slide[]> {
   const slides = await getHomeSlides();
   return slides.map((s) => {
-    const spec = applyFieldRules(
-      parseFieldRules(s.product.category.fieldRules),
-      s.product,
-    );
+    const rules = parseFieldRules(s.product.category.fieldRules);
+    const spec = applyFieldRules(rules, s.product);
     return {
     id: s.id,
     name: pick(s.product.name, locale),
@@ -105,10 +107,12 @@ export async function homeSlidesView(locale: string): Promise<Slide[]> {
     pieces: spec.pieces,
     roast: spec.roast,
     acidity: spec.acidity,
-    // null here tells the component to fall back to the shared message.
-    description: s.product.description
-      ? pick(s.product.description, locale) || null
-      : null,
+    // null here tells the component to fall back to the shared message —
+    // which is also what a category with descriptions switched off gets.
+    description:
+      usesDescription(rules) && s.product.description
+        ? pick(s.product.description, locale) || null
+        : null,
     tagline: s.product.tagline ? pick(s.product.tagline, locale) || null : null,
     blurDataUrl: s.imageOverride?.blurDataUrl ?? s.product.image?.blurDataUrl ?? null,
     };
@@ -136,6 +140,14 @@ export async function heroSlidesView(
   const gramUnit = t("weightUnit");
   return slides.map((s) => {
     const product = s.product;
+    // The linked product's category rules decide both which specs the order
+    // dialog prints and whether the product's own description may stand in for
+    // the slide body. A slide with no product has neither.
+    const rules = product ? parseFieldRules(product.category.fieldRules) : null;
+    const productBody =
+      rules && usesDescription(rules) && product?.description
+        ? pick(product.description, locale)
+        : "";
 
     const title = s.title ? pick(s.title, locale) : "";
     const body = s.body ? pick(s.body, locale) : "";
@@ -150,39 +162,29 @@ export async function heroSlidesView(
       product: s.productImage?.path ?? product?.image?.path ?? null,
       productOffset: s.productOffset,
       title: title || (product ? pick(product.name, locale) : ""),
-      body:
-        body ||
-        (product?.description ? pick(product.description, locale) : "") ||
-        fallbackBody,
+      body: body || productBody || fallbackBody,
       cta: s.ctaLabel ? pick(s.ctaLabel, locale) || null : null,
       // Only a slide linked to a product can open the order popup; the hero
       // shows its CTA only when this is non-null. Built from the linked
       // product so the modal has everything it needs (db id, category, weight).
-      orderProduct: product
-        ? {
-            id: product.id,
-            name: pick(product.name, locale),
-            image: s.productImage?.path ?? product.image?.path ?? null,
-            category: pick(product.category.name, locale),
-            // Composed like the catalog card so the order dialog reads
-            // "20 шт × 20 г", with the gram unit localized and fields the
-            // category switches off left out.
-            weight: (() => {
-              const spec = applyFieldRules(
-                parseFieldRules(product.category.fieldRules),
-                product,
-              );
-              return formatPack(
-                { weight: spec.weight, pieces: spec.pieces },
+      orderProduct:
+        product && rules
+          ? {
+              id: product.id,
+              name: pick(product.name, locale),
+              image: s.productImage?.path ?? product.image?.path ?? null,
+              category: pick(product.category.name, locale),
+              // Composed like the catalog card so the order dialog reads
+              // "20 шт × 20 г", with the gram unit localized and fields the
+              // category switches off left out.
+              weight: formatPack(
+                applyFieldRules(rules, product),
                 pieceUnit,
                 gramUnit,
-              );
-            })(),
-            description:
-              (product.description ? pick(product.description, locale) : "") ||
-              fallbackBody,
-          }
-        : null,
+              ),
+              description: productBody || fallbackBody,
+            }
+          : null,
     };
   });
 }

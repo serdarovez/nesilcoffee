@@ -15,6 +15,8 @@
  * src/server/actions/categories.ts.
  */
 
+import { hasDefaultLocale } from "@/lib/i18n-field";
+
 /**
  *  - `required` — the form blocks saving until it is filled.
  *  - `optional` — may be left blank; blank means "do not show it on the site".
@@ -36,7 +38,12 @@ export const FIELD_MODE_LABEL: Record<FieldMode, string> = {
   off: "Нет",
 };
 
-export type ProductFieldKey =
+/**
+ * The scalar spec columns. These share one shape — a single nullable value per
+ * product — which is what lets `applyFieldRules` and `writableSpecs` below map
+ * over them generically.
+ */
+export type ProductSpecKey =
   | "weight"
   | "pieces"
   | "arabica"
@@ -45,14 +52,26 @@ export type ProductFieldKey =
   | "acidity";
 
 /**
- * The configurable fields, in the order they appear in the product form.
+ * Translatable copy a category can demand, hide, or leave optional.
+ *
+ * Kept separate from the spec keys because the value is a localized JSONB
+ * object rather than a scalar: "filled" means the default locale carries copy,
+ * not that the column is non-null, so the helpers below have to treat it
+ * differently.
+ */
+export type ProductContentKey = "description";
+
+export type ProductFieldKey = ProductSpecKey | ProductContentKey;
+
+/**
+ * The configurable spec fields, in the order they appear in the product form.
  *
  * `defaultMode` reproduces the behaviour that existed before category rules —
  * weight/roast/acidity required, arabica/robusta optional — so a category with
  * no rules stored (or an unrecognised one) behaves exactly as it always did.
  */
 export const PRODUCT_FIELDS: readonly {
-  key: ProductFieldKey;
+  key: ProductSpecKey;
   label: string;
   hint?: string;
   defaultMode: FieldMode;
@@ -70,10 +89,39 @@ export const PRODUCT_FIELDS: readonly {
   { key: "acidity", label: "Кислотность", defaultMode: "required" },
 ];
 
+/**
+ * The configurable copy fields.
+ *
+ * `optional` is the default because that is what description always was: blank
+ * means the card falls back to the shared `products.cardDescription` message,
+ * which is the behaviour every existing product relies on.
+ */
+export const CONTENT_FIELDS: readonly {
+  key: ProductContentKey;
+  label: string;
+  hint?: string;
+  defaultMode: FieldMode;
+}[] = [
+  {
+    key: "description",
+    label: "Описание",
+    hint: "Текст на карточке товара. «Нет» — покажется общее описание из языковых файлов",
+    defaultMode: "optional",
+  },
+];
+
+/** Everything a category declares a rule for, in product-form order. */
+export const CATEGORY_RULE_FIELDS: readonly {
+  key: ProductFieldKey;
+  label: string;
+  hint?: string;
+  defaultMode: FieldMode;
+}[] = [...PRODUCT_FIELDS, ...CONTENT_FIELDS];
+
 export type CategoryFieldRules = Record<ProductFieldKey, FieldMode>;
 
 export const DEFAULT_FIELD_RULES: CategoryFieldRules = Object.fromEntries(
-  PRODUCT_FIELDS.map((field) => [field.key, field.defaultMode]),
+  CATEGORY_RULE_FIELDS.map((field) => [field.key, field.defaultMode]),
 ) as CategoryFieldRules;
 
 function isFieldMode(value: unknown): value is FieldMode {
@@ -96,7 +144,7 @@ export function parseFieldRules(value: unknown): CategoryFieldRules {
       : {};
 
   return Object.fromEntries(
-    PRODUCT_FIELDS.map((field) => [
+    CATEGORY_RULE_FIELDS.map((field) => [
       field.key,
       isFieldMode(source[field.key]) ? source[field.key] : field.defaultMode,
     ]),
@@ -105,7 +153,22 @@ export function parseFieldRules(value: unknown): CategoryFieldRules {
 
 /** Fields this category actually uses, in form order. */
 export function activeFields(rules: CategoryFieldRules): ProductFieldKey[] {
-  return PRODUCT_FIELDS.filter((f) => rules[f.key] !== "off").map((f) => f.key);
+  return CATEGORY_RULE_FIELDS.filter((f) => rules[f.key] !== "off").map(
+    (f) => f.key,
+  );
+}
+
+/**
+ * Whether products in this category carry their own description.
+ *
+ * Description deliberately sits outside `applyFieldRules` below: that helper
+ * maps over the scalar spec columns, while this value is localized JSONB that
+ * every call site still has to resolve with `pick()`. Call sites gate on this
+ * instead, and an `off` category falls back to the shared message exactly as an
+ * empty description always has.
+ */
+export function usesDescription(rules: CategoryFieldRules): boolean {
+  return rules.description !== "off";
 }
 
 /**
@@ -125,17 +188,31 @@ export function missingRequired(
     robusta: string | null;
     roast: number | null;
     acidity: number | null;
+    /** Localized JSONB; only the default locale decides "filled". */
+    description?: unknown;
   },
 ): ProductFieldKey[] {
-  return PRODUCT_FIELDS.filter((field) => {
+  const missing: ProductFieldKey[] = PRODUCT_FIELDS.filter((field) => {
     if (rules[field.key] !== "required") return false;
     const value = product[field.key];
     return value === null || value === undefined || value === "";
   }).map((field) => field.key);
+
+  // Not a null check: a description row can exist while carrying only empty
+  // strings, and the other four locales fall back to Russian anyway — so the
+  // default locale is what "filled" means here, as it does in the form.
+  if (
+    rules.description === "required" &&
+    !hasDefaultLocale(product.description)
+  ) {
+    missing.push("description");
+  }
+
+  return missing;
 }
 
 export function fieldLabel(key: ProductFieldKey): string {
-  return PRODUCT_FIELDS.find((f) => f.key === key)?.label ?? key;
+  return CATEGORY_RULE_FIELDS.find((f) => f.key === key)?.label ?? key;
 }
 
 /**

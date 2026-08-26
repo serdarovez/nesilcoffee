@@ -17,7 +17,7 @@ import {
   slugify,
 } from "@/server/form";
 import {
-  PRODUCT_FIELDS,
+  CATEGORY_RULE_FIELDS,
   FIELD_MODES,
   type CategoryFieldRules,
 } from "@/lib/category-fields";
@@ -32,7 +32,7 @@ const schema = z.object({
   // Unlike the parser in src/lib/category-fields.ts, which is total by design,
   // this reads form input — so it is validated rather than defaulted.
   fieldRules: z.record(
-    z.enum(PRODUCT_FIELDS.map((f) => f.key) as [string, ...string[]]),
+    z.enum(CATEGORY_RULE_FIELDS.map((f) => f.key) as [string, ...string[]]),
     z.enum(FIELD_MODES as unknown as [string, ...string[]]),
   ),
 });
@@ -46,7 +46,7 @@ const schema = z.object({
  */
 function readFieldRules(formData: FormData): CategoryFieldRules {
   return Object.fromEntries(
-    PRODUCT_FIELDS.map((field) => {
+    CATEGORY_RULE_FIELDS.map((field) => {
       const raw = readString(formData, `fieldRules.${field.key}`);
       const mode = FIELD_MODES.find((m) => m === raw) ?? field.defaultMode;
       return [field.key, mode];

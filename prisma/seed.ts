@@ -188,7 +188,7 @@ type SeedCategory = {
 const CATEGORIES: SeedCategory[] = [
   {
     slug: "bean",
-    fieldRules: { weight: "required", pieces: "off", arabica: "optional", robusta: "optional", roast: "required", acidity: "required" },
+    fieldRules: { weight: "required", pieces: "off", arabica: "optional", robusta: "optional", roast: "required", acidity: "required", description: "optional" },
     messagePath: "products.categories.bean",
     products: [
       { slug: "speciale", name: "Speciale", image: "/products/speciale-main.png",  weight: "1000 гр", arabica: "65%",  robusta: "35%", roast: 3, acidity: 3 },
@@ -200,7 +200,7 @@ const CATEGORIES: SeedCategory[] = [
   },
   {
     slug: "instant",
-    fieldRules: { weight: "required", pieces: "required", arabica: "optional", robusta: "off", roast: "required", acidity: "off" },
+    fieldRules: { weight: "required", pieces: "required", arabica: "optional", robusta: "off", roast: "required", acidity: "off", description: "optional" },
     messagePath: "products.categories.instant",
     products: [
       { slug: "coffee-latte",  name: "Coffee Latte",  image: "/products/instant-1.png", weight: "18 гр", pieces: 20, arabica: "100%", robusta: null, roast: 3, acidity: 2 },
@@ -212,7 +212,7 @@ const CATEGORIES: SeedCategory[] = [
   },
   {
     slug: "freeze-dried",
-    fieldRules: { weight: "required", pieces: "off", arabica: "optional", robusta: "off", roast: "required", acidity: "required" },
+    fieldRules: { weight: "required", pieces: "off", arabica: "optional", robusta: "off", roast: "required", acidity: "required", description: "optional" },
     messagePath: "products.categories.freezeDried",
     products: [
       { slug: "gold",     name: "Gold",     image: "/products/grain-4.png",                weight: "95 гр", arabica: "100%", robusta: null, roast: 4, acidity: 3 },
@@ -224,7 +224,7 @@ const CATEGORIES: SeedCategory[] = [
   },
   {
     slug: "tea",
-    fieldRules: { weight: "required", pieces: "off", arabica: "off", robusta: "off", roast: "off", acidity: "off" },
+    fieldRules: { weight: "required", pieces: "off", arabica: "off", robusta: "off", roast: "off", acidity: "off", description: "optional" },
     messagePath: "products.categories.tea",
     products: [
       { slug: "karak", name: "Karak", image: "/products/tea-1.png", weight: "200 гр", arabica: null, robusta: null, roast: 3, acidity: 2 },

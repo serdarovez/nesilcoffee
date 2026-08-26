@@ -14,7 +14,7 @@ import {
 import type { FormState } from "@/server/form";
 import type { LocalizedField as LocalizedValue } from "@/lib/i18n-field";
 import {
-  PRODUCT_FIELDS,
+  CATEGORY_RULE_FIELDS,
   FIELD_MODES,
   FIELD_MODE_LABEL,
   DEFAULT_FIELD_RULES,
@@ -104,10 +104,10 @@ export function CategoryForm({
 /**
  * Per-category product-field rules.
  *
- * Radios rather than dropdowns: with six fields and three states the whole
- * matrix is readable at a glance, which is the point — the question an editor
- * is answering is "what does a product in this category look like", and that is
- * easier to judge as a grid than as six separate selects.
+ * Radios rather than dropdowns: with a handful of fields and three states the
+ * whole matrix is readable at a glance, which is the point — the question an
+ * editor is answering is "what does a product in this category look like", and
+ * that is easier to judge as a grid than as a column of selects.
  *
  * Switching a field to «Нет» never deletes anything. Values already stored stay
  * in the database and come back if the rule is switched on again — see
@@ -126,7 +126,7 @@ function FieldRulesCard({ rules }: { rules: CategoryFieldRules }) {
       </div>
 
       <div className="flex flex-col divide-y divide-line">
-        {PRODUCT_FIELDS.map((field) => (
+        {CATEGORY_RULE_FIELDS.map((field) => (
           <div
             key={field.key}
             className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 py-2.5 first:pt-0 last:pb-0"

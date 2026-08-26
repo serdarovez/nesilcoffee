@@ -10,7 +10,7 @@ import { saveProduct } from "@/server/actions/products";
 import { NO_IMAGE_REASON } from "@/lib/product-rules";
 import {
   DEFAULT_FIELD_RULES,
-  PRODUCT_FIELDS,
+  CATEGORY_RULE_FIELDS,
   type CategoryFieldRules,
   type ProductFieldKey,
 } from "@/lib/category-fields";
@@ -67,7 +67,9 @@ export function ProductForm({
   /** A field the current category switches off is not rendered at all. */
   const uses = (key: ProductFieldKey) => rules[key] !== "off";
   const required = (key: ProductFieldKey) => rules[key] === "required";
-  const hiddenFields = PRODUCT_FIELDS.filter((f) => rules[f.key] === "off");
+  const hiddenFields = CATEGORY_RULE_FIELDS.filter(
+    (f) => rules[f.key] === "off",
+  );
 
   const formRef = useRef<HTMLFormElement>(null);
   // A ref, not state: `requestSubmit()` below runs before a state update would
@@ -275,16 +277,26 @@ export function ProductForm({
       </Card>
 
       <Card className="flex flex-col gap-5">
-        <LocalizedField
-          name="description"
-          required={false}
-          label="Описание"
-          value={values.description ?? undefined}
-          multiline
-          rows={4}
-          errors={errors}
-          hint="Оставьте пустым — покажется общее описание из языковых файлов."
-        />
+        {/* Whether this appears at all — and whether it may be left blank — is
+         * the category's call, same as the spec fields above. `"default"` is
+         * the strictest it gets: Russian must be filled, the other four still
+         * fall back to it. */}
+        {uses("description") && (
+          <LocalizedField
+            name="description"
+            required={required("description") ? "default" : false}
+            label="Описание"
+            value={values.description ?? undefined}
+            multiline
+            rows={4}
+            errors={errors}
+            hint={
+              required("description")
+                ? "Обязательно для этой категории — напишите хотя бы русскую версию."
+                : "Оставьте пустым — покажется общее описание из языковых файлов."
+            }
+          />
+        )}
         <LocalizedField
           name="tagline"
           required={false}

@@ -25,6 +25,7 @@ import {
   writableSpecs,
   type CategoryFieldRules,
 } from "@/lib/category-fields";
+import { routing } from "@/i18n/routing";
 
 /**
  * Everything that is the same for every product.
@@ -169,12 +170,23 @@ export async function saveProduct(
   const rules = parseFieldRules(category.fieldRules);
   const specs = readSpecs(formData);
 
-  const specErrors = checkSpecs(specs, rules);
-  if (Object.keys(specErrors).length > 0) {
+  const problems = checkSpecs(specs, rules);
+  // Description is validated here rather than in the schema for the same reason
+  // the specs are: the rule lives on the category, which is not known until
+  // `categoryId` has been read. Only the default locale is demanded — the other
+  // four fall back to it at render time, so requiring all five would block a
+  // save that the site can render perfectly well.
+  if (
+    rules.description === "required" &&
+    !data.description[routing.defaultLocale]
+  ) {
+    problems[`description.${routing.defaultLocale}`] = "Заполните описание";
+  }
+  if (Object.keys(problems).length > 0) {
     return {
       ok: false,
       error: "Проверьте заполнение полей",
-      fieldErrors: specErrors,
+      fieldErrors: problems,
     };
   }
 
@@ -196,6 +208,14 @@ export async function saveProduct(
   const description = Object.keys(data.description).length ? data.description : null;
   const tagline = Object.keys(data.tagline).length ? data.tagline : null;
 
+  // A category that does not use descriptions leaves whatever is stored alone —
+  // the same non-destructive rule as `writableSpecs`, so switching the rule back
+  // on restores the old copy instead of resurrecting a blank.
+  const descriptionWrite =
+    rules.description === "off"
+      ? {}
+      : { description: description ?? Prisma.DbNull };
+
   // The invariant, applied to whatever the form submitted. The dialog in
   // ProductForm has already told the editor this is coming.
   const isActive = data.imageId ? data.isActive : false;
@@ -207,7 +227,7 @@ export async function saveProduct(
         name: data.name,
         // Prisma.DbNull writes SQL NULL; a plain `null` on a Json column means
         // the JSON value `null`, which would defeat the fallback check.
-        description: description ?? Prisma.DbNull,
+        ...descriptionWrite,
         tagline: tagline ?? Prisma.DbNull,
         slug: data.slug,
         categoryId: data.categoryId,
@@ -225,7 +245,7 @@ export async function saveProduct(
     await prisma.product.create({
       data: {
         name: data.name,
-        description: description ?? Prisma.DbNull,
+        ...descriptionWrite,
         tagline: tagline ?? Prisma.DbNull,
         slug: data.slug,
         categoryId: data.categoryId,

@@ -20,14 +20,15 @@ type Props = {
   name: string;
   label: string;
   /**
-   * Whether the schema behind this field uses `localizedRequired`. Mandatory
-   * rather than defaulted so a new call site cannot silently inherit the wrong
-   * marker — the two must agree or the form lies about what it will accept.
+   * What the schema behind this field actually demands. Mandatory rather than
+   * defaulted so a new call site cannot silently inherit the wrong marker —
+   * the two must agree or the form lies about what it will accept.
    *
-   * Note this only ever means "the default locale is required". No field in
-   * the admin requires all five languages; the other four fall back to Russian.
+   *  - `true`      — every locale must be filled (`localizedRequired`).
+   *  - `"default"` — only Russian is required; the rest fall back to it.
+   *  - `false`     — the whole field may be left blank.
    */
-  required: boolean;
+  required: boolean | "default";
   value?: LocalizedValue | null;
   multiline?: boolean;
   rows?: number;
@@ -56,6 +57,11 @@ export function LocalizedField({
   hint,
   errors,
 }: Props) {
+  // `required` carries three states; unpack it once rather than re-testing the
+  // literal at every marker below.
+  const requireAll = required === true;
+  const requireDefaultOnly = required === "default";
+
   const [active, setActive] = useState<string>(routing.defaultLocale);
   const [draft, setDraft] = useState<Record<string, string>>(() =>
     Object.fromEntries(LOCALE_ORDER.map((l) => [l, value?.[l] ?? ""])),
@@ -74,11 +80,17 @@ export function LocalizedField({
       <div className="flex flex-wrap items-center justify-between gap-2">
         <span className="text-sm font-semibold text-ink">
           {label}
-          {required ? (
+          {requireAll && (
             <span className="ml-1 text-xs font-normal text-danger">
               * все языки
             </span>
-          ) : (
+          )}
+          {requireDefaultOnly && (
+            <span className="ml-1 text-xs font-normal text-danger">
+              * русский
+            </span>
+          )}
+          {!requireAll && !requireDefaultOnly && (
             <span className="ml-1.5 text-xs font-normal text-ink-4">
               необязательно
             </span>
@@ -89,6 +101,9 @@ export function LocalizedField({
           {LOCALE_ORDER.map((locale) => {
             const filled = Boolean(draft[locale]?.trim());
             const isDefault = locale === routing.defaultLocale;
+            // Which tabs actually have to be filled: all of them, or only
+            // Russian. Everything else may stay blank and falls back.
+            const mustFill = requireAll || (requireDefaultOnly && isDefault);
             return (
               <button
                 key={locale}
@@ -97,7 +112,7 @@ export function LocalizedField({
                 aria-selected={active === locale}
                 onClick={() => setActive(locale)}
                 title={
-                  required
+                  mustFill
                     ? filled
                       ? "Заполнено"
                       : "Обязательный язык — заполните"
@@ -119,10 +134,10 @@ export function LocalizedField({
                 {LABELS[locale] ?? locale.toUpperCase()}
                 {/* Markers sit on the tab, not the label — the requirement is
                  * per language, so this is where it is actionable. */}
-                {required && !filled && (
+                {mustFill && !filled && (
                   <span className="ml-0.5 text-danger">*</span>
                 )}
-                {!required && !filled && !isDefault && (
+                {!mustFill && !filled && !isDefault && (
                   <span className="ml-1 text-ink-5">·</span>
                 )}
               </button>
@@ -142,7 +157,7 @@ export function LocalizedField({
           placeholder:
             locale === routing.defaultLocale
               ? placeholder
-              : required
+              : requireAll
                 ? "Перевод обязателен"
                 : "Оставьте пустым — покажется русская версия",
           className: cn(inputClass, fieldError && isActive && "border-danger"),
