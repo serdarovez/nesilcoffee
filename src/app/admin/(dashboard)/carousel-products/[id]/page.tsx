@@ -74,7 +74,7 @@ export default async function EditHeroSlidePage({
           productImage: mediaRef(slide.productImage),
           overlayColor: slide.overlayColor,
           overlayOpacity: slide.overlayOpacity,
-          productAlign: slide.productAlign as "left" | "center" | "right",
+          productOffset: slide.productOffset,
           isActive: slide.isActive,
         }}
         products={products}

@@ -134,7 +134,11 @@ const heroSchema = z
     .int()
     .min(0, "От 0 до 100")
     .max(100, "От 0 до 100"),
-    productAlign: z.enum(["left", "center", "right"]),
+    productOffset: z
+      .number()
+      .int()
+      .min(0, "От 0 до 100")
+      .max(100, "От 0 до 100"),
     isActive: z.boolean(),
   })
   // A slide with no linked product has nothing to inherit, so it must carry its
@@ -160,7 +164,7 @@ export async function saveHeroSlide(
     productImageId: readString(formData, "productImageId"),
     overlayColor: readString(formData, "overlayColor") ?? "",
     overlayOpacity: readInt(formData, "overlayOpacity") ?? 65,
-    productAlign: readString(formData, "productAlign") ?? "right",
+    productOffset: readInt(formData, "productOffset") ?? 100,
     isActive: readBool(formData, "isActive"),
   });
   if (!parsed.success) return fieldErrors(parsed.error);

@@ -2,7 +2,7 @@
 import Image from "next/image";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, type CSSProperties } from "react";
 import { useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { OrderModal, type OrderProduct } from "@/components/sections/OrderModal";
@@ -18,8 +18,9 @@ export type HeroSlide = {
   overlayColor: string;
   overlayOpacity: number;
   product: string | null;
-  /** Horizontal placement of the product art within its column on desktop. */
-  productAlign: "left" | "center" | "right";
+  /** 0–100: horizontal position of the product art across the right half on
+   *  desktop (0 = centre of the carousel, 100 = right edge). */
+  productOffset: number;
   title: string;
   body: string;
   cta: string | null;
@@ -150,27 +151,23 @@ export function ProductsHeroCarousel({
               />
 
               <div className="container-x relative z-10 flex h-full flex-col pb-16 pt-4 md:flex-row md:items-center md:justify-between md:gap-[clamp(24px,4vw,72px)] md:pb-0 md:pt-0">
-                {/* Product art — first (top) on mobile, right column on md+.
-                 * 42% was the per-slide default before the width became fixed;
-                 * `object-contain` keeps any pack shape inside it. */}
-                <div className="pointer-events-none relative order-first min-h-0 w-full flex-1 md:order-last md:h-[78%] md:w-[42%] md:flex-none">
+                {/* Product art — first (top) on mobile, the right half on md+.
+                 * The column is half the carousel so the per-slide offset can
+                 * range from the centre to the right edge; `object-contain`
+                 * keeps any pack shape inside it. */}
+                <div
+                  className="pointer-events-none relative order-first min-h-0 w-full flex-1 md:order-last md:h-[78%] md:w-1/2 md:flex-none"
+                  // Mobile stays centered; on desktop the object-position X is
+                  // driven by the per-slide offset via this variable.
+                  style={{ "--art-x": `${s.productOffset}%` } as CSSProperties}
+                >
                   {s.product && (
                     <Image
                       src={s.product}
                       alt={s.title}
                       fill
-                      sizes="(max-width: 767px) 85vw, 45vw"
-                      // Mobile stays centered; desktop placement is per-slide,
-                      // set in the admin. Static class strings so Tailwind emits
-                      // them.
-                      className={cn(
-                        "object-contain object-center",
-                        s.productAlign === "left"
-                          ? "md:object-left"
-                          : s.productAlign === "center"
-                            ? "md:object-center"
-                            : "md:object-right",
-                      )}
+                      sizes="(max-width: 767px) 85vw, 50vw"
+                      className="object-contain object-center md:[object-position:var(--art-x)_center]"
                     />
                   )}
                 </div>

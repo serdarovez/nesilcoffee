@@ -28,7 +28,8 @@ export type HeroSlideValues = {
   productImage?: MediaRef | null;
   overlayColor?: string;
   overlayOpacity?: number;
-  productAlign?: "left" | "center" | "right";
+  /** 0–100: horizontal position of the product image across the right half. */
+  productOffset?: number;
   isActive?: boolean;
 };
 
@@ -48,18 +49,8 @@ export function HeroSlideForm({
   const [art, setArt] = useState<MediaRef | null>(values.productImage ?? null);
   const [color, setColor] = useState(values.overlayColor ?? "#1e140f");
   const [opacity, setOpacity] = useState(values.overlayOpacity ?? 65);
-  const [align, setAlign] = useState<"left" | "center" | "right">(
-    values.productAlign ?? "right",
-  );
+  const [offset, setOffset] = useState(values.productOffset ?? 100);
   const errors = state.fieldErrors ?? {};
-
-  // Where the preview art sits, matching how the slide renders each alignment.
-  const previewArtPos =
-    align === "left"
-      ? "left-3"
-      : align === "center"
-        ? "left-1/2 -translate-x-1/2"
-        : "right-3";
 
   const product = products.find((p) => p.id === productId) ?? null;
 
@@ -209,21 +200,18 @@ export function HeroSlideForm({
         </div>
 
         <Field
-          label="Положение изображения товара"
-          hint="Как выровнять картинку товара по горизонтали на широком экране. Если товар кажется смещённым, подвиньте его."
+          label={`Положение товара по горизонтали — ${offset}%`}
+          hint="Двигает картинку товара по правой половине слайда: 0 — к центру карусели, 100 — к правому краю. Полезно, если у товара разные поля по краям."
         >
-          <select
-            name="productAlign"
-            value={align}
-            onChange={(e) =>
-              setAlign(e.target.value as "left" | "center" | "right")
-            }
-            className={inputClass}
-          >
-            <option value="left">Слева</option>
-            <option value="center">По центру</option>
-            <option value="right">Справа</option>
-          </select>
+          <input
+            name="productOffset"
+            type="range"
+            min={0}
+            max={100}
+            value={offset}
+            onChange={(e) => setOffset(Number(e.target.value))}
+            className="h-10 w-full accent-[#191919]"
+          />
         </Field>
       </Card>
 
@@ -246,12 +234,18 @@ export function HeroSlideForm({
             style={{ backgroundColor: color, opacity: opacity / 100 }}
           />
           {inheritedArt && (
-            /* eslint-disable-next-line @next/next/no-img-element */
-            <img
-              src={inheritedArt}
-              alt=""
-              className={`absolute inset-y-2 ${previewArtPos} h-[calc(100%-1rem)] object-contain`}
-            />
+            /* Product art lives in the right half of the preview; the slider
+             * moves it across that half via object-position — the same as the
+             * live slide. */
+            <div className="absolute inset-y-2 right-2 w-1/2">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={inheritedArt}
+                alt=""
+                className="h-full w-full object-contain"
+                style={{ objectPosition: `${offset}% center` }}
+              />
+            </div>
           )}
           <span className="absolute bottom-3 left-3 max-w-[60%] truncate text-sm font-semibold text-white drop-shadow">
             {inheritedTitle || "Так будет выглядеть текст"}
