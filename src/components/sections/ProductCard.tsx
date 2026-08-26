@@ -49,7 +49,7 @@ export function ProductCard({
   const [open, setOpen] = useState(false);
 
   const description = p.description ?? fallbackDescription;
-  const pack = formatPack(p, t("pieceUnit"));
+  const pack = formatPack(p, t("pieceUnit"), t("weightUnit"));
 
   const orderProduct: OrderProduct = {
     id: productId,
@@ -120,7 +120,11 @@ export function ProductCard({
          * stay aligned even when descriptions wrap to different heights. */}
         <div className="mt-auto flex flex-col gap-4 pt-1">
           <div className="flex flex-col gap-3">
-            <p className="text-sm leading-[140%] text-[#444444]">
+            {/* Exactly three lines: `line-clamp-3` truncates longer copy with an
+             * ellipsis, and the matching `min-h` reserves the full three lines
+             * even for a short description, so every card is the same height and
+             * the button rows line up across a row. */}
+            <p className="line-clamp-3 min-h-[calc(1.4em*3)] text-sm leading-[140%] text-[#444444]">
               {description}
             </p>
             {(p.roast !== null || p.acidity !== null) && (
@@ -147,7 +151,7 @@ export function ProductCard({
           <button
             type="button"
             onClick={() => setOpen(true)}
-            className="w-full rounded-lg bg-white py-3 text-sm font-medium text-[#444444] transition-colors hover:bg-[#191919] hover:text-white md:text-base"
+            className="w-full cursor-pointer rounded-lg bg-white py-3 text-sm font-medium text-[#444444] transition-colors hover:bg-[#191919] hover:text-white md:text-base"
           >
             {t("order")}
           </button>

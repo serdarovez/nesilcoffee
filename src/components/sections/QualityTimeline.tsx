@@ -180,7 +180,13 @@ export function QualityTimeline({
       <div
         ref={runwayRef}
         className="relative hidden md:block"
-        style={{ height: `${steps.length * 100}dvh` }}
+        // One screen taller than "a viewport per step": the sticky child is one
+        // `--screen-h` tall, so it eats one screen of the runway before anything
+        // pins. Without the extra screen the pinned scroll is only
+        // (steps-1) viewports and each step flicks by in ~⅔ of a screen; adding
+        // it back gives a full viewport of scroll per step — the same unhurried
+        // pace as ProductionProcess.
+        style={{ height: `calc(${steps.length * 100}dvh + var(--screen-h))` }}
       >
         {/* `--screen-h` compensates for the outer .fluid-viewport zoom, so the
          * pinned card matches the real viewport height on md+. */}

@@ -166,6 +166,7 @@
     "roast": "Roast level",
     "acidity": "Acidity",
     "pieceUnit": "pcs",
+    "weightUnit": "g",
     "cardDescription": "A balanced coffee with soft flavor, creamy texture and a light sweetness — perfect for everyday use",
     "orderModal": {
       "title": "Place order",

@@ -1,6 +1,8 @@
 import "server-only";
+import { getTranslations } from "next-intl/server";
 import { pick } from "@/lib/i18n-field";
 import { parseFieldRules, applyFieldRules } from "@/lib/category-fields";
+import { formatPack } from "@/lib/product-rules";
 import {
   getTeamMembers,
   getCertificates,
@@ -126,7 +128,12 @@ export async function heroSlidesView(
   locale: string,
   fallbackBody = "",
 ): Promise<HeroSlide[]> {
-  const slides = await getHeroSlides();
+  const [slides, t] = await Promise.all([
+    getHeroSlides(),
+    getTranslations({ locale, namespace: "products" }),
+  ]);
+  const pieceUnit = t("pieceUnit");
+  const gramUnit = t("weightUnit");
   return slides.map((s) => {
     const product = s.product;
 
@@ -157,7 +164,20 @@ export async function heroSlidesView(
             name: pick(product.name, locale),
             image: s.productImage?.path ?? product.image?.path ?? null,
             category: pick(product.category.name, locale),
-            weight: product.weight,
+            // Composed like the catalog card so the order dialog reads
+            // "20 шт × 20 г", with the gram unit localized and fields the
+            // category switches off left out.
+            weight: (() => {
+              const spec = applyFieldRules(
+                parseFieldRules(product.category.fieldRules),
+                product,
+              );
+              return formatPack(
+                { weight: spec.weight, pieces: spec.pieces },
+                pieceUnit,
+                gramUnit,
+              );
+            })(),
             description:
               (product.description ? pick(product.description, locale) : "") ||
               fallbackBody,

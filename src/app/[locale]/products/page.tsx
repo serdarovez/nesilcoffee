@@ -102,6 +102,9 @@ export default async function ProductsPage({
       {/* Anchor kept for any in-page links to the catalog. */}
       <div id="catalog" />
 
+      {/* Bottom padding sets the catalog apart from the production section that
+       * follows — without it the last card row butts straight into it. */}
+      <div className="pb-16 md:pb-24">
       {categories
         .filter((c) => c.products.length > 0)
         .map((category) => {
@@ -137,6 +140,7 @@ export default async function ProductsPage({
           />
           );
         })}
+      </div>
 
       <ProductionProcess />
       <Certificates items={certificates} />

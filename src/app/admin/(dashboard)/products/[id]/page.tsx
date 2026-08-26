@@ -55,6 +55,7 @@ export default async function EditProductPage({
           slug: product.slug,
           categoryId: product.categoryId,
           weight: product.weight,
+          pieces: product.pieces,
           arabica: product.arabica,
           robusta: product.robusta,
           roast: product.roast,

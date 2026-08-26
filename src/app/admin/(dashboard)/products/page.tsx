@@ -7,9 +7,11 @@ import { PageShell, PageHeader, EmptyState } from "@/components/admin/ui";
 import { ProductsManager, type ProductRow } from "@/components/admin/ProductsManager";
 import {
   parseFieldRules,
+  applyFieldRules,
   missingRequired,
   fieldLabel,
 } from "@/lib/category-fields";
+import { formatWeight } from "@/lib/product-rules";
 
 export const metadata: Metadata = { title: "Продукция" };
 
@@ -88,10 +90,14 @@ export default async function ProductsPage({
                 // Recomputed per render, not stored: a category rule change
                 // must show up immediately without rewriting every row.
                 const missing = missingRequired(rules, product);
+                // Blank out fields the category switches off, exactly as the
+                // site does, so a stored roast on a tea is not listed here when
+                // that category doesn't use roast.
+                const spec = applyFieldRules(rules, product);
                 const specLine = [
-                  product.weight,
-                  product.arabica ? `${product.arabica} арабика` : null,
-                  product.roast !== null ? `обжарка ${product.roast}/5` : null,
+                  spec.weight ? formatWeight(spec.weight, "г") : null,
+                  spec.arabica ? `${spec.arabica} арабика` : null,
+                  spec.roast !== null ? `обжарка ${spec.roast}/5` : null,
                 ]
                   .filter(Boolean)
                   .join(" · ");
