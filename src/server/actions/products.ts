@@ -124,6 +124,40 @@ function checkSpecs(
  * `"use server"` file cannot export a constant.
  */
 
+/**
+ * A free address based on `base`, appending `-2`, `-3`, … until one is unused.
+ *
+ * Two products may legitimately share a name — the same blend in two pack
+ * sizes, a tea sold as sticks and as loose leaf — and when the editor leaves
+ * the address field blank the address is a detail they never asked about. So
+ * it is made unique rather than refused. An address they *typed* still clashes
+ * loudly, because that one was an explicit choice.
+ *
+ * Soft-deleted products are deliberately counted: their rows keep the slug and
+ * the column is `@unique`, so a trashed "karak" still occupies that address.
+ */
+async function freeProductSlug(
+  base: string,
+  excludeId: string | null,
+): Promise<string> {
+  const taken = await prisma.product.findMany({
+    where: {
+      slug: { startsWith: base },
+      ...(excludeId ? { NOT: { id: excludeId } } : {}),
+    },
+    select: { slug: true },
+  });
+
+  const used = new Set(taken.map((p) => p.slug));
+  if (!used.has(base)) return base;
+
+  // Terminates: `used` is finite and every candidate tried is distinct.
+  for (let n = 2; ; n++) {
+    const candidate = `${base}-${n}`;
+    if (!used.has(candidate)) return candidate;
+  }
+}
+
 function refresh() {
   revalidateContent(TAGS.products);
   // Both carousels read product name, roast and acidity live, so editing a
@@ -146,7 +180,12 @@ export async function saveProduct(
     name,
     description: readLocalized(formData, "description"),
     tagline: readLocalized(formData, "tagline"),
-    slug: rawSlug ? slugify(rawSlug) : slugify(name.ru ?? ""),
+    // The form no longer asks for an address, so this is normally derived from
+    // the name. `|| "tovar"` covers a name that transliterates to nothing (a
+    // script `slugify` has no mapping for): with no field on screen to correct
+    // it, a rejected save would be unrecoverable. `rawSlug` is still honoured
+    // because a Server Action is reachable by direct POST.
+    slug: (rawSlug ? slugify(rawSlug) : slugify(name.ru ?? "")) || "tovar",
     categoryId: readString(formData, "categoryId") ?? "",
     imageId: readString(formData, "imageId"),
     isActive: readBool(formData, "isActive"),
@@ -155,11 +194,32 @@ export async function saveProduct(
 
   const data = parsed.data;
 
-  const clash = await prisma.product.findFirst({
-    where: { slug: data.slug, ...(id ? { NOT: { id } } : {}) },
-    select: { id: true },
-  });
-  if (clash) return formError("Товар с таким адресом уже существует");
+  // Resolving the address, in three cases:
+  //
+  //  - typed explicitly (only reachable by direct POST now) — the editor's own
+  //    choice, so it still has to be free rather than silently moved;
+  //  - editing — keep whatever the product already has. Stored slugs do not
+  //    always match the current name (`Классический КАРАК ЧАЙ` is `karak`), so
+  //    re-deriving would churn the address every time someone fixes a typo;
+  //  - creating — derive from the name and make it unique, which is what lets
+  //    two products share a name.
+  let slug: string;
+  if (rawSlug) {
+    slug = data.slug;
+    const clash = await prisma.product.findFirst({
+      where: { slug, ...(id ? { NOT: { id } } : {}) },
+      select: { id: true },
+    });
+    if (clash) return formError("Товар с таким адресом уже существует");
+  } else if (id) {
+    const existing = await prisma.product.findUnique({
+      where: { id },
+      select: { slug: true },
+    });
+    slug = existing?.slug ?? (await freeProductSlug(data.slug, id));
+  } else {
+    slug = await freeProductSlug(data.slug, null);
+  }
 
   const category = await prisma.category.findFirst({
     where: { id: data.categoryId, deletedAt: null },
@@ -229,7 +289,7 @@ export async function saveProduct(
         // the JSON value `null`, which would defeat the fallback check.
         ...descriptionWrite,
         tagline: tagline ?? Prisma.DbNull,
-        slug: data.slug,
+        slug,
         categoryId: data.categoryId,
         ...specWrite,
         imageId: data.imageId,
@@ -247,7 +307,7 @@ export async function saveProduct(
         name: data.name,
         ...descriptionWrite,
         tagline: tagline ?? Prisma.DbNull,
-        slug: data.slug,
+        slug,
         categoryId: data.categoryId,
         // `weight` is NOT NULL, so a category that switches it off still needs
         // a value written on create; the card omits an empty badge.

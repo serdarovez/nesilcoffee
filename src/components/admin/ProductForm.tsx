@@ -120,43 +120,28 @@ export function ProductForm({
           hint="Для фирменных названий обычно достаточно одной русской версии — она покажется во всех языках."
         />
 
-        <div className="grid gap-4 sm:grid-cols-2">
-          <Field
-            label="Категория"
+        {/* No address field: nothing on the site routes by product slug — the
+         * catalog is one page and the admin edits by id — so it is derived
+         * from the name on save and made unique automatically. Two products
+         * may share a name, which is the whole point of not asking. */}
+        <Field label="Категория" required error={errors.categoryId}>
+          <select
+            name="categoryId"
+            value={categoryId}
+            onChange={(e) => setCategoryId(e.target.value)}
+            className={inputClass}
             required
-            error={errors.categoryId}
           >
-            <select
-              name="categoryId"
-              value={categoryId}
-              onChange={(e) => setCategoryId(e.target.value)}
-              className={inputClass}
-              required
-            >
-              <option value="" disabled>
-                Выберите категорию
+            <option value="" disabled>
+              Выберите категорию
+            </option>
+            {categories.map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.label}
               </option>
-              {categories.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.label}
-                </option>
-              ))}
-            </select>
-          </Field>
-
-          <Field
-            label="Адрес (slug)"
-            error={errors.slug}
-            hint="Оставьте пустым — создастся из названия"
-          >
-            <input
-              name="slug"
-              defaultValue={values.slug ?? ""}
-              placeholder="intenso"
-              className={inputClass}
-            />
-          </Field>
-        </div>
+            ))}
+          </select>
+        </Field>
       </Card>
 
       <Card className="flex flex-col gap-5">
