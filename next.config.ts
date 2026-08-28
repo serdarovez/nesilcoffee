@@ -4,6 +4,16 @@ import createNextIntlPlugin from "next-intl/plugin";
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 const nextConfig: NextConfig = {
+  // Source maps are the build's biggest avoidable memory cost, and this app is
+  // released by building ON the 2 GB production box — where the prerender phase
+  // (five locales' worth of static pages) once exhausted RAM and swap and froze
+  // the machine hard enough to need a power-cycle. Nothing consumes server
+  // source maps here: errors are read through `journalctl`, against code that
+  // is on disk beside the build. Defaults are `enablePrerenderSourceMaps: true`
+  // and browser maps already off, so this line is what actually changes.
+  // See node_modules/next/dist/docs/01-app/02-guides/memory-usage.md.
+  enablePrerenderSourceMaps: false,
+
   experimental: {
     // Enables app/global-not-found.tsx. Needed because this app has no single
     // composable root layout: `[locale]/layout.tsx` and `admin/layout.tsx` each
@@ -12,6 +22,9 @@ const nextConfig: NextConfig = {
     // renders the built-in 404 inside that pass-through and throws
     // "Missing <html> and <body> tags in the root layout".
     globalNotFound: true,
+
+    // Same reason as `enablePrerenderSourceMaps` above.
+    serverSourceMaps: false,
   },
 
   async redirects() {

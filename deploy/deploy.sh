@@ -88,7 +88,42 @@ log "Build"
 # (2 GB) box — with a swap file as backstop, it completes instead of OOM-ing.
 # Raise this if the server has more RAM. `${NODE_OPTIONS:-}` lets an outer
 # override win.
+#
+# The cap alone proved not to be enough. A build that overruns RAM *and* swap
+# does not fail cleanly: the kernel thrashes, the box stops answering sshd and
+# nginx, and recovery needs a power-cycle from the hosting panel. Two guards
+# below make that unreachable.
+
+# Guard 1 — stop the app for the build. It is the largest reclaimable block of
+# memory on the box, and it is serving a site nobody can reach mid-release
+# anyway. The trap puts it back even if the build fails or is interrupted, so a
+# broken build can never leave the site down.
+restore_app() { sudo systemctl start nesilcoffee >/dev/null 2>&1 || true; }
+trap restore_app EXIT INT TERM
+sudo systemctl stop nesilcoffee || true
+sleep 2
+
+# Guard 2 — refuse to start without headroom, instead of discovering it by
+# freezing. Values are MiB of *available* RAM (free + reclaimable cache) plus
+# free swap; the build has completed in ~1.4 GiB of that combined budget.
+avail_mb=$(free -m | awk '/^Mem:/ {print $7}')
+swap_mb=$(free -m | awk '/^Swap:/ {print $4}')
+budget_mb=$((avail_mb + swap_mb))
+echo "  available RAM ${avail_mb}M + free swap ${swap_mb}M = ${budget_mb}M budget"
+
+if [ "$swap_mb" -lt 512 ]; then
+  echo "  WARNING: little or no swap — a spike has nowhere to go."
+fi
+if [ "$budget_mb" -lt 1800 ]; then
+  echo
+  echo "  ABORTED: need ~1800M of RAM+swap to build safely, found ${budget_mb}M."
+  echo "  Nothing was changed and the app is being restarted."
+  echo "  Free some memory (or add swap) and re-run this script."
+  exit 1
+fi
+
 NODE_OPTIONS="${NODE_OPTIONS:---max-old-space-size=1536}" npm run build
+echo "  peak-safe: build finished with $(free -m | awk '/^Mem:/ {print $7}')M RAM still available"
 
 # --------------------------------------------------------------------------
 log "Restart"
@@ -100,6 +135,8 @@ systemctl is-active --quiet nesilcoffee || {
   journalctl -u nesilcoffee -n 40 --no-pager
   exit 1
 }
+# The app is up by its own doing now, so the build-time safety net can go.
+trap - EXIT INT TERM
 
 # --------------------------------------------------------------------------
 log "Health check"
