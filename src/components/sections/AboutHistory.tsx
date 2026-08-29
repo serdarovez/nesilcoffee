@@ -135,8 +135,17 @@ export function AboutHistory() {
                     className="object-cover"
                   />
                 </div>
+                {/* Copy sits on the image's baseline. Safe even for the Идея
+                  * card's three paragraphs: the track is sized by its tallest
+                  * card, so the longest copy defines the column and bottom
+                  * alignment is a no-op for it, while the short cards keep the
+                  * intended alignment instead of floating at the top over half
+                  * a screen of blank space.
+                  *
+                  * `whitespace-pre-line` renders the blank lines between
+                  * paragraphs; without it the three paragraphs ran together. */}
                 <div className="flex min-w-0 flex-1 flex-col justify-end md:pb-4">
-                  <p className="body-md text-ink">
+                  <p className="body-md whitespace-pre-line text-ink">
                     {t(`cards.${card.key}.body`)}
                   </p>
                 </div>
