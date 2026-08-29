@@ -62,7 +62,13 @@ export function LanguageSwitcher() {
   const pathname = usePathname();
 
   const change = (next: Locale) => {
-    router.replace(pathname, { locale: next });
+    // `scroll: false` — reading the same page in another language is not
+    // arriving at a new page, so the reader keeps their place instead of being
+    // thrown back to the top. Stated explicitly because Next's default is to
+    // scroll, which raced Lenis (it restores its own offset on the next frame)
+    // and made the outcome depend on timing. SmoothScroll's reset keys on the
+    // locale-stripped pathname, so it deliberately does not fire here either.
+    router.replace(pathname, { locale: next, scroll: false });
   };
 
   return (

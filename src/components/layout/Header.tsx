@@ -40,8 +40,14 @@ export function Header() {
   return (
     <>
       {/* The hairline is a shadow, not a border, so the header occupies
-       * exactly `--site-header-h` and `--hero-h` lands on the fold. */}
-      <header className="sticky top-0 z-40 w-full bg-white/50 shadow-[0_1px_0_var(--color-line)] backdrop-blur-[20px]">
+       * exactly `--site-header-h` and `--hero-h` lands on the fold.
+       *
+       * No backdrop-blur. This bar is sticky and spans the viewport, so a
+       * backdrop filter made Chrome re-sample and re-blur everything behind it
+       * on every scroll frame — on every page, which is what made scrolling
+       * feel heavy. An opaque white reads almost identically over the pale
+       * page and costs nothing to composite. */}
+      <header className="sticky top-0 z-40 w-full bg-white/90 shadow-[0_1px_0_var(--color-line)]">
         {/* Same container as every section, so the logo's left edge sits
          * on the site gutter. The nav used to be pushed off the logo by a
          * fixed 436px gap (`md:gap-109`), which only centred it at the
