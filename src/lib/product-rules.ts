@@ -17,6 +17,23 @@ export const NO_IMAGE_REASON =
   "Без фотографии товар нельзя показать на сайте — загрузите изображение";
 
 /**
+ * A blend percentage worth printing, or null.
+ *
+ * "0%" is a real stored value: an editor describing a single-origin as
+ * "100% arabica, 0% robusta" is stating an absence, not a component. Printed
+ * literally it produced "100% арабика · 0% робуста" on the carousel and a
+ * "0% — робуста" chip on the card. Anything that parses to zero is therefore
+ * treated as absent, while a value that does not parse at all is kept exactly
+ * as typed rather than silently dropped.
+ */
+export function blendShare(value: string | null | undefined): string | null {
+  const trimmed = value?.trim();
+  if (!trimmed) return null;
+  const n = Number.parseFloat(trimmed.replace(",", "."));
+  return Number.isFinite(n) && n === 0 ? null : trimmed;
+}
+
+/**
  * A gram weight the editor typed as a bare number ("20") or with a Russian
  * gram suffix ("200 гр", "18 г"). Anything else — a litre, a kilo, an unknown
  * unit — is left exactly as typed.

@@ -6,7 +6,7 @@ import {
   applyFieldRules,
   usesDescription,
 } from "@/lib/category-fields";
-import { formatPack } from "@/lib/product-rules";
+import { blendShare, formatPack } from "@/lib/product-rules";
 import {
   getTeamMembers,
   getCertificates,
@@ -112,9 +112,11 @@ export async function homeSlidesView(locale: string): Promise<Slide[]> {
     // Composed from the product's real blend instead, and left null when the
     // category has no blend to state (a tea), so the badge is simply absent
     // rather than wrong.
+    const arabica = blendShare(spec.arabica);
+    const robusta = blendShare(spec.robusta);
     const blend = [
-      spec.arabica ? `${spec.arabica} ${arabicaWord}` : null,
-      spec.robusta ? `${spec.robusta} ${robustaWord}` : null,
+      arabica ? `${arabica} ${arabicaWord}` : null,
+      robusta ? `${robusta} ${robustaWord}` : null,
     ]
       .filter(Boolean)
       .join(" · ");

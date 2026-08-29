@@ -19,6 +19,7 @@ import {
   applyFieldRules,
   usesDescription,
 } from "@/lib/category-fields";
+import { blendShare } from "@/lib/product-rules";
 
 export async function generateMetadata({
   params,
@@ -130,9 +131,10 @@ export default async function ProductsPage({
                 image: p.image?.path ?? null,
                 weight: spec.weight,
                 pieces: spec.pieces,
-                // The card treats "—" as "do not render this chip".
-                arabica: spec.arabica ?? "—",
-                robusta: spec.robusta ?? "—",
+                // The card treats "—" as "do not render this chip", which is
+                // also what a stored "0%" should mean — see blendShare().
+                arabica: blendShare(spec.arabica) ?? "—",
+                robusta: blendShare(spec.robusta) ?? "—",
                 roast: spec.roast,
                 acidity: spec.acidity,
                 // A category that switches descriptions off falls back to the
