@@ -81,6 +81,20 @@ npm run geoip:fetch || echo "  geoip:fetch failed — detection falls back to Ac
 # --------------------------------------------------------------------------
 log "Build"
 # --------------------------------------------------------------------------
+# Drop the data cache first. Every public read goes through `unstable_cache`
+# (src/server/queries.ts) with no `revalidate`, so entries live until a
+# matching `revalidateTag`. Those entries are persisted to
+# .next/cache/fetch-cache and SURVIVE a rebuild — which means a release
+# prerenders whatever the database held when the cache was last written, not
+# what it holds now. That is not theoretical: a deploy republished the team
+# section as it looked three days earlier, silently undoing four members an
+# editor had added in the admin since.
+#
+# Only the data cache goes. The Turbopack compile cache sits beside it and is
+# worth ~100 MB of build speed, so it stays.
+rm -rf "$REPO_DIR/.next/cache/fetch-cache"
+echo "  dropped .next/cache/fetch-cache so the build reads the live database"
+
 # NEXT_PUBLIC_SITE_URL is inlined at build time, which is why .env is sourced
 # above rather than left to the systemd unit alone.
 #
