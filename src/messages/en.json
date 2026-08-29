@@ -67,6 +67,8 @@
     },
     "certificates": {
       "title": "Certificates",
+      "close": "Close",
+      "view": "View full screen",
       "items": {
         "iso": {
           "name": "ISO 9001:2015 and ISO 22000:2018",
@@ -165,6 +167,8 @@
     "order": "Order",
     "roast": "Roast level",
     "acidity": "Acidity",
+    "arabica": "arabica",
+    "robusta": "robusta",
     "pieceUnit": "pcs",
     "weightUnit": "g",
     "cardDescription": "A balanced coffee with soft flavor, creamy texture and a light sweetness — perfect for everyday use",

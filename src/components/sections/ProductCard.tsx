@@ -103,14 +103,16 @@ export function ProductCard({
 
         {(p.arabica !== "—" || p.robusta !== "—") && (
           <div className="flex flex-wrap gap-2">
+            {/* The bean words were hardcoded Russian, so an English or Turkmen
+              * visitor read "100% — арабика" next to translated copy. */}
             {p.arabica !== "—" && (
               <span className="inline-flex items-center rounded-md bg-white px-2 py-1 text-xs font-bold text-[#444444] md:rounded-lg">
-                {p.arabica} — арабика
+                {p.arabica} — {t("arabica")}
               </span>
             )}
             {p.robusta !== "—" && (
               <span className="inline-flex items-center rounded-md bg-white px-2 py-1 text-xs font-bold text-[#444444] md:rounded-lg">
-                {p.robusta} — робуста
+                {p.robusta} — {t("robusta")}
               </span>
             )}
           </div>

@@ -67,6 +67,8 @@
     },
     "certificates": {
       "title": "Sertifikatlar",
+      "close": "Bağla",
+      "view": "Tam ekranda aç",
       "items": {
         "iso": {
           "name": "ISO 9001:2015 və ISO 22000:2018",
@@ -165,6 +167,8 @@
     "order": "Sifariş et",
     "roast": "Qovurma dərəcəsi",
     "acidity": "Turşuluq",
+    "arabica": "ərəbika",
+    "robusta": "robusta",
     "pieceUnit": "əd.",
     "weightUnit": "q",
     "cardDescription": "Yumşaq dadlı, kremli teksturalı və yüngül şirinlikli tarazlaşdırılmış qəhvə — gündəlik istifadə üçün uyğundur",

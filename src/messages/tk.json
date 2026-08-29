@@ -67,6 +67,8 @@
     },
     "certificates": {
       "title": "Sertifikatlar",
+      "close": "Ýapmak",
+      "view": "Doly ekranda açmak",
       "items": {
         "iso": {
           "name": "ISO 9001:2015 we ISO 22000:2018",
@@ -165,6 +167,8 @@
     "order": "Sargyt etmek",
     "roast": "Gowurma derejesi",
     "acidity": "Turşulyk",
+    "arabica": "arabika",
+    "robusta": "robusta",
     "pieceUnit": "sany",
     "weightUnit": "g",
     "cardDescription": "Ýumşak tagamly, gaýmak dokumaly we ýeňil süýjülikli sazlaşykly kofe — her günki ulanyş üçin laýyk",

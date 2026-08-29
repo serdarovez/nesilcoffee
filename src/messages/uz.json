@@ -67,6 +67,8 @@
     },
     "certificates": {
       "title": "Sertifikatlar",
+      "close": "Yopish",
+      "view": "To'liq ekranda ochish",
       "items": {
         "iso": {
           "name": "ISO 9001:2015 va ISO 22000:2018",
@@ -165,6 +167,8 @@
     "order": "Buyurtma berish",
     "roast": "Qovurish darajasi",
     "acidity": "Kislotalilik",
+    "arabica": "arabika",
+    "robusta": "robusta",
     "pieceUnit": "dona",
     "weightUnit": "g",
     "cardDescription": "Yumshoq ta'mli, qaymoqli teksturali va yengil shirinlikka ega muvozanatli qahva — kundalik foydalanish uchun mos",

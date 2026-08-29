@@ -95,10 +95,30 @@ export async function expertsView(
 }
 
 export async function homeSlidesView(locale: string): Promise<Slide[]> {
-  const slides = await getHomeSlides();
+  const [slides, t] = await Promise.all([
+    getHomeSlides(),
+    getTranslations({ locale, namespace: "products" }),
+  ]);
+  const arabicaWord = t("arabica");
+  const robustaWord = t("robusta");
+
   return slides.map((s) => {
     const rules = parseFieldRules(s.product.category.fieldRules);
     const spec = applyFieldRules(rules, s.product);
+
+    // The badge above the product name. It used to fall back to a single
+    // shared message, so every slide claimed "100% арабика" — including
+    // Intenso, whose own copy underneath reads "65% арабики и 35% робусты".
+    // Composed from the product's real blend instead, and left null when the
+    // category has no blend to state (a tea), so the badge is simply absent
+    // rather than wrong.
+    const blend = [
+      spec.arabica ? `${spec.arabica} ${arabicaWord}` : null,
+      spec.robusta ? `${spec.robusta} ${robustaWord}` : null,
+    ]
+      .filter(Boolean)
+      .join(" · ");
+
     return {
     id: s.id,
     name: pick(s.product.name, locale),
@@ -113,7 +133,11 @@ export async function homeSlidesView(locale: string): Promise<Slide[]> {
       usesDescription(rules) && s.product.description
         ? pick(s.product.description, locale) || null
         : null,
-    tagline: s.product.tagline ? pick(s.product.tagline, locale) || null : null,
+    // An editor-written tagline still wins; the blend is the fallback.
+    tagline:
+      (s.product.tagline ? pick(s.product.tagline, locale) || null : null) ||
+      blend ||
+      null,
     blurDataUrl: s.imageOverride?.blurDataUrl ?? s.product.image?.blurDataUrl ?? null,
     };
   });

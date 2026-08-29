@@ -159,8 +159,14 @@ function StageCard({
       </div>
 
       {/* Image column — dominant right side, fills the sticky viewport
-       * height so the composition feels editorial rather than card-y. */}
-      <div className="relative aspect-[4/3] w-full min-h-0 overflow-hidden rounded-2xl bg-paper-warm md:aspect-auto md:h-full md:flex-1 md:rounded-3xl">
+       * height so the composition feels editorial rather than card-y.
+       *
+       * `flex-1` on mobile too, rather than a baked 4/3 box: the card is
+       * pinned to a full screen, so a fixed ratio left whatever height the
+       * copy did not use as dead space under the photo — a big empty gap
+       * before the next section. Letting the image absorb the slack removes
+       * the gap and makes the photo as large as the screen allows. */}
+      <div className="relative min-h-0 w-full flex-1 overflow-hidden rounded-2xl bg-paper-warm md:h-full md:rounded-3xl">
         <BlurImage
           src={image}
           alt=""

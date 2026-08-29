@@ -240,9 +240,14 @@ function MobileSlide({
       </div>
       <div className="flex w-full shrink-0 flex-col gap-2">
         <div className="flex flex-col gap-1">
-          <span className="eyebrow inline-flex w-fit items-center rounded-md bg-paper px-1.5 py-0.5 text-ink-2">
-            {slide.tagline ?? t("tagline")}
-          </span>
+          {/* Only rendered when the product actually has a blend or its own
+            * tagline — the old `?? t("tagline")` fallback printed a shared
+            * "100% арабика" over every slide, contradicting the copy below. */}
+          {slide.tagline && (
+            <span className="eyebrow inline-flex w-fit items-center rounded-md bg-paper px-1.5 py-0.5 text-ink-2">
+              {slide.tagline}
+            </span>
+          )}
           <h3 className="display-2 text-ink">
             {slide.name}
           </h3>
@@ -287,9 +292,11 @@ function SlideCard({ slide }: { slide: Slide }) {
       <div className="relative grid h-full grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] items-center gap-[clamp(24px,4vw,80px)] px-[clamp(40px,7vw,160px)]">
         {/* Text col */}
         <div className="flex min-w-0 flex-col gap-[clamp(10px,1.8dvh,18px)] pt-[clamp(24px,4dvh,60px)]">
-          <span className="eyebrow inline-flex w-fit items-center rounded-lg bg-paper-alt px-1 py-[3px] text-ink-2">
-            {slide.tagline ?? t("tagline")}
-          </span>
+          {slide.tagline && (
+            <span className="eyebrow inline-flex w-fit items-center rounded-lg bg-paper-alt px-1 py-[3px] text-ink-2">
+              {slide.tagline}
+            </span>
+          )}
           <h3 className="display-1 text-ink">
             {slide.name}
           </h3>
