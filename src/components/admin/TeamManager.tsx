@@ -39,9 +39,18 @@ export function TeamManager({ members }: { members: TeamRow[] }) {
         if (!m) return null;
         return (
           <div className="flex items-center gap-3 pr-1">
+            {/* object-top on the avatar: the uploads are 2:3 portraits, and a
+              * centred crop into this 44px circle lands on the chest rather
+              * than the face — which is the one thing this row is for. */}
             <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-full bg-paper-alt">
               {m.avatarPath && (
-                <Image src={m.avatarPath} alt="" fill sizes="44px" className="object-cover" />
+                <Image
+                  src={m.avatarPath}
+                  alt=""
+                  fill
+                  sizes="44px"
+                  className="object-cover object-top"
+                />
               )}
             </div>
             <div className="flex min-w-0 flex-1 flex-col gap-0.5">

@@ -193,7 +193,14 @@ function Experts({
                     alt={expert.name}
                     fill
                     sizes="(max-width: 768px) 96px, 13vw"
-                    className="object-cover"
+                    /* `object-top`, not the default centre. These are 2:3
+                     * portraits in a square slot, so a centred crop discards a
+                     * third of the height split evenly top and bottom — which
+                     * sliced the top off both experts' heads while keeping desk
+                     * and torso. Anchoring to the top keeps the face whole with
+                     * natural headroom and trims from the bottom instead. Same
+                     * reasoning as the team avatars. */
+                    className="object-cover object-top"
                     {...(expert.blurDataUrl
                       ? {
                           placeholder: "blur" as const,
