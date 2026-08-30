@@ -190,7 +190,8 @@ export function TeamForm({
           label="Фотография"
           value={avatar}
           onChange={setAvatar}
-          hint="Квадратная фотография — карточка обрезает её до квадрата."
+          cropAspect={1}
+          hint="После выбора файла можно подвинуть и приблизить фото — на сайте покажется ровно то, что попало в рамку."
         />
         <LocalizedField
           name="name"

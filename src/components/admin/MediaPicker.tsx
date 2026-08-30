@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { X, Upload, ImageIcon, Loader2, Check, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ImageCropper } from "./ImageCropper";
 
 export type MediaRef = {
   id: string;
@@ -24,6 +25,16 @@ type Props = {
   /** Shown under the field — e.g. the aspect ratio the design expects. */
   hint?: string;
   required?: boolean;
+  /**
+   * Set this where the slot renders a fixed shape, and a newly chosen file
+   * goes through the crop step before uploading. 1 is a square.
+   *
+   * Only worth it where the image is `object-cover`'d into a set frame —
+   * portraits in the team and expert cards. The product packs and hero art are
+   * transparent PNGs shown whole with `object-contain`, and cropping those
+   * would cut the packaging.
+   */
+  cropAspect?: number;
 };
 
 function formatBytes(bytes?: number | null): string {
@@ -33,7 +44,14 @@ function formatBytes(bytes?: number | null): string {
   return `${(bytes / 1024 / 1024).toFixed(1)} МБ`;
 }
 
-export function MediaPicker({ value, onChange, label, hint, required }: Props) {
+export function MediaPicker({
+  value,
+  onChange,
+  label,
+  hint,
+  required,
+  cropAspect,
+}: Props) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -109,6 +127,7 @@ export function MediaPicker({ value, onChange, label, hint, required }: Props) {
             setOpen(false);
           }}
           selectedId={value?.id}
+          cropAspect={cropAspect}
         />
       )}
     </div>
@@ -119,16 +138,20 @@ function MediaDialog({
   onClose,
   onPick,
   selectedId,
+  cropAspect,
 }: {
   onClose: () => void;
   onPick: (media: MediaRef) => void;
   selectedId?: string;
+  cropAspect?: number;
 }) {
   const [items, setItems] = useState<MediaRef[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [dragging, setDragging] = useState(false);
+  // A file chosen but not yet uploaded, waiting on the crop step.
+  const [pendingCrop, setPendingCrop] = useState<File | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   // No synchronous setState in the effect body: `loading` already starts true,
@@ -185,7 +208,25 @@ function MediaDialog({
     [onPick],
   );
 
+  /**
+   * A file chosen from disk. Where the slot has a fixed shape it goes through
+   * the crop step first; the upload then receives the cropped file and knows
+   * nothing about any of this.
+   *
+   * Only new files are cropped. Picking an existing image from the gallery
+   * below uses it as stored — it may already be in use elsewhere, so silently
+   * re-cropping it would change those other places too.
+   */
+  const accept = useCallback(
+    (file: File) => {
+      if (cropAspect) setPendingCrop(file);
+      else void upload(file);
+    },
+    [cropAspect, upload],
+  );
+
   return (
+    <>
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
       onClick={onClose}
@@ -235,7 +276,7 @@ function MediaDialog({
               e.preventDefault();
               setDragging(false);
               const file = e.dataTransfer.files?.[0];
-              if (file) void upload(file);
+              if (file) accept(file);
             }}
             onClick={() => inputRef.current?.click()}
             className={cn(
@@ -268,7 +309,7 @@ function MediaDialog({
               className="hidden"
               onChange={(e) => {
                 const file = e.target.files?.[0];
-                if (file) void upload(file);
+                if (file) accept(file);
                 e.target.value = "";
               }}
             />
@@ -329,5 +370,24 @@ function MediaDialog({
         </div>
       </div>
     </div>
+
+    {/* A sibling of the backdrop, not a child: nested inside, a click on the
+      * cropper's own backdrop would bubble to `onClose` and shut the picker
+      * behind it as well, losing the file the editor just chose. */}
+    {pendingCrop && cropAspect && (
+      <ImageCropper
+        /* A different file gets a different instance, so the cropper starts
+         * from a clean zoom and position instead of resetting itself. */
+        key={`${pendingCrop.name}-${pendingCrop.size}-${pendingCrop.lastModified}`}
+        file={pendingCrop}
+        aspect={cropAspect}
+        onCancel={() => setPendingCrop(null)}
+        onCropped={(cropped) => {
+          setPendingCrop(null);
+          void upload(cropped);
+        }}
+      />
+    )}
+    </>
   );
 }
