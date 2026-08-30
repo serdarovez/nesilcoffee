@@ -2,7 +2,7 @@
   "meta": {
     "siteName": "NesilCoffee",
     "defaultTitle": "NesilCoffee — Gowurma, tagam we hil gözegçiligi",
-    "defaultDescription": "Nesilcoffee — premium synply kofe önümçiligi. Her tapgyrda hil gözegçiligi bilen gowurma. B2B lomaý üpjünçilik."
+    "defaultDescription": "NesilCoffee — ýokary hilli kofe önümçiligi. Her tapgyrda gowurma we hil gözegçiligi. B2B görnüşinde lomaý üpjünçilik."
   },
   "nav": {
     "home": "Baş sahypa",
@@ -14,69 +14,69 @@
     "viewProducts": "Önümleri görmek",
     "send": "Ibermek",
     "learnMore": "Giňişleýin",
-    "backToTop": "Ýokaryk"
+    "backToTop": "Ýokary"
   },
   "home": {
     "hero": {
       "title": "Gowurma, tagam <a>we</a> hil gözegçiligi <a>her tapgyrda</a>",
-      "subtitle": "Ýylgyryş, lezzet we gujur — bularyň hemmesini biziň kofemiziň bir käsesinde taparsyňyz"
+      "subtitle": "Ýylgyryş, lezzet we kuwwat — bularyň ählisini kofemiziň bir käsesinde taparsyňyz"
     },
     "products": {
       "sectionTitle": "<a>Biziň</a> önümlerimiz",
       "tagline": "100% arabika",
-      "description": "Ýumşak, aňlatýan häsiýetli 100% arabikadan taýýarlanan sazlaşykly kofe.\n\nOrta derejeli gowurma <b>gaýmakly we hozly tonlaryny</b> açyp, tagamyny baýlaşdyrýar, pes turşulyk bolsa ýumşak soň-dat berýär",
+      "description": "Ýumşak hem aýdyň tagam öwüşginli, 100% arabikadan taýýarlanan deňagramly kofe.\n\nOrta derejeli gowurma <b>gaýmak we hoz öwüşginlerini</b> açyp, tagamy baýlaşdyrýar, pes turşulyk bolsa ýakymly, ýumşak soňky tagam berýär.",
       "acidity": "Turşulyk",
       "roast": "Gowurma derejesi"
     },
     "office": {
-      "pill": "Bir gaplamada 20 saşe",
-      "title": "Öýe<a> we </a>ofise<a> ajaýyp </a>görnüş",
-      "body1": "Premium synply 3-in-1 eredilýän kofe 20 saşeli gaplamada — her günlik ulanmak üçin amatly çözgüt",
-      "body2": "Bu görnüş uly maşgalalar, iş toparlary we kompaniýalar üçin amatly, aýry-aýry saşeler bolsa saklamagy we taýýarlamagy aňsatlaşdyrýar",
+      "pill": "1 gapda 20 saşe",
+      "title": "Öý<a> we </a>ofis<a> üçin iň amatly </a>görnüş",
+      "body1": "20 paýlyk gapdaky ýokary hilli 3-si 1-de eredilýän kofe — yzygiderli ulanmak üçin amatly çözgüt.",
+      "body2": "Bu görnüş uly maşgalalar, iş toparlary we kompaniýalar üçin amatlydyr, aýratyn saşeler bolsa saklamagy we taýýarlamagy aňsatlaşdyrýar.",
       "cta": "Ähli önümleri görmek"
     },
     "searched": {
-      "title": "Siziň<a> gözleýän </a>kofäňiz",
-      "body1": "Kofe däneleriniň tebigy häsiýetini we tagamyny saklamak üçin olary üns bilen saýlaýarys.",
-      "body2": "Her tapgyrdaky gözegçilik we ýumşak gowurma artykmaç ajylyksyz ýumşak, sazlaşykly häsiýeti açýar. Käsäňizde gaýtalanyp ýatlanýan tagamy almagyňyz üçin edilýän ähli iş."
+      "title": "Siziň<a> gözlän </a>kofeňiz",
+      "body1": "Kofe däneleriniň tebigy häsiýetini we tagamyny gorap saklamak üçin olary üns bilen saýlaýarys.",
+      "body2": "Seresaply gowurma her görnüşiň özboluşly tagam we ys öwüşginlerini açýar hem-de onuň aýratynlygyny gorap saklaýar. Biz her dänäniň hilini, gelip çykyşyny we häsiýetini duýdurýan kofe döretmäge çalyşýarys."
     },
     "production": {
       "sectionTitle": "NesilCoffee-niň <a>önümçilik</a> prosesi",
       "blocks": {
         "capacity": {
-          "title": "Häzirki zaman önümçilik kuwwaty",
-          "body1": "Zawodymyz häzirki zaman gowurma we gaplama liniýalary bilen enjamlaşdyrylan bolup, ýörite we premium segmentine aýratyn üns berip, ep-esli mukdardaky ýaşyl kofäni gaýtadan işlemäge niýetlenendir.",
-          "body2": "Önümçilik kuwwatlarymyz dürli gowurma häsiýetleri bilen işlemäge mümkinçilik berýär — specialty kofe üçin ýeňil we näzik gowurma, espresso garyndylary üçin baý we çuň gowurma. Önümçiligi göwrümi takyklyga päsgel bermez ýaly, her bir tapawut berk hil ölçeglerine laýyk gelsin diýip aňly-düşünjeli gurduk."
+          "title": "Döwrebap önümçilik kuwwatlary",
+          "body1": "Zawodymyz uly möçberdäki ýaşyl kofeni gaýtadan işlemäge niýetlenen döwrebap gowurma we gaplama liniýalary bilen enjamlaşdyrylandyr. Specialty hem-de premium ugurlara aýratyn üns berilýär.",
+          "body2": "Önümçilik kuwwatlarymyz dürli gowurma görnüşleri bilen işlemäge mümkinçilik berýär — specialty kofe üçin ýeňil we näzik gowurmadan espresso garyndylary üçin goýy we çuň gowurma çenli. Biz önümçiligi göwrüm takyklyga päsgel bermez, her partiýa bolsa berk hil ölçeglerine laýyk geler ýaly edip gurnadyk."
         },
         "organic": {
           "title": "100% organiki önüm",
-          "body1": "Önümlerimiziň esasynda emeli goşundylarsyz we agressiw işleýiş usullarysyz ösdürilen organiki kofe çig maly bar. Biz düzümiň arassalygy we ingredientleriň gelip çykyşynyň açyklygy ýörelgelerine berk eýerýäris.",
-          "body2": "Organiki çemeleşme önümi yzygiderli ulanmaga laýyk edýär we artykmaç goşulmazdan kofäniň tebigy häsiýetlerini saklamaga mümkinçilik berýär."
+          "body1": "Önümlerimiziň esasy emeli goşundylar we agressiw gaýtadan işlemek usullary ulanylmazdan ösdürilip ýetişdirilen organiki kofe çig malydyr. Biz düzümiň arassalygy we goşundylaryň gelip çykyşynyň aýdyňlygy ýörelgelerine eýerýäris.",
+          "body2": "Organiki çemeleşme önümi yzygiderli ulanmak üçin amatly edýär we artykmaç täsir etmezden kofeniň tebigy häsiýetlerini gorap saklamaga mümkinçilik berýär."
         },
         "italian": {
-          "title": "Italýan gowurmasy we tagam sazlaşygy",
-          "body1": "Kofe italýan ölçeglerine görä gowrulýar, esasy üns tagam sazlaşygyna we däniň seresap açylmagyna berilýär. Bu çemeleşme artykmaç ajylykdan gaça durýar, tagam häsiýetiniň arassalygyny saklaýar we düşnükli, amatly tagam almaga mümkinçilik berýär.",
-          "body2": "Italýan gowurmasy däneli kofä-de, eredilýän görnüşlere-de gowy laýyk gelýär, her günki ulanyş üçin düşnükli we amatly tagam üpjün edýär."
+          "title": "Italýan gowurmasy we tagam deňagramlylygy",
+          "body1": "Kofe italýan standartlaryna laýyklykda gowrulýar. Esasy üns tagamyň deňagramlylygyna we däniň aýratynlyklarynyň seresaply açylmagyna berilýär. Bu çemeleşme artykmaç ajylyga ýol bermeýär, tagam häsiýetiniň arassalygyny saklaýar hem-de düşnükli we ýakymly tagam döredýär.",
+          "body2": "Italýan gowurmasy däneli kofe üçin hem, eredilýän görnüşler üçin hem oňaýly bolup, gündelik ulanmak üçin düşnükli we ýakymly tagam berýär."
         },
         "certified": {
-          "title": "Sertifikatlanan önümçilik",
-          "body1": "Önümçilik prosesleri halkara ISO 9001:2015 we ISO 22000:2018 ölçeglerine laýyk gelýär, bu bolsa hili dolandyrmaga we azyk howpsuzlygyna her tapgyrda ulgamlaýyn çemeleşilýändigini tassyklaýar.",
-          "body2": "Goşmaça Halal sertifikaty önümçiligiň ähli tapgyrlarynda jogapkärçiligi görkezýär we önümi giň auditoriýa üçin elýeterli we amatly edýär."
+          "title": "Sertifikatlaşdyrylan önümçilik",
+          "body1": "Önümçilik işlerimiz ISO 9001:2015 we ISO 22000:2018 halkara standartlaryna laýyk gelýär. Bu hili dolandyrmaga we azyk howpsuzlygyna ähli tapgyrlarda ulgamlaýyn hem-de sazlaşykly çemeleşilýändigini tassyklaýar.",
+          "body2": "Goşmaça Halal şahadatnamasy önümçiligiň ähli tapgyrlaryndaky jogapkärçiligimizi görkezýär we önümi giň sarp edijiler köpçüligi üçin elýeterli hem-de amatly edýär."
         }
       }
     },
     "certificates": {
-      "title": "Sertifikatlar",
+      "title": "Şahadatnamalar",
       "close": "Ýapmak",
       "view": "Doly ekranda açmak",
       "items": {
         "iso": {
           "name": "ISO 9001:2015 we ISO 22000:2018",
-          "desc": "Önümçilik hiliň we azyk howpsuzlygynyň laýyk gelýändigini tassyklaýan halkara ölçeglere görä sertifikatlanandyr"
+          "desc": "Önümçilik azyk önümleriniň hil we howpsuzlyk talaplaryna laýyklygyny tassyklaýan halkara standartlary boýunça sertifikatlaşdyrylandyr."
         },
         "halal": {
           "name": "GSO 2055-1:2021\n(HALAL)",
-          "desc": "Halal sertifikaty önümiň azyk howpsuzlygy we önümçiligi babatyndaky berk talaplara laýyk gelýändigini tassyklaýar"
+          "desc": "Halal şahadatnamasy önümiň azyk howpsuzlygyna we önümçiligine bildirilýän berk talaplara laýyk gelýändigini tassyklaýar."
         }
       }
     },
@@ -117,7 +117,7 @@
     },
     "cta": {
       "title": "Soraglaryňyz barmy?",
-      "body": "Soraglaryňyz ýa-da goşmaça maglumat gerekmi? Önümlerimiz, görnüşlerimiz we hyzmatdaşlyk şertlerimiz barada gürrüň bermäge şat bolarys."
+      "body": "Soraglaryňyz barmy ýa-da goşmaça maglumat gerekmi? Önümlerimiz, görnüşlerimiz we hyzmatdaşlyk şertlerimiz barada size höwes bilen gürrüň bereris."
     }
   },
   "form": {
@@ -127,41 +127,41 @@
     "message": "Habar",
     "send": "Ibermek",
     "sending": "Iberilýär...",
-    "success": "Sag boluň! Biz siziň bilen ýakyn wagtda habarlaşarys.",
-    "error": "Bir zat nädogry gitdi. Ýene bir gezek synanyşyň.",
+    "success": "Sag boluň! Ýakyn wagtda siziň bilen habarlaşarys.",
+    "error": "Bir zat nädogry boldy. Täzeden synanyşyň.",
     "validation": {
-      "required": "Hökmany meýdan",
-      "email": "Dogry e-poçta giriziň"
+      "required": "Bu meýdan hökmany doldurylmaly",
+      "email": "Dogry e-poçta salgysyny giriziň"
     },
-    "sendWhatsapp": "WhatsApp-a ýazmak",
-    "sendEmail": "E-poçta ibermek",
-    "sendHint": "Habary nirä ibermelidigini saýlaň — formadaky ähli maglumaty alarys",
-    "messageIntro": "Salam! NesilCoffee saýtyndan ýazýaryn:"
+    "sendWhatsapp": "WhatsApp arkaly ýazmak",
+    "sendEmail": "E-poçta arkaly ibermek",
+    "sendHint": "Habaryňyzy nirä ibermek isleýäniňizi saýlaň — formadaky ähli maglumat bize gelip ýeter.",
+    "messageIntro": "Salam! NesilCoffee saýty arkaly ýazýaryn:"
   },
   "products": {
     "hero": {
-      "title": "Özüňize iň gowusyny taýýarlaň",
-      "subtitle": "NesilCoffee-den doly kofe we çaý toplumy — täze gowrulan dänelerden başlap eredilýän görnüşlere çenli.",
-      "cta": "Synanyşyň",
+      "title": "Özüňiz üçin iň gowusyny taýýarlaň",
+      "subtitle": "NesilCoffee-niň kofe we çaý önümleriniň doly görnüşi — täze gowrulan dänelerden eredilýän görnüşlere çenli.",
+      "cta": "Dadyp görüň",
       "slides": {
         "karak": {
-          "title": "Karak çaý — baý we ysly",
-          "body": "Amatly görnüşde taýýarlanan süýtli we tagamly ingredientli däp bolan çaý. Uzak taýýarlyksyz doly tagam we ýyly içgi isleseňiz, öýe we ofise laýyk gelýär."
+          "title": "Karak çaýy — goýy we ýakymly ysly",
+          "body": "Süýt we ýakymly ysly goşundylar bilen amatly görnüşde taýýarlanan adaty çaý. Uzak taýýarlyksyz goýy tagamly ýyly içgi islän wagtyňyz öý we ofis üçin örän amatly."
         },
         "espresso": {
-          "title": "Espresso — güýçli we mäkäm",
-          "body": "Baý tagamly we doly ysly klassiki eredilýän espresso. Günüň islendik wagty çalt güýçli kofe taýýarlamak üçin iň amatly."
+          "title": "Espresso — kuwwat beriji we goýy",
+          "body": "Baý tagamly we ýakymly ysly adaty eredilýän espresso. Günüň islendik wagty goýy kofeni çalt taýýarlamak üçin iň amatly görnüş."
         },
         "latte": {
           "title": "Coffee Latte — ýumşak we näzik",
-          "body": "Içgä näzik tagam we ys berýän süýtli we gaýmakly eredilýän latte. Has ýumşak we süýji kofe halaýanlar üçin iň gowusy."
+          "body": "Süýtli we gaýmakly eredilýän latte içgä ýumşak tagam we ýakymly ys berýär. Has ýumşak we süýji kofeni halaýanlar üçin iň amatly görnüş."
         }
       }
     },
     "categories": {
       "bean": "Däneli kofe",
       "instant": "Eredilýän kofe",
-      "freezeDried": "Sublimirlenen kofe",
+      "freezeDried": "Doňdurylyp guradylan kofe",
       "tea": "Çaý"
     },
     "order": "Sargyt etmek",
@@ -171,30 +171,30 @@
     "robusta": "robusta",
     "pieceUnit": "sany",
     "weightUnit": "g",
-    "cardDescription": "Ýumşak tagamly, gaýmak dokumaly we ýeňil süýjülikli sazlaşykly kofe — her günki ulanyş üçin laýyk",
+    "cardDescription": "Ýumşak tagamly, gaýmak ýaly gurluşly we ýeňil süýjülikli deňagramly kofe — gündelik ulanmak üçin amatly.",
     "orderModal": {
-      "title": "Sargyt taýýarlamak",
+      "title": "Sargyt etmek",
       "quantity": "Mukdary",
       "name": "Ady",
       "namePlaceholder": "Adyňyz",
       "phone": "Telefon",
       "phonePlaceholder": "+993 __ __ __",
-      "email": "Email",
+      "email": "E-poçta",
       "emailPlaceholder": "your@email.com",
       "comment": "Teswir",
       "commentPlaceholder": "Goşmaça maglumat",
-      "submit": "Arza ibermek",
+      "submit": "Sargydy ibermek",
       "sending": "Iberilýär...",
-      "successTitle": "Arza iberildi",
+      "successTitle": "Sargyt iberildi",
       "successBody": "Sargydyňyz üçin sag boluň! Ýakyn wagtda siziň bilen habarlaşarys.",
       "close": "Ýapmak",
       "sendWhatsapp": "WhatsApp arkaly ibermek",
-      "sendEmail": "E-poçta ibermek",
-      "sendHint": "Arzany nirä ibermelidigini saýlaň — formadaky ähli maglumaty alarys",
+      "sendEmail": "E-poçta arkaly ibermek",
+      "sendHint": "Sargydy nirä ibermek isleýäniňizi saýlaň — formadaky ähli maglumat bize gelip ýeter.",
       "messageIntro": "Salam! Sargyt etmek isleýärin:",
       "messageProduct": "Haryt",
       "messageCategory": "Kategoriýa",
-      "messageWeight": "Agramy"
+      "messageWeight": "Agram"
     }
   },
   "about": {
@@ -203,64 +203,64 @@
       "subtitle": "NesilCoffee-niň taryhy, standartlary we topary."
     },
     "welcome": {
-      "title": "<a>NesilCoffee-e </a>hoş geldiňiz",
+      "title": "<a>NesilCoffee dünýäsine </a>hoş geldiňiz",
       "sideTitle": "Höwes bilen döredilen, kämillige ýetirilen",
-      "sideBody": "15-den gowrak ýurtdan satyn alnan NesilCoffee-niň 100% organiki däneleri, tebigatyň iň gözel görkezýän zatlary hakynda gürrüň berýär."
+      "sideBody": "15-den gowrak ýurtdan getirilýän NesilCoffee-niň 100% organiki kofe däneleri tebigatyň iň ajaýyp peşgeşleri barada sözleýär."
     },
     "geography": {
-      "title": "Efiopiýanyň dumanly beýikliklerinden başlap Kolumbiýanyň gün nurly ýapgytlaryna çenli",
-      "body1": "Her däne haýran galdyryjy peýzažlaryň arasynda, himikatlar ulanylmaýan plantasiýalarda el bilen ýygnalýar.",
-      "body2": "Italýan ussatlygy bilen gowrulan we organiki hökmünde sertifikatlanan NesilCoffee, Gwatemalanyň tüsseli çuňlugyny, Indoneziýanyň topraga meňzeş şokoladyny we Ruandanyň gül ýapraklaryny — daşky gurşawa aladalanyp döredilen baý käsä birleşdirýär.",
-      "body3": "Beýik daglaryň öňünde NesilCoffee her ýuwdumynda tebigata bolan hormat duýulýan bütin tagam simfoniýasyny hödürleýär."
+      "title": "Efiopiýanyň dumanly belentliklerinden Kolumbiýanyň güneşli eňňitlerine çenli",
+      "body1": "Her bir däne himiki serişdeler ulanylmaýan plantasiýalarda, ajaýyp tebigat goýnunda el bilen ýygnalýar.",
+      "body2": "Italýan ussatlygy bilen gowrulan we organiki şahadatnama eýe bolan NesilCoffee Gwatemalanyň tüsseli çuň tagamyny, Indoneziýanyň toprak öwüşginli şokoladyny we Ruandanyň gül ysly öwüşginlerini tebigata aýawly çemeleşilip taýýarlanan bir käse goýy kofede birleşdirýär.",
+      "body3": "Belent daglaryň arasynda NesilCoffee her owurdynda tebigata aýawly gatnaşygy duýdurýan tagamlaryň bitewi sazlaşygyny hödürleýär."
     },
     "quality": {
-      "title": "<a>Saýlaw,</a> işläp taýýarlamak <a>we</a> hil <a>gözegçiligi</a>",
+      "title": "<a>Saýlamak,</a> işläp taýýarlamak <a>we</a> hili <a>barlamak</a>",
       "stageLabel": "Tapgyr",
       "step1": {
         "title": "Çig maly saýlamak",
-        "body": "NesilCoffee-niň hili her tapgyrda emele gelýär — çig maly saýlamakdan başlap taýyn önümi ibermäge çenli. Biz diňe öňünden saýlanan çig mal — ýaşyl kofe däneleri we NesilCoffee-niň tassyklanan spesifikasiýalary hem-de reseptleri boýunça saýlanan 3-in-1 içgileri üçin ingredientler bilen işleýäris."
+        "body": "NesilCoffee-niň hili çig maly saýlamakdan başlap taýýar önümi ugratmaga çenli her tapgyrda emele gelýär. Biz diňe öňünden saýlanyp alnan çig mal bilen işleýäris: ýaşyl kofe däneleri we NesilCoffee-niň tassyklanan talapnamalaryna hem-de reseptlerine laýyklykda saýlanan 3-si 1-de içgileriň goşundylary."
       },
       "step2": {
-        "title": "Işläp taýýarlamak we synag",
-        "body": "Önümçilige başlamazdan öň çig mal häsiýetleriniň laýyklygyny we ulanmaga taýýardygyny tassyklaýan hil we ýagdaý barlagyndan geçýär. Assortimenti döretmek we ösdürmek boýunça öz işläp taýýarlaýyş we hil gözegçilik toparymyz işleýär: hünärmenler reseptleri düzýär, tagam we ys sazlaşygyny sazlaýar, önümleri synagdan geçirýär we düzümi tassyklaýar, her önümiň durnuklylygyny we tanalýan tagamyny üpjün edýär."
+        "title": "Işläp taýýarlamak we synagdan geçirmek",
+        "body": "Önümçilik başlanmazdan öň çig malyň häsiýetleriniň talaplara laýykdygyny we ulanmaga taýýardygyny anyklamak üçin onuň hili hem-de ýagdaýy barlanýar. Önümleriň görnüşlerini döretmek we ösdürmek bilen öz işläp taýýarlaýyş we hil gözegçiligi toparymyz meşgullanýar: hünärmenler reseptleri düzýärler, tagam bilen ysyň deňagramlylygyny kämilleşdirýärler, önümleri synagdan geçirýärler we düzümlerini tassyklaýarlar. Şeýlelikde, her önümiň durnukly hili we özboluşly tagamy üpjün edilýär."
       },
       "step3": {
         "title": "Hil gözegçiligi",
-        "body": "Önümçilik prosesinde we ibermezden öň taýyn önüm ahyrky gözegçilikden geçýär — gowurma we garyşdyrma hili, gaplamanyň bitewiligi, belliginiň dogrudygy we bellenen standartlara laýyklygy barlanylýar. Diňe hil tassyklanandan soň önüm ammara we müşderilerimize geçýär."
+        "body": "Önümçilik döwründe we ugradylmazdan öň taýýar önüm soňky barlagdan geçirilýär: gowurmanyň we garyşdyrmagyň hili, gabyň bitewiligi, bellikleriň dogrulygy hem-de bellenen standartlara laýyklygy barlanýar. Önüm diňe hili tassyklanandan soň ammara we müşderilerimize iberilýär."
       }
     },
     "experts": {
-      "title": "Ekspertlerimiz iş prinsiplerini we önümçilige çemeleşişlerini paýlaşýarlar",
+      "title": "Hünärmenlerimiz iş ýörelgelerini we önümçilige çemeleşişini paýlaşýarlar",
       "one": {
         "name": "Myradow Eziz",
-        "role": "Önümçilik ussahanasynyň müdiri",
-        "quote": "«Her däne, her gowurma häsiýeti, her gaplama — NesilCoffee toparynyň ünsüniň, tehnologiýalarynyň we tejribesiniň netijesi. Ine, şeýlelikde müşderilerimize buýsanç bilen hödürleýän kofämiz dogýar.»"
+        "role": "Önümçilik bölüminiň başlygy",
+        "quote": "«Her bir däne, her bir gowurma görnüşi, her bir gap — NesilCoffee toparynyň ünsüniň, tehnologiýasynyň we tejribesiniň netijesidir. Müşderilerimize buýsanç bilen hödürleýän kofemiz hut şeýle döreýär.»"
       },
       "two": {
         "name": "Gurbangulyýew Baýramguly",
-        "role": "Hil gözegçilik we işläp taýýarlaýyş bölüminiň müdiri",
-        "quote": "«NesilCoffee — her önümiň hiline oýlanşykly çemeleşmedir. Her partiýada durnukly tagamy we ýokary standarty kepillendirmek üçin önümçiligiň her tapgyryna berk gözegçilik edýäris.»"
+        "role": "Hil gözegçiligi we işläp taýýarlaýyş bölüminiň başlygy",
+        "quote": "«NesilCoffee — her önümiň hiline oýlanyşykly çemeleşmekdir. Her partiýada durnukly tagamy we ýokary hili kepillendirmek üçin önümçiligiň ähli tapgyrlaryna berk gözegçilik edýäris.»"
       }
     },
     "history": {
       "title": "<a>Biziň</a> taryhymyz",
-      "subtitle": "2024-nji <a>ýyldan bäri</a> ýokary hilli <a>önüm</a> öndürýäris",
+      "subtitle": "2024-nji <a>ýyldan bäri</a> ýokary hilli <a>önümleri</a> <a>öndürýäris</a>",
       "cards": {
         "idea": {
           "title": "Pikir",
-          "body": "NesilCoffee-niň pikiri hakyky kofä bolan söýgüden we hili, tagamy hem-de döwrebap çemeleşmäni birleşdirýän brend döretmek islegimizden döredi. Biz diňe bir kofe däl-de, gündelik pursatlaryň bir bölegine öwrüljek önüm döretmek isledik — ertirki käseden başlap, ýakynlaryň ýyly duşuşygyna we işewür söhbetdeşlige çenli.\n\n«Nesil» ady, ýagny «nesil» diýmegi aňladýar we biziň esasy pikirimizi görkezýär — nesilleri birleşdirýän we hakyky kofeden lezzet almak medeniýetini bir nesilden beýlekisine geçirýän kofe döretmek. Biz gowy kofäniň diňe bir içgiden köpdügine ynanýarys. Bu — keýp, duýgy, däp we paýlaşasyň gelýän aýratyn pursat.\n\nNesilCoffee — bu däplere hormat goýup, geljege seredip döredilen kofe baradaky biziň hekaýamyz."
+          "body": "NesilCoffee baradaky pikir hakyky kofe bolan söýgüden we hili, tagamy hem-de döwrebap çemeleşmäni birleşdirýän brend döretmek isleginden döredi. Biz diňe bir kofe däl, eýsem gündelik pursatlaryň bir bölegine öwrüljek önüm döretmek isledik — ertirki bir käse kofeden başlap, ýakynlaryň bilen mähirli duşuşyga ýa-da işewür söhbetdeşlige çenli.\n\n“Nesil” ady “nesil” diýmegi aňladýar we esasy pikirimizi beýan edýär: nesilleri birleşdirýän, hakyky kofeden lezzet almak medeniýetini bir nesilden beýlekisine geçirýän kofe döretmek. Biz gowy kofeniň diňe bir içgi däldigine ynanýarys. Ol — keýp, duýgy, däp we paýlaşasyň gelýän aýratyn pursat.\n\nNesilCoffee — däplere hormat we geljege nazar bilen döredilen kofe baradaky biziň hekaýamyz."
         },
         "search": {
           "title": "Gözleg",
-          "body": "Halkara hil standartlaryna laýyk gelýän önümçiligi gurmak üçin ýaşyl däne üpjün edijileriniň iň gowusyny we dünýä derejesindäki enjamlary agtardyk."
+          "body": "Halkara hil standartlaryna laýyk önümçiligi ýola goýmak üçin ýaşyl kofe dänesiniň iň gowy üpjün edijilerini we dünýä derejesindäki enjamlary gözledik."
         },
         "roast": {
           "title": "Gowurma",
-          "body": "Tehnologlarymyz her gelip çykyşynyň iň gowy tonlaryny açýan firma gowurma häsiýetlerini işläp taýýarladylar — ýeňil skandinaw görnüşinden gara italýan görnüşine çenli."
+          "body": "Tehnologlarymyz her bir gelip çykyş ýerine mahsus iň gowy tagam öwüşginlerini açýan aýratyn gowurma görnüşlerini işläp düzdüler — ýeňil Skandinaw gowurmasyndan goýy italýan gowurmasyna çenli."
         },
         "launch": {
-          "title": "Amala aşyrmak",
-          "body": "NesilCoffee-niň ilkinji partiýalary hyzmatdaşlarymyza — uly bölek satyş toplumlaryndan başlap, HoReCa we korporatiw müşderilere çenli — ugradyldy we Merkezi Aziýanyň bazarlaryny basyp aldy."
+          "title": "Durmuşa geçirmek",
+          "body": "NesilCoffee-niň ilkinji partiýalary iri bölek satuw ulgamlaryndan başlap HoReCa kärhanalaryna we korporatiw müşderilere çenli bolan hyzmatdaşlarymyza ugradyldy hem-de Merkezi Aziýanyň bazarlarynda öz ornuny tapdy."
         }
       }
     }
@@ -270,41 +270,41 @@
       "title": "<a>Ýygy-ýygydan berilýän</a> soraglar",
       "items": [
         {
-          "q": "Iň az sargyt möçberi näçe?",
-          "a": "Iň az sargyt möçberi önümiň kategoriýasyna we üpjünçilik görnüşine baglydyr.\n\nLomaý sargytlar üçin iň az möçberler ykdysady taýdan amatly logistika we gaplama görnüşi esasynda kesgitlenýär. Täze hyzmatdaşlar üçin kiçi başlangyç we synag tapgyrlaryny ara alyp maslahatlaşmaga taýýardyrys."
+          "q": "Sargydyň iň az möçberi näçe?",
+          "a": "Sargydyň iň az möçberi önümiň görnüşine we üpjünçilik usulyna baglydyr.\n\nLomaý sargytlar üçin iň az möçber ykdysady taýdan amatly logistika we gaplama görnüşi göz öňünde tutulyp kesgitlenýär. Täze hyzmatdaşlar bilen uly bolmadyk başlangyç we synag partiýalaryny ara alyp maslahatlaşmaga taýýardyrys."
         },
         {
-          "q": "Diňe lomaý sargytlar bilen işleýärsiňizmi?",
-          "a": "Hawa, NesilCoffee B2B görnüşinde işleýär we lomaý üpjünçilige gönükdirilendir.\n\nBiz distribýutorlar, sebit dilerleri, bölek satuw ulgamlary, HoReCa kärhanalary, korporatiw müşderiler we halkara eksport hyzmatdaşlary bilen hyzmatdaşlyk edip, durnukly üpjünçiligi we her hyzmatdaşyň zerurlyklaryna çeýe çemeleşmäni üpjün edýäris."
+          "q": "Siz diňe lomaý sargytlar bilen işleýärsiňizmi?",
+          "a": "Hawa, NesilCoffee B2B görnüşinde işleýär we lomaý üpjünçilige gönükdirilendir.\n\nBiz paýlaýjylar, sebitlerdäki dilerler, bölek satuw ulgamlary, HoReCa kärhanalary, korporatiw müşderiler we halkara eksport hyzmatdaşlary bilen işleýäris. Durnukly üpjünçiligi ýola goýup, her hyzmatdaşyň zerurlyklaryna çeýe çemeleşýäris."
         },
         {
           "q": "Önümler nähili eltilýär?",
-          "a": "Önümler FCA (Free Carrier) şertlerinde — öndürijiniň ammaryndan alnyp gidilýär.\n\nSargyt taýýar bolandan soň, alyjy ýa-da onuň ygtyýarly daşaýjysy önümi biziň ammarymyzdan alýar. Öz tarapymyzdan ýüküň ugratmaga doly taýýarlygyny üpjün edýäris: gaplama, bellik we ugurdaş resminamalaryň toplumy.\n\nZerur bolan halatynda barmaly ýerine çenli daşamagy guramak üçin ynamdar logistika hyzmatdaşlaryny hem maslahat berip bileris."
+          "a": "Önümler FCA (Free Carrier) şertlerinde, ýagny öndürijiniň ammaryndan alyp gitmek usuly bilen üpjün edilýär.\n\nSargyt taýýar bolandan soň, alyjy ýa-da onuň ygtyýarly ýük daşaýjysy önümleri ammarymyzdan alyp gidýär. Biz öz tarapymyzdan ýüküň ugratmaga doly taýýar bolmagyny üpjün edýäris: gaplaýarys, belliklerini ýerleşdirýäris we ugurdaş resminamalaryň doly toplumyny taýýarlaýarys.\n\nZerur bolsa, ýüki barmaly ýerine çenli eltmegi guramak üçin ygtybarly logistika hyzmatdaşlaryny hem maslahat berip bileris."
         },
         {
-          "q": "Töleg möhletini yza süýşürmek mümkinmi?",
-          "a": "Tölegi yza süýşürmek göz öňünde tutulmaýar. Töleg 100% öňünden töleg şertlerinde amala aşyrylýar."
+          "q": "Tölegi soňa goýmak mümkinmi?",
+          "a": "Tölegi soňa goýmak göz öňünde tutulmaýar. Töleg 100% öňünden geçirilýär."
         },
         {
           "q": "Haýsy resminamalary berýärsiňiz?",
-          "a": "Söwda işi we eksport üpjünçiligi üçin zerur bolan resminamalaryň doly toplumyny berýäris, şol sanda:\n\n- üpjünçilik şertnamasy;\n- täjirçilik inwoýsy;\n- gaplama sanawy;\n- hil şahadatnamalary;\n- ISO 22000:2018 we ISO 9001:2015 şahadatnamalary;\n- Halal şahadatnamasy;\n- CT-1 görnüşli harydyň gelip çykyşy hakynda şahadatnama;\n- fitosanitar şahadatnama;\n- import ediji ýurduň talaplaryna laýyklykda beýleki resminamalar."
+          "a": "Söwda işi we eksport üpjünçiligi üçin zerur resminamalaryň doly toplumyny berýäris, şol sanda:\n\n- üpjünçilik şertnamasy;\n- söwda hasap-harytnamasy;\n- gaplama sanawy;\n- hil şahadatnamalary;\n- ISO 22000:2018 we ISO 9001:2015 şahadatnamalary;\n- Halal şahadatnamasy;\n- harydyň gelip çykyşy baradaky ST-1 görnüşli şahadatnama;\n- fitosanitar şahadatnama;\n- import edýän ýurduň talaplaryna laýyklykda beýleki resminamalar."
         },
         {
-          "q": "Baha sanawyny alyp bolarmy?",
-          "a": "Hawa, häzirki baha sanawy talap boýunça berilýär.\n\nHaýyş edýäris, gyzyklanýan önümiňizi, möçberi we üpjünçilik ýurduny görkezip, satuw bölümimiz bilen habarlaşyň — biz şahsy täjirçilik teklibini taýýarlarys."
+          "q": "Bahalaryň sanawyny alyp bolarmy?",
+          "a": "Hawa, bahalaryň häzirki sanawy ýüz tutma boýunça berilýär.\n\nGyzyklanýan önümleriňizi, möçberini we iberilmeli ýurduny görkezip, satuw bölümimiz bilen habarlaşyň — biz size aýratyn söwda teklibini taýýarlarys."
         }
       ]
     },
     "contact": {
       "title": "Habarlaşmak",
-      "subtitle": "Kofe gepleşikden başlaýar. Çemeleşişimiz, tagamymyz we hyzmatdaşlyk mümkinçiliklerimiz barada has köp bilmek üçin biziň bilen habarlaşyň.",
+      "subtitle": "Kofe söhbetdeşlikden başlanýar. Çemeleşişimiz, tagamlarymyz we hyzmatdaşlyk mümkinçiliklerimiz barada giňişleýin bilmek üçin biziň bilen habarlaşyň.",
       "socialsLabel": "Sosial ulgamlar",
       "phoneLabel": "Telefon",
       "messengerLabel": "Messenjer",
       "addressLabel": "Salgy",
       "address": "Türkmenistan, Ahal welaýaty, Ak bugdaý etraby, Magtymguly şäherçesi",
       "writeUs": "Bize ýazyň",
-      "writeUsBody": "Formy dolduryň, biz ýakyn wagtda siziň bilen habarlaşarys",
+      "writeUsBody": "Formany dolduryň, biz ýakyn wagtda siziň bilen habarlaşarys.",
       "mapTitle": "Karta: NesilCoffee-niň ýerleşýän ýeri",
       "directions": "Ýoly görkez"
     }

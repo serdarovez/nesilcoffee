@@ -2,13 +2,13 @@
   "meta": {
     "siteName": "NesilCoffee",
     "defaultTitle": "NesilCoffee — Roasting, flavor and quality control",
-    "defaultDescription": "Nesilcoffee — premium-class coffee production. Roasting with quality control at every stage. B2B wholesale supplies."
+    "defaultDescription": "NesilCoffee produces premium coffee, with roasting and quality control at every stage. Wholesale B2B supply."
   },
   "nav": {
     "home": "Home",
     "products": "Products",
-    "about": "About",
-    "contacts": "Contacts"
+    "about": "About us",
+    "contacts": "Contact"
   },
   "cta": {
     "viewProducts": "View products",
@@ -19,49 +19,49 @@
   "home": {
     "hero": {
       "title": "Roasting, flavor <a>and</a> quality control <a>at every stage</a>",
-      "subtitle": "A smile, enjoyment and energy — you'll find all of it in a single cup of our coffee"
+      "subtitle": "A smile, pure enjoyment and a boost of energy — all in a single cup of our coffee"
     },
     "products": {
       "sectionTitle": "<a>Our</a> Products",
-      "tagline": "100% arabica",
-      "description": "A balanced 100% arabica coffee with a soft, expressive profile.\n\nMedium roast reveals <b>creamy and nutty notes</b>, making the taste rich, while low acidity delivers a smooth aftertaste",
+      "tagline": "100% Arabica",
+      "description": "A well-balanced 100% Arabica coffee with a smooth yet distinctive profile.\n\nA medium roast brings out <b>creamy and nutty notes</b> for a rich flavor, while the low acidity leaves a smooth finish.",
       "acidity": "Acidity",
       "roast": "Roast level"
     },
     "office": {
       "pill": "20 sachets per pack",
-      "title": "The perfect<a> format for </a>home<a> and </a>office",
-      "body1": "Premium 3-in-1 instant coffee in a 20-sachet pack — a convenient solution for everyday use",
-      "body2": "This format suits large families, work teams and companies, while individual sachets simplify storage and preparation",
-      "cta": "Browse all products"
+      "title": "The perfect<a> format for the </a>home<a> and </a>office",
+      "body1": "Premium 3-in-1 instant coffee in a 20-serving pack — a convenient choice for everyday use.",
+      "body2": "This size is ideal for large families, workplace teams and businesses, while individual sachets make storage and preparation simple.",
+      "cta": "View all products"
     },
     "searched": {
-      "title": "The coffee<a> you were </a>looking for",
-      "body1": "We carefully select coffee beans to preserve their natural character and flavor.",
-      "body2": "Control at every stage and gentle roasting reveal a soft, balanced profile without excess bitterness. Everything so your cup delivers exactly the taste you'll want to return to."
+      "title": "The coffee<a> you have been </a>looking for",
+      "body1": "We carefully select our coffee beans to preserve their natural character and flavor.",
+      "body2": "Gentle roasting reveals the unique flavors and aromas of each variety while preserving its individual character. Our aim is to create coffee that expresses the quality, origin and character of every bean."
     },
     "production": {
-      "sectionTitle": "<a>Production</a> process at NesilCoffee",
+      "sectionTitle": "The <a>production</a> process at NesilCoffee",
       "blocks": {
         "capacity": {
-          "title": "Modern production capacity",
-          "body1": "Our facility is equipped with modern roasting and packaging lines built to process significant volumes of green coffee, with particular focus on the specialty and premium segments.",
-          "body2": "Our production capacity lets us work with different roast profiles — from light and delicate for specialty coffee to rich and deep for espresso blends. We built our production so scale never gets in the way of precision, and every batch meets strict quality standards."
+          "title": "Modern production facilities",
+          "body1": "Our factory is equipped with modern roasting and packaging lines designed to process substantial volumes of green coffee, with a particular focus on the specialty and premium segments.",
+          "body2": "Our facilities can accommodate a wide range of roast profiles — from light and delicate roasts for specialty coffee to rich, deep roasts for espresso blends. We have deliberately designed our production so that scale never comes at the expense of precision and every batch meets strict quality standards."
         },
         "organic": {
           "title": "100% organic product",
-          "body1": "Our products are based on organic coffee raw material, grown without artificial additives or aggressive processing methods. We adhere to the principles of clean composition and transparent ingredient origins.",
-          "body2": "The organic approach makes the product suitable for regular consumption and preserves the natural properties of coffee without excessive interference."
+          "body1": "Our products begin with organic green coffee grown without artificial additives or harsh processing methods. We are committed to clean ingredients and full transparency about their origin.",
+          "body2": "This organic approach makes the product suitable for regular consumption and helps preserve coffee's natural qualities with minimal intervention."
         },
         "italian": {
-          "title": "Italian roast and flavor balance",
-          "body1": "Coffee is roasted to Italian standards, with the emphasis on flavor balance and careful development of the bean. This approach avoids excessive bitterness, preserves the purity of the flavor profile and delivers a clear, comfortable taste.",
-          "body2": "Italian roasting works well for both whole-bean coffee and instant formats, delivering a clear and comfortable flavor for everyday use."
+          "title": "Italian roasting and a balanced flavor",
+          "body1": "Our coffee is roasted to Italian standards, with close attention to flavor balance and the careful development of each bean. This approach prevents excessive bitterness, preserves a clean flavor profile and creates an approachable, enjoyable cup.",
+          "body2": "Italian roasting works equally well for whole-bean coffee and instant formats, delivering an approachable, enjoyable flavor for everyday drinking."
         },
         "certified": {
           "title": "Certified production",
-          "body1": "Our production processes comply with international ISO 9001:2015 and ISO 22000:2018 standards, confirming a systematic approach to quality management and food safety at every stage.",
-          "body2": "Additional Halal certification reflects responsibility across all production stages and makes the product accessible and suitable for a wide audience."
+          "body1": "Our production processes comply with the international ISO 9001:2015 and ISO 22000:2018 standards, confirming a systematic, well-structured approach to quality management and food safety at every stage.",
+          "body2": "Our additional Halal certification reflects our sense of responsibility throughout production and makes the product suitable and accessible to a broad audience."
         }
       }
     },
@@ -72,11 +72,11 @@
       "items": {
         "iso": {
           "name": "ISO 9001:2015 and ISO 22000:2018",
-          "desc": "Our production is certified to international standards confirming compliance with quality and food-safety requirements"
+          "desc": "Our production is certified to international standards that confirm compliance with food quality and safety requirements."
         },
         "halal": {
           "name": "GSO 2055-1:2021\n(HALAL)",
-          "desc": "Halal certification confirms that the product meets strict food-safety and production requirements"
+          "desc": "Halal certification confirms that the product meets strict food safety and production requirements."
         }
       }
     },
@@ -85,81 +85,81 @@
       "members": [
         {
           "name": "Adelya Sakhbieva",
-          "role": "Lead export specialist",
+          "role": "Lead Export Specialist",
           "phone": "+9936483428",
           "email": "info@nesilcoffee.com"
         },
         {
           "name": "Adelya Sakhbieva",
-          "role": "Lead export specialist",
+          "role": "Lead Export Specialist",
           "phone": "+9936483428",
           "email": "info@nesilcoffee.com"
         },
         {
           "name": "Adelya Sakhbieva",
-          "role": "Lead export specialist",
+          "role": "Lead Export Specialist",
           "phone": "+9936483428",
           "email": "info@nesilcoffee.com"
         },
         {
           "name": "Adelya Sakhbieva",
-          "role": "Lead export specialist",
+          "role": "Lead Export Specialist",
           "phone": "+9936483428",
           "email": "info@nesilcoffee.com"
         },
         {
           "name": "Adelya Sakhbieva",
-          "role": "Lead export specialist",
+          "role": "Lead Export Specialist",
           "phone": "+9936483428",
           "email": "info@nesilcoffee.com"
         }
       ]
     },
     "cta": {
-      "title": "Have questions?",
-      "body": "Have questions or need more information? We'd love to tell you about our products, formats and cooperation terms."
+      "title": "Have a question?",
+      "body": "Have questions or need more information? We will be happy to tell you about our products, available formats and terms of cooperation."
     }
   },
   "form": {
     "name": "Name",
-    "email": "E-mail",
+    "email": "Email",
     "subject": "Subject",
     "message": "Message",
     "send": "Send",
     "sending": "Sending...",
-    "success": "Thank you! We'll be in touch shortly.",
+    "success": "Thank you! We will contact you shortly.",
     "error": "Something went wrong. Please try again.",
     "validation": {
-      "required": "Required field",
-      "email": "Enter a valid e-mail"
+      "required": "This field is required",
+      "email": "Enter a valid email address"
     },
-    "sendWhatsapp": "Message on WhatsApp",
+    "sendWhatsapp": "Message us on WhatsApp",
     "sendEmail": "Send by email",
-    "sendHint": "Choose where to send your message — we receive everything from the form",
-    "messageIntro": "Hello! Writing from the NesilCoffee website:"
+    "sendHint": "Choose how to send your message — we will receive all the information from the form.",
+    "messageIntro": "Hello! I am contacting you through the NesilCoffee website:"
   },
   "products": {
     "hero": {
-      "title": "Brew yourself the best",
-      "subtitle": "The full range of coffee and tea from NesilCoffee — from freshly roasted beans to instant formats.",
+      "title": "Brew the very best",
+      "subtitle": "Explore the full range of NesilCoffee coffee and tea — from freshly roasted beans to instant options.",
       "cta": "Try it",
       "slides": {
         "karak": {
-          "title": "Karak tea — rich and spiced",
-          "body": "Traditional tea with milk and spices, prepared in a convenient format. Suits home and office when you want a full-bodied flavor and a warm drink without a long prep."
+          "title": "Karak tea — rich and aromatic",
+          "body": "Traditional tea with milk and spices in a convenient instant format. Perfect for home or the office whenever you want a full-bodied, warming drink without the lengthy preparation."
         },
         "espresso": {
-          "title": "Espresso — bold and strong",
-          "body": "A classic instant espresso with rich flavor and full aroma. Perfect for making strong coffee quickly, any time of day."
+          "title": "Espresso — strong and invigorating",
+          "body": "Classic instant espresso with a rich flavor and full aroma. Perfect for preparing a strong coffee quickly at any time of day."
         },
         "latte": {
-          "title": "Coffee Latte — soft and delicate",
-          "body": "Instant latte with milk and creamer, giving the drink a gentle flavor and aroma. Perfect for those who prefer a softer, sweeter coffee."
+          "title": "Coffee Latte — smooth and delicate",
+          "body": "An instant latte with milk and creamer for a smooth, delicate flavor and aroma. Perfect for anyone who prefers a milder, sweeter coffee."
         }
       }
     },
     "categories": {
-      "bean": "Whole bean coffee",
+      "bean": "Whole-bean coffee",
       "instant": "Instant coffee",
       "freezeDried": "Freeze-dried coffee",
       "tea": "Tea"
@@ -167,13 +167,13 @@
     "order": "Order",
     "roast": "Roast level",
     "acidity": "Acidity",
-    "arabica": "arabica",
-    "robusta": "robusta",
+    "arabica": "Arabica",
+    "robusta": "Robusta",
     "pieceUnit": "pcs",
     "weightUnit": "g",
-    "cardDescription": "A balanced coffee with soft flavor, creamy texture and a light sweetness — perfect for everyday use",
+    "cardDescription": "A well-balanced coffee with a smooth flavor, creamy texture and a hint of sweetness — ideal for everyday drinking.",
     "orderModal": {
-      "title": "Place order",
+      "title": "Place an order",
       "quantity": "Quantity",
       "name": "Name",
       "namePlaceholder": "Your name",
@@ -183,14 +183,14 @@
       "emailPlaceholder": "your@email.com",
       "comment": "Comment",
       "commentPlaceholder": "Additional information",
-      "submit": "Send request",
+      "submit": "Submit order",
       "sending": "Sending...",
-      "successTitle": "Request sent",
-      "successBody": "Thank you for your order! We'll be in touch shortly.",
+      "successTitle": "Order submitted",
+      "successBody": "Thank you for your order! We will contact you shortly.",
       "close": "Close",
       "sendWhatsapp": "Send via WhatsApp",
       "sendEmail": "Send by email",
-      "sendHint": "Choose where to send your request — we receive everything from the form",
+      "sendHint": "Choose how to send your order — we will receive all the information from the form.",
       "messageIntro": "Hello! I would like to place an order:",
       "messageProduct": "Product",
       "messageCategory": "Category",
@@ -205,62 +205,62 @@
     "welcome": {
       "title": "<a>Welcome to </a>NesilCoffee",
       "sideTitle": "Created with passion, perfected with care",
-      "sideBody": "NesilCoffee's 100% organic beans, sourced from more than 15 countries, tell a story of the very best that nature has to offer."
+      "sideBody": "Sourced from more than 15 countries, NesilCoffee's 100% organic beans tell the story of nature at its finest."
     },
     "geography": {
       "title": "From the misty highlands of Ethiopia to the sun-drenched slopes of Colombia",
-      "body1": "Every bean is hand-picked on chemical-free plantations set against breathtaking landscapes.",
-      "body2": "Roasted with Italian craftsmanship and certified organic, NesilCoffee weaves together aromas — Guatemala's smoky depth, Indonesia's earthy chocolate and Rwanda's floral notes — into a rich cup made with care for the environment.",
-      "body3": "Set against majestic mountains, NesilCoffee delivers a whole symphony of flavor with every sip tasting of respect for nature."
+      "body1": "Every bean is hand-picked on chemical-free plantations surrounded by breathtaking scenery.",
+      "body2": "Roasted with Italian craftsmanship and certified organic, NesilCoffee weaves Guatemala's smoky depth, Indonesia's earthy chocolate and Rwanda's floral notes into a rich cup made with care for the environment.",
+      "body3": "Against a backdrop of majestic mountains, NesilCoffee offers a symphony of flavor, with respect for nature expressed in every sip."
     },
     "quality": {
-      "title": "<a>Sourcing,</a> development <a>and</a> quality <a>control</a>",
+      "title": "<a>Selection,</a> development <a>and</a> quality <a>control</a>",
       "stageLabel": "Stage",
       "step1": {
-        "title": "Sourcing",
-        "body": "NesilCoffee's quality is built at every stage — from sourcing to shipping the finished product. We work only with pre-selected raw material — green coffee beans and 3-in-1 drink ingredients — chosen from the outset against NesilCoffee's approved specifications and recipes."
+        "title": "Raw material selection",
+        "body": "NesilCoffee quality is built at every stage — from selecting raw materials to dispatching the finished product. We work exclusively with pre-selected materials: green coffee beans and ingredients for 3-in-1 drinks, chosen from the outset in line with NesilCoffee's approved specifications and recipes."
       },
       "step2": {
         "title": "Development and testing",
-        "body": "Before production starts, raw material undergoes a quality and condition check confirming its characteristics and readiness for use. Our in-house R&D and QC team creates and evolves the range: specialists build recipes, fine-tune the balance of flavor and aroma, test products and approve compositions, ensuring stability and a recognizable flavor for every SKU."
+        "body": "Before production begins, every raw material is checked for quality and condition to confirm that it meets our specifications and is ready for use. Our in-house product development and quality control team creates and expands the range: our specialists develop recipes, refine the balance of flavor and aroma, test products and approve their composition to ensure consistent quality and a recognizable taste in every item."
       },
       "step3": {
         "title": "Quality control",
-        "body": "During production and before shipment, the finished product passes a final check — roast and blend quality, packaging integrity, labeling accuracy and compliance with established standards. Only after quality is confirmed does the product move to the warehouse and on to our clients."
+        "body": "During production and before dispatch, every finished product undergoes a final inspection. We check the quality of roasting and blending, the integrity of the packaging, the accuracy of the labeling and compliance with established standards. Only after its quality has been confirmed is the product released to the warehouse and our customers."
       }
     },
     "experts": {
-      "title": "Our experts share the principles and approach behind our production",
+      "title": "Our experts share the principles and production approach behind their work",
       "one": {
         "name": "Eziz Myradov",
-        "role": "Head of the production floor",
-        "quote": "«Every bean, every roast profile, every pack is the result of the attention, technology and experience of the NesilCoffee team. That's how we get coffee we're proud to offer our customers.»"
+        "role": "Head of Production",
+        "quote": "“Every bean, every roast profile and every pack reflects the care, technology and experience of the NesilCoffee team. This is how we create coffee that we are proud to offer our customers.”"
       },
       "two": {
         "name": "Bayramguly Gurbangulyev",
-        "role": "Head of quality control and R&D",
-        "quote": "«NesilCoffee is a considered approach to the quality of every product. We tightly control every stage of production to guarantee stable flavor and a high standard in every batch.»"
+        "role": "Head of Quality Control and Product Development",
+        "quote": "“NesilCoffee represents a thoughtful approach to the quality of every product. We carefully monitor every stage of production to guarantee consistent flavor and high standards in every batch.”"
       }
     },
     "history": {
       "title": "<a>Our</a> story",
-      "subtitle": "<a>Producing</a> high-quality <a>coffee since</a> 2024",
+      "subtitle": "<a>Creating</a> high-quality <a>products</a> since <a>2024</a>",
       "cards": {
         "idea": {
           "title": "The idea",
-          "body": "The idea of NesilCoffee was born from a love of real coffee and a desire to create a brand that brings together quality, taste and a modern approach. We wanted to make not simply coffee, but a product that becomes part of everyday moments — from the morning cup to a warm gathering with loved ones or a business conversation.\n\nThe name Nesil, meaning “generation”, reflects our central idea — to create coffee that unites generations and carries the culture of enjoying real coffee from one generation to the next. We believe good coffee is more than a drink. It is a mood, an emotion, a tradition and a special moment worth sharing.\n\nNesilCoffee is our story about coffee, created with respect for tradition and an eye on the future."
+          "body": "The idea for NesilCoffee grew from a love of authentic coffee and a desire to create a brand that brings together quality, flavor and a modern outlook. We wanted to create more than just coffee: a product that would become part of everyday moments, from the first cup in the morning to a warm gathering with loved ones or a business conversation.\n\nThe name Nesil means “generation” and reflects our central idea: to create coffee that brings generations together and passes the culture of enjoying authentic coffee from one generation to the next. We believe that good coffee is more than a drink. It is a mood, an emotion, a tradition and a special moment worth sharing.\n\nNesilCoffee is our story of coffee created with respect for tradition and an eye to the future."
         },
         "search": {
           "title": "The search",
-          "body": "We sought out the best green-bean suppliers and world-class equipment to build a production facility that meets international quality standards."
+          "body": "We searched for the finest suppliers of green coffee beans and world-class equipment to build a production facility that meets international quality standards."
         },
         "roast": {
-          "title": "The roast",
-          "body": "Our technologists developed signature roast profiles that bring out the best notes of every origin — from a light Scandinavian to a dark Italian."
+          "title": "Roasting",
+          "body": "Our technologists developed signature roast profiles that reveal the finest notes of every origin — from light Scandinavian roasts to dark Italian roasts."
         },
         "launch": {
           "title": "The launch",
-          "body": "The first batches of NesilCoffee went out to our partners — from major retail chains to HoReCa and corporate clients — winning over Central Asian markets."
+          "body": "The first batches of NesilCoffee were delivered to our partners — from major retail chains to HoReCa businesses and corporate customers — winning over markets across Central Asia."
         }
       }
     }
@@ -271,40 +271,40 @@
       "items": [
         {
           "q": "What is the minimum order quantity?",
-          "a": "The minimum order quantity depends on the product category and the delivery format.\n\nFor wholesale orders, minimum volumes are set by what makes logistics cost-effective and by the type of packaging. We are happy to discuss small starter and trial batches with new partners."
+          "a": "The minimum order quantity depends on the product category and delivery format.\n\nFor wholesale orders, minimum quantities are determined by cost-effective logistics and the type of packaging. We are happy to discuss smaller starter or trial batches with new partners."
         },
         {
-          "q": "Do you work only with wholesale orders?",
-          "a": "Yes. NesilCoffee operates as a B2B business and focuses on wholesale supply.\n\nWe work with distributors, regional dealers, retail chains, HoReCa businesses, corporate clients and international export partners, providing consistent supply and a flexible approach to each partner's needs."
+          "q": "Do you only accept wholesale orders?",
+          "a": "Yes, NesilCoffee operates as a B2B company and focuses on wholesale supply.\n\nWe work with distributors, regional dealers, retail chains, HoReCa businesses, corporate customers and international export partners, providing a reliable supply and a flexible approach to every partner's needs."
         },
         {
-          "q": "How is the product delivered?",
-          "a": "Product is supplied on FCA (Free Carrier) terms — collection from the manufacturer's warehouse.\n\nOnce an order is ready, the buyer or their authorised carrier collects it from our warehouse. On our side we make sure the consignment is fully ready for dispatch: packaging, labelling and a complete set of accompanying documents.\n\nIf needed, we can also recommend reliable logistics partners to arrange transport to the destination."
+          "q": "How are products delivered?",
+          "a": "Products are supplied under FCA (Free Carrier) terms and collected from the manufacturer's warehouse.\n\nOnce an order is ready, the buyer or their authorized carrier collects the products from our warehouse. We ensure that the shipment is fully prepared for dispatch, including packaging, labeling and a complete set of accompanying documents.\n\nIf required, we can also recommend reliable logistics partners to arrange transportation to the destination."
         },
         {
           "q": "Do you offer deferred payment?",
-          "a": "Deferred payment is not available. Payment is made on 100% prepayment terms."
+          "a": "Deferred payment is not available. Orders require 100% advance payment."
         },
         {
           "q": "What documents do you provide?",
-          "a": "We provide the full set of documents required for commercial activity and export supply, including:\n\n- supply contract;\n- commercial invoice;\n- packing list;\n- quality certificates;\n- ISO 22000:2018 and ISO 9001:2015 certificates;\n- Halal certificate;\n- certificate of origin, form CT-1;\n- phytosanitary certificate;\n- any other documents required by the importing country."
+          "a": "We provide a complete set of documents required for commercial operations and export deliveries, including:\n\n- supply agreement;\n- commercial invoice;\n- packing list;\n- quality certificates;\n- ISO 22000:2018 and ISO 9001:2015 certificates;\n- Halal certificate;\n- Form ST-1 certificate of origin;\n- phytosanitary certificate;\n- any other documents required by the importing country."
         },
         {
-          "q": "Can I get a price list?",
-          "a": "Yes, a current price list is available on request.\n\nPlease contact our sales department with the products, volumes and destination country you are interested in, and we will prepare an individual commercial offer."
+          "q": "Can I request a price list?",
+          "a": "Yes, our current price list is available on request.\n\nPlease contact our sales team and specify the products and quantities you are interested in, along with the destination country. We will prepare a tailored commercial offer for you."
         }
       ]
     },
     "contact": {
-      "title": "Contacts",
-      "subtitle": "Coffee begins with a conversation. Get in touch to learn more about our approach, flavor and cooperation opportunities.",
+      "title": "Contact",
+      "subtitle": "Coffee begins with a conversation. Get in touch to learn more about our approach, our flavors and opportunities to work together.",
       "socialsLabel": "Social media",
       "phoneLabel": "Phone",
       "messengerLabel": "Messenger",
       "addressLabel": "Address",
-      "address": "Turkmenistan, Ahal Region, Ak Bugday District, Magtymguly village",
+      "address": "Magtymguly settlement, Ak Bugday District, Ahal Region, Turkmenistan",
       "writeUs": "Write to us",
-      "writeUsBody": "Fill out the form and we'll be in touch shortly",
+      "writeUsBody": "Complete the form and we will contact you shortly.",
       "mapTitle": "Map: NesilCoffee location",
       "directions": "Get directions"
     }
