@@ -34,7 +34,7 @@ export function Certificates({ items }: { items: CertificateView[] }) {
       >
         <h2 className="display-2 text-ink">{t("title")}</h2>
 
-        <div className="mt-6 flex flex-col gap-4 md:mt-[clamp(32px,6dvh,60px)] md:flex-row md:gap-[clamp(16px,2vw,30px)]">
+        <div className="mt-6 flex flex-col gap-4 md:mt-[clamp(32px,6svh,60px)] md:flex-row md:gap-[clamp(16px,2vw,30px)]">
           {items.map((c) => (
             <article
               key={c.id}
@@ -53,7 +53,7 @@ export function Certificates({ items }: { items: CertificateView[] }) {
                 onClick={() => c.image && setZoomed(c)}
                 disabled={!c.image}
                 aria-label={`${c.name} — ${t("view")}`}
-                className="group relative aspect-[235/332] w-[28%] shrink-0 cursor-pointer overflow-hidden rounded-md bg-paper-mute disabled:cursor-default md:h-[clamp(220px,42dvh,332px)] md:w-auto md:rounded-lg"
+                className="group relative aspect-[235/332] w-[28%] shrink-0 cursor-pointer overflow-hidden rounded-md bg-paper-mute disabled:cursor-default md:h-[clamp(220px,42svh,332px)] md:w-auto md:rounded-lg"
               >
                 {c.image && (
                   <Image

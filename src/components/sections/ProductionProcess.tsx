@@ -18,9 +18,9 @@ const BLOCKS = [
  * arrow clicks.
  *
  * Mechanism:
- *   - Outer runway is `BLOCKS.length * 100dvh` tall (four viewport
+ *   - Outer runway is `BLOCKS.length * 100svh` tall (four viewport
  *     heights of scroll for four stages).
- *   - Invisible markers sit at 0, 100, 200, 300 dvh inside the runway.
+ *   - Invisible markers sit at 0, 100, 200, 300 svh inside the runway.
  *     An IntersectionObserver with a "middle stripe" rootMargin fires as
  *     each marker crosses viewport center, updating `active`.
  *   - A `sticky top-0` viewport-sized container pins for the runway
@@ -57,18 +57,53 @@ export function ProductionProcess() {
 
   return (
     <section id="production" className="relative w-full">
-      {/* Scroll runway — one viewport of scroll per stage. */}
+      {/* Mobile: a plain vertical list, no pinning.
+       *
+       * The runway below holds the page still for four full screens while the
+       * stages cross-fade. With a mouse that reads as a deliberate effect; under
+       * a thumb it reads as the page having stopped responding — you swipe and
+       * nothing moves. QualityTimeline already opts out of pinning on phones for
+       * the same reason, so this section now matches it. */}
+      <div className="container-x section-pt md:hidden">
+        <h2 className="display-2 text-ink">
+          {t.rich("sectionTitle", {
+            a: (chunks) => <span className="text-quiet">{chunks}</span>,
+          })}
+        </h2>
+        <div className="mt-6 flex flex-col gap-10">
+          {BLOCKS.map((b) => (
+            <article key={b.key} className="flex flex-col gap-4">
+              <div className="relative aspect-4/3 w-full overflow-hidden rounded-2xl bg-paper-warm">
+                <BlurImage
+                  src={b.image}
+                  alt=""
+                  fill
+                  sizes="100vw"
+                  className="object-cover"
+                />
+              </div>
+              <h3 className="display-3 text-ink">
+                {t(`blocks.${b.key}.title`)}
+              </h3>
+              <p className="body-md text-ink-2">{t(`blocks.${b.key}.body1`)}</p>
+              <p className="body-md text-ink-2">{t(`blocks.${b.key}.body2`)}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      {/* Desktop: scroll runway — one viewport of scroll per stage. */}
       <div
-        className="relative"
-        style={{ height: `${BLOCKS.length * 100}dvh` }}
+        className="relative hidden md:block"
+        style={{ height: `${BLOCKS.length * 100}svh` }}
       >
         {/* Invisible scroll markers, one per stage. */}
         {BLOCKS.map((_, i) => (
           <div
             key={i}
             data-production-marker={i}
-            className="pointer-events-none absolute inset-x-0 h-dvh"
-            style={{ top: `${i * 100}dvh` }}
+            className="pointer-events-none absolute inset-x-0 h-svh"
+            style={{ top: `${i * 100}svh` }}
             aria-hidden
           />
         ))}
@@ -83,7 +118,7 @@ export function ProductionProcess() {
            * header height, so this is just breathing room. It used to be
            * ~100-160px to clear a `top:0` pin — that now doubled up as a visible
            * gap and shrank the image. */}
-          <div className="container-x flex h-full flex-col pt-[clamp(10px,2dvh,20px)] pb-6 md:pt-[clamp(10px,1.6dvh,22px)] md:pb-[clamp(16px,3dvh,32px)]">
+          <div className="container-x flex h-full flex-col pt-[clamp(10px,2svh,20px)] pb-6 md:pt-[clamp(10px,1.6svh,22px)] md:pb-[clamp(16px,3svh,32px)]">
             {/* Header — title + dot progress indicator */}
             <div className="flex items-start justify-between gap-4">
               <h2 className="display-2 text-ink md:max-w-[62vw]">
@@ -93,7 +128,7 @@ export function ProductionProcess() {
                   ),
                 })}
               </h2>
-              <div className="flex shrink-0 items-center gap-2 pt-2 md:pt-[clamp(20px,3dvh,32px)]">
+              <div className="flex shrink-0 items-center gap-2 pt-2 md:pt-[clamp(20px,3svh,32px)]">
                 {BLOCKS.map((_, i) => (
                   <div
                     key={i}
@@ -110,7 +145,7 @@ export function ProductionProcess() {
 
             {/* Stage stack — all layered, cross-fade on scroll-driven
              * active change. */}
-            <div className="relative mt-4 flex-1 min-h-0 md:mt-[clamp(16px,2.5dvh,28px)]">
+            <div className="relative mt-4 flex-1 min-h-0 md:mt-[clamp(16px,2.5svh,28px)]">
               {BLOCKS.map((b, i) => (
                 <div
                   key={b.key}
@@ -152,7 +187,7 @@ function StageCard({
   return (
     <div className="flex h-full flex-col gap-4 md:flex-row md:items-stretch md:gap-[clamp(24px,3vw,60px)]">
       {/* Text column — vertically centered next to the image. */}
-      <div className="flex flex-col gap-3 md:w-[38%] md:shrink-0 md:justify-center md:gap-[clamp(14px,2dvh,20px)]">
+      <div className="flex flex-col gap-3 md:w-[38%] md:shrink-0 md:justify-center md:gap-[clamp(14px,2svh,20px)]">
         <h3 className="display-3 text-ink">{title}</h3>
         <p className="body-md text-ink-2">{body1}</p>
         <p className="body-md text-ink-2">{body2}</p>

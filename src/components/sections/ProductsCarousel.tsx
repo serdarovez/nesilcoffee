@@ -34,7 +34,7 @@ export function ProductsCarousel({ slides }: { slides: Slide[] }) {
   // Embla was initialised on a `display:none` element and the visible mobile
   // carousel could not be swiped. Each layout now owns its own instance.
   return (
-    <section className="relative h-[100dvh] w-full overflow-hidden md:h-(--hero-h)">
+    <section className="relative h-[100svh] w-full overflow-hidden md:h-(--hero-h)">
       {/* Blurred coffee-beans backdrop — desktop-only. Fills the section so
        * it scales with the section height rather than staying at design px. */}
       <div className="hidden md:block">
@@ -133,9 +133,9 @@ function MobileCarousel({
 }
 
 /* Fluid rebuild: no more 951×1512 absolute frame. Section height is pinned to
- * `100dvh - header`. Inside: a flex column with the h2 on top and the carousel
+ * `100svh - header`. Inside: a flex column with the h2 on top and the carousel
  * row filling the rest. Card bg, product image, text column and arrows all
- * scale via dvh/vw clamps so the composition fits any viewport height. */
+ * scale via svh/vw clamps so the composition fits any viewport height. */
 function DesktopCarousel({
   slides,
   t,
@@ -162,14 +162,14 @@ function DesktopCarousel({
   }, [emblaApi]);
 
   return (
-    <div className="container-x relative hidden h-full flex-col pt-[clamp(48px,9dvh,120px)] pb-[clamp(20px,3dvh,40px)] md:flex">
+    <div className="container-x relative hidden h-full flex-col pt-[clamp(48px,9svh,120px)] pb-[clamp(20px,3svh,40px)] md:flex">
       <h2 className="display-2 text-ink">
         {t.rich("sectionTitle", {
           a: (chunks) => <span className="text-quiet">{chunks}</span>,
         })}
       </h2>
 
-      <div className="relative mt-[clamp(-56px,-6dvh,-24px)] flex-1 min-h-0">
+      <div className="relative mt-[clamp(-56px,-6svh,-24px)] flex-1 min-h-0">
         <div className="h-full overflow-hidden" ref={emblaRef}>
           <div className="flex h-full">
             {slides.map((s) => (
@@ -185,26 +185,26 @@ function DesktopCarousel({
           onClick={scrollPrev}
           aria-label="Previous"
           className={cn(
-            "absolute left-[clamp(20px,3vw,70px)] top-1/2 z-10 grid size-[clamp(48px,6dvh,70px)] -translate-y-1/2 place-items-center rounded-full transition-colors cursor-pointer",
+            "absolute left-[clamp(20px,3vw,70px)] top-1/2 z-10 grid size-[clamp(48px,6svh,70px)] -translate-y-1/2 place-items-center rounded-full transition-colors cursor-pointer",
             selected === 0
               ? "bg-quiet text-ink hover:bg-quiet-hover"
               : "bg-paper-darker text-ink-inverse hover:bg-black",
           )}
         >
-          <ArrowLeft className="size-[clamp(18px,2.4dvh,26px)]" />
+          <ArrowLeft className="size-[clamp(18px,2.4svh,26px)]" />
         </button>
         <button
           type="button"
           onClick={scrollNext}
           aria-label="Next"
           className={cn(
-            "absolute right-[clamp(20px,3vw,70px)] top-1/2 z-10 grid size-[clamp(48px,6dvh,70px)] -translate-y-1/2 place-items-center rounded-full transition-colors cursor-pointer",
+            "absolute right-[clamp(20px,3vw,70px)] top-1/2 z-10 grid size-[clamp(48px,6svh,70px)] -translate-y-1/2 place-items-center rounded-full transition-colors cursor-pointer",
             selected === slides.length - 1
               ? "bg-quiet text-ink hover:bg-quiet-hover"
               : "bg-paper-darker text-ink-inverse hover:bg-black",
           )}
         >
-          <ArrowRight className="size-[clamp(18px,2.4dvh,26px)]" />
+          <ArrowRight className="size-[clamp(18px,2.4svh,26px)]" />
         </button>
       </div>
     </div>
@@ -218,8 +218,14 @@ function MobileSlide({
   slide: Slide;
   t: ReturnType<typeof useTranslations>;
 }) {
+  // No backdrop-blur. This card is only ever rendered inside the `md:hidden`
+  // mobile carousel, and the beans photo it was meant to frost is `hidden
+  // md:block` — so the filter sampled flat page background and produced no
+  // visible difference, while still making the compositor re-blur the card on
+  // every scroll frame of the one layout where frames are scarcest. The
+  // desktop card is a different component and never had it.
   return (
-    <div className="flex h-full flex-col items-center gap-3 rounded-3xl bg-paper/60 p-4 backdrop-blur">
+    <div className="flex h-full flex-col items-center gap-3 rounded-3xl bg-paper/60 p-4">
       {/* The image flexes to fill whatever height is left after the text, and
         * `object-contain` keeps the pack shape — so the card fits the screen
         * on tall and short phones alike instead of a fixed square pushing it
@@ -291,7 +297,7 @@ function SlideCard({ slide }: { slide: Slide }) {
        * with the card bottom via `object-bottom`. */}
       <div className="relative grid h-full grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] items-center gap-[clamp(24px,4vw,80px)] px-[clamp(40px,7vw,160px)]">
         {/* Text col */}
-        <div className="flex min-w-0 flex-col gap-[clamp(10px,1.8dvh,18px)] pt-[clamp(24px,4dvh,60px)]">
+        <div className="flex min-w-0 flex-col gap-[clamp(10px,1.8svh,18px)] pt-[clamp(24px,4svh,60px)]">
           {slide.tagline && (
             <span className="eyebrow inline-flex w-fit items-center rounded-lg bg-paper-alt px-1 py-[3px] text-ink-2">
               {slide.tagline}
@@ -306,7 +312,7 @@ function SlideCard({ slide }: { slide: Slide }) {
                 b: (chunks) => <span className="font-semibold">{chunks}</span>,
               })}
           </p>
-          <div className="mt-[clamp(4px,0.8dvh,8px)] flex items-center gap-3.5">
+          <div className="mt-[clamp(4px,0.8svh,8px)] flex items-center gap-3.5">
             {slide.roast !== null && (
               <SpecRow label={t("roast")} value={slide.roast} icon={RoastIcon} />
             )}

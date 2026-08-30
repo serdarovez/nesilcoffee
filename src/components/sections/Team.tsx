@@ -64,7 +64,7 @@ export function Team({ members }: { members: TeamMemberView[] }) {
            * fourth would be. Inline because Tailwind cannot emit a class for
            * a value only known at runtime. */
           <div
-            className="mt-[clamp(24px,4dvh,40px)] grid gap-[clamp(12px,1.2vw,20px)]"
+            className="mt-[clamp(24px,4svh,40px)] grid gap-[clamp(12px,1.2vw,20px)]"
             style={{
               gridTemplateColumns: `repeat(${members.length}, minmax(0, 1fr))`,
             }}
@@ -133,7 +133,7 @@ function CarouselTrack({
 }) {
   return (
     <div
-      className="mt-6 overflow-hidden md:mt-[clamp(24px,4dvh,40px)]"
+      className="mt-6 overflow-hidden md:mt-[clamp(24px,4svh,40px)]"
       ref={emblaRef}
     >
       <div className="flex gap-3 md:gap-[clamp(12px,1.2vw,20px)]">
@@ -186,7 +186,7 @@ function Dots({ api }: { api: ReturnType<typeof useEmblaCarousel>[1] }) {
   if (snaps.length <= 1) return null;
 
   return (
-    <div className="mt-6 flex items-center justify-center gap-2 md:mt-[clamp(20px,3dvh,32px)]">
+    <div className="mt-6 flex items-center justify-center gap-2 md:mt-[clamp(20px,3svh,32px)]">
       {snaps.map((_, i) => (
         <button
           key={i}
@@ -238,14 +238,14 @@ function MemberCard({ m, sizes }: { m: TeamMemberView; sizes: string }) {
        * two lines. Doing it here rather than with `mt-auto` on the contacts
        * keeps their own top margin, so a short card still has a gap under the
        * role instead of the rule butting straight against it. */}
-      <div className="mt-3 flex flex-1 flex-col gap-1 md:mt-[clamp(10px,1.2dvh,14px)]">
+      <div className="mt-3 flex flex-1 flex-col gap-1 md:mt-[clamp(10px,1.2svh,14px)]">
         <div className="heading-2 text-ink">{m.name}</div>
         <div className="eyebrow text-ink-4">{m.role}</div>
       </div>
 
       {/* Contact rows — hairline separator, secondary colour. */}
       {(m.phone || m.email) && (
-        <div className="body-sm mt-3 flex flex-col gap-1.5 border-t border-line-strong pt-3 uppercase text-ink-4 md:mt-[clamp(12px,1.8dvh,18px)] md:pt-3">
+        <div className="body-sm mt-3 flex flex-col gap-1.5 border-t border-line-strong pt-3 uppercase text-ink-4 md:mt-[clamp(12px,1.8svh,18px)] md:pt-3">
           {m.phone && (
             <a
               href={`tel:${m.phone}`}

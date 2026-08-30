@@ -16,7 +16,7 @@ export default async function DashboardLayout({
   const user = await requireAdmin();
 
   return (
-    <div className="flex min-h-dvh">
+    <div className="flex min-h-svh">
       <Sidebar userName={user.name} userEmail={user.email} />
       <main className="min-w-0 flex-1 overflow-x-hidden">{children}</main>
     </div>

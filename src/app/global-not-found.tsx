@@ -26,7 +26,7 @@ export default function GlobalNotFound() {
       className={`${fontSans.variable} ${fontDisplay.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-paper text-ink">
-        <main className="flex min-h-dvh flex-col items-center justify-center gap-6 px-5 text-center">
+        <main className="flex min-h-svh flex-col items-center justify-center gap-6 px-5 text-center">
           <p className="font-display text-[clamp(72px,18vw,160px)] font-bold leading-none tracking-tight text-quiet">
             404
           </p>

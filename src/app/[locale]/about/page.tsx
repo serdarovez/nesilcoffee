@@ -36,13 +36,13 @@ export async function generateMetadata({
 function Welcome() {
   const t = useTranslations("about.welcome");
   return (
-    <section className="container-x flex flex-col pt-6 md:min-h-(--hero-h) md:pb-[clamp(16px,3dvh,40px)] md:pt-8">
+    <section className="container-x flex flex-col pt-6 md:min-h-(--hero-h) md:pb-[clamp(16px,3svh,40px)] md:pt-8">
       {/* Desktop: the plate drops its baked 1440/554 ratio and absorbs the
        * slack left over by the copy row, so plate + copy land inside one
        * `--hero-h` screen. The min-height keeps it from collapsing on short
        * viewports — there the section grows past the fold rather than
        * squeezing the video to nothing. */}
-      <div className="relative aspect-4/3 w-full overflow-hidden rounded-2xl bg-brand-espresso md:aspect-auto md:min-h-[38dvh] md:flex-1 md:rounded-4xl">
+      <div className="relative aspect-4/3 w-full overflow-hidden rounded-2xl bg-brand-espresso md:aspect-auto md:min-h-[38svh] md:flex-1 md:rounded-4xl">
         {/* Two sources: the browser plays the first that loads. When a
           * pre-rendered forward+reverse file is present it boomerangs
           * seamlessly on a plain `loop`; until then it falls back to the
@@ -67,7 +67,7 @@ function Welcome() {
         <div className="absolute inset-0 bg-black/60" />
       </div>
 
-      <div className="mt-8 flex flex-col gap-5 md:mt-[clamp(20px,3.6dvh,40px)] md:shrink-0 md:flex-row md:items-start md:gap-[8.54%]">
+      <div className="mt-8 flex flex-col gap-5 md:mt-[clamp(20px,3.6svh,40px)] md:shrink-0 md:flex-row md:items-start md:gap-[8.54%]">
         <h1 className="display-2 font-extrabold text-ink md:w-[59.24%] md:min-w-0">
           {t.rich("title", {
             a: (chunks) => <span className="text-quiet">{chunks}</span>,
@@ -93,7 +93,7 @@ function Welcome() {
 function Geography() {
   const t = useTranslations("about.geography");
   return (
-    <section className="container-x section-pt flex flex-col md:min-h-(--screen-h) md:pb-[clamp(24px,5dvh,64px)]">
+    <section className="container-x section-pt flex flex-col md:min-h-(--screen-h) md:pb-[clamp(24px,5svh,64px)]">
       <h2 className="display-4 text-ink md:max-w-[49.6%] md:shrink-0">
         {t("title")}
       </h2>
@@ -101,7 +101,7 @@ function Geography() {
        * (items-stretch), so heading + image + copy share one `--screen-h`
        * instead of the baked 914/798 plate pushing the copy off-screen. */}
       <div className="mt-6 flex flex-col gap-6 md:mt-8 md:min-h-0 md:flex-1 md:flex-row md:items-stretch md:gap-[3.3%]">
-        <div className="relative aspect-4/3 w-full shrink-0 overflow-hidden rounded-2xl bg-paper-mute md:aspect-auto md:min-h-[38dvh] md:w-[63.5%] md:rounded-[clamp(20px,2.2vw,34px)]">
+        <div className="relative aspect-4/3 w-full shrink-0 overflow-hidden rounded-2xl bg-paper-mute md:aspect-auto md:min-h-[38svh] md:w-[63.5%] md:rounded-[clamp(20px,2.2vw,34px)]">
           <BlurImage
             src="/sections/about/hero-grid.jpg"
             alt=""
@@ -110,7 +110,7 @@ function Geography() {
             className="object-cover"
           />
         </div>
-        <div className="flex flex-col gap-4 md:w-[33.2%] md:min-w-0 md:gap-[clamp(12px,2dvh,24px)] md:pt-2">
+        <div className="flex flex-col gap-4 md:w-[33.2%] md:min-w-0 md:gap-[clamp(12px,2svh,24px)] md:pt-2">
           <p className="body-xl text-ink-2">{t("body1")}</p>
           <p className="body-xl text-ink-2">{t("body2")}</p>
           <p className="body-xl text-ink-2">{t("body3")}</p>
@@ -176,11 +176,11 @@ function Experts({
   return (
     <section className="container-x section-pt">
       <h2 className="display-3 text-ink md:max-w-[49.2%]">{title}</h2>
-      <div className="mt-6 flex flex-col gap-4 md:mt-[clamp(24px,5dvh,40px)] md:flex-row md:gap-[clamp(16px,2vw,24px)]">
+      <div className="mt-6 flex flex-col gap-4 md:mt-[clamp(24px,5svh,40px)] md:flex-row md:gap-[clamp(16px,2vw,24px)]">
         {items.map((expert) => (
           <article
             key={expert.id}
-            className="surface-card flex flex-col gap-4 p-5 md:min-w-0 md:flex-1 md:gap-[clamp(16px,2.6dvh,24px)] md:p-[clamp(18px,2vw,30px)]"
+            className="surface-card flex flex-col gap-4 p-5 md:min-w-0 md:flex-1 md:gap-[clamp(16px,2.6svh,24px)] md:p-[clamp(18px,2vw,30px)]"
           >
             <div className="flex items-center gap-4 md:gap-[clamp(16px,2.2vw,30px)]">
               {/* The photo slot keeps its box when empty rather than letting

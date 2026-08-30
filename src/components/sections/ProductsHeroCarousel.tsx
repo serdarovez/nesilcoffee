@@ -173,11 +173,11 @@ export function ProductsHeroCarousel({
                 </div>
 
                 {/* Copy */}
-                <div className="flex shrink-0 flex-col gap-3 md:min-w-0 md:max-w-[52ch] md:flex-1 md:gap-[clamp(16px,3dvh,24px)]">
-                  <h1 className="font-display font-bold uppercase text-white text-[clamp(28px,8vw,36px)] leading-[100%] tracking-[-0.03em] md:text-[clamp(38px,6.6dvh,64px)] md:leading-[97%] md:tracking-[-0.035em]">
+                <div className="flex shrink-0 flex-col gap-3 md:min-w-0 md:max-w-[52ch] md:flex-1 md:gap-[clamp(16px,3svh,24px)]">
+                  <h1 className="font-display font-bold uppercase text-white text-[clamp(28px,8vw,36px)] leading-[100%] tracking-[-0.03em] md:text-[clamp(38px,6.6svh,64px)] md:leading-[97%] md:tracking-[-0.035em]">
                     {s.title}
                   </h1>
-                  <p className="text-sm leading-[130%] text-white md:text-[clamp(16px,2.4dvh,24px)] md:leading-[120%]">
+                  <p className="text-sm leading-[130%] text-white md:text-[clamp(16px,2.4svh,24px)] md:leading-[120%]">
                     {s.body}
                   </p>
                   {/* Opens the order popup pre-filled with this slide's
@@ -205,7 +205,7 @@ export function ProductsHeroCarousel({
 
       {/* Dots overlay the slide now that the hero runs edge to edge. */}
       {slides.length > 1 && (
-        <div className="absolute bottom-5 left-1/2 z-20 flex -translate-x-1/2 items-center gap-3 md:bottom-[clamp(16px,3dvh,28px)] md:gap-4">
+        <div className="absolute bottom-5 left-1/2 z-20 flex -translate-x-1/2 items-center gap-3 md:bottom-[clamp(16px,3svh,28px)] md:gap-4">
           {slides.map((s, i) => (
             <button
               key={s.id}

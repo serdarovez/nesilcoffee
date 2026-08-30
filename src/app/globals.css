@@ -84,7 +84,7 @@
 
   /* ---- Fluid rhythm --------------------------------------- */
   /* Section vertical padding: mobile 4rem → desktop clamp. */
-  --space-section-y:        clamp(4rem, 10dvh, 8rem);
+  --space-section-y:        clamp(4rem, 10svh, 8rem);
   /* Horizontal page gutter. */
   --space-container-x:      1.25rem;   /* mobile */
   --space-container-x-md:   clamp(1.25rem, 3vw, 2.25rem);
@@ -101,7 +101,7 @@
    * space left under the sticky header. These were previously
    * divided by a zoom factor; the layout is now genuinely fluid,
    * so a viewport unit already measures a real viewport. */
-  --screen-h:               100dvh;
+  --screen-h:               100svh;
   --hero-h:                 calc(var(--screen-h) - var(--site-header-h));
 }
 
@@ -257,7 +257,7 @@
   }
   @media (min-width: 768px) {
     .display-1 {
-      /* Keyed to viewport WIDTH, not dvh. A heading sits in a
+      /* Keyed to viewport WIDTH, not svh. A heading sits in a
        * width-constrained column, so tying it to window height made
        * a short wide window render 116px type in a narrow column.
        *
@@ -357,7 +357,7 @@
 
   /* body-xl — 24pt editorial body. About page prose (Welcome side copy,
    * Geography, Quality steps, Expert quotes). Sized off viewport WIDTH,
-   * not dvh: these paragraphs sit in ratio-width columns, so they have to
+   * not svh: these paragraphs sit in ratio-width columns, so they have to
    * track the column, not the window height. */
   .body-xl {
     font-family: var(--font-sans);

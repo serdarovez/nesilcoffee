@@ -25,7 +25,7 @@ export function Hero() {
         {/* Mobile floor is a share of the viewport, not a flat 180px, so
           * a short phone and a tall one both give the video a sensible
           * minimum before flex-1 hands it the leftover height. */}
-        <div className="relative order-first min-h-[22dvh] w-full flex-1 overflow-hidden rounded-3xl bg-paper-dark md:order-last md:h-full md:w-1/2 md:min-h-0 md:flex-none md:rounded-4xl">
+        <div className="relative order-first min-h-[22svh] w-full flex-1 overflow-hidden rounded-3xl bg-paper-dark md:order-last md:h-full md:w-1/2 md:min-h-0 md:flex-none md:rounded-4xl">
           <video
             src="/sections/home/hero-video.mp4"
             poster="/sections/home/hero-video-poster.webp"
@@ -38,8 +38,8 @@ export function Hero() {
           />
         </div>
 
-        <div className="flex w-full shrink-0 flex-col gap-5 md:h-full md:min-w-0 md:flex-1 md:justify-center md:gap-[clamp(16px,3dvh,28px)]">
-          <div className="flex flex-col gap-2.5 md:gap-[clamp(6px,1.4dvh,14px)]">
+        <div className="flex w-full shrink-0 flex-col gap-5 md:h-full md:min-w-0 md:flex-1 md:justify-center md:gap-[clamp(16px,3svh,28px)]">
+          <div className="flex flex-col gap-2.5 md:gap-[clamp(6px,1.4svh,14px)]">
             <h1 className="display-1 text-ink">
               {t.rich("title", {
                 a: (chunks) => <span className="text-quiet">{chunks}</span>,

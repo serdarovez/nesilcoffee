@@ -53,7 +53,7 @@ export function AboutHistory() {
   }, [emblaApi]);
 
   return (
-    <section className="container-x section-pt flex flex-col md:min-h-(--screen-h) md:pb-[clamp(24px,5dvh,64px)]">
+    <section className="container-x section-pt flex flex-col md:min-h-(--screen-h) md:pb-[clamp(24px,5svh,64px)]">
       {/* Header row */}
       <div className="flex shrink-0 flex-col gap-4 md:flex-row md:items-start md:justify-between md:gap-[clamp(16px,2vw,32px)]">
         {/* Widths are ratios of THIS row, not of the section: the arrow
@@ -71,13 +71,13 @@ export function AboutHistory() {
             })}
           </p>
         </div>
-        <div className="flex shrink-0 gap-2 md:gap-4 md:pt-[clamp(12px,2.4dvh,24px)]">
+        <div className="flex shrink-0 gap-2 md:gap-4 md:pt-[clamp(12px,2.4svh,24px)]">
           <button
             type="button"
             onClick={scrollPrev}
             aria-label="Previous"
             className={cn(
-              "grid size-10 cursor-pointer place-items-center rounded-full transition-colors md:size-[clamp(40px,5dvh,48px)]",
+              "grid size-10 cursor-pointer place-items-center rounded-full transition-colors md:size-[clamp(40px,5svh,48px)]",
               canPrev
                 ? "bg-paper-darker text-ink-inverse hover:bg-black"
                 : "bg-quiet text-ink hover:bg-quiet-hover",
@@ -90,7 +90,7 @@ export function AboutHistory() {
             onClick={scrollNext}
             aria-label="Next"
             className={cn(
-              "grid size-10 cursor-pointer place-items-center rounded-full transition-colors md:size-[clamp(40px,5dvh,48px)]",
+              "grid size-10 cursor-pointer place-items-center rounded-full transition-colors md:size-[clamp(40px,5svh,48px)]",
               canNext
                 ? "bg-paper-darker text-ink-inverse hover:bg-black"
                 : "bg-quiet text-ink hover:bg-quiet-hover",
@@ -101,7 +101,7 @@ export function AboutHistory() {
         </div>
       </div>
 
-      <div className="mt-6 shrink-0 border-t border-line-strong md:mt-[clamp(24px,5dvh,40px)]" />
+      <div className="mt-6 shrink-0 border-t border-line-strong md:mt-[clamp(24px,5svh,40px)]" />
 
       {/* The viewport takes the screen height the header row leaves over and
        * hands it down to the track → card → plate. The chain is flex-1 the
@@ -110,7 +110,7 @@ export function AboutHistory() {
        * collapses to auto — which left the plate stuck at its floor with
        * dead space under it. */}
       <div
-        className="mt-6 overflow-hidden md:mt-[clamp(24px,5dvh,40px)] md:flex md:min-h-0 md:flex-1 md:flex-col"
+        className="mt-6 overflow-hidden md:mt-[clamp(24px,5svh,40px)] md:flex md:min-h-0 md:flex-1 md:flex-col"
         ref={emblaRef}
       >
         <div className="flex gap-4 md:min-h-0 md:flex-1 md:gap-[clamp(20px,2.2vw,32px)]">
@@ -118,7 +118,7 @@ export function AboutHistory() {
             <article
               key={card.key}
               className={cn(
-                "flex min-w-0 flex-[0_0_100%] flex-col gap-4 transition-opacity duration-500 md:flex-[0_0_76.3%] md:gap-[clamp(16px,2.6dvh,24px)]",
+                "flex min-w-0 flex-[0_0_100%] flex-col gap-4 transition-opacity duration-500 md:flex-[0_0_76.3%] md:gap-[clamp(16px,2.6svh,24px)]",
                 i === selected ? "opacity-100" : "opacity-40",
               )}
             >
@@ -126,7 +126,7 @@ export function AboutHistory() {
                 {t(`cards.${card.key}.title`)}
               </h3>
               <div className="flex flex-col gap-4 md:min-h-0 md:flex-1 md:flex-row md:gap-[clamp(16px,2vw,24px)]">
-                <div className="relative aspect-4/3 w-full shrink-0 overflow-hidden rounded-2xl bg-paper-mute md:aspect-auto md:min-h-[30dvh] md:w-[65%] md:rounded-3xl">
+                <div className="relative aspect-4/3 w-full shrink-0 overflow-hidden rounded-2xl bg-paper-mute md:aspect-auto md:min-h-[30svh] md:w-[65%] md:rounded-3xl">
                   <BlurImage
                     src={card.image}
                     alt=""

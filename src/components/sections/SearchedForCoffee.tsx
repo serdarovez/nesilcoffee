@@ -8,13 +8,13 @@ export function SearchedForCoffee() {
     // copy takes its natural height and the video absorbs whatever is left.
     //
     // The top gap is padding, not margin, so border-box folds it *into*
-    // --screen-h. As a margin it stacked on top of the 100dvh box and the
+    // --screen-h. As a margin it stacked on top of the 100svh box and the
     // section overflowed the viewport by up to 96px. Padding costs the video
     // nothing horizontally — the gutters live on the inner .container-x.
     //
     // Mobile is left to flow naturally — pinning a viewport height there would
     // squeeze the video to nothing once the heading wraps onto three lines.
-    <section className="w-full  overflow-hidden pt-[clamp(48px,8dvh,96px)] md:flex md:h-(--screen-h) md:flex-col">
+    <section className="w-full  overflow-hidden pt-[clamp(48px,8svh,96px)] md:flex md:h-(--screen-h) md:flex-col">
       <div className="container-x md:shrink-0">
         <div className="flex flex-col gap-3 md:flex-row md:items-start md:gap-[clamp(16px,2vw,24px)]">
           <h2 className="display-2 text-ink md:flex-[0_0_49%]">
@@ -22,7 +22,7 @@ export function SearchedForCoffee() {
               a: (chunks) => <span className="text-quiet">{chunks}</span>,
             })}
           </h2>
-          <div className="flex flex-col gap-3 md:min-w-0 md:flex-1 md:gap-[clamp(12px,1.6dvh,16px)] md:pt-2">
+          <div className="flex flex-col gap-3 md:min-w-0 md:flex-1 md:gap-[clamp(12px,1.6svh,16px)] md:pt-2">
             <p className="body-md text-ink">
               {t("body1")}
             </p>
@@ -40,7 +40,7 @@ export function SearchedForCoffee() {
       {/* Mobile height is a ratio rather than 220px; on md+ the block
         * still takes the section's leftover height via flex-1, which is
         * what keeps copy + video at exactly one screen. */}
-      <div className="relative mt-6 aspect-[16/9] w-full overflow-hidden bg-paper-dark md:mt-[clamp(20px,3dvh,40px)] md:aspect-auto md:h-auto md:min-h-0 md:flex-1">
+      <div className="relative mt-6 aspect-[16/9] w-full overflow-hidden bg-paper-dark md:mt-[clamp(20px,3svh,40px)] md:aspect-auto md:h-auto md:min-h-0 md:flex-1">
         {/* Ping-pong loop. The file is pre-rendered as forward + reversed
          * frames, so plain `loop` turns around at the end instead of cutting
          * back to frame 0 — that cut was the visible jolt. Doing it in the

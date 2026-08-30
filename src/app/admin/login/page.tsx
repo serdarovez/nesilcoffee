@@ -12,7 +12,7 @@ export default async function LoginPage() {
   if (user) redirect("/admin");
 
   return (
-    <main className="flex min-h-dvh items-center justify-center px-5 py-12">
+    <main className="flex min-h-svh items-center justify-center px-5 py-12">
       <div className="w-full max-w-100">
         <div className="mb-8 flex flex-col items-center gap-4 text-center">
           <Image

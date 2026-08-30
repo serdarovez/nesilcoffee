@@ -186,16 +186,16 @@ export function QualityTimeline({
         // (steps-1) viewports and each step flicks by in ~⅔ of a screen; adding
         // it back gives a full viewport of scroll per step — the same unhurried
         // pace as ProductionProcess.
-        style={{ height: `calc(${steps.length * 100}dvh + var(--screen-h))` }}
+        style={{ height: `calc(${steps.length * 100}svh + var(--screen-h))` }}
       >
         {/* `--screen-h` compensates for the outer .fluid-viewport zoom, so the
          * pinned card matches the real viewport height on md+. */}
-        <div className="sticky top-0 flex h-(--screen-h) w-full flex-col overflow-hidden pt-[clamp(100px,14dvh,160px)] pb-[clamp(16px,3dvh,32px)]">
+        <div className="sticky top-0 flex h-(--screen-h) w-full flex-col overflow-hidden pt-[clamp(100px,14svh,160px)] pb-[clamp(16px,3svh,32px)]">
           <h2 className="display-2 shrink-0 text-ink md:max-w-[66.2%]">
             {title}
           </h2>
 
-          <div className="mt-[clamp(24px,4dvh,40px)] flex min-h-0 flex-1 gap-[clamp(16px,2vw,24px)]">
+          <div className="mt-[clamp(24px,4svh,40px)] flex min-h-0 flex-1 gap-[clamp(16px,2vw,24px)]">
             {/* Rail is 9% rather than the Figma 102px so the stage pill still
              * fits on one line once the label scales with the viewport. */}
             <div className="relative w-[9%] shrink-0">
@@ -282,7 +282,7 @@ function StageCard({ step }: { step: QualityStepView }) {
           className="object-cover"
         />
       </div>
-      <div className="flex min-w-0 flex-1 flex-col justify-center gap-[clamp(14px,2dvh,24px)]">
+      <div className="flex min-w-0 flex-1 flex-col justify-center gap-[clamp(14px,2svh,24px)]">
         <h3 className="display-3 text-ink">{step.title}</h3>
         <p className="body-xl max-w-[52ch] text-ink-2">{step.body}</p>
       </div>
