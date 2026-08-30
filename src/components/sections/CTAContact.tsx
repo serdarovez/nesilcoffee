@@ -62,7 +62,12 @@ export function CTAContact() {
 
   return (
     <section id="contact" className="container-x section-y">
-      <div className="surface-card flex flex-col gap-6 p-6 md:flex-row md:items-start md:justify-between md:gap-[clamp(24px,4vw,72px)] md:px-[clamp(32px,5vw,80px)] md:py-[clamp(40px,7svh,84px)]">
+      {/* Horizontal padding was clamp(32px,5vw,80px) — up to 80px, which on a
+        * wide screen pushed "У вас есть вопросы?" a long way inside the card
+        * while every other section heading starts on the site gutter, so this
+        * one read as misaligned rather than inset. Halved, and kept symmetric
+        * so the form on the right stays balanced against it. */}
+      <div className="surface-card flex flex-col gap-6 p-6 md:flex-row md:items-start md:justify-between md:gap-[clamp(24px,4vw,72px)] md:px-[clamp(24px,2.5vw,40px)] md:py-[clamp(40px,7svh,84px)]">
         <h2 className="display-1 text-ink md:min-w-0 md:flex-1">{t("title")}</h2>
 
         <div className="flex flex-col gap-4 md:min-w-0 md:flex-1">

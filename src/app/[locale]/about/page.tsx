@@ -129,7 +129,7 @@ function Geography() {
 type QualityStep = { key: "step1" | "step2" | "step3"; image: string };
 const QUALITY_STEPS: QualityStep[] = [
   { key: "step1", image: "/sections/about/history-idea.jpg" },
-  { key: "step2", image: "/sections/production/alt-3.jpg" },
+  { key: "step2", image: "/sections/home/DSC00170.webp" },
   { key: "step3", image: "/sections/about/history-search.jpg" },
 ];
 

@@ -120,7 +120,14 @@ export function QualityTimeline({
     return () => observer.disconnect();
   }, [steps.length]);
 
-  useMotionValueEvent(fill, "change", (progress) => {
+  // Which step is showing is read from `raw` — scroll position itself — not
+  // from the spring. The spring exists to make the rail *line* glide, and it
+  // deliberately lags its input; driving the step from it meant a fast scroll
+  // reached the end of the runway before the spring had caught up to the last
+  // dot, so the final step was skipped entirely and the section scrolled away
+  // still showing step 2. The line keeps its easing below; only the decision
+  // of which card to show is now immediate.
+  useMotionValueEvent(raw, "change", (progress) => {
     // Never fall back past the first step: while pinned there is always one
     // stage on screen, and the rail is lit from its first dot.
     const next = Math.max(0, activeFromProgress(progress, marks));

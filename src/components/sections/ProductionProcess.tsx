@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 const BLOCKS = [
   { key: "capacity", image: "/sections/production/stage-1.jpg" },
   { key: "organic", image: "/sections/production/stage-2.jpg" },
-  { key: "italian", image: "/sections/production/stage-3.jpg" },
+  { key: "italian", image: "/sections/home/DSC00140.webp" },
   { key: "certified", image: "/sections/production/stage-4.jpg" },
 ] as const;
 
