@@ -10,6 +10,7 @@ import { AboutHistory } from "@/components/sections/AboutHistory";
 import { QualityTimeline } from "@/components/sections/QualityTimeline";
 import { teamView, certificatesView, expertsView, type ExpertView } from "@/server/views";
 import { BlurImage } from "@/components/ui/BlurImage";
+import { LazyVideo } from "@/components/ui/LazyVideo";
 
 export async function generateMetadata({
   params,
@@ -50,18 +51,13 @@ function Welcome() {
           * — no JS reverse-seek, which stuttered on this clip's sparse
           * keyframes. Generate the loop file with the ffmpeg command in the
           * deploy notes / SearchedForCoffee.tsx. */}
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
+        <LazyVideo
           poster="/sections/about/welcome-hero.jpg"
-          className="absolute inset-0 h-full w-full object-cover"
-        >
-          <source src="/sections/about/welcome-video-loop.mp4" type="video/mp4" />
-          <source src="/sections/about/welcome-video.mp4" type="video/mp4" />
-        </video>
+          sources={[
+            "/sections/about/welcome-video-loop.mp4",
+            "/sections/about/welcome-video.mp4",
+          ]}
+        />
         {/* Flat scrim, matching the solid black @ 60% that Figma stacks on
          * top of the video fill — no gradient, the copy is off-image. */}
         <div className="absolute inset-0 bg-black/60" />

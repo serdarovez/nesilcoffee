@@ -1,5 +1,6 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { LazyVideo } from "@/components/ui/LazyVideo";
 
 /**
  * Fills the viewport below the sticky header at every breakpoint via the
@@ -26,15 +27,14 @@ export function Hero() {
           * a short phone and a tall one both give the video a sensible
           * minimum before flex-1 hands it the leftover height. */}
         <div className="relative order-first min-h-[22svh] w-full flex-1 overflow-hidden rounded-3xl bg-paper-dark md:order-last md:h-full md:w-1/2 md:min-h-0 md:flex-none md:rounded-4xl">
-          <video
+          {/* `eager` — this is above the fold, so it must not wait on an
+            * observer to start loading. It still pauses once scrolled past:
+            * a looping video decodes frames forever otherwise, and that cost
+            * followed the reader all the way down to the footer. */}
+          <LazyVideo
+            eager
             src="/sections/home/hero-video.mp4"
             poster="/sections/home/hero-video-poster.webp"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            className="absolute inset-0 h-full w-full object-cover"
           />
         </div>
 

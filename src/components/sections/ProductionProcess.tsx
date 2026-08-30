@@ -57,44 +57,15 @@ export function ProductionProcess() {
 
   return (
     <section id="production" className="relative w-full">
-      {/* Mobile: a plain vertical list, no pinning.
+      {/* Scroll runway — one viewport of scroll per stage, on every device.
        *
-       * The runway below holds the page still for four full screens while the
-       * stages cross-fade. With a mouse that reads as a deliberate effect; under
-       * a thumb it reads as the page having stopped responding — you swipe and
-       * nothing moves. QualityTimeline already opts out of pinning on phones for
-       * the same reason, so this section now matches it. */}
-      <div className="container-x section-pt md:hidden">
-        <h2 className="display-2 text-ink">
-          {t.rich("sectionTitle", {
-            a: (chunks) => <span className="text-quiet">{chunks}</span>,
-          })}
-        </h2>
-        <div className="mt-6 flex flex-col gap-10">
-          {BLOCKS.map((b) => (
-            <article key={b.key} className="flex flex-col gap-4">
-              <div className="relative aspect-4/3 w-full overflow-hidden rounded-2xl bg-paper-warm">
-                <BlurImage
-                  src={b.image}
-                  alt=""
-                  fill
-                  sizes="100vw"
-                  className="object-cover"
-                />
-              </div>
-              <h3 className="display-3 text-ink">
-                {t(`blocks.${b.key}.title`)}
-              </h3>
-              <p className="body-md text-ink-2">{t(`blocks.${b.key}.body1`)}</p>
-              <p className="body-md text-ink-2">{t(`blocks.${b.key}.body2`)}</p>
-            </article>
-          ))}
-        </div>
-      </div>
-
-      {/* Desktop: scroll runway — one viewport of scroll per stage. */}
+       * Pinning does mean the page holds still under a thumb while the stages
+       * cross-fade, and this was briefly stacked into a plain list on phones
+       * for that reason. The scroll-driven reveal is wanted on mobile too, so
+       * it stays; the `svh` units below are what actually stopped the section
+       * jumping as Chrome's URL bar moves. */}
       <div
-        className="relative hidden md:block"
+        className="relative"
         style={{ height: `${BLOCKS.length * 100}svh` }}
       >
         {/* Invisible scroll markers, one per stage. */}
