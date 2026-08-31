@@ -159,12 +159,11 @@ export function ProductsHeroCarousel({
                  * range from the centre to the right edge; `object-contain`
                  * keeps any pack shape inside it.
                  *
-                 * On mobile the pack is the point of the slide, so it takes a
-                 * fixed 58% of the height rather than only what the headline
-                 * and body leave over — which on a phone was barely half the
-                 * screen for the one thing a visitor came to look at. */}
+                 * On mobile the pack takes a fixed share of the height rather
+                 * than only what the headline and body leave over. 50%: at 58
+                 * it dominated the slide and crowded the copy under it. */}
                 <div
-                  className="pointer-events-none relative order-first min-h-0 w-full flex-[0_0_58%] md:order-last md:h-[78%] md:w-1/2 md:flex-none"
+                  className="pointer-events-none relative order-first min-h-0 w-full flex-[0_0_50%] md:order-last md:h-[78%] md:w-1/2 md:flex-none"
                   // Mobile stays centered; on desktop the object-position X is
                   // driven by the per-slide offset via this variable.
                   style={{ "--art-x": `${s.productOffset}%` } as CSSProperties}

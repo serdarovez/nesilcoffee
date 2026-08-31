@@ -48,7 +48,18 @@ export function Header() {
        * on every scroll frame — on every page, which is what made scrolling
        * feel heavy. An opaque white reads almost identically over the pale
        * page and costs nothing to composite. */}
-      <header className="sticky top-0 z-40 w-full bg-white/90 shadow-[0_1px_0_var(--color-line)]">
+      {/* `translate-z-0` promotes the bar to its own compositing layer.
+        * Measured in a desktop browser the sticky header never moves — it sits
+        * at top:0 at every scroll position, and nothing above it in the tree
+        * has the overflow, transform or filter that would break `sticky`. But
+        * it was reported vanishing while scrolling on iOS, which is a known
+        * behaviour when a sticky bar sits over long scroll-pinned sections and
+        * the compositor stops repainting it. Forcing a layer is the standard
+        * remedy and costs nothing here: the element is small and its contents
+        * do not change. Safe against the usual side effect too — the mobile
+        * drawer is a sibling, not a descendant, so this containing block
+        * cannot capture its `fixed` positioning. */}
+      <header className="sticky top-0 z-40 w-full [transform:translateZ(0)] bg-white/90 shadow-[0_1px_0_var(--color-line)]">
         {/* Same container as every section, so the logo's left edge sits
          * on the site gutter. The nav used to be pushed off the logo by a
          * fixed 436px gap (`md:gap-109`), which only centred it at the

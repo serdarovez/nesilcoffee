@@ -164,7 +164,7 @@ function StageCard({
        * lengths, and letting each size itself moved the photo up and down as
        * the stages cross-faded — the card appeared to jump while the page was
        * pinned and still. A fixed split holds every stage on the same lines. */}
-      <div className="flex min-h-0 flex-1 flex-col gap-3 md:w-[38%] md:flex-none md:shrink-0 md:justify-center md:gap-[clamp(14px,2svh,20px)]">
+      <div className="flex min-h-0 flex-1 flex-col justify-center gap-3 md:w-[38%] md:flex-none md:shrink-0 md:gap-[clamp(14px,2svh,20px)]">
         <h3 className="display-3 text-ink">{title}</h3>
         <p className="body-md text-ink-2">{body1}</p>
         <p className="body-md text-ink-2">{body2}</p>
@@ -173,11 +173,17 @@ function StageCard({
       {/* Image column — dominant right side, fills the sticky viewport
        * height so the composition feels editorial rather than card-y.
        *
-       * A fixed 44% of the card on mobile, not `flex-1`: sharing the slack
+       * A fixed share of the card on mobile, not `flex-1`: sharing the slack
        * with the copy is what made the photo a different size on every stage.
        * Desktop is a row, where the width split already fixes it and the image
-       * simply takes the remaining column. */}
-      <div className="relative min-h-0 w-full flex-[0_0_44%] overflow-hidden rounded-2xl bg-paper-warm md:h-full md:flex-1 md:rounded-3xl">
+       * simply takes the remaining column.
+       *
+       * 41%, not 44%: at 44 the text column came out ten pixels shorter than
+       * the longest stage needed and quietly clipped its last line. The copy
+       * column is also centred now — with a fixed box the shortest stage left
+       * seventy pixels of blank between its text and the photo, which read as
+       * a hole in the layout rather than as spacing. */}
+      <div className="relative min-h-0 w-full flex-[0_0_41%] overflow-hidden rounded-2xl bg-paper-warm md:h-full md:flex-1 md:rounded-3xl">
         <BlurImage
           src={image}
           alt=""
