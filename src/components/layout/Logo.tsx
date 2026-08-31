@@ -21,7 +21,8 @@ export function Logo({ className }: { className?: string }) {
         width={34}
         height={32}
         priority
-        className="h-14.5 w-auto"
+        /* Smaller on phones, to sit inside the shorter mobile bar. */
+        className="h-11 w-auto md:h-14.5"
       />
     </Link>
   );

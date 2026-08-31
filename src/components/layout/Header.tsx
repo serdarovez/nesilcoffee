@@ -48,18 +48,26 @@ export function Header() {
        * on every scroll frame — on every page, which is what made scrolling
        * feel heavy. An opaque white reads almost identically over the pale
        * page and costs nothing to composite. */}
-      {/* `translate-z-0` promotes the bar to its own compositing layer.
-        * Measured in a desktop browser the sticky header never moves — it sits
-        * at top:0 at every scroll position, and nothing above it in the tree
-        * has the overflow, transform or filter that would break `sticky`. But
-        * it was reported vanishing while scrolling on iOS, which is a known
-        * behaviour when a sticky bar sits over long scroll-pinned sections and
-        * the compositor stops repainting it. Forcing a layer is the standard
-        * remedy and costs nothing here: the element is small and its contents
-        * do not change. Safe against the usual side effect too — the mobile
-        * drawer is a sibling, not a descendant, so this containing block
-        * cannot capture its `fixed` positioning. */}
-      <header className="sticky top-0 z-40 w-full [transform:translateZ(0)] bg-white/90 shadow-[0_1px_0_var(--color-line)]">
+      {/* `fixed`, not `sticky`.
+        *
+        * A sticky bar is placed against the *layout* viewport. On iOS the
+        * address bar collapses as you scroll down and expands as you scroll
+        * back, resizing that viewport under the page — which left this header
+        * scrolled roughly half out of sight until the reader went back up. It
+        * measures perfectly in a desktop browser, where nothing resizes, which
+        * is exactly why the earlier compositing-layer fix did not help.
+        *
+        * `fixed` is positioned against the visual viewport instead, so the bar
+        * cannot be partly scrolled away whatever the browser chrome is doing.
+        * The cost is that it no longer occupies space in the flow, which
+        * `<main>` gives back with a matching `padding-top` — see
+        * src/app/[locale]/layout.tsx. `--hero-h` is already
+        * `100svh - --site-header-h`, so the first screen still ends exactly at
+        * the fold.
+        *
+        * The mobile drawer below is a sibling, not a child, so it keeps
+        * covering the whole viewport rather than being trapped in this bar. */}
+      <header className="fixed inset-x-0 top-0 z-40 w-full bg-white/90 shadow-[0_1px_0_var(--color-line)]">
         {/* Same container as every section, so the logo's left edge sits
          * on the site gutter. The nav used to be pushed off the logo by a
          * fixed 436px gap (`md:gap-109`), which only centred it at the

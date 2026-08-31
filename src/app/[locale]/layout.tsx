@@ -87,7 +87,16 @@ export default async function LocaleLayout({
         <NextIntlClientProvider>
           <SmoothScroll />
           <Header />
-          <main className="fluid-viewport flex-1">{children}</main>
+          {/* `pt-(--site-header-h)` replaces the space the header used to
+            * occupy in the flow. It is `fixed` now rather than `sticky`,
+            * because Chrome on iOS resizes the layout viewport as its address
+            * bar collapses and a sticky bar went with it — see the comment in
+            * Header.tsx. The padding is exactly the header's own height, so
+            * `--hero-h` (100svh minus that height) still lands the first
+            * screen precisely at the fold. */}
+          <main className="fluid-viewport flex-1 pt-(--site-header-h)">
+            {children}
+          </main>
           <Footer locale={locale} />
         </NextIntlClientProvider>
         <script

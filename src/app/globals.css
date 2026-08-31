@@ -80,7 +80,11 @@
   --site-max:               1920px;
   /* Sticky header height. Mobile is content-driven (82px logo +
    * 2 × 12px padding); md+ overrides to the 82px design height. */
-  --site-header-h:          106px;
+  /* Mobile. Was 106px — taller than the desktop bar below it, which is
+   * backwards: on a phone that was an eighth of the screen given over to a
+   * logo and two buttons, and it came straight off every full-height section.
+   * 76px still clears the shrunken logo comfortably. */
+  --site-header-h:          76px;
 
   /* ---- Fluid rhythm --------------------------------------- */
   /* Section vertical padding: mobile 4rem → desktop clamp. */
