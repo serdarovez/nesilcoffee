@@ -85,11 +85,13 @@ export function ProductionProcess() {
          * under the header (`--hero-h`), and the offset is the header's own
          * height, so the pinned stage fills exactly the visible viewport. */}
         <div className="sticky top-(--site-header-h) h-(--hero-h) w-full overflow-hidden">
-          {/* Small top padding only: the sticky wrapper already offsets by the
-           * header height, so this is just breathing room. It used to be
-           * ~100-160px to clear a `top:0` pin — that now doubled up as a visible
-           * gap and shrank the image. */}
-          <div className="container-x flex h-full flex-col pt-[clamp(10px,2svh,20px)] pb-6 md:pt-[clamp(10px,1.6svh,22px)] md:pb-[clamp(16px,3svh,32px)]">
+          {/* The sticky wrapper already offsets by the header height, so this
+           * is breathing room rather than clearance. On mobile it was ~10-20px,
+           * which left the title crowded right up against the header bar as the
+           * previous section slid away behind it; a phone needs a visible gap
+           * there more than a desktop does, because the header is proportionally
+           * much closer to the copy. */}
+          <div className="container-x flex h-full flex-col pt-[clamp(20px,4svh,36px)] pb-6 md:pt-[clamp(10px,1.6svh,22px)] md:pb-[clamp(16px,3svh,32px)]">
             {/* Header — title + dot progress indicator */}
             <div className="flex items-start justify-between gap-4">
               <h2 className="display-2 text-ink md:max-w-[62vw]">
@@ -157,8 +159,12 @@ function StageCard({
 }) {
   return (
     <div className="flex h-full flex-col gap-4 md:flex-row md:items-stretch md:gap-[clamp(24px,3vw,60px)]">
-      {/* Text column — vertically centered next to the image. */}
-      <div className="flex flex-col gap-3 md:w-[38%] md:shrink-0 md:justify-center md:gap-[clamp(14px,2svh,20px)]">
+      {/* Text column. On mobile it takes the height the photo leaves rather
+       * than its own natural height: the four stages have copy of different
+       * lengths, and letting each size itself moved the photo up and down as
+       * the stages cross-faded — the card appeared to jump while the page was
+       * pinned and still. A fixed split holds every stage on the same lines. */}
+      <div className="flex min-h-0 flex-1 flex-col gap-3 md:w-[38%] md:flex-none md:shrink-0 md:justify-center md:gap-[clamp(14px,2svh,20px)]">
         <h3 className="display-3 text-ink">{title}</h3>
         <p className="body-md text-ink-2">{body1}</p>
         <p className="body-md text-ink-2">{body2}</p>
@@ -167,12 +173,11 @@ function StageCard({
       {/* Image column — dominant right side, fills the sticky viewport
        * height so the composition feels editorial rather than card-y.
        *
-       * `flex-1` on mobile too, rather than a baked 4/3 box: the card is
-       * pinned to a full screen, so a fixed ratio left whatever height the
-       * copy did not use as dead space under the photo — a big empty gap
-       * before the next section. Letting the image absorb the slack removes
-       * the gap and makes the photo as large as the screen allows. */}
-      <div className="relative min-h-0 w-full flex-1 overflow-hidden rounded-2xl bg-paper-warm md:h-full md:rounded-3xl">
+       * A fixed 44% of the card on mobile, not `flex-1`: sharing the slack
+       * with the copy is what made the photo a different size on every stage.
+       * Desktop is a row, where the width split already fixes it and the image
+       * simply takes the remaining column. */}
+      <div className="relative min-h-0 w-full flex-[0_0_44%] overflow-hidden rounded-2xl bg-paper-warm md:h-full md:flex-1 md:rounded-3xl">
         <BlurImage
           src={image}
           alt=""

@@ -11,7 +11,11 @@ export function HomeOfficeFormat() {
          * only fitted inside the 1512px design frame — below that it
          * overflowed the row. It now keeps that design ratio and takes
          * half the row, so it scales with the container at any width. */}
-        <div className="relative aspect-[17/10] w-full shrink-0 overflow-hidden rounded-2xl md:aspect-[708/549] md:w-1/2 md:rounded-3xl">
+        {/* Mobile gets a 4:3 plate rather than the 17:10 letterbox: at phone
+          * width that strip left the pack small in the middle of the frame
+          * with the whole composition around it shrunk to nothing. Desktop
+          * keeps the design's 708/549. */}
+        <div className="relative aspect-4/3 w-full shrink-0 overflow-hidden rounded-2xl md:aspect-[708/549] md:w-1/2 md:rounded-3xl">
           <BlurImage
             src="/sections/home/home-office-banner.jpg"
             alt=""

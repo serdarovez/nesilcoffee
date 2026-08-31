@@ -22,10 +22,11 @@ export function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
-  // Close the drawer on route change
-  useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
+  // The drawer is closed by the links inside it (see `closeDrawer` below)
+  // rather than by an effect watching `pathname`. Writing state from an effect
+  // costs a second render pass and is what the react-hooks lint rule objects
+  // to; it also missed the case of tapping the link for the page you are
+  // already on, where the pathname never changes and the menu stayed open.
 
   // Lock body scroll while the drawer is open
   useEffect(() => {
@@ -80,16 +81,22 @@ export function Header() {
                 );
               })}
           </nav>
-          <div className="hidden md:block">
+          {/* Visible at every width, not just md+. On a phone this used to
+            * live at the very bottom of the drawer, under the phone numbers,
+            * e-mail, socials and address — so switching language meant opening
+            * the menu and scrolling past everything to find a small flag. It
+            * belongs in reach, beside the hamburger. `ml-auto` here so it and
+            * the button sit together on the right once the desktop nav is
+            * hidden. */}
+          <div className="ml-auto md:ml-0">
             <LanguageSwitcher />
           </div>
-          {/* Mobile: hamburger. `ml-auto` because the nav that would
-           * otherwise push it right is hidden below md. */}
+          {/* Mobile: hamburger. */}
           <button
             type="button"
             onClick={() => setOpen(true)}
             aria-label="Open menu"
-            className="ml-auto grid h-11 w-11 place-items-center text-ink md:hidden"
+            className="grid h-11 w-11 place-items-center text-ink md:hidden"
           >
             <Menu className="h-7 w-7" strokeWidth={1.75} />
           </button>
@@ -131,6 +138,7 @@ export function Header() {
                 <Link
                   key={item.key}
                   href={item.href}
+                  onClick={() => setOpen(false)}
                   className={cn(
                     "text-3xl uppercase transition-opacity hover:opacity-80",
                     active ? "font-extrabold" : "font-medium",
@@ -181,9 +189,6 @@ export function Header() {
             </InfoBlock>
           </div>
 
-          <div className="mt-auto">
-            <LanguageSwitcher />
-          </div>
         </div>
       </div>
     </>

@@ -150,13 +150,21 @@ export function ProductsHeroCarousel({
                 }}
               />
 
-              <div className="container-x relative z-10 flex h-full flex-col pb-16 pt-4 md:flex-row md:items-center md:justify-between md:gap-[clamp(24px,4vw,72px)] md:pb-0 md:pt-0">
+              {/* `pb-16` on mobile reserved a strip for the dots that the pack
+                * was paying for; the dots overlay the slide anyway, so a
+                * smaller inset hands that height back to the product. */}
+              <div className="container-x relative z-10 flex h-full flex-col pb-10 pt-2 md:flex-row md:items-center md:justify-between md:gap-[clamp(24px,4vw,72px)] md:pb-0 md:pt-0">
                 {/* Product art — first (top) on mobile, the right half on md+.
                  * The column is half the carousel so the per-slide offset can
                  * range from the centre to the right edge; `object-contain`
-                 * keeps any pack shape inside it. */}
+                 * keeps any pack shape inside it.
+                 *
+                 * On mobile the pack is the point of the slide, so it takes a
+                 * fixed 58% of the height rather than only what the headline
+                 * and body leave over — which on a phone was barely half the
+                 * screen for the one thing a visitor came to look at. */}
                 <div
-                  className="pointer-events-none relative order-first min-h-0 w-full flex-1 md:order-last md:h-[78%] md:w-1/2 md:flex-none"
+                  className="pointer-events-none relative order-first min-h-0 w-full flex-[0_0_58%] md:order-last md:h-[78%] md:w-1/2 md:flex-none"
                   // Mobile stays centered; on desktop the object-position X is
                   // driven by the per-slide offset via this variable.
                   style={{ "--art-x": `${s.productOffset}%` } as CSSProperties}
