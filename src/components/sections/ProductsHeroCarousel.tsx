@@ -150,10 +150,15 @@ export function ProductsHeroCarousel({
                 }}
               />
 
-              {/* `pb-16` on mobile reserved a strip for the dots that the pack
-                * was paying for; the dots overlay the slide anyway, so a
-                * smaller inset hands that height back to the product. */}
-              <div className="container-x relative z-10 flex h-full flex-col pb-10 pt-2 md:flex-row md:items-center md:justify-between md:gap-[clamp(24px,4vw,72px)] md:pb-0 md:pt-0">
+              {/* `justify-between` on mobile. The column defaulted to
+                * flex-start, so the pack, the headline and the button all
+                * bunched at the top — the pack pressed against the header with
+                * no room above it — and every pixel of slack piled up as empty
+                * background beneath the button. Splitting it puts the copy on
+                * the bottom edge where it belongs and hands the leftover space
+                * to the gap between the pack and the words, which is what was
+                * missing. `pt-6` keeps the pack off the header itself. */}
+              <div className="container-x relative z-10 flex h-full flex-col justify-between pb-10 pt-6 md:flex-row md:items-center md:justify-between md:gap-[clamp(24px,4vw,72px)] md:pb-0 md:pt-0">
                 {/* Product art — first (top) on mobile, the right half on md+.
                  * The column is half the carousel so the per-slide offset can
                  * range from the centre to the right edge; `object-contain`
@@ -162,8 +167,15 @@ export function ProductsHeroCarousel({
                  * On mobile the pack takes a fixed share of the height rather
                  * than only what the headline and body leave over. 50%: at 58
                  * it dominated the slide and crowded the copy under it. */}
+                {/* `my-auto` centres the pack in the room left above the copy.
+                  * An auto margin claims the free space before justify-content
+                  * gets it, and splits it evenly, so the pack sits mid-way with
+                  * air on both sides while the copy stays pinned to the bottom
+                  * — rather than the pack riding the top edge with the whole
+                  * gap dumped underneath it. Reset at md, where the row layout
+                  * centres it already. */}
                 <div
-                  className="pointer-events-none relative order-first min-h-0 w-full flex-[0_0_50%] md:order-last md:h-[78%] md:w-1/2 md:flex-none"
+                  className="pointer-events-none relative order-first my-auto min-h-0 w-full flex-[0_0_50%] md:order-last md:my-0 md:h-[78%] md:w-1/2 md:flex-none"
                   // Mobile stays centered; on desktop the object-position X is
                   // driven by the per-slide offset via this variable.
                   style={{ "--art-x": `${s.productOffset}%` } as CSSProperties}
