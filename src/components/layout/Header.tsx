@@ -6,6 +6,8 @@ import { Link, usePathname } from "@/i18n/navigation";
 import { Logo } from "./Logo";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { InstagramIcon, TikTokIcon } from "@/components/icons/Socials";
+import type { ContactInfo } from "@/server/views";
+import { socialHandle, telHref } from "@/lib/contact-format";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
@@ -15,7 +17,14 @@ const NAV_ITEMS = [
   { key: "contacts", href: "/contacts" as const },
 ];
 
-export function Header() {
+/**
+ * `info` comes from the settings row, the same source the footer and contacts
+ * page read. The drawer used to hard-code the phone numbers, e-mail and social
+ * handles, which had already drifted — it linked to a TikTok handle the
+ * settings no longer used — and meant an edit in the admin never reached the
+ * mobile menu at all.
+ */
+export function Header({ info }: { info: ContactInfo }) {
   const t = useTranslations("nav");
   const tFooter = useTranslations("footer");
   const tContacts = useTranslations("contacts.contact");
@@ -173,35 +182,38 @@ export function Header() {
 
           <div className="flex flex-col gap-6">
             <InfoBlock label={tFooter("phoneLabel")}>
-              <a href="tel:+99313732969" className="block">
-                +993 137 32969
-              </a>
-              <a href="tel:+99313732973" className="block">
-                +993 137 32973
-              </a>
+              {info.phones.map((phone) => (
+                <a key={phone} href={telHref(phone)} className="block">
+                  {phone}
+                </a>
+              ))}
             </InfoBlock>
             <InfoBlock label={tFooter("emailLabel")}>
-              <a href="mailto:info@nesilcoffee.com">info@nesilcoffee.com</a>
+              <a href={`mailto:${info.email}`}>{info.email}</a>
             </InfoBlock>
             <InfoBlock label={tFooter("socialsLabel")}>
-              <a
-                href="https://instagram.com/nesilcoffee"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2"
-              >
-                <InstagramIcon className="h-4 w-4" />
-                @nesilcoffee
-              </a>
-              <a
-                href="https://tiktok.com/@nesilcoffee"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2"
-              >
-                <TikTokIcon className="h-4 w-4" />
-                @nesilcoffee
-              </a>
+              {info.instagram && (
+                <a
+                  href={info.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2"
+                >
+                  <InstagramIcon className="h-4 w-4" />
+                  {socialHandle(info.instagram)}
+                </a>
+              )}
+              {info.tiktok && (
+                <a
+                  href={info.tiktok}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2"
+                >
+                  <TikTokIcon className="h-4 w-4" />
+                  {socialHandle(info.tiktok)}
+                </a>
+              )}
             </InfoBlock>
             <InfoBlock label={tFooter("addressLabel")}>
               <p className="leading-[130%]">{tContacts("address")}</p>

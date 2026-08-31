@@ -255,17 +255,14 @@ export async function contactInfo(locale: string): Promise<ContactInfo> {
   };
 }
 
-/** Public URL for a stored Telegram handle. */
-export function telegramHref(handle: string): string {
-  return `https://t.me/${handle}`;
-}
-
-/** Display form of a WhatsApp number stored as bare digits. */
-export function whatsappLabel(digits: string): string {
-  return `+${digits}`;
-}
-
-/** Strip everything but digits so a display number becomes a tel: href. */
-export function telHref(phone: string): string {
-  return `tel:+${phone.replace(/\D/g, "")}`;
-}
+/**
+ * Display helpers live in a client-safe module — the header's drawer is a
+ * client component and cannot import anything from here. Re-exported so the
+ * many server-side call sites keep importing them from one place.
+ */
+export {
+  socialHandle,
+  telegramHref,
+  whatsappLabel,
+  telHref,
+} from "@/lib/contact-format";

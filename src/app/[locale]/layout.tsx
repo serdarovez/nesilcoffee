@@ -86,7 +86,11 @@ export default async function LocaleLayout({
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <NextIntlClientProvider>
           <SmoothScroll />
-          <Header />
+          {/* The drawer shows the same phone numbers, e-mail and socials as
+            * the footer, so it reads them from settings rather than holding
+            * its own copy — which had already drifted to a TikTok handle the
+            * settings no longer used. `info` is already loaded above. */}
+          <Header info={info} />
           {/* `pt-(--site-header-h)` replaces the space the header used to
             * occupy in the flow. It is `fixed` now rather than `sticky`,
             * because Chrome on iOS resizes the layout viewport as its address

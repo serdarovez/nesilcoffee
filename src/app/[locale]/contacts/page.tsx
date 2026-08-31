@@ -161,8 +161,14 @@ async function ContactsBlock({
                 {t("writeUsBody")}
               </p>
             </div>
+            {/* `contactWhatsapp`, the same number the messenger link above
+              * shows — this form is a general enquiry, not an order. It was
+              * passed `whatsapp`, which is the orders-only number, so the two
+              * halves of this one page sent people to different numbers.
+              * `contactInfo()` falls back to `whatsapp` when no separate
+              * contact number is set, so a site with one number is unaffected. */}
             <ContactForm
-              whatsapp={info.whatsapp}
+              whatsapp={info.contactWhatsapp}
               contactEmail={info.email}
             />
           </div>

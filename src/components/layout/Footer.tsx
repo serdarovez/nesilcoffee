@@ -2,7 +2,8 @@ import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { InstagramIcon, TikTokIcon } from "@/components/icons/Socials";
-import { contactInfo, telHref } from "@/server/views";
+import { contactInfo } from "@/server/views";
+import { socialHandle, telHref } from "@/lib/contact-format";
 
 const NAV = [
   { key: "home", href: "/" as const, bold: true },
@@ -10,12 +11,6 @@ const NAV = [
   { key: "about", href: "/about" as const, bold: false },
   { key: "contacts", href: "/contacts" as const, bold: false },
 ];
-
-/** Turn a profile URL into an @handle for display. */
-function handle(url: string): string {
-  const last = url.replace(/\/+$/, "").split("/").pop() ?? "";
-  return last.startsWith("@") ? last : `@${last}`;
-}
 
 export async function Footer({ locale }: { locale: string }) {
   const t = await getTranslations({ locale });
@@ -99,17 +94,8 @@ export async function Footer({ locale }: { locale: string }) {
               {t("footer.socialsLabel").toUpperCase()}
             </div>
             <div className="flex flex-col gap-2.5 md:gap-3.25">
-              {info.tiktok && (
-                <a
-                  href={info.tiktok}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-sm font-normal text-ink-inverse hover:opacity-80 transition-opacity md:text-lg"
-                >
-                  <TikTokIcon className="h-4 w-4 shrink-0 md:h-4.5 md:w-4.5" />
-                  {handle(info.tiktok)}
-                </a>
-              )}
+              {/* Instagram first, then TikTok — the order the contacts page
+                * already used. The two were inconsistent with each other. */}
               {info.instagram && (
                 <a
                   href={info.instagram}
@@ -118,7 +104,18 @@ export async function Footer({ locale }: { locale: string }) {
                   className="inline-flex items-center gap-1.5 text-sm font-normal text-ink-inverse hover:opacity-80 transition-opacity md:text-lg"
                 >
                   <InstagramIcon className="h-4 w-4 shrink-0 md:h-5 md:w-5" />
-                  {handle(info.instagram)}
+                  {socialHandle(info.instagram)}
+                </a>
+              )}
+              {info.tiktok && (
+                <a
+                  href={info.tiktok}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-sm font-normal text-ink-inverse hover:opacity-80 transition-opacity md:text-lg"
+                >
+                  <TikTokIcon className="h-4 w-4 shrink-0 md:h-4.5 md:w-4.5" />
+                  {socialHandle(info.tiktok)}
                 </a>
               )}
             </div>
