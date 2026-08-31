@@ -1,6 +1,6 @@
 import "server-only";
 import { createHash, randomBytes } from "node:crypto";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { prisma } from "@/server/db";
 import type { AdminUser } from "@prisma/client";
 
@@ -95,10 +95,26 @@ export async function getSessionUser(): Promise<AdminUser | null> {
  */
 export async function setSessionCookie(token: string): Promise<void> {
   const store = await cookies();
+
+  // `Secure` has to describe how the site is *actually* being served, not
+  // whether this is a production build. It was keyed on NODE_ENV, and this
+  // deployment answers on plain HTTP — nginx listens on :80 only, TLS is still
+  // waiting on DNS — so browsers refused to store the cookie at all: a Secure
+  // cookie from an insecure origin is dropped on the floor. Signing in created
+  // the session row server-side and then every following request arrived with
+  // no cookie, which read as being bounced back to the login page.
+  //
+  // nginx sets X-Forwarded-Proto on every proxied request, so the running
+  // protocol is knowable here. This also means nothing has to be remembered
+  // when certbot finally runs: the moment the site answers on https the cookie
+  // starts being issued Secure by itself.
+  const forwardedProto = (await headers()).get("x-forwarded-proto");
+  const overHttps = (forwardedProto ?? "").split(",")[0].trim() === "https";
+
   store.set(SESSION_COOKIE, token, {
     httpOnly: true,
     sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
+    secure: overHttps,
     path: "/",
     maxAge: Math.floor(SESSION_TTL_MS / 1000),
   });
