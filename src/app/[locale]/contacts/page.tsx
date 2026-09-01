@@ -6,12 +6,12 @@ import { WhatsAppIcon, TelegramIcon } from "@/components/icons/Socials";
 import { getFaqItems } from "@/server/queries";
 import {
   contactInfo,
-  telHref,
   telegramHref,
   whatsappLabel,
   type ContactInfo,
 } from "@/server/views";
 import { pick } from "@/lib/i18n-field";
+import { OfficeAddress, OfficePhones } from "@/components/layout/OfficeDetails";
 
 export async function generateMetadata({
   params,
@@ -78,15 +78,11 @@ async function ContactsBlock({
 
             <div className="grid grid-cols-2 gap-x-6 gap-y-6 md:max-w-[58ch] md:gap-x-16 md:gap-y-10">
               <InfoBlock label={t("phoneLabel")}>
-                {info.phones.map((phone) => (
-                  <a
-                    key={phone}
-                    href={telHref(phone)}
-                    className="hover:opacity-75 transition-opacity"
-                  >
-                    {phone}
-                  </a>
-                ))}
+                <OfficePhones
+                  phones={info.phones}
+                  className="contents"
+                  linkClassName="hover:opacity-75 transition-opacity"
+                />
               </InfoBlock>
 
               <InfoBlock label={t("socialsLabel")}>
@@ -113,7 +109,10 @@ async function ContactsBlock({
               </InfoBlock>
 
               <InfoBlock label={t("addressLabel")}>
-                <p className="leading-[130%]">{info.address || t("address")}</p>
+                <OfficeAddress
+                  address={info.address || t("address")}
+                  className="leading-[130%]"
+                />
               </InfoBlock>
 
               {/* Messengers, then e-mail. The WhatsApp number here is the

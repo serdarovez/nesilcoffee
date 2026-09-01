@@ -12,9 +12,7 @@
   },
   "cta": {
     "viewProducts": "Məhsullara bax",
-    "send": "Göndər",
-    "learnMore": "Ətraflı",
-    "backToTop": "Yuxarı"
+    "send": "Göndər"
   },
   "home": {
     "hero": {
@@ -313,7 +311,6 @@
     "phoneLabel": "Telefon",
     "addressLabel": "Ünvan",
     "socialsLabel": "Sosial şəbəkələr",
-    "emailLabel": "E-poçt",
-    "rights": "© {year} NesilCoffee. Bütün hüquqlar qorunur."
+    "emailLabel": "E-poçt"
   }
 }

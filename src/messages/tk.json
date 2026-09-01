@@ -12,9 +12,7 @@
   },
   "cta": {
     "viewProducts": "Önümleri görmek",
-    "send": "Ibermek",
-    "learnMore": "Giňişleýin",
-    "backToTop": "Ýokary"
+    "send": "Ibermek"
   },
   "home": {
     "hero": {
@@ -313,7 +311,6 @@
     "phoneLabel": "Telefon",
     "addressLabel": "Salgy",
     "socialsLabel": "Sosial ulgamlar",
-    "emailLabel": "E-poçta",
-    "rights": "© {year} NesilCoffee. Ähli hukuklar goralandyr."
+    "emailLabel": "E-poçta"
   }
 }

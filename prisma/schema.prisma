@@ -315,6 +315,36 @@ model Setting {
   updatedAt DateTime @updatedAt
 }
 
+/// A branch office, shown instead of the head-office details to visitors from
+/// that country.
+///
+/// Only address and phones vary: the e-mail and the social accounts belong to
+/// the company rather than to a location, and the orders WhatsApp number is
+/// deliberately single so every order lands in one place.
+///
+/// The Setting row above stays the fallback — a visitor whose country has no
+/// entry here, or who cannot be placed at all, sees head office. That is why
+/// Turkmenistan needs no row of its own.
+model CountryContact {
+  id String @id @default(cuid())
+
+  /// ISO 3166-1 alpha-2, uppercase — "AZ", "UZ". Unique, so one office per
+  /// country and no ambiguity about which row wins.
+  country String @unique
+
+  /// Localized like every other address, so the Baku office reads correctly in
+  /// each language rather than only in Russian.
+  address Json
+  /// Ordered display strings, same shape as `Setting.phones`.
+  phones  Json   @default("[]")
+
+  /// Lets an office be switched off without deleting it — the country falls
+  /// back to head office while it is off.
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 // --------------------------------------------------------------------------
 //  Admin
 // --------------------------------------------------------------------------

@@ -12,9 +12,7 @@
   },
   "cta": {
     "viewProducts": "View products",
-    "send": "Send",
-    "learnMore": "Learn more",
-    "backToTop": "Back to top"
+    "send": "Send"
   },
   "home": {
     "hero": {
@@ -313,7 +311,6 @@
     "phoneLabel": "Phone",
     "addressLabel": "Address",
     "socialsLabel": "Social media",
-    "emailLabel": "Email",
-    "rights": "© {year} NesilCoffee. All rights reserved."
+    "emailLabel": "Email"
   }
 }

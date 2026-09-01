@@ -129,3 +129,20 @@ export const getSettings = unstable_cache(
   ["settings"],
   { tags: [TAGS.settings] },
 );
+
+/**
+ * Branch offices, keyed by country.
+ *
+ * Cached as one list rather than queried per country: there are a handful of
+ * rows, and a single entry serves every visitor whatever country they resolve
+ * to — a per-country cache key would multiply entries for no gain.
+ */
+export const getCountryContacts = unstable_cache(
+  async () =>
+    prisma.countryContact.findMany({
+      where: { isActive: true },
+      orderBy: { country: "asc" },
+    }),
+  ["country-contacts"],
+  { tags: [TAGS.countryContacts] },
+);

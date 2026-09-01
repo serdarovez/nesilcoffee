@@ -17,6 +17,8 @@ export const TAGS = {
   faq: "faq",
   certificates: "certificates",
   settings: "settings",
+  /** Branch offices — the per-country address and phones. */
+  countryContacts: "country-contacts",
 } as const;
 
 export type CacheTag = (typeof TAGS)[keyof typeof TAGS];

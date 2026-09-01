@@ -12,9 +12,7 @@
   },
   "cta": {
     "viewProducts": "Смотреть продукцию",
-    "send": "Отправить",
-    "learnMore": "Подробнее",
-    "backToTop": "Наверх"
+    "send": "Отправить"
   },
   "home": {
     "hero": {
@@ -313,7 +311,6 @@
     "phoneLabel": "Телефон",
     "addressLabel": "Адрес",
     "socialsLabel": "Социальные сети",
-    "emailLabel": "Почта",
-    "rights": "© {year} NesilCoffee. Все права защищены."
+    "emailLabel": "Почта"
   }
 }

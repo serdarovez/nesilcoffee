@@ -12,9 +12,7 @@
   },
   "cta": {
     "viewProducts": "Mahsulotlarni ko‘rish",
-    "send": "Yuborish",
-    "learnMore": "Batafsil",
-    "backToTop": "Yuqoriga"
+    "send": "Yuborish"
   },
   "home": {
     "hero": {
@@ -313,7 +311,6 @@
     "phoneLabel": "Telefon",
     "addressLabel": "Manzil",
     "socialsLabel": "Ijtimoiy tarmoqlar",
-    "emailLabel": "E-pochta",
-    "rights": "© {year} NesilCoffee. Barcha huquqlar himoyalangan."
+    "emailLabel": "E-pochta"
   }
 }

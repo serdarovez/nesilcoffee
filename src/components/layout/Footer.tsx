@@ -3,7 +3,8 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { InstagramIcon, TikTokIcon } from "@/components/icons/Socials";
 import { contactInfo } from "@/server/views";
-import { socialHandle, telHref } from "@/lib/contact-format";
+import { socialHandle } from "@/lib/contact-format";
+import { OfficeAddress, OfficePhones } from "./OfficeDetails";
 
 const NAV = [
   { key: "home", href: "/" as const, bold: true },
@@ -55,17 +56,11 @@ export async function Footer({ locale }: { locale: string }) {
                   <div className="text-sm font-bold text-ink-inverse md:text-lg">
                     {t("footer.phoneLabel").toUpperCase()}
                   </div>
-                  <div className="flex flex-col text-sm font-normal text-ink-inverse md:text-lg">
-                    {info.phones.map((phone) => (
-                      <a
-                        key={phone}
-                        href={telHref(phone)}
-                        className="hover:opacity-80 transition-opacity"
-                      >
-                        {phone}
-                      </a>
-                    ))}
-                  </div>
+                  <OfficePhones
+                    phones={info.phones}
+                    className="flex flex-col text-sm font-normal text-ink-inverse md:text-lg"
+                    linkClassName="hover:opacity-80 transition-opacity"
+                  />
                 </div>
 
                 <div className="flex flex-col gap-2">
@@ -85,9 +80,10 @@ export async function Footer({ locale }: { locale: string }) {
               <div className="text-sm font-bold text-ink-inverse md:text-lg">
                 {t("footer.addressLabel").toUpperCase()}
               </div>
-              <p className="text-sm font-normal leading-[130%] text-ink-inverse md:text-lg">
-                {info.address || t("contacts.contact.address")}
-              </p>
+              <OfficeAddress
+                address={info.address || t("contacts.contact.address")}
+                className="text-sm font-normal leading-[130%] text-ink-inverse md:text-lg"
+              />
             </div>
           <div className="flex flex-col gap-3 md:gap-5.25">
             <div className="text-sm font-bold text-ink-inverse md:text-lg">
