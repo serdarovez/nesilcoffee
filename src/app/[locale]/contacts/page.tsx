@@ -12,6 +12,7 @@ import {
 } from "@/server/views";
 import { pick } from "@/lib/i18n-field";
 import { OfficeAddress, OfficePhones } from "@/components/layout/OfficeDetails";
+import { MapBanner } from "@/components/layout/MapBanner";
 
 export async function generateMetadata({
   params,
@@ -212,7 +213,7 @@ const MAP_DIRECTIONS_URL = `https://www.google.com/maps/dir/?api=1&destination=$
  * business card and its marker; `t` and `z` are what this function exists to
  * pin down, since without them Google picks a roadmap at its own zoom.
  */
-function mapEmbedUrl(locale: string): string {
+function headOfficeEmbedUrl(locale: string): string {
   const params = new URLSearchParams({
     cid: MAP_CID,
     hl: locale,
@@ -221,38 +222,6 @@ function mapEmbedUrl(locale: string): string {
     output: "embed",
   });
   return `https://www.google.com/maps?${params}`;
-}
-
-/** Map banner — live Google map in the Figma banner's frame (rounded-3xl,
- *  24px per Rectangle 518), with a floating button that hands the visitor off
- *  to real directions. Opens on satellite imagery at the roastery; `hl`
- *  follows the site locale so the labels match the rest of the page. */
-function MapBanner({ locale, title, cta }: { locale: string; title: string; cta: string }) {
-  return (
-    <section className="container-x pt-8 pb-12 md:pt-10 md:pb-20">
-      {/* Ratio, not a fixed 220px / 505px height. The banner keeps its
-        * design proportion and derives its height from the width it is
-        * actually given, so it works on any screen. */}
-      <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl md:aspect-[1512/505] md:rounded-3xl">
-        <iframe
-          title={title}
-          src={mapEmbedUrl(locale)}
-          className="absolute inset-0 h-full w-full border-0"
-          loading="lazy"
-          allowFullScreen
-          referrerPolicy="no-referrer-when-downgrade"
-        />
-        <a
-          href={MAP_DIRECTIONS_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="absolute bottom-4 left-4 inline-flex h-11 items-center justify-center rounded-lg bg-[#1a1a1a] px-5 text-sm font-medium text-white shadow-lg transition-colors hover:bg-black md:bottom-6 md:left-6 md:h-13 md:px-6 md:text-base"
-        >
-          {cta}
-        </a>
-      </div>
-    </section>
-  );
 }
 
 export default async function ContactsPage({
@@ -280,9 +249,10 @@ export default async function ContactsPage({
       <FAQ items={faq} />
       <ContactsBlock locale={locale} info={info} />
       <MapBanner
-        locale={locale}
         title={t("mapTitle")}
         cta={t("directions")}
+        headOfficeEmbed={headOfficeEmbedUrl(locale)}
+        headOfficeDirections={MAP_DIRECTIONS_URL}
       />
     </>
   );

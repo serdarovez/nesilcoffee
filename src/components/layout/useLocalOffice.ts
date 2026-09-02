@@ -7,6 +7,8 @@ export type LocalOffice = {
   country: string;
   address: string;
   phones: string[];
+  /** Null when this office has no pin — the map then stays on head office. */
+  map: { lat: number; lng: number } | null;
 };
 
 /**
@@ -22,31 +24,54 @@ export type LocalOffice = {
  * that way; the alternative was rendering the entire site per request. See
  * src/app/api/contact-info/route.ts.
  */
+/**
+ * One request per locale, shared by every component that asks.
+ *
+ * The contacts page alone renders the address, the phones and the map, each of
+ * which needs this answer; without the cache that is three identical uncached
+ * requests on one page load. Keyed by locale because the address is localized.
+ * Never cleared: the visitor's country cannot change mid-session, and a stale
+ * entry would at worst be one page-load old.
+ */
+const inFlight = new Map<string, Promise<LocalOffice | null>>();
+
+function loadOffice(locale: string): Promise<LocalOffice | null> {
+  const cached = inFlight.get(locale);
+  if (cached) return cached;
+
+  const request = (async () => {
+    try {
+      const res = await fetch(`/api/contact-info?locale=${locale}`, {
+        // The response is per-visitor and the route says so; asking the
+        // browser not to reuse it keeps a language switch honest too.
+        cache: "no-store",
+      });
+      if (!res.ok) return null;
+      const data: { office: LocalOffice | null } = await res.json();
+      return data.office?.address ? data.office : null;
+    } catch {
+      // A failed lookup is not worth surfacing: the head-office details are
+      // already on screen and remain correct for most of the world.
+      return null;
+    }
+  })();
+
+  inFlight.set(locale, request);
+  return request;
+}
+
 export function useLocalOffice(): LocalOffice | null {
   const locale = useLocale();
   const [office, setOffice] = useState<LocalOffice | null>(null);
 
   useEffect(() => {
-    const abort = new AbortController();
-
-    void (async () => {
-      try {
-        const res = await fetch(`/api/contact-info?locale=${locale}`, {
-          signal: abort.signal,
-          // The response is per-visitor and the route says so; asking the
-          // browser not to reuse it keeps a language switch honest too.
-          cache: "no-store",
-        });
-        if (!res.ok) return;
-        const data: { office: LocalOffice | null } = await res.json();
-        if (data.office?.address) setOffice(data.office);
-      } catch {
-        // A failed lookup is not worth surfacing: the head-office details are
-        // already on screen and remain correct for most of the world.
-      }
-    })();
-
-    return () => abort.abort();
+    let live = true;
+    void loadOffice(locale).then((result) => {
+      if (live && result) setOffice(result);
+    });
+    return () => {
+      live = false;
+    };
   }, [locale]);
 
   return office;

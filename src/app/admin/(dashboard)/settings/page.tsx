@@ -40,9 +40,9 @@ export default async function SettingsPage() {
         <div className="flex flex-col gap-0.5">
           <h2 className="text-sm font-semibold text-ink">Резервная копия</h2>
           <p className="text-xs text-ink-4">
-            Скачивает всю базу данных одним файлом: товары, категории, команда,
-            эксперты, сертификаты, заявки и настройки. Изображения хранятся
-            отдельно и в этот файл не входят.
+            Скачивает весь сайт одним ZIP-архивом: базу данных — товары,
+            категории, команда, эксперты, сертификаты, заявки, настройки — и все
+            загруженные изображения. Пароли и ключи из .env в архив не входят.
           </p>
         </div>
         {/* eslint-disable-next-line @next/next/no-html-link-for-pages --
@@ -53,14 +53,14 @@ export default async function SettingsPage() {
           className="inline-flex w-fit items-center gap-2 rounded-lg bg-paper-dark px-4 py-2.5 text-sm font-medium text-ink-inverse transition-colors hover:bg-black"
         >
           <Download className="h-4 w-4" />
-          Скачать базу данных
+          Скачать резервную копию
         </a>
         <p className="text-xs text-ink-4">
-          Копия создаётся в момент нажатия, поэтому всегда актуальна.
-          Восстановление:{" "}
-          <code className="rounded bg-paper-alt px-1 py-0.5">
-            gunzip -c файл.sql.gz | psql &quot;$DATABASE_URL&quot;
-          </code>
+          Копия создаётся в момент нажатия, поэтому всегда актуальна. Внутри
+          архива — <code className="rounded bg-paper-alt px-1 py-0.5">database.sql</code>,
+          папка <code className="rounded bg-paper-alt px-1 py-0.5">uploads/</code> и
+          инструкция по восстановлению в{" "}
+          <code className="rounded bg-paper-alt px-1 py-0.5">README.txt</code>.
         </p>
       </Card>
     </PageShell>

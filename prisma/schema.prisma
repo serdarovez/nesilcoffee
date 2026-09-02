@@ -338,6 +338,19 @@ model CountryContact {
   /// Ordered display strings, same shape as `Setting.phones`.
   phones  Json   @default("[]")
 
+  /// Pin for the contacts-page map, in decimal degrees.
+  ///
+  /// Stored as coordinates rather than as the pasted link: a Google share URL
+  /// is a shortener that can expire or change shape, while a lat/lng keeps
+  /// working forever and can build an embed, a directions link or a native
+  /// geo: URL without asking Google anything. Null leaves the map on head
+  /// office, which is better than an empty frame.
+  mapLat Float?
+  mapLng Float?
+  /// The link exactly as it was pasted, kept only so an editor can see what
+  /// they gave us and paste a corrected one. Never used for rendering.
+  mapUrl String?
+
   /// Lets an office be switched off without deleting it — the country falls
   /// back to head office while it is off.
   isActive  Boolean  @default(true)

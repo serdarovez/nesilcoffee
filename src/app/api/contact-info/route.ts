@@ -40,6 +40,18 @@ export async function GET(request: Request) {
         country: match.country,
         address: pick(match.address, locale),
         phones: pickList(match.phones),
+        // Null unless an editor pinned this office, which the contacts map
+        // reads as "leave the map on head office".
+        //
+        // Checked with isFinite rather than against null because these rows
+        // come out of `unstable_cache`, and an entry written before the pin
+        // columns existed has them `undefined` — which a null check passes,
+        // producing `{lat: undefined}` and a map pointed at nowhere. A number
+        // test is true only for a pin that actually exists.
+        map:
+          Number.isFinite(match.mapLat) && Number.isFinite(match.mapLng)
+            ? { lat: match.mapLat, lng: match.mapLng }
+            : null,
       },
     },
     {

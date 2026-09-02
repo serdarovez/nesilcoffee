@@ -66,7 +66,7 @@ const NAV: { heading: string; items: NavItem[] }[] = [
     heading: "Прочее",
     items: [
       { href: "/admin/submissions", label: "Заявки", icon: Inbox, ready: true },
-      { href: "/admin/offices", label: "Офисы по странам", icon: MapPin, ready: true },
+      { href: "/admin/offices", label: "Адреса", icon: MapPin, ready: true },
       { href: "/admin/settings", label: "Настройки", icon: Settings, ready: true },
     ],
   },
